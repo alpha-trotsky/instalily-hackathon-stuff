@@ -3,7 +3,7 @@ plus the joint recovery-range pulse. Reports min tail prey/predators and tail ra
 import json, sys, itertools, numpy as np
 sys.path.insert(0, '.')
 from greybox.common import core
-m = core.load_model('greybox/wildlife_model.py')
+m = core.load_model(sys.argv[2] if len(sys.argv) > 2 else 'greybox/wildlife_model.py')
 p = json.load(open(sys.argv[1]))['params']
 bounds = {'hunting_quota': [0, 8], 'habitat_protection': [0, 1], 'corridor_access': [0, 1]}
 worst_rng, worst_min, worst_minY, bad = 0, 1e9, 1e9, []

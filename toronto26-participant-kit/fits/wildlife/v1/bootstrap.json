@@ -1,0 +1,127 @@
+{
+ "results": [
+  {
+   "truth": "AC_all",
+   "draw": 0,
+   "costs": {
+    "AB_all2": 79804.38107461348,
+    "AC_all": 49303.175645723335,
+    "BC_all2": 67577.05606145889
+   },
+   "selected": "AC_all",
+   "time_s": 92.33336019515991
+  },
+  {
+   "truth": "BC_all2",
+   "draw": 0,
+   "costs": {
+    "AB_all2": 67116.23146697457,
+    "AC_all": 69767.65547341597,
+    "BC_all2": 58410.27826880479
+   },
+   "selected": "BC_all2",
+   "time_s": 105.33652544021606
+  },
+  {
+   "truth": "AB_all2",
+   "draw": 0,
+   "costs": {
+    "AB_all2": 42601.69544031164,
+    "AC_all": 75590.4980824936,
+    "BC_all2": 60353.40736007225
+   },
+   "selected": "AB_all2",
+   "time_s": 143.41771411895752
+  },
+  {
+   "truth": "AB_all2",
+   "draw": 1,
+   "costs": {
+    "AB_all2": 47435.20346066649,
+    "AC_all": 72521.1976356745,
+    "BC_all2": 66659.45730872905
+   },
+   "selected": "AB_all2",
+   "time_s": 96.2694137096405
+  },
+  {
+   "truth": "AC_all",
+   "draw": 1,
+   "costs": {
+    "AB_all2": 100560.78396207282,
+    "AC_all": 69228.70803751319,
+    "BC_all2": 103292.66257504588
+   },
+   "selected": "AC_all",
+   "time_s": 110.54775023460388
+  },
+  {
+   "truth": "BC_all2",
+   "draw": 1,
+   "costs": {
+    "AB_all2": 59916.70118734645,
+    "AC_all": 60687.121279268926,
+    "BC_all2": 43981.10558194635
+   },
+   "selected": "BC_all2",
+   "time_s": 109.17782711982727
+  }
+ ],
+ "summary": {
+  "confusion": {
+   "AB_all2": {
+    "AB_all2": 2,
+    "AC_all": 0,
+    "BC_all2": 0
+   },
+   "AC_all": {
+    "AB_all2": 0,
+    "AC_all": 2,
+    "BC_all2": 0
+   },
+   "BC_all2": {
+    "AB_all2": 0,
+    "AC_all": 0,
+    "BC_all2": 2
+   }
+  },
+  "margins": {
+   "AB_all2": [
+    17751.711919760608,
+    19224.25384806256
+   ],
+   "AC_all": [
+    18273.880415735555,
+    31332.075924559627
+   ],
+   "BC_all2": [
+    8705.95319816978,
+    15935.5956054001
+   ]
+  },
+  "row_accuracy": {
+   "AB_all2": 1.0,
+   "AC_all": 1.0,
+   "BC_all2": 1.0
+  },
+  "real_costs": {
+   "AB_all2": 43282.25623743188,
+   "AC_all": 51870.45850074325,
+   "BC_all2": 53129.326868383214
+  },
+  "real_winner": "AB_all2",
+  "real_margin": 8588.202263311367,
+  "min_bootstrap_margin_winner": 17751.711919760608
+ },
+ "settings": {
+  "fits": [
+   "fits/wildlife/v1/AB_all2.json",
+   "fits/wildlife/v1/AC_all.json",
+   "fits/wildlife/v1/BC_all2.json"
+  ],
+  "draws": 2,
+  "workers": 3,
+  "out": "fits\\wildlife\\v1\\bootstrap.json"
+ },
+ "note": "warm start from each candidate fit, 1 restart, max_nfev 120"
+}

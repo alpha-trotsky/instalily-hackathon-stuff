@@ -1,6 +1,4 @@
-usage: fit.py [-h] --model MODEL --data DATA [DATA ...] [--modules MODULES]
-              [--units UNITS] [--noise NOISE] [--train-end TRAIN_END]
-              [--horizons HORIZONS] [--restarts RESTARTS] [--workers WORKERS]
-              [--max-nfev MAX_NFEV] [--fix FIX] [--init INIT] [--skip SKIP]
-              [--seed SEED] [--perturb PERTURB] [--eval [EVAL ...]] --out OUT
-fit.py: error: argument --modules: expected one argument
+model greybox/wildlife_model.py modules ['none'] episodes 2 units ['log', 'log', 'log', 'log'] sigma [0.01, 0.01, 0.01, 0.01]
+  restart 0: cost 54302.7 nfev 300 (122s)
+cost 54302.7 (122s) | train score 0.5173 (persistence 0.0869)
+saved fits\wildlife\v1\base_all.json

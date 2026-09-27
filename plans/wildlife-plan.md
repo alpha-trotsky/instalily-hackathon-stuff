@@ -405,3 +405,110 @@ Phase C**.
    only weakly) for M3. The P5 continuation is the better use.
 5. The corridor removes a *larger* share of prey in the south (B7, B12). The model uses per-region departure
    rates (mvX_S ≈ 2–3 × mvX_N). A settlement-space explanation (M3) was expected, but the fits don't use it.
+
+## 12. Reserve run R2c (Phase C, 60 steps, review G3)
+
+`data/wildlife/R2c.json` is a copy of R2 (R2.json unchanged), continued at tick 400 with the reviewer's exact
+schedule. The run had not expired. Free budget check before: 1,060; after: 1,000 (the CAP of 1,000 is fully used).
+
+- **Joint pulse (400–434: hunting 6, protection 0.25, corridor 0.9)**, starting from the hunting-7 settled state
+  (25.4 / 1.90 / 11.4 / 1.86): prey N fall 25.4 → 10.8 and settle by about tick 420. Prey S dip 11.4 → 8.9
+  (tick 409) and then *rise* to 10.0 (arrivals from the north). Predators fall 1.90 → 1.62 (N) and
+  1.86 → 1.49 → 1.55 (S). **No extinction and no cycle.**
+- **Release (435–459, recovery action):** prey regrow at about 25% per tick at first (N +2.7, +3.1, +3.4, …), that
+  is, in proportion to the adult stock. The increments then saturate at +6–7 per tick (N 10.8 → 139.7 and
+  S 10.0 → 135.7 in 25 ticks, still rising). An exponential start followed by an additive cap means births are
+  food-limited (mA) *and* nursery-capped (mB). Predators recover 1.64 → 2.03 over the 25 ticks.
+
+## 13. Review responses (Phase C modeler, 2026-09-27)
+
+Model v1 is `toronto26-participant-kit/greybox/wildlife_model.py`. The old model is kept as
+`greybox/wildlife_model_v0.py`, and the fits in `fits/wildlife/*_r1.json` and `*_all_quick.json` refer to v0. The new
+fits are in `fits/wildlife/v1/`.
+
+| Gap | Response |
+|---|---|
+| G1 mechanism triple | **Fixed.** The modules are now mA food renewal (a finite renewing food stock; off = logistic births with a habitat-dependent K and no hidden stock), mB nursery (a 6-stage juvenile pipeline with nursery-capped entry and a fixed J0; off = instant recruitment) and mC settlement (arrivals settle ∝ 1/(1+cS X/100), predators ∝ 1/(1+cSY Y); unsettled arrivals wait in transit). Patch exposure, an instant hunting and habitat effect on exposure and births, is now base. All three pairs were refitted (§14). mB+mC reproduces the reset boom only roughly, although its R1 fit scores 0.406 cross-run. On all data it cannot match the long hunting hold or the habitat effects (cost 53.1k against 37.8k). |
+| G2 predator block | **Fixed.** A linear two-state block: Y relaxes at kY ≈ 0.107 towards a reserve Z, and Z relaxes at kZ ≈ 0.027 towards Y* = yb·Xe/(Xe+Xp). The reset uses Z0 = Yref + zf (Y0 − Yref), which is affine in Y0. The dY2·Y² term is removed. Predator cross-run scores are 0.41 (N) and 0.45 (S) over all of R2c (mA+mB fitted on R1). v0 scored 0.10–0.24 on the reset segments alone. R3 slow tail: covered only through kZ (τ ≈ 37). No extra state was added, for lack of time. |
+| G3 joint pulses / extinction | **Fixed, with new data.** The 60 reserve steps went on the reviewer's joint pulse (§12). The model now has a refuge Xr ≈ 6.8 (harvest and predation act on X − Xr) and a floor of 0.05 on kF. Harvest and predation use **exponential (monotone) removal**, which removed a period-2 sawtooth that the stability gate found. Constant-action grid (100 settings, including hunting 8 and protection 0, 4,000 steps each): the lowest tail prey level is 9.2, the lowest predator level 1.47, and the largest tail range/mean 0.000. So no setting drives prey extinct or cycles. v0 m12, refitted on the same data, drives prey to 0.01 in 37 of the 100 settings. |
+| G4 release overshoot / cohort delay | **Tested, not captured.** a_m2 was allowed in [0.15, 1] with NJ = 6 (a delay of up to 40 ticks). Every fit pins a_m2 → 1 (a 6-tick delay), and the fixed J0 pins at its cap of 30. The ~18-tick stall is still missing. This is missing structure and is flagged. |
+| G5 juvenile reset | **Fixed.** J0 is a fixed constant. F0 is fixed too (it fits to 1.0). |
+| G6 settlement form | **Fixed (form) and tested.** The queue form is implemented in mC. In the mA+mC and mB+mC fits, cS → 0.00 and cSY ≈ 0.09–0.16, so prey settlement competition goes unused. The bootstrap still ranks the mC pairs last. |
+| G7 slow component under hunting | **Partly fixed**, through the food stock and the predator reserve Z. The R2 250–400 rms log error is 0.057, against 0.74 for v0 m12 cross-run. The bump at R2 200–260 is still under-fitted: R2 120–250 has an rms of 0.16, the worst segment. |
+| G8 unconverged fits / pinned parameters | The fits were warm-started through 2–3 stages (nfev 300–400). **Pinned in the final fit:** a_m2 = 1, J0 = 30 (cap), F0 = 1, kF → 0 (the 0.05 floor is active), g1 = 0 and eHY = 0. The G8 limit-cycle gate was added as `fits/wildlife/v1/const_check.py` and passes. |
+| G9 P9a/P9b contrasts | Not reported separately, for lack of time. They are included in the R2c cross-run score. In the final fit, R2 30–120 has an rms of 0.066 and 120–250 an rms of 0.16. |
+| G10 mid levels / over-pulse | Accepted. The joint probe adds hunting 6, protection 0.25 and corridor 0.9, and the constant-action gate covers hunting 8 and protection 0. |
+
+## 14. Model selection (§6.3)
+
+Costs use log units, a residual scale of 0.01 for every observable and soft_l1 (f_scale 2). The score σ is 0.1×std after
+tick 20 of R1+R2c (4.53 / 0.057 / 4.10 / 0.055). Every fit is a warm-started chain with 1 restart per stage, because
+of the 4-CPU limit.
+
+**Cross-run (fit on R1, score on R2c including the joint pulse):**
+
+| Pair | R1 cost | R2c score | Per observable (pN / yN / pS / yS) |
+|---|---:|---:|---|
+| **mA+mB** (`AB_r1b`, final removal form) | 7,647 | **0.417** | 0.400 / 0.415 / 0.401 / 0.451 |
+| mA+mB (`AB_r1`, old removal form) | 7,608 | 0.392 | 0.391 / 0.401 / 0.371 / 0.406 |
+| mB+mC (`BC_r1`) | 18,529 | 0.406 | 0.372 / 0.357 / 0.573 / 0.322 |
+| mA+mC (`AC_r1`) | 18,303 | 0.302 | 0.435 / 0.215 / 0.334 / 0.224 |
+| persistence | — | 0.066 | 0.160 / 0.010 / 0.088 / 0.007 |
+
+For comparison, the best v0 fit (m13_r1) scored 0.386 on R2.
+
+**All data (R1 + R2c):**
+
+| Fit | Cost | Train score |
+|---|---:|---:|
+| **mA+mB** `AB_all3` (final; exponential removal) | **37,815** | 0.519 |
+| mA+mB `AB_all2` (old removal form; the bootstrap candidate) | 43,282 | 0.520 |
+| mA+mC `AC_all` | 51,870 | 0.496 |
+| mB+mC `BC_all2` | 53,129 | 0.525 |
+| No mechanism (logistic, no pipeline, no settlement) `base_all` | 54,303 | 0.517 |
+| v0 m12 refitted on R1+R2c (`v0m12_all`, reference) | 38,788 | 0.558 (fails the extinction gate) |
+
+**Bootstrap** (`fits/wildlife/v1/boot_warm.py` → `bootstrap.json`): 2 draws per truth, because the job was running
+behind. Each refit was warm-started from that candidate's real-data fit, with 1 restart and at most 120 nfev. The
+candidates were AB_all2, AC_all and BC_all2. Draw 1 ran after the change of removal form. Its truth simulation and its
+refits both used the new form, so the draw is internally consistent.
+
+| Truth \ selected | mA+mB | mA+mC | mB+mC |
+|---|---:|---:|---:|
+| mA+mB | 2 | 0 | 0 |
+| mA+mC | 0 | 2 | 0 |
+| mB+mC | 0 | 0 | 2 |
+
+Winning margins: mA+mB 17.8k and 19.2k, mA+mC 18.3k and 31.3k, mB+mC 8.7k and 15.9k. The real winner is mA+mB with a
+real margin of 8.6k, below the smallest mA+mB bootstrap margin of 17.8k.
+
+**Decision: "unresolved"** (a near tie, pointing to missing structure). The diagonal is strong, but the real margin is
+about half the bootstrap margins. mA+mB is chosen because:
+- it has the best all-data cost and the best cross-run score (0.417);
+- it is the only pair that passes the constant-action extinction and limit-cycle gate (mB+mC cycles at protection 0,
+  with a tail range/mean of 1.2);
+- it matches the R2c release (an exponential start followed by an additive cap).
+
+The pinned parameters (a_m2, J0, kF) mark the missing cohort delay (G4). Confidence is medium that {food renewal,
+nursery} is the active pair. Every fit leaves settlement competition unused.
+
+## 15. Final model and hand-off (Phase C)
+
+- **Model:** mA food renewal + mB nursery in `greybox/wildlife_model.py`. The params are in `fits/wildlife/final.json`
+  (the same as `v1/AB_all3.json`), fitted on R1 + R2c.
+- **Scores:** cross-run (R1 fit → R2c) 0.417, against 0.066 for persistence.
+- **Gates:**
+  - local score: pass;
+  - stability: pass (200 schedules, 8 of them 40,000 steps; 0 failures; worst alternation 0.42);
+  - extra constant-action gate: pass (no extinction, no cycles);
+  - contract: pass (40 × 4,000 steps in 7.2 s; every malformed case ok).
+- **Submission:** `toronto26-participant-kit/models/wildlife/` (predict.py, wildlife_model.py, params.json) and
+  `toronto26-participant-kit/submission-wildlife-v1.zip` (6.1 kB; roots ok; credential scan clean). Not uploaded.
+- **Steps:** all 1,000 steps of the CAP are spent (R1 540, R2 400, R2c 60). The account still has 1,000, outside the CAP.
+- **Open issues:**
+  1. The ~18-tick stall and the full height of the post-release overshoot (G4) are still missing, with a_m2 and J0
+     pinned at their limits. The next structure to try is a nursery food stock or a longer cohort delay.
+  2. R2 120–250 (order B → P9a with the corridor open → P3 → the start of the hunting hold) is the worst segment
+     (rms 0.16 in log units). The regrowth bump under hunting is under-fitted.
+  3. The pair choice is "unresolved": the real margin is half the bootstrap margins, and every fit is a warm chain
+     with a single restart. More restarts could change the costs.

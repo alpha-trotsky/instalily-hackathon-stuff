@@ -1,0 +1,91 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 28.401747703552246,
+ "ranges": {
+  "prey_north": [
+   0.0,
+   9863.846137939709
+  ],
+  "predator_north": [
+   0.0,
+   750.0
+  ],
+  "prey_south": [
+   0.0,
+   8004.634746021053
+  ],
+  "predator_south": [
+   0.0,
+   750.0
+  ]
+ },
+ "min_seen": {
+  "prey_north": 0.01,
+  "predator_north": 1.3143931509325408,
+  "prey_south": 0.01,
+  "predator_south": 1.2901169632656713
+ },
+ "max_seen": {
+  "prey_north": 176.3351137355202,
+  "predator_north": 15.124673728191185,
+  "prey_south": 160.12965865976764,
+  "predator_south": 15.117816302296756
+ },
+ "worst_alternation": 0.8701298701298701,
+ "failures": [
+  {
+   "schedule": 0,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "prey_north sawtooth alternation 0.87 amp 0.0025",
+    "prey_south sawtooth alternation 0.83 amp 0.003"
+   ]
+  },
+  {
+   "schedule": 5,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "prey_north sawtooth alternation 0.57 amp 0.0048"
+   ]
+  },
+  {
+   "schedule": 6,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "prey_north sawtooth alternation 0.66 amp 0.0047",
+    "prey_south sawtooth alternation 0.70 amp 0.0062"
+   ]
+  },
+  {
+   "schedule": 7,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "prey_south sawtooth alternation 0.61 amp 0.0077"
+   ]
+  },
+  {
+   "schedule": 54,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "prey_north sawtooth alternation 0.54 amp 0.00045",
+    "prey_south sawtooth alternation 0.57 amp 0.00059"
+   ]
+  },
+  {
+   "schedule": 69,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "prey_north sawtooth alternation 0.73 amp 0.0052"
+   ]
+  }
+ ],
+ "n_failures": 6,
+ "pass": false
+}

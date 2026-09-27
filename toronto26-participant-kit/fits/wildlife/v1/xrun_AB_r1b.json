@@ -1,0 +1,23 @@
+{
+ "sigma": {
+  "prey_north": 4.527867419154602,
+  "predator_north": 0.057248367237941813,
+  "prey_south": 4.100820004325199,
+  "predator_south": 0.05538285534455432
+ },
+ "model": {
+  "prey_north": 0.4004579428493476,
+  "predator_north": 0.4146383498432359,
+  "prey_south": 0.40123951030335947,
+  "predator_south": 0.45143379707932
+ },
+ "persistence": {
+  "prey_north": 0.16000843749854318,
+  "predator_north": 0.009819750888547607,
+  "prey_south": 0.0879172023645996,
+  "predator_south": 0.0071609659278308955
+ },
+ "model_mean": 0.4169424000188158,
+ "persistence_mean": 0.06622658916988032,
+ "pass": true
+}

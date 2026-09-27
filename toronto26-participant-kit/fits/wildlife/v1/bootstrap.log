@@ -1,0 +1,11 @@
+AC_all 0 selected AC_all {'AB_all2': 79804.4, 'AC_all': 49303.2, 'BC_all2': 67577.1} 92s
+BC_all2 0 selected BC_all2 {'AB_all2': 67116.2, 'AC_all': 69767.7, 'BC_all2': 58410.3} 105s
+AB_all2 0 selected AB_all2 {'AB_all2': 42601.7, 'AC_all': 75590.5, 'BC_all2': 60353.4} 143s
+AB_all2 1 selected AB_all2 {'AB_all2': 47435.2, 'AC_all': 72521.2, 'BC_all2': 66659.5} 96s
+AC_all 1 selected AC_all {'AB_all2': 100560.8, 'AC_all': 69228.7, 'BC_all2': 103292.7} 111s
+BC_all2 1 selected BC_all2 {'AB_all2': 59916.7, 'AC_all': 60687.1, 'BC_all2': 43981.1} 109s
+confusion (rows truth, cols selected) ['AB_all2', 'AC_all', 'BC_all2']
+AB_all2 [2, 0, 0]
+AC_all [0, 2, 0]
+BC_all2 [0, 0, 2]
+{"margins": {"AB_all2": [17751.711919760608, 19224.25384806256], "AC_all": [18273.880415735555, 31332.075924559627], "BC_all2": [8705.95319816978, 15935.5956054001]}, "row_accuracy": {"AB_all2": 1.0, "AC_all": 1.0, "BC_all2": 1.0}, "real_costs": {"AB_all2": 43282.25623743188, "AC_all": 51870.45850074325, "BC_all2": 53129.326868383214}, "real_winner": "AB_all2", "real_margin": 8588.202263311367, "min_bootstrap_margin_winner": 17751.711919760608}
