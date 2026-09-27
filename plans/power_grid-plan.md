@@ -399,3 +399,113 @@ Open, in priority order for the modeler:
 4. Initial state: the load reading is a fast transient (≈ 17%/tick) toward the fixed reference; the share reading
    should be ignored (start share from the reference, not the reading).
 5. Untested sides: price 1.5–2.0 (u < 0), interconnector 0–0.2 tested only at 0 (share 0.16).
+
+## 12. Phase C: charging test (R2c) and review responses
+
+Phase C modeler (resumed after an API cut-off). Paths under `toronto26-participant-kit/`; fits in `fits/power_grid/v1/`.
+
+### 12.1 Charging A/B during full dispatch (reviewer §6 decision rule)
+
+`data/power_grid/R2c.json` = R2 continued (ticks 400–449: price 1.5, reserve 150, **charging 0**, interconnector 1);
+the continuity check passed (share 0.0746, f 51.79 at tick 402 vs 0.0739 / 51.78 at 399). Twin with charging 1:
+R2 370–399 (same run, same load phase) and R1 280–349.
+
+| Measure | R2c charging 0 (400–449) | Twin charging 1 | Rule for "M2 active" |
+|---|---:|---:|---|
+| share ~ a + b·t + c·(L−100): rise over the hold | **−0.0017** (slope −3.5e-5/tick) | R1 300–349: +0.0014; R2 380–399: +0.0002/tick | ≥ +0.004 |
+| frequency at L = 100 (linear fit, unclipped ticks) | 51.739 | 51.757 (R2), 51.783 (R1) | > 0.2 Hz below twin |
+
+Frequency is 0.02–0.04 Hz below the twins (≈ 1–2 noise σ) and stayed unclipped (51.66–51.91) the whole hold, so
+the reviewer's caveat (fade hidden by the 52 clip or share saturation) does not apply to the frequency channel.
+**Verdict: no charging-dependent reserve fade → M2 inactive by the rule; choose m1+m3 by elimination.** This comes
+on top of the earlier M2 nulls (B14: 150 ticks of full dispatch with charging 0 in R2, and an equal second dispatch).
+
+### 12.2 Consistency of the resumed state; a fitting bug found
+
+- `greybox/power_grid_model.py` (v1) is consistent: every saved v1 fit re-evaluates to its logged cost except the
+  old `m23_all` (fitted before the D2MAX cap was added; refitted).
+- **Bug (affects any system):** `core.params_for` applies `fitted` *after* the off-values, so `fit --init X` with X
+  from a fit that had other modules active **leaks those modules back in** (their params are held fixed at X's
+  values, not switched off). The earlier `v1/m1_all`, `m12_all`, `m12_r1` and the first bootstrap were warm-started
+  from m13 and silently kept M3 on (g3 = 1.33) — that is why all pairs tied at 27,017. They are moved to
+  `v1/leaky/`. I did not change `core.py` (other agents are running); I sanitized my init files instead
+  (`v1/init_*.json`, inactive-module params reset to SPEC/off). **Orchestrator: check other systems' fits made
+  with `--init` from a different pair, and consider forcing off-values last in `params_for`.**
+- The clean m1-only fit (26,477) beat the leaky m13 (27,017), so m13 was in a poor basin; re-started from the
+  m1 fit with a small M3 (g3 0.3, h3 0.36) it reached 26,271 (`m13_all.json`; old one kept as `*_capbasin.json`).
+
+### 12.3 Review responses
+
+| Gap | Response |
+|---|---|
+| G1 M2 vs M3 | **Fixed by the probe** (§12.1): no fade with charging off → M2 inactive → m1+m3. With the v1 base, M2 is unused in every clean fit anyway (d2 → 1e-9, m12 cost = m1 cost). M3 remains weakly supported (see §13): it is chosen by elimination, not by its own signature. |
+| G2 M2 fading to nothing | **Fixed**: `D2MAX = 3.3e-4` caps the fade at ≈ 5% per 150 ticks of full dispatch; the shipped model has M2 off (d2 = 0). |
+| G3 load ringing, price-dependent period | **Partly fixed**: resonator stiffness and damping depend on price (`kap = kap1·e^{kk1·up}`, `rho = rho1^{1+kr1·up}`); fitted kk1 = 0.37, kr1 = 0.20 → period ≈ 67 ticks at price 0, 80 at 1.5 (data ≈ 50 / 65–85). Load RMSE over R1 210–350 still 7.2. A thermostat-population model was **not tried** (time). |
+| G4 mid-level reserve | **Not captured** (no data within CAP): smooth `1/(1+wSr·Rd)` kept; flagged. |
+| G5 onset undershoot / release spike | **Partly fixed**: lagged surplus memory B (`exp(wSB·(B−D))`, kb = 0.32) plus governor coupling `exp(−wSG·G)`. Release spike: model 0.475 at tick 351 vs 0.494 data (was 0.40 capped), but it decays too fast; the post-release frequency dip (49.15) is still missed (model 50.3). |
+| G6 governor / secondary loop | **Fixed as structure**: governor with output limit Gm and finite response kg, plus a leaky integral secondary loop Z (clipped ±Zm). kz pinned at 1.0 and kg ≈ 1.0 (instant): the loop wants to be faster than the parameterization allows — base-structure misfit, not a mechanism. |
+| G7 coverage (P3, P4, P6, P7, price > 1.5) | **Not captured** (budget spent); price > 1.5 extrapolates linearly (load ≈ 84 at price 2). |
+| G8 initial load reading | **Fixed**: `(L0 − Lref0)·qi^(t+1)`, fitted qi = 0.94, Lref0 = 118. |
+| G9 P9b blind to fast recharge | Noted; the R2c probe (charging 0) covers it and was null. |
+| G10 optimizer noise | Addressed by warm cross-starts (m13 from m1's basin, m1/m12 from m13's base); the m13 − m1 gap (≈ 200) is below the reviewer's ±500 optimizer-noise estimate. |
+
+## 13. Model selection record (v1 model, σ_fit load 0.5 / f 0.03 / share 0.003)
+
+**Cross-run test (§6.3.1)**: fit on R1 only, predict R2c (450 ticks), score σ = 0.1×std after tick 20 (R1+R2c).
+
+| Pair | R1 cost | R2c score | load / f / share | Notes |
+|---|---:|---:|---|---|
+| m1 only (fallback) | 13,635 | **0.4406** | — | relaxation + m1; no hidden-reserve/line state |
+| m1+m2 | 13,635 | 0.4406 | — | d2 → 1e-9: identical to m1 |
+| m1+m3 | **13,418** | 0.4393 | 0.446 / 0.285 / 0.587 | g3 2.6, h3 0.351, a3 0.026 |
+| m2+m3 | 24,289 | 0.3994 | — | no ringing |
+| persistence | — | 0.1754 | 0.185 / 0.251 / 0.090 | |
+
+**Refit on R1 + R2c** (`v1/m*_all.json`): m1 26,477; m1+m2 26,473 (d2 → 1e-9); **m1+m3 26,271** (g3 1.18,
+h3 0.353, a3 0.028 ≈ 36-tick line memory); m2+m3 43,824.
+
+**Bootstrap** (`v1/bootstrap.json`, 2 draws per pair, warm-started from clean fits, 1 restart, block 50):
+
+| Truth \ selected | m1+m2 | m1+m3 | m2+m3 |
+|---|---:|---:|---:|
+| m1+m2 | 1 | 1 | 0 |
+| m1+m3 | 0 | 2 | 0 |
+| m2+m3 | 0 | 0 | 2 |
+
+Winning margins: m13 197, 294; m12 140; m23 474, 2,263. When m12 is the truth, m13 still wins one draw by 61
+(M3's extra freedom). Real data: m13 26,271, m12 26,473, m23 43,824 → real margin 202, inside the m13-true
+range but also reachable when m12 is true.
+
+**Decision (§6.3.4).** M1 is **accepted** (every pair without m1 is ≥ 17,000 worse, m23 row accuracy 2/2, margins
+474–2,263). M2 vs M3 is **unresolved by cost** (margin 202 ≈ optimizer noise; M2 collapses to d2 = 0 in every
+clean fit, so m12 ≡ m1 and the bootstrap cannot separate "M2 inactive" from "M2 invisible"). The direct evidence
+decides: the reviewer's charging A/B (§12.1) is null, as are the 150-tick charging-off hold and the second dispatch;
+M3 has no clean own signature either (no reopen overshoot), but its fitted term (≈ 36-tick lagged line load with
+soft curtailment above S·x ≈ 0.35) is modest, bounded and costs nothing cross-run (0.4393 vs 0.4406).
+**Chosen: m1+m3 by elimination, confidence moderate (~65%).** Parameters pinned at a limit: kS = 1, kg ≈ 1,
+kz = 1 (all "instant" base rates; the secondary frequency loop wants more gain → base-structure misfit, listed
+below). No mechanism parameter is pinned.
+
+## 14. Final model and hand-off (Phase C)
+
+- **Model:** `greybox/power_grid_model.py` v1, modules m1+m3, params `fits/power_grid/v1/m13_all.json`
+  (fit on R1 + R2c, cost 26,271, train score 0.530 vs persistence 0.207). M2 off (d2 = 0; D2MAX cap in the code).
+- **Cross-run (R1 → R2c):** m1+m3 0.4393 (load 0.446, f 0.285, share 0.587) vs persistence 0.1754; m1-only
+  fallback 0.4406; m2+m3 0.3994.
+- **Gates:** local score beats persistence on R2c (0.439 > 0.175) ✓; stability (200 schedules × 4,000 + 8 × 40,000)
+  0 failures, ranges load 28–175, f 47.97–52.03 (clips), share 0.024–0.56 ✓ (`v1/stability_m13.json`); contract ✓
+  (from the extracted ZIP, 40 × 4,000 steps in 4.5 s, all malformed-input cases ok, credential scan clean).
+- **Package:** `toronto26-participant-kit/models/power_grid/` (predict.py, power_grid_model.py, params.json) and
+  `toronto26-participant-kit/submission-power_grid-v1.zip` (6 KB). Note: `package` needs `--data data/power_grid/R1.json
+  data/power_grid/R2c.json` explicitly (the default glob picks up the battery JSONs and crashes).
+- **Steps:** 1,000 of CAP 1,000 spent (R1 550, R2 400, R2c 50); simulator budget remaining 1,000. No steps spent in
+  this resume.
+- **Top open issues:**
+  1. **Frequency** is the weak channel (cross-run 0.285 vs persistence 0.251): the post-release dip (49.15) and the
+     joint-pulse drift are missed, and the secondary loop is pinned at kz = 1. A faster/unbounded integral loop or
+     governor ramp limits are the next thing to try.
+  2. **Load ringing** still under-predicted (RMSE 7.2 over R1 210–350); the price-dependent resonator gets the
+     period only partly (67 vs ≈ 50 ticks at price 0). A small thermostat-population model (G3) is untried.
+  3. **Mid-level reserve and price > 1.5 are unobserved** (G4, G7); M3's selection rests on elimination, not a
+     positive signature. If a later public score disagrees, m1-only (`v1/m1_all.json`) is the drop-in alternative.
+- **Tooling bug for the orchestrator:** `core.params_for` lets `--init` params re-enable inactive modules (§12.2).

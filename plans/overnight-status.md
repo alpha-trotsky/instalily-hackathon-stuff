@@ -19,10 +19,10 @@ Budget at start (free read, 2026-09-27): every system 2,000 remaining; market 1,
 | 2 | wildlife | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | food renewal + nursery (mA+mB), "unresolved" (real margin ~½ smallest bootstrap margin). Cross-run R1→R2c: mA+mB 0.417, mB+mC 0.406, mA+mC 0.302, persistence 0.066. Gates pass; no extinction/cycles in 100 constant settings | `toronto26-participant-kit/submission-wildlife-v1.zip` |
 | 3 | ad_auction | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | M2+M3 (`m23f`, M3 memory fixed at τ=200), "accepted" by bootstrap rule (margin 109 vs min 78) but pinned params remain. Cross-run R1→R2c: m23f 0.391, base 0.355, persistence 0.107. Gates pass | `toronto26-participant-kit/submission-ad_auction-v1.zip` |
 | 4 | social_contagion | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | M1+M2 (core population + bridge lag in base), medium confidence (bootstrap 5/5 and 3/5; real margin inside M1+M2 range). Cross-run R1→R2 0.255 vs persistence 0.223 (weak: R1 lacked seeding+incentive). All-data fit good; gates pass | `toronto26-participant-kit/submission-social_contagion-v1.zip` |
-| 5 | power_grid | 1000 | B done, C running (resumed; cap spent on R2c) | 1000 | 1000 | persistence baseline (R1→R2: m12 0.367, m13 0.365, persistence 0.173) | — |
+| 5 | power_grid | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | m1+m3, moderate (~65%): M2 ruled out by the charging test (no share rise). Cross-run R1→R2 0.439 vs persistence 0.175 (m1 alone 0.441). Gates pass. Frequency weak | `toronto26-participant-kit/submission-power_grid-v1.zip` |
 | 6 | reservoir | 1000 | B done, C running | 950 | 1050 | persistence baseline (R1→R2: m13 0.578, m12 0.577, base 0.345) | — |
 | 7 | traffic | 1300 | A running (resumed; R1 745 done) | 745 | 1255 | persistence baseline | — |
-| 8 | supply_chain | 1300 | not started | 0 | 2000 | persistence baseline | — |
+| 8 | supply_chain | 1300 | A running | 0 | 2000 | persistence baseline | — |
 | 9 | hospital_queue | 1300 | not started | 0 | 2000 | persistence baseline | — |
 
 Phases: A researcher, B reviewer, C modeler, D commit/push. Phases are pipelined across systems (the next system's research overlaps the current system's review or modeling); each system still runs A, B, C in order and never exceeds its own cap.
@@ -40,3 +40,4 @@ Phases: A researcher, B reviewer, C modeler, D commit/push. Phases are pipelined
 - ad_auction C done (~25 min): M2+M3 shipped; 55 reserve spent on broad→narrow probe (R2c). greybox/common/bootstrap.py gained an opt-in --warm flag.
 - ~02:50–06:30 Toronto: second API usage limit; all four running agents died. On disk: power_grid R2c (+50, cap spent), social_contagion R3 (+50, cap spent), traffic R1 complete (745), reservoir review mostly written. All four relaunched as resumes at ~06:35.
 - social_contagion C done (resume, ~5 min): M1+M2 shipped. Tooling fix by orchestrator: package.py default data glob now skips *_battery.json. Known trap: fit.py --init keeps parameters of modules that are switched off; zero gains explicitly.
+- power_grid C done: m1+m3 shipped. Its modeler found that core.params_for applied --init values after switching off disabled modules, so an init from another pair leaked that pair's modules in. Orchestrator fixed core.py (off values applied last). Shipped ZIPs store full param dicts, so they are unchanged, but the pair comparisons for epidemic, wildlife and ad_auction may have been contaminated if they used cross-pair --init (open issue for the report).

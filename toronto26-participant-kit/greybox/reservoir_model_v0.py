@@ -1,4 +1,4 @@
-"""reservoir gray-box model v1 (Phase C modeler; v0 kept as greybox/reservoir_model_v0.py).
+"""reservoir gray-box model (Phase A researcher, v0; written from the theses in plans/reservoir-plan.md).
 
 Controls (normalize, u = (value - recovery)/(pulse - recovery)):
   ur = (release - 2)/10  (physical release R = 2 + 10 ur, range 0..12)
@@ -8,28 +8,21 @@ Controls (normalize, u = (value - recovery)/(pulse - recovery)):
 Ticks t = 1, 2, ... (observation index + 1); the season is tied to time since reset.
 
 BASE (always on)
-  river    Rv(t) = c_in + A_s sin(2 pi t/P)   (G2: c_in, A_s, P fixed at the direct fit, cos/harmonics 0)
-  capacity C = qmax * (V/940)^beta                           delivered D = smin(R + I, C)
-           (screen fouling dropped: capacity identical with and without aeration, fitted af -> 0)
+  river    Rv(t) = c_in + A_s sin(2 pi t/P) + A_c cos(2 pi t/P) + B_s sin(4 pi t/P) + B_c cos(4 pi t/P)
+  capacity C = qmax * (V/940)^beta * (1 - f)                 delivered D = smin(R + I, C)
+           fouling f <- f + af (gf * ua - f)  (biomass on screens grows without aeration), f in [0, 0.9]
   water    V' = V + inflow - D - loss,  loss = e0 + e1 (V - 940)/100
            spill S = ks * max(V' - Vs, 0);  V <- V' - S;  outflow = D + S
   quality  q <- q + kq (Tq - q),  Tq = cq + wqa ua + wqd ud + wqx ua ud + wqr ur + wqi ui + lam_q z,
            z <- (1 - a_z) z (reset transient: internal layers start from the reference profile)
 MECHANISMS (gain 0 = off): "Groundwater, irrigated land and deposited material may return water or
 contaminants after a delay."
-  m1 groundwater (G1 reshape, R3 evidence):
-       fast bank head hf <- hf + af1 (V - hf), hf0 = H0 (fixed reset convention, NOT the reading);
-         signed exchange Qf = gf1 (hf - V)/100: Qf > 0 adds to inflow, Qf < 0 is extra loss
-         (R3 from level 404: +2.3 excess at tick 1 decaying ~0.25/tick; R1 from 515: +0.7; R2 from 601: 0)
-       slow aquifer head hs <- hs + a1 (V - hs), hs0 = initial level; return G = g1 max(hs - V - th1, 0)/100
-         adds to inflow (persists while the level stays low; cut off quickly when V rises past hs - th1);
-         seepage loss g1s max(V - hs, 0)/100
+  m1 groundwater: bank head H <- H + a1 (V - H) (H0 = initial level);  return G = g1 * max(H - V - th1, 0)/100
+         adds to inflow; seepage out when V > H: loss += g1s * max(V - H, 0)/100
   m2 irrigated land: two lag stages s1 <- s1 + a2 (Idel/8 - s1), s2 <- s2 + a2 (s1 - s2);
          return G2 = g2 * 8 * max(s2 - th2, 0) adds to inflow; quality target -= g2q * s2
   m3 deposited material: anoxic release pool Dm <- Dm + a3 (ua - Dm) (grows without aeration, fades with it);
          quality target -= g3 * Dm * (1 + h3 * ud)  (worse when drawing the deep layer)
-       G3 remobilization: aeration on while deep moves the pool into the column:
-         Cm <- Cm + kr * Dm * ud * (1 - ua) * (1 - Cm) - dC * Cm;  quality target -= gC * Cm
 Stability: all rates are sigmoids; states clipped; no feedback loops except level-limited outflow.
 """
 import math
@@ -44,35 +37,30 @@ NOISE = {'level': 4.4, 'inflow': 0.075, 'outflow': 0.05, 'quality': 0.0055}
 CLAMP = {'level': [0.0, 1200.0], 'inflow': [0.0, 40.0], 'outflow': [0.0, 60.0], 'quality': [0.0, 1.0]}
 
 SPEC = {
-    # river season (G2: fixed at the direct fit, phase 0)
-    'c_in': (11.2801, 'free'), 'A_s': (2.2527, 'free'), 'A_c': (0.0, 'free'), 'P': (67.7547, 'free'),
+    # river season
+    'c_in': (11.278, 'free'), 'A_s': (2.25, 'free'), 'A_c': (0.0, 'free'), 'P': (67.75, 'free'),
     'B_s': (0.0, 'free'), 'B_c': (0.0, 'free'),
     # water balance
-    'Vs': (941.6, 'free'), 'ks': (0.99, 'unit'), 'e0': (1.14, 'free'), 'e1': (0.15, 'free'),
-    'qmax': (16.49, 'pos'), 'beta': (0.334, 'free'), 'af': (0.0, 'unit'), 'gf': (0.0, 'unit'),
+    'Vs': (938.0, 'free'), 'ks': (0.5, 'unit'), 'e0': (1.2, 'free'), 'e1': (0.0, 'free'),
+    'qmax': (17.0, 'pos'), 'beta': (0.3, 'free'), 'af': (0.02, 'unit'), 'gf': (0.1, 'unit'),
     # quality
-    'cq': (0.9475, 'free'), 'kq': (0.13, 'unit'), 'wqa': (-0.0085, 'free'), 'wqd': (0.0, 'free'),
+    'cq': (0.95, 'free'), 'kq': (0.05, 'unit'), 'wqa': (-0.01, 'free'), 'wqd': (0.0, 'free'),
     'wqx': (-0.005, 'free'), 'wqr': (0.0, 'free'), 'wqi': (0.0, 'free'),
     'a_z': (0.2, 'unit'), 'lam_q': (-0.3, 'free'),
-    # m1 groundwater: slow aquifer head
-    'a1': (0.01, 'unit'), 'g1': (0.3, 'pos'), 'th1': (50.0, 'free'), 'g1s': (0.1, 'pos'),
-    # m1 groundwater: fast bank head with a fixed reset head
-    'af1': (0.25, 'unit'), 'gf1': (1.5, 'pos'), 'H0': (560.0, 'free'),
+    # m1 groundwater
+    'a1': (0.02, 'unit'), 'g1': (0.3, 'pos'), 'th1': (50.0, 'free'), 'g1s': (0.1, 'pos'),
     # m2 irrigated land
-    'a2': (0.05, 'unit'), 'g2': (0.0, 'free'), 'th2': (0.3, 'unit'), 'g2q': (0.005, 'free'),
+    'a2': (0.05, 'unit'), 'g2': (0.05, 'free'), 'th2': (0.3, 'unit'), 'g2q': (0.005, 'free'),
     # m3 deposited material
     'a3': (0.03, 'unit'), 'g3': (0.01, 'free'), 'h3': (0.5, 'free'),
-    'kr': (0.05, 'unit'), 'dC': (0.003, 'unit'), 'gC': (0.015, 'free'),
 }
 MODULES = {
-    'm1': (['a1', 'g1', 'th1', 'g1s', 'af1', 'gf1', 'H0'], {'g1': 0.0, 'g1s': 0.0, 'gf1': 0.0}),
+    'm1': (['a1', 'g1', 'th1', 'g1s'], {'g1': 0.0, 'g1s': 0.0}),
     'm2': (['a2', 'g2', 'th2', 'g2q'], {'g2': 0.0, 'g2q': 0.0}),
-    'm3': (['a3', 'g3', 'h3', 'kr', 'dC', 'gC'], {'g3': 0.0, 'gC': 0.0}),
+    'm3': (['a3', 'g3', 'h3'], {'g3': 0.0}),
     'harm2': (['B_s', 'B_c'], {'B_s': 0.0, 'B_c': 0.0}),
 }
-# G2 season fixed; fouling dropped (af = 0); spill instantaneous; M2 inflow return unsupported (G4: quality
-# branch only).
-FIXED = ('c_in', 'A_s', 'A_c', 'P', 'B_s', 'B_c', 'ks', 'af', 'gf', 'g2', 'th2')
+FIXED = ()
 
 
 def _sigmoid(x):
@@ -128,13 +116,10 @@ def simulate(p, initial, actions):
         return np.zeros((0, 4))
     V = min(max(float(initial['level']), 0.0), 1200.0)
     q = min(max(float(initial['quality']), 0.0), 1.0)
-    hs = V
-    H0 = min(max(float(p.get('H0', 560.0)), 0.0), 1200.0)
-    hf = H0
+    H = V
     f = 0.0
     s1 = s2 = 0.0
     Dm = 0.0
-    Cm = 0.0
     z = 1.0
     P = max(float(p['P']), 5.0)
     w1, w2 = 2 * math.pi / P, 4 * math.pi / P
@@ -144,10 +129,8 @@ def simulate(p, initial, actions):
     kq, cq = p['kq'], p['cq']
     a_z, lam_q = p['a_z'], p['lam_q']
     a1, g1, th1, g1s = p['a1'], p['g1'], p['th1'], p['g1s']
-    af1, gf1 = p.get('af1', 0.25), p.get('gf1', 0.0)
     a2, g2, th2, g2q = p['a2'], p['g2'], p['th2'], p['g2q']
     a3, g3, h3 = p['a3'], p['g3'], p['h3']
-    kr, dC, gC = p.get('kr', 0.0), p.get('dC', 0.0), p.get('gC', 0.0)
     wqa, wqd, wqx, wqr, wqi = p['wqa'], p['wqd'], p['wqx'], p['wqr'], p['wqi']
     rows = np.empty((T, 4))
     for i in range(T):
@@ -157,20 +140,18 @@ def simulate(p, initial, actions):
         Iq = 8.0 * ui
         river = p['c_in'] + p['A_s'] * math.sin(w1 * t) + p['A_c'] * math.cos(w1 * t) \
             + p['B_s'] * math.sin(w2 * t) + p['B_c'] * math.cos(w2 * t)
-        # m1 groundwater exchange: slow aquifer head (thresholded return, seepage) + fast bank head (signed)
-        G1 = g1 * max(hs - V - th1, 0.0) / 100.0 if g1 else 0.0
-        seep = g1s * max(V - hs, 0.0) / 100.0 if g1s else 0.0
-        Qf = gf1 * (hf - V) / 100.0 if gf1 else 0.0
-        Qf = min(max(Qf, -20.0), 20.0)
+        # m1 groundwater exchange
+        G1 = g1 * max(H - V - th1, 0.0) / 100.0 if g1 else 0.0
+        seep = g1s * max(V - H, 0.0) / 100.0 if g1s else 0.0
         # m2 irrigation return
         G2 = g2 * 8.0 * max(s2 - th2, 0.0) if g2 else 0.0
-        inflow = max(river + G1 + G2 + max(Qf, 0.0), 0.0)
-        # delivery limited by head (and fouling, off by default)
+        inflow = max(river + G1 + G2, 0.0)
+        # delivery limited by head and fouling
         C = qmax * (max(V, 1.0) / 940.0) ** beta * (1.0 - f)
         req = max(R + Iq, 0.0)
         D = max(_smin(req, C), 0.0)
         D = min(D, max(V, 0.0) + inflow)
-        loss = max(e0 + e1 * (V - 940.0) / 100.0, 0.0) + seep + max(-Qf, 0.0)
+        loss = max(e0 + e1 * (V - 940.0) / 100.0, 0.0) + seep
         Vn = V + inflow - D - loss
         S = ks * max(Vn - Vs, 0.0)
         Vn = min(max(Vn - S, 0.0), 1200.0)
@@ -181,17 +162,12 @@ def simulate(p, initial, actions):
             Tq -= g2q * s2
         if g3:
             Tq -= g3 * Dm * (1.0 + h3 * ud)
-        if gC:
-            Tq -= gC * Cm
         q = min(max(q + kq * (Tq - q), 0.0), 1.0)
         # memories (after outputs)
         Idel = Iq * (D / req) if req > 1e-9 else 0.0
-        hs += a1 * (Vn - hs)
-        hf += af1 * (Vn - hf)
+        H += a1 * (Vn - H)
         s1 += a2 * (Idel / 8.0 - s1)
         s2 += a2 * (s1 - s2)
-        Cm += kr * Dm * ud * (1.0 - ua) * (1.0 - Cm) - dC * Cm
-        Cm = min(max(Cm, 0.0), 1.0)
         Dm += a3 * (ua - Dm)
         f += af * (gf * ua - f)
         f = min(max(f, 0.0), 0.9)

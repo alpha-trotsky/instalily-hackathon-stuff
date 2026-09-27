@@ -1,0 +1,4 @@
+model greybox/traffic_model.py modules ['m1', 'm2'] episodes 1 units ['linear', 'linear', 'linear', 'linear'] sigma [1.0, 1.0, 0.3, 0.3]
+  restart 0: cost 11750.4 nfev 175 (56s)
+cost 11750.4 (56s) | train score 0.5958 (persistence 0.0767)
+saved fits\traffic\m12_r1_from_m13.json

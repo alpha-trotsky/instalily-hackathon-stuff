@@ -1,5 +1,5 @@
 """Run-2 probe ranking (framework §4.4): simulate candidate schedules through the Run-1 pair fits and rank by
-disagreement in score-σ units per step.  python fits/traffic/rank_probes.py FIT1 FIT2 FIT3"""
+disagreement in score-sigma units per step.  python fits/traffic/rank_probes.py FIT1 FIT2 FIT3"""
 import sys, json, itertools
 import numpy as np
 sys.path.insert(0, '.')
@@ -61,6 +61,6 @@ for name, segs in CANDS.items():
                  ' '.join(f'{names[i][:3]}-{names[j][:3]}:{d.mean():.2f}' for (i, j), d in
                           zip(itertools.combinations(range(len(preds)), 2), dis))))
 rows.sort(key=lambda r: -r[3])
-print(f'{"probe":45s} steps  maxpair(σ/obs/tick)  per-step  pairs')
+print(f'{"probe":45s} steps  maxpair(sig/obs/tick)  per-step  pairs')
 for r in rows:
     print(f'{r[0]:45s} {r[1]:5d}  {r[2]:8.3f}  {r[3]:8.3f}  {r[4]}')

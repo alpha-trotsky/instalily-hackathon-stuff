@@ -53,10 +53,11 @@ def params_for(model, modules, fitted=None):
     if hasattr(model, 'params_for'):
         return model.params_for(modules, fitted)
     params = {name: value for name, (value, _) in model.SPEC.items()}
+    params.update(fitted or {})
+    # Disabled modules are switched off last, so `--init` from another pair's fit cannot leak its modules in.
     for module, (_, off) in model.MODULES.items():
         if module not in modules:
             params.update(off)
-    params.update(fitted or {})
     return params
 
 
