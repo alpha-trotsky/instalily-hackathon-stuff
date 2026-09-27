@@ -422,3 +422,126 @@ B1–B10 from §7 stand. Updates and new behaviours:
      is not identified. The dead time (5–7 ticks) is carried by the outreach lag stages.
   5. Not measured: seeding mid-level (P2), and a long recovery hold (> 100 ticks). The organic growth at recovery was
      still going at tick 100 (R1), and the post-bridge growth was still going at the end of R2.
+
+## 14. Phase C: R3 analysis (the M1 probe, review §4)
+
+`data/social_contagion/R3.json`: fresh reset (initial reading A 42.8 / B 52.6), P0 recovery for ticks 0–14, then
+seeding 9 / incentive 0 / bridge 0.6 for ticks 15–49. It uses the same controls as R1 435–469, but from a pristine state.
+
+| | Start A / B | Gain at +5 | +10 | +20 | +35 |
+|---|---|---|---|---|---|
+| R1 435 (80 ticks after the incentive crash) | 48.3 / 36.7 | +1.2 / +1.0 | +7.2 / +3.4 | +34.2 / +12.8 | +69.4 / +30.7 |
+| **R3 15 (pristine)** | 33.6 / 38.8 | +1.3 / −0.7 | +8.0 / +0.1 | +38.8 / +8.8 | **+78.8 / +25.6** |
+| R2 55 (pristine, *with incentive 2*) | — | | | +61 / +23 | +105 / +44 |
+
+- **Decision rule (review §4).** M1 as the reviewer framed it predicts a pristine gain that approaches R2's, with the
+  same ratio in A and B: ×1.5–1.8. The data give ×1.14 in A and ×0.83 in B, which is within about 15% of R1 and in
+  opposite directions. **So the slow, crash-driven credibility loss is rejected, and R8 is composition** (incentive ×
+  seeding in R2's pristine campaign), plus pool effects.
+- **Models fitted on R1 only predict R3 well:** m12_r1 scores 0.782 and m23_r1 scores 0.836, against 0.349 for
+  persistence. m12_r1 predicts 35-tick gains of +75 / +27, against +79 / +26 observed. The R1 structure transfers to
+  a campaign from a clean reset.
+- **Reset replicate (G8):** A falls 42.8 → 33.5 (×0.78) and B falls 52.6 → 38.2 (×0.73), reaching the trough in about
+  13 ticks. That matches R1/R2 (×0.75). Note that R3's troughs (A 33.5) lie **below** the crash floor (A 43). The reset
+  drop is proportional to the reading, and the crash floor is a separate core.
+- **The fitted M1 is a different thesis.** In the final m1 module, credibility is driven by the **departure rate**
+  (the review's alternative driver), with a short memory (a1 = 0.13, about 7 ticks) and g1 = 6.3. It suppresses new
+  interest while members are leaving: during the reset drop, during the incentive crash, and at a level of about 0.5 of
+  normal churn. Eighty ticks after a crash it has recovered fully, so R3 cannot test it. It is consistent with R3.
+
+## 15. Review responses (G1–G9)
+
+Model v1: `greybox/social_contagion_model.py`. The docstring documents the changes, and v0 is kept as
+`fits/social_contagion/social_contagion_model_v0.py`.
+
+| Gap | Response |
+|---|---|
+| G1 base not identified | **Fixed.** Every parameter is a sigmoid box, and the pools are finite (N 80–3000). m12_all fits NA 297 / NB 185, which is physical because A saturates at 230. The capacity queue (kap/om/qa were pinned) is replaced by a first-order onboarding stage, kon 0.136 (interior). The one type per community replaces v0's unidentified i/r split. m12_all has **one parameter at a bound: gret = 0** (no incentive retention of churn), which is an optional base effect at zero, not a gain at a cap. Fits use 3 restarts. The `--horizons` curriculum was not needed, because the direct fits converge |
+| G2 crash floor | **Fixed.** Cores K_c are never disappointed; the m2 disappointment acts only on M − K. m12_all fits **KA 42.4 / KB 28.9**, against observed floors of 43–44 / 31–33. The reset drop is separately an "expectant" share ψ of the reading (ψA 0.20, ψB 0.29), so a reading that differs from the floor is handled (R2, R3) |
+| G3 bridge-path lag | **Fixed.** Introductions pass through a separate 3-stage lag, fitted at a_b = 0.058 (a mean delay of about 50 ticks). With it, **m3 is no longer needed.** m2 alone costs 8,798 and m2+m3 costs 8,723 (only 75 better), with a3u and a3d pinned at their minima (R becomes an integrator again). The continued growth after a bridge campaign (B14/R10) is the introduction pipeline draining |
+| G4 M1 untested | **Tested** with the 50-step reserve (R3, §14). The slow crash-credibility thesis is rejected. The departure-driven fast credibility (the review's alternative driver) is supported by the cost: m1 adds 930 over m2 alone, against 75 for m3 |
+| G5 coverage holes | **Not captured (no steps left).** P2 mid-level seeding, clean P3 at bridge 0, bridge on/off at constant seeding, the P5 gap test and the M2 ramp test were never run. Flagged as extrapolation risk. The model is smooth in u (the h(·) saturating interest), but linearity in seeding is unverified |
+| G6 long-run level | **Addressed.** The m12_all equilibrium is unique and history-free, at **96.5 / 83.7** under recovery, reached by about t500 from any history (recovery, after a 200-tick seeding campaign, after a full pulse, after bridge). m23_all gives 101.9 / 88.2 and m2 is similar. It is consistent with R1's post-campaign decline heading towards about 110 / 90 at k 0.025 (review R4), and with the slow growth from the reset trough. The crash floor is transient: it lasts while the disappointed pool D reconsiders (ρ 0.063) and credibility recovers. It is still an extrapolation, since no undisturbed hold of more than 100 ticks exists. Full-pulse hold 199.2 / 132.0, flat. Incentive hold 131 / 95 |
+| G7 incentive recruitment | **Fixed:** bounded iota per community, fitted at 0.0063 / 0.0060 (interior) |
+| G8 reset shape | **Fixed:** the expectant share leaves through a ramping hazard, h(kr·L) with L rising at ar = 0.089, which gives the accelerating drop. kr 0.60 (interior) |
+| G9 stability | **Passed:** see §17. Every parameter is inside its box except gret at 0 |
+
+Tooling note: `fit.py --init` does **not** reset the parameters of modules that are inactive in the new fit to their
+off values (`core.params_for` applies `fitted` after the off values). A first m2-only fit warm-started from m12_all
+therefore kept g1 = 6.3 and silently reproduced m12. It was rerun from an init with g1 = 0
+(`fits/social_contagion/v1/init_m2_from_m12.json`). Bootstrap `--warm` is not affected, because each candidate starts
+from its own fit.
+
+## 16. Model selection (framework §6.3)
+
+Data: R1 (550) + R2 (400) + R3 (50). Log units, σ = 0.01, soft_l1. Fits are in `fits/social_contagion/v1/`, and
+per-run scores use σ = 0.1 × std of R1+R2 after tick 20.
+
+**Cross-run test (fit on R1 only, predict R2):** from `gates score`.
+
+| Fit | R1 cost | at bounds | R2 score | R3 score |
+|---|---:|---|---:|---:|
+| m12_r1 | 583 | gret, a1, KB | **0.255** | 0.782 |
+| m23_r1 | 732 | tauA, gret, KB, a3u | 0.252 | 0.836 |
+| m13_r1 | 16,571 | — | 0.114 (fails) | — |
+| base_r1 (relaxation, no mechanism) | 14,334 | — | 0.151 (fails) | — |
+| persistence | | | 0.223 | 0.349 |
+
+R1 alone cannot predict R2's joint seeding + incentive + bridge pulse (an unseen composition), so every R1 fit transfers
+poorly to R2. m12 and m23 tie, and both only just beat persistence. m13 and the no-mechanism base are worse than
+persistence, **so both pairs without M2 are rejected.**
+
+**Refit on all data:**
+
+| Fit | Cost | R1 / R2 / R3 score | at bounds |
+|---|---:|---|---|
+| **m12_all** | **7,868** | 0.682 / 0.717 / 0.817 | gret |
+| m23_all | 8,723 | 0.692 / 0.681 / 0.816 | gret, psiB, ar, a3u, a3d |
+| m2 only | 8,798 | — | gret, psiB, ar |
+| m13_all | 63,063 | 0.441 / 0.480 / 0.639 | tauA, iotaA, iotaB |
+| base_all | 63,434 | 0.440 / 0.397 / 0.760 | 6 params |
+
+**Bootstrap** (`bootstrap5.json`: m12_all against m23_all, since m13 was rejected by 55k in cost; 5 draws per truth,
+warm-started, 1 restart, block 50, skip 20):
+
+| truth \ selected | m12 | m23 |
+|---|---:|---:|
+| m12 | **5** | 0 |
+| m23 | 2 | **3** |
+
+- **Margins when the truth wins:** m12 490–1,110; m23 36–243.
+- **Real data:** m12 wins by **855**, which is ≥ the smallest m12 bootstrap margin (490) and inside m12's range.
+- **Decision (§6.3.4):** the diagonal is 8/10. The real margin is inside the m12-truth range and far above any m23-truth
+  margin. m23 also has three module/base parameters pinned (a3u and a3d at their minima, which is missing structure),
+  and m3 adds only 75 over m2 alone. **Accept M1 + M2, confidence medium.** m12 can absorb m23-generated data 2/5 times,
+  so m12 is the more flexible model. The M1 in the fit is a fast, departure-driven credibility, not the slow thesis
+  that R3 rejected.
+
+## 17. Final model and hand-off
+
+- **Submitted model:** M1 + M2 (`fits/social_contagion/v1/m12_all.json`, copied to `final.json`), in
+  `greybox/social_contagion_model.py` v1. Confidence **medium**. M2 is certain (every fit without it fails). M1 over
+  M3 rests on a cost margin of 855 and a 5/5 + 3/5 confusion matrix.
+- **Scores:**
+  - Cross-run (fit on R1, predict R2): 0.255 against 0.223 for persistence, which passes but only just. The
+    composition was not in R1.
+  - All-data fit: 0.68 / 0.72 / 0.82 on R1 / R2 / R3.
+- **Gates:**
+  - Local score: passes (0.255 > 0.223).
+  - Stability: **passes**. 200 schedules, 8 × 40,000 steps, 0 failures, range 20–217 (A) / 13–137 (B), worst alternation
+    0.016. File `fits/social_contagion/v1/stability_m12.json`.
+  - Contract: **passes** from the extracted ZIP. 40 × 4,000 steps take 5.0 s, all malformed-input cases are OK, and the
+    credential scan is clean.
+- **Package:** `toronto26-participant-kit/models/social_contagion/` (predict.py, social_contagion_model.py,
+  params.json) and `toronto26-participant-kit/submission-social_contagion-v1.zip` (5.6 KB). Package with explicit
+  `--data R1 R2 R3`, because the default glob picks up `*_battery.json` and fails.
+- **Budget:** 1,000 of the 1,000 CAP spent (R1 550, R2 400, R3 50). The gateway has 1,000 remaining, none of it
+  allocated.
+- **Open issues:**
+  1. **Long-run recovery level (96 / 84) is an extrapolation.** It dominates 4,000-step scoring, and no undisturbed
+     hold of more than 100 ticks exists. m12 and m23 agree within 6%. The rejected fits (m13, base) give 54 / 40.
+  2. **Composition and mid-level controls are untested (G5):** mid-level seeding, seeding + incentive at bridge 0, and
+     bridge share between 0.6 and 1.0. The weak cross-run score shows how much R2's composition taught the model.
+  3. **M1 against M3 is only moderately resolved.** m23 truth is misclassified 2/5 times. The fitted M1
+     (departure-driven, fast) was not directly probed. If the public score is weak, the fallback candidate is
+     m23_all (8,723), which has near-identical long-run levels.

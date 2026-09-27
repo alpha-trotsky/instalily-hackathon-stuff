@@ -5,7 +5,9 @@ Scripts, logs and plots are in `toronto26-participant-kit/fits/reservoir/review/
 `look.py` (segment table and mass balance), `season.py`/`season.log` (period fit), `exch.py`/`exch.log` (level
 exchange and groundwater excess per 10 ticks), `evalplot.py` → `err_m13_all.png`, `err_m12_all.png` (fit errors),
 `longrun.py`/`longrun.log` (4,000-tick stability), `probe.py`/`probe.log` (reserve-probe predictions),
-`m13_all.json`, `m12_all.json` (quick R1+R2 refits: 1 restart, `ks,af,gf` fixed, init from the R1 fits).
+`m13_all.json`, `m12_all.json` (quick R1+R2 refits: 1 restart, `ks,af,gf` fixed, init from the R1 fits),
+`qproxy.py`/`qproxy.log` (raw and noise-reduced scores per run for the R1-only and R1+R2 fits).
+Gateway budget checked (free): 1,050 remaining, consistent with 950 of CAP spent.
 
 Score σ = 0.1·std (level 20.2, inflow 0.157, outflow 0.45, quality 0.00102). Noise σ: level 4.4, inflow 0.075,
 outflow ≤ 0.05, quality 0.0055.
@@ -57,7 +59,8 @@ The fits used for this table are the R1+R2 refits of m13 and m12. The error plot
 - **P9a/P9b were evaluated as "no effect" by looking for a dip or jump inside R1.** Compared across runs, they show a
   **persistent −0.013 offset** after aeration was switched on while deep (R1) that did not appear when it was switched
   on while shallow (R2) → G3.
-- **Not run:** P2 (mid levels), P4 (ramp), P6 (explicit order swap), release < 2 (u < 0), mid aeration or depth. For
+- **Not run:** P2 (mid levels; §4.2 requires it for the most important control, and it was dropped in the R2 design),
+  P4 (ramp), P6 (explicit order swap), release < 2 (u < 0), mid aeration or depth. For
   water these are linear or capacity-limited, so the risk is low. Mid aeration is a small quality risk (G8).
 - **Starts from reset:** both runs began with 40 ticks of recovery. **No data exists on how hidden states behave when
   an episode begins with a non-recovery action.** Every scored episode starts from a reset, so this is untested for
@@ -116,8 +119,12 @@ the cap. The knife edge falls between release 10 and 12, and there the forecast 
   also consider the G3 structure, because M3 is the natural home for (a).
 
 **G5 (medium). The pair fits are not decision-grade.**
-- *Evidence.* The R1+R2 refits stopped at nfev 32 and 70 (tolerance reached from the R1 start point). Costs are 3,495
-  (m13) and 3,547 (m12), a near tie. th1 < 0, th2 is near its cap, and g2 < 0.
+- *Evidence.* The Run-1 fits used 1 restart, no curriculum, and stopped at nfev 234 (m13), 78 (m12) and 59 (m23), all
+  below `max_nfev` = 400. So least_squares stopped on its tolerance at the first local minimum, not on the cap. The
+  m23 < m12 ≈ m13 ranking is still sound, because m23 has no M1 and its level extrapolation fails structurally (level
+  RMSE 208 on R2). But m12 vs m13 (cost 1,282 vs 1,556 on R1) is a single-start result. The R1+R2 refits stopped at
+  nfev 32 and 70 (tolerance reached from the R1 start point). Costs are 3,495 (m13) and 3,547 (m12), a near tie.
+  th1 < 0, th2 is near its cap, and g2 < 0.
 - *Fix.* Apply G2 and drop fouling first, then run 3 restarts with perturbation and a 100 → 300 → full curriculum. Do
   not judge pairs before G1 and G3 are addressed (§2 lesson 6: a near tie means missing structure).
 
@@ -125,6 +132,11 @@ the cap. The knife edge falls between release 10 and 12, and there the forecast 
 - *Evidence.* A perfect model scores 0.86 on level, 0.75 on inflow, 0.95 on outflow and **0.29 on quality** against
   the noisy data. The "quality ≈ 0.08" figure is partly this ceiling and partly the R1-only fits' 0.02 errors. The
   R1+R2 refits have smoothed |err| of 0.0033–0.0041.
+- *Numbers (`qproxy.log`, quality score raw / against a 9-tick MA target).* The R1-only fits score 0.29 / 0.45 in sample
+  on R1 but **0.08 / 0.06 on R2**, because the smoothed error is 0.018–0.021 (a level offset, the R2 anoxic plateau).
+  The R1+R2 refits score 0.24–0.27 / 0.30–0.32 on both runs. So "0.08 everywhere" was a cross-run extrapolation failure.
+  It is not a floor. Fitting on both runs already fixes most of it, and the remaining 0.003–0.004 is mostly G3.
+  Outflow's proxy is *lower* than raw because the MA blurs its step edges, so use the proxy for quality only.
 - *Fix.* Report a noiseless proxy (score against a 9-tick moving average inside holds, or error of the smoothed
   residual) when comparing models.
 
@@ -138,6 +150,22 @@ the cap. The knife edge falls between release 10 and 12, and there the forecast 
 structurally safe. Quality interpolation in aeration is assumed linear.
 
 **G9 (low). Inflow readings at R1 t = 1–2 (+0.68, +0.40).** Ignore.
+
+**G10 (low–medium). Quality under a long recovery hold beyond t ≈ 550 is extrapolated.**
+- *Evidence.* R1 quality drifts 0.955 → 0.946 over ticks 20–250 (B8/R7). Whether that is a time-since-reset drift or a
+  step at irrigation is unresolved. The model settles at 0.946–0.948 (`longrun.log`, recovery). If the true system
+  keeps drifting at −3e-5/tick, the error reaches 0.01 (10σ) by t ≈ 600 and grows after that.
+- *Fix / test.* R2 recovered to 0.947 at t ≈ 290–340, which argues for a plateau, not a drift. Keep the plateau, and
+  do not add a time-since-reset trend without evidence. No probe is needed, because 50 steps cannot resolve a
+  3e-5/tick drift.
+
+**G11 (low–medium). Knife edge for requests between ≈ 10 and ≈ 12.**
+- *Evidence.* In the model, release 10 settles at 922 and release 12 at 288 (`longrun.log`). Between those, the
+  equilibrium is set only by loss(V) − G(V) at mid levels, and that is the least-constrained part of the model (G1).
+  Recovery-category episodes (70–100 % of the pulse, total request ≥ 14.6) are safely on the drain side. Composition
+  episodes with mid release and no irrigation may land on the edge.
+- *Fix.* After G1, check the sustained-request sweep 9–13 for a smooth, monotone equilibrium. Nothing to probe
+  cheaply.
 
 ## 6. Reserve spending: recommended (50 steps, one probe)
 
@@ -167,3 +195,44 @@ with a budget check before each.
   late persistence (G1) needs a slower H.
 - **Also read off:** capacity at levels 350–600 from reset (checks that fouling really is zero at reset), the quality
   reset transient under anoxia (G7), and the early anoxic decline from the reference profile (G3's pool starting value).
+- **Considered and rejected:** 30 ticks of the pulse, then 20 ticks with aeration 1 and everything else unchanged.
+  The water controls would stay constant, so G1 would still be readable, and the second part would test G3(a)
+  against G3(b) (aeration on while deep at a low level). But 30 anoxic ticks from reset build only ≈ 0.003 of pool
+  signal, and that sits on top of the reset transient. With a quality noise of 0.0055, 20 ticks resolve ≈ 0.0012, so
+  the result would not be decisive. Fix G3 by refitting on R1+R2, not by probing.
+
+## 7. Thesis driver check (procedure step 6)
+
+- **Rate-of-change drivers.** The theses give M1 a *level* driver only. The data show that the excess switches off
+  within ≈ 4 ticks of a fast level rise (R1 530, R2 280) while the level is still low (680 and 320). That is a
+  dV/dt-like driver (or a head H that follows a rising V fast and a falling V slowly), and it was never pre-registered.
+  It is folded into the G1 fix (an asymmetric lag or a rise-driven shut-off).
+- **Recovery values not at a bound.** Release recovery = 2 has an untested side, release < 2 (u < 0). The other three
+  recovery values sit at bounds. Delivery below 2 is linear by B3, so the risk is low (G8).
+- **Delay phrases without delay stages.** The brief says "return water or contaminants **after a delay**". M1 has one
+  first-order lag (H) and a threshold, but the 39–60-tick onset looks like a dead time. A two-stage lag or a slow Href
+  (G1) is the fix. M3's "remobilize" and "deep release can change later surface quality" have no explicit stage for
+  the pool being mixed into the column (G3a).
+- **Time-since-reset effects.** The season is tied to time since reset (captured, G2). The quality reset transient is
+  captured roughly (G7). A quality drift is possible (G10). The reset convention for H (H0 = the initial reading) is
+  untested under a non-recovery start (G1, the reserve probe).
+- **Contaminant half of M2.** It was tested only through inflow (G4).
+
+## 8. Researcher notes, answered
+
+1. **"Quality scores ≈ 0.08 everywhere."** No. That was the R1-only fits predicting R2 (smoothed error 0.018–0.021).
+   The R1+R2 refits score 0.24–0.27 raw and ≈ 0.31 against a smoothed target, close to the noise ceiling of 0.29 on
+   raw data. Most of the remaining error is the history-dependent recovery level (G3). See G6.
+2. **"The shape of the groundwater term is a guess."** Confirmed, and it is the top gap (G1). The fitted threshold is
+   negative (unused). The model's excess decays at a sustained low level while the data's persists, the onset rule is
+   not reproduced, and H0 is untested. The reserve probe targets the reset convention.
+3. **"Run-1 fits stopped early."** They converged on tolerance (nfev 234, 78 and 59 < 400) from a single start, so
+   each is a local minimum. The M1-present conclusion holds. m12 vs m13 does not (G5).
+4. **"Seasonal inflow period 67.75 over 4,000 steps."** Pinned. The direct fit with phase 0 gives P = 67.7547 ± 0.004,
+   ≈ 0.24 ticks of phase at t = 4,000 (≤ 0.05 inflow error). Fix c_in, A and P at the direct-fit values rather than
+   letting the rollout fit bias them (G2: rollout P = 67.769 costs ≈ 0.8 ticks of phase at t = 4,000).
+5. **"Long-run level under a sustained pulse."** Both pairs settle at ≈ 290–295 (range 270–317 with the season). The
+   same holds at 70 % pulse strength and for release 12 alone, because delivery is capacity-limited:
+   C(V) = 16.5·(V/940)^(1/3) ≈ I + G − loss. The sensitivity is dC/dV ≈ 0.013 per unit of level at V ≈ 290, so each
+   0.1 of net loss-or-excess error moves the equilibrium by ≈ 8 (< σ = 20). The level forecast is robust. The inflow
+   forecast at that level is not (≈ 0.3–0.4 low if G1 holds). Requests of 10–12 are a knife edge (G11).

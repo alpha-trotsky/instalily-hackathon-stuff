@@ -1,0 +1,27 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 17.818394422531128,
+ "ranges": {
+  "adopters_a": [
+   0.0,
+   11587.088534083521
+  ],
+  "adopters_b": [
+   0.0,
+   6593.417480608949
+  ]
+ },
+ "min_seen": {
+  "adopters_a": 20.362153438905995,
+  "adopters_b": 12.52125951377052
+ },
+ "max_seen": {
+  "adopters_a": 216.57589298941664,
+  "adopters_b": 137.09918210379413
+ },
+ "worst_alternation": 0.015625,
+ "failures": [],
+ "n_failures": 0,
+ "pass": true
+}

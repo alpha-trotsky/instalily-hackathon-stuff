@@ -142,7 +142,7 @@ def package(system, model_spec, params_path, version='v1', data_paths=None, clam
     if zip_path.exists() and not force:
         raise SystemExit(f'{zip_path} exists; choose a new --version or pass --force')
     if data_paths is None:
-        data_paths = sorted(str(p) for p in (core.KIT / 'data' / system).glob('*.json'))
+        data_paths = sorted(str(p) for p in (core.KIT / 'data' / system).glob('*.json') if not p.stem.endswith('_battery'))
     cfg = build_folder(system, model_spec, params_path, folder, data_paths, clamp)
     write_zip([folder], zip_path)
     result = {'system': system, 'folder': str(folder), 'dry_run': dry_run, 'clamp': cfg['clamp'], **verify_zip(zip_path, [system])}

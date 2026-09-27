@@ -1,0 +1,4 @@
+model greybox/power_grid_model.py modules ['m2', 'm3'] episodes 1 units ['linear', 'linear', 'linear'] sigma [0.5, 0.03, 0.003]
+  restart 0: cost 24289.2 nfev 84 (16s)
+cost 24289.2 (16s) | train score 0.4907 (persistence 0.2330) | eval_data score 0.3994 (persistence 0.1754)
+saved fits\power_grid\v1\m23_r1.json
