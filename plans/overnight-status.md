@@ -19,9 +19,9 @@ Budget at start (free read, 2026-09-27): every system 2,000 remaining; market 1,
 | 2 | wildlife | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | food renewal + nursery (mA+mB), "unresolved" (real margin ~½ smallest bootstrap margin). Cross-run R1→R2c: mA+mB 0.417, mB+mC 0.406, mA+mC 0.302, persistence 0.066. Gates pass; no extinction/cycles in 100 constant settings | `toronto26-participant-kit/submission-wildlife-v1.zip` |
 | 3 | ad_auction | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | M2+M3 (`m23f`, M3 memory fixed at τ=200), "accepted" by bootstrap rule (margin 109 vs min 78) but pinned params remain. Cross-run R1→R2c: m23f 0.391, base 0.355, persistence 0.107. Gates pass | `toronto26-participant-kit/submission-ad_auction-v1.zip` |
 | 4 | social_contagion | 1000 | B done, C running | 950 | 1050 | persistence baseline (R1 fits score 0.23–0.40 on R2) | — |
-| 5 | power_grid | 1000 | A done, B running | 950 | 1050 | persistence baseline (R1→R2: m12 0.367, m13 0.365, persistence 0.173) | — |
-| 6 | reservoir | 1000 | A running | 0 | 2000 | persistence baseline | — |
-| 7 | traffic | 1300 | not started | 0 | 2000 | persistence baseline | — |
+| 5 | power_grid | 1000 | B done, C running | 950 | 1050 | persistence baseline (R1→R2: m12 0.367, m13 0.365, persistence 0.173) | — |
+| 6 | reservoir | 1000 | A done, B running | 950 | 1050 | persistence baseline (R1→R2: m13 0.578, m12 0.577, base 0.345) | — |
+| 7 | traffic | 1300 | A running | 0 | 2000 | persistence baseline | — |
 | 8 | supply_chain | 1300 | not started | 0 | 2000 | persistence baseline | — |
 | 9 | hospital_queue | 1300 | not started | 0 | 2000 | persistence baseline | — |
 

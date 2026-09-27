@@ -1,0 +1,34 @@
+
+=== run 0: 400 ticks, controls ['release_rate', 'irrigation_allocation', 'withdrawal_depth', 'aeration']
+noise sigma: level 2.903 (rel 0.53%, partial), inflow 0.06189 (rel 0.56%, constant), outflow 0.03197 (rel 0.51%, proportional), quality 0.004766 (rel 0.51%, undetermined (level range too small))
+reset transient: level 600.999->904.1528 settle > 40, inflow 8.7075->10.9911 settle > 40, outflow 7.4899->1.9978 settle 0.0, quality 0.8024->0.951 settle 10.0
+switch @40 u [0.0, 0.0, 0.0, -0.0]->[1.0, 1.0, 1.0, 1.0] (hold 200):
+   level            d -548.0173 ( -188.8 sig) delay    0 settle  > 200 k_lin  0.0096 k_log  0.0051 overshoot 0.014 
+   inflow           d    2.2055 (  35.64 sig) delay    3 settle  > 200 k_lin  0.0746 k_log  0.0807 overshoot 0.693 
+   outflow          d   10.2726 ( 321.29 sig) delay    0 settle  > 200 k_lin  0.0082 k_log   0.007 overshoot 0.419 
+   quality          d   -0.0239 (  -5.01 sig) delay   72 settle   70.0 k_lin  0.0113 k_log  0.0113 overshoot 0.144 
+switch @240 u [1.0, 1.0, 1.0, 1.0]->[1.0, 0.0, 0.0, -0.0] (hold 40):
+   level            d   -65.874 ( -22.69 sig) delay    2 settle   24.0 k_lin  0.0589 k_log  0.0544 overshoot 0.026 
+   inflow           d    0.3067 (   4.95 sig) delay    0 settle   > 40 k_lin    None k_log    None overshoot 1.861 
+   outflow          d   -0.6904 ( -21.59 sig) delay    0 settle   22.0 k_lin    None k_log    None overshoot 0.078 
+   quality          d    0.0135 (   2.84 sig) delay   35 settle   21.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+switch @280 u [1.0, 0.0, 0.0, -0.0]->[0.0, 0.0, 0.0, -0.0] (hold 60):
+   level            d  425.2123 ( 146.49 sig) delay    0 settle   > 60 k_lin  0.0143 k_log  0.0314 overshoot 0.089 
+   inflow           d   -3.2066 ( -51.81 sig) delay    0 settle   > 60 k_lin  0.0397 k_log  0.0397 overshoot 0.356 
+   outflow          d   -9.5865 (-299.83 sig) delay    0 settle    0.0 k_lin    None k_log    None overshoot 0.000459 
+   quality          d     0.003 (   0.64 sig) delay   25 settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+switch @340 u [0.0, 0.0, 0.0, -0.0]->[1.0, 1.0, 1.0, 1.0] (hold 30):
+   level            d  -92.6407 ( -31.92 sig) delay    1 settle   > 30 k_lin  0.0132 k_log  0.0082 overshoot 0.059 
+   inflow           d    1.0029 (   16.2 sig) delay    2 settle   > 30 k_lin   0.533 k_log   0.533 overshoot 1.119 
+   outflow          d   12.9975 ( 406.51 sig) delay    0 settle   > 30 k_lin    None k_log    None overshoot 0.048 
+   quality          d   -0.0069 (  -1.45 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+switch @370 u [1.0, 1.0, 1.0, 1.0]->[0.0, 0.0, 0.0, -0.0] (hold 30):
+   level            d  171.1025 (  58.95 sig) delay    1 settle   > 30 k_lin  0.0076 k_log  0.0155 overshoot 0.066 
+   inflow           d   -2.3262 ( -37.58 sig) delay    6 settle   > 30 k_lin  0.3324 k_log  0.3324 overshoot 0.231 
+   outflow          d  -12.8902 (-403.16 sig) delay    0 settle    0.0 k_lin    None k_log    None overshoot 0.000826 
+   quality          d    0.0051 (   1.08 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+on/off @340/370: level k_on/k_off lin 1.737 log 0.529 return 24.65 sig; inflow k_on/k_off lin 1.603 log 1.603 return -29.56 sig; outflow k_on/k_off lin None log None return 0.43 sig; quality k_on/k_off lin None log None return -0.38 sig
+top correlations: level.rise->outflow.level -0.921@1; level.diff->outflow.level -0.92@1; outflow.level->level.diff -0.92@-1; quality.level->level.level 0.762@15; level.level->quality.level 0.745@-10; level.fall->outflow.level 0.644@0
+top memory regressions: level rise/fall -> inflow gain 0.4779 a=0.3; outflow rise/fall -> level gain 0.1263 a=0.02; level rise/fall -> quality gain 0.1147 a=0.05; outflow rise/fall -> quality gain 0.0989 a=0.02
+
+saved data\reservoir\R2_battery.json
