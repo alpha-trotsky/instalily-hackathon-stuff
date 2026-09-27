@@ -1,0 +1,2 @@
+sigma stand-in (std after tick 20): {'price': np.float64(9.204), 'volume': np.float64(0.206), 'depth': np.float64(19.285)}
+m13   withdraw       cost     6790.7 (  226s) | train rmse [0.589 0.103 1.33 ] score 0.9233

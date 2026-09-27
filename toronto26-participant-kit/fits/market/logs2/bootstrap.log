@@ -1,0 +1,21 @@
+m13 0 selected m13 {'m12': np.float64(8604.1), 'm13': np.float64(6339.3), 'm23': np.float64(10515.8)}
+m13 2 selected m13 {'m12': np.float64(9464.9), 'm13': np.float64(7935.8), 'm23': np.float64(11576.9)}
+m12 2 selected m12 {'m12': np.float64(5085.6), 'm13': np.float64(6419.4), 'm23': np.float64(8254.3)}
+m12 1 selected m12 {'m12': np.float64(5519.7), 'm13': np.float64(7031.1), 'm23': np.float64(9129.5)}
+m12 0 selected m12 {'m12': np.float64(3833.3), 'm13': np.float64(5040.9), 'm23': np.float64(8664.0)}
+m23 1 selected m23 {'m12': np.float64(10297.2), 'm13': np.float64(11975.9), 'm23': np.float64(7228.7)}
+m23 0 selected m23 {'m12': np.float64(9604.0), 'm13': np.float64(8553.2), 'm23': np.float64(8007.1)}
+m13 1 selected m13 {'m12': np.float64(6757.9), 'm13': np.float64(6048.9), 'm23': np.float64(8611.5)}
+m23 2 selected m23 {'m12': np.float64(5728.3), 'm13': np.float64(6082.8), 'm23': np.float64(4267.7)}
+m12 4 selected m12 {'m12': np.float64(5149.0), 'm13': np.float64(6503.0), 'm23': np.float64(7387.2)}
+m12 3 selected m12 {'m12': np.float64(4854.2), 'm13': np.float64(6577.3), 'm23': np.float64(8246.1)}
+m23 3 selected m12 {'m12': np.float64(11198.1), 'm13': np.float64(11781.7), 'm23': np.float64(11909.6)}
+m13 4 selected m13 {'m12': np.float64(7429.5), 'm13': np.float64(6960.8), 'm23': np.float64(11118.4)}
+m13 3 selected m13 {'m12': np.float64(5794.4), 'm13': np.float64(3894.3), 'm23': np.float64(8903.8)}
+m23 4 selected m23 {'m12': np.float64(6932.2), 'm13': np.float64(8173.0), 'm23': np.float64(4193.8)}
+
+confusion (rows: truth, columns: selected)
+         m12   m13   m23
+   m12     5     0     0
+   m13     0     5     0
+   m23     1     0     4

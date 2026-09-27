@@ -1,0 +1,6 @@
+# Credentials: never commit
+*credentials*.json
+
+# Python and scratch artifacts
+__pycache__/
+*.tmp

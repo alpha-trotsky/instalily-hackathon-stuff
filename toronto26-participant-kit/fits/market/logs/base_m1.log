@@ -1,0 +1,4 @@
+sigma stand-in (std after tick 20): {'price': np.float64(9.204), 'volume': np.float64(0.206), 'depth': np.float64(19.285)}
+persistence valid score: {'price': np.float64(0.377), 'volume': np.float64(0.002), 'depth': np.float64(0.744)}
+base  cost    11144.5 (   56s) | train rmse [1.896 0.45  2.416] score 0.8655 | valid rmse [7.142 0.174 2.998] score 0.7019
+m1    cost     7747.8 (  176s) | train rmse [0.951 0.475 1.389] score 0.8944 | valid rmse [8.148 0.107 3.128] score 0.7327
