@@ -44,3 +44,4 @@ Phases: A researcher, B reviewer, C modeler, D commit/push. Phases are pipelined
 - reservoir C done: M1+M3 shipped; 50 reserve spent on R3 (reference pulse from reset). Open: sustained-pulse groundwater excess under-predicted; quality misses at σ≈0.001.
 - Leak audit (orchestrator): all six shipped params.json files have every disabled module exactly at its off values, so each shipped model really is the named pair. Rival-pair costs in earlier comparisons may still have been inflated/deflated by the leak.
 - ~10:50–11:30+ Toronto: third API usage limit; traffic C, hospital_queue C and supply_chain B died. On disk: traffic R3 (55, cap spent, logged), hospital_queue no reserve spent, supply_chain review partial (fits/supply_chain/review/). Relaunched as resumes at ~12:45.
+- Interim safety ZIP built and verified: toronto26-participant-kit/submission-overnight-interim.zip (6 new models + market + persistence for traffic, supply_chain, hospital_queue).
