@@ -1,0 +1,36 @@
+{
+ "folder": "C:\\Users\\Belia\\OneDrive\\Documents\\GitHub\\instalily-hackathon-stuff\\toronto26-participant-kit\\models\\market",
+ "system": "market",
+ "bad_imports": [],
+ "files": [
+  "market_model.py",
+  "params.json",
+  "predict.py"
+ ],
+ "missing_files": [],
+ "wall_s": 1.5153305530548096,
+ "import_s": 0.010987520217895508,
+ "run_s": 1.2184538841247559,
+ "errors": [],
+ "n_errors": 0,
+ "deterministic": true,
+ "malformed": {
+  "nan_initial": "non-finite values (warning)",
+  "missing_control": "ok",
+  "string_value": "ok",
+  "out_of_bounds": "ok",
+  "none_context": "ok",
+  "empty_schedule": "ok"
+ },
+ "min": {
+  "price": 68.51850909837951,
+  "volume": 1.7794813095307362,
+  "depth": 36.73476971363832
+ },
+ "max": {
+  "price": 110.95809073085934,
+  "volume": 73.88534461849217,
+  "depth": 118.97421179431952
+ },
+ "pass": true
+}

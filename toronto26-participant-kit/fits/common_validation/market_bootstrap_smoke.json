@@ -1,0 +1,96 @@
+{
+ "results": [
+  {
+   "truth": "m13_withdraw_train600",
+   "draw": 0,
+   "costs": {
+    "m12_withdraw_train600": 6218.5958034446285,
+    "m13_withdraw_train600": 4411.702472198576,
+    "m23_withdraw_train600": 8627.598842997759
+   },
+   "selected": "m13_withdraw_train600"
+  },
+  {
+   "truth": "m23_withdraw_train600",
+   "draw": 0,
+   "costs": {
+    "m12_withdraw_train600": 8291.207349340459,
+    "m13_withdraw_train600": 9312.017702291338,
+    "m23_withdraw_train600": 4700.291913248876
+   },
+   "selected": "m23_withdraw_train600"
+  },
+  {
+   "truth": "m12_withdraw_train600",
+   "draw": 0,
+   "costs": {
+    "m12_withdraw_train600": 7488.30770533123,
+    "m13_withdraw_train600": 8768.6844693631,
+    "m23_withdraw_train600": 13022.182104502132
+   },
+   "selected": "m12_withdraw_train600"
+  }
+ ],
+ "summary": {
+  "confusion": {
+   "m12_withdraw_train600": {
+    "m12_withdraw_train600": 1,
+    "m13_withdraw_train600": 0,
+    "m23_withdraw_train600": 0
+   },
+   "m13_withdraw_train600": {
+    "m12_withdraw_train600": 0,
+    "m13_withdraw_train600": 1,
+    "m23_withdraw_train600": 0
+   },
+   "m23_withdraw_train600": {
+    "m12_withdraw_train600": 0,
+    "m13_withdraw_train600": 0,
+    "m23_withdraw_train600": 1
+   }
+  },
+  "margins": {
+   "m12_withdraw_train600": [
+    1280.3767640318692
+   ],
+   "m13_withdraw_train600": [
+    1806.8933312460522
+   ],
+   "m23_withdraw_train600": [
+    3590.9154360915827
+   ]
+  },
+  "row_accuracy": {
+   "m12_withdraw_train600": 1.0,
+   "m13_withdraw_train600": 1.0,
+   "m23_withdraw_train600": 1.0
+  },
+  "real_costs": {
+   "m12_withdraw_train600": 6826.741911477457,
+   "m13_withdraw_train600": 6790.681871091403,
+   "m23_withdraw_train600": 8289.669798125944
+  },
+  "real_winner": "m13_withdraw_train600",
+  "real_margin": 36.060040386053515,
+  "min_bootstrap_margin_winner": 1806.8933312460522
+ },
+ "settings": {
+  "fits": [
+   "fits/market/m12_withdraw_train600.json",
+   "fits/market/m13_withdraw_train600.json",
+   "fits/market/m23_withdraw_train600.json"
+  ],
+  "data": [
+   "data/market/A.json"
+  ],
+  "model": "greybox.market_model",
+  "units": "log",
+  "noise": "0.004",
+  "draws": 1,
+  "block": 50,
+  "skip": 20,
+  "restarts": 1,
+  "workers": 7,
+  "out": "fits\\common_validation\\market_bootstrap_smoke.json"
+ }
+}

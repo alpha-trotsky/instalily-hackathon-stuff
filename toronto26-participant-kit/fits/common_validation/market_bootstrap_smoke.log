@@ -1,0 +1,10 @@
+m13_withdraw_train600 0 selected m13_withdraw_train600 {'m12_withdraw_train600': 6218.6, 'm13_withdraw_train600': 4411.7, 'm23_withdraw_train600': 8627.6}
+m23_withdraw_train600 0 selected m23_withdraw_train600 {'m12_withdraw_train600': 8291.2, 'm13_withdraw_train600': 9312.0, 'm23_withdraw_train600': 4700.3}
+m12_withdraw_train600 0 selected m12_withdraw_train600 {'m12_withdraw_train600': 7488.3, 'm13_withdraw_train600': 8768.7, 'm23_withdraw_train600': 13022.2}
+
+confusion (rows: truth, columns: selected)
+                        m12_withdr m13_withdr m23_withdr
+ m12_withdraw_train600           1          0          0
+ m13_withdraw_train600           0          1          0
+ m23_withdraw_train600           0          0          1
+{"margins": {"m12_withdraw_train600": [1280.3767640318692], "m13_withdraw_train600": [1806.8933312460522], "m23_withdraw_train600": [3590.9154360915827]}, "row_accuracy": {"m12_withdraw_train600": 1.0, "m13_withdraw_train600": 1.0, "m23_withdraw_train600": 1.0}, "real_costs": {"m12_withdraw_train600": 6826.741911477457, "m13_withdraw_train600": 6790.681871091403, "m23_withdraw_train600": 8289.669798125944}, "real_winner": "m13_withdraw_train600", "real_margin": 36.060040386053515, "min_bootstrap_margin_winner": 1806.8933312460522}

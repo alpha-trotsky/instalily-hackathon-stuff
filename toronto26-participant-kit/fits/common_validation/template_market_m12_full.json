@@ -1,0 +1,130 @@
+{
+ "model": "greybox/common/template_model.py",
+ "modules": [
+  "m1",
+  "m2",
+  "reset",
+  "vol_speed",
+  "withdraw"
+ ],
+ "cost": 8828.48694797613,
+ "restart_costs": [
+  8828.48694797613,
+  10778.464159342504,
+  14315.418174142664
+ ],
+ "train_end": 600,
+ "units": {
+  "price": "log",
+  "volume": "log",
+  "depth": "linear"
+ },
+ "noise": {
+  "price": 0.004,
+  "volume": 0.004,
+  "depth": 0.3
+ },
+ "names": [
+  "price",
+  "volume",
+  "depth"
+ ],
+ "free": [
+  "c_price",
+  "k_price",
+  "w_price_interest_rate",
+  "w_price_transaction_tax",
+  "c_volume",
+  "k_volume",
+  "w_volume_interest_rate",
+  "w_volume_transaction_tax",
+  "c_depth",
+  "k_depth",
+  "w_depth_interest_rate",
+  "w_depth_transaction_tax",
+  "a_interest_rate",
+  "a_z",
+  "lam_price",
+  "lam_volume",
+  "lam_depth",
+  "a_m1_up",
+  "a_m1_dn",
+  "g_m1_price",
+  "a_m2",
+  "g_m2_depth",
+  "a_vol_speed",
+  "g_vol_speed_volume",
+  "a_withdraw",
+  "g_withdraw_price"
+ ],
+ "n_residuals": 1800,
+ "horizons": [],
+ "skip": 0,
+ "data": [
+  "data/market/A.json:0"
+ ],
+ "time_s": 41.55050230026245,
+ "params": {
+  "c_price": 4.525451946916176,
+  "k_price": 0.05787222929872261,
+  "w_price_interest_rate": -0.17154936945586394,
+  "w_price_transaction_tax": -0.0010650869275210157,
+  "c_volume": 0.5723001465315647,
+  "k_volume": 0.11672645081684108,
+  "w_volume_interest_rate": -0.08184645902279498,
+  "w_volume_transaction_tax": 0.057355092788119996,
+  "c_depth": 90.80239088770759,
+  "k_depth": 0.12796508609262663,
+  "w_depth_interest_rate": 0.019756063884425835,
+  "w_depth_transaction_tax": -0.5408020476151484,
+  "a_interest_rate": 0.11257351761465986,
+  "a_z": 0.06314787053707006,
+  "lam_price": 0.2795718323567629,
+  "lam_volume": -0.21538347760073254,
+  "lam_depth": 0.2069994567771663,
+  "x_price_interest_rate_transaction_tax": 0.0,
+  "x_volume_interest_rate_transaction_tax": 0.0,
+  "x_depth_interest_rate_transaction_tax": 0.0,
+  "kr_price_interest_rate": 0.0,
+  "kr_price_transaction_tax": 0.0,
+  "kr_volume_interest_rate": 0.0,
+  "kr_volume_transaction_tax": 0.0,
+  "kr_depth_interest_rate": 0.0,
+  "kr_depth_transaction_tax": 0.0,
+  "a_m1_up": 0.0005937171340399888,
+  "a_m1_dn": 0.07745927892379668,
+  "g_m1_price": -2.014136478385103,
+  "a_m2": 0.0716682780463365,
+  "g_m2_depth": -0.15583595281810225,
+  "a_m3": 0.1,
+  "g_m3_price": 0.0,
+  "a_vol_speed": 0.9999911930642917,
+  "g_vol_speed_volume": 0.7501806220775078,
+  "a_withdraw": 0.00881364215573806,
+  "g_withdraw_price": 0.11387877705773376
+ },
+ "eval": {
+  "sigma_score": [
+   0.9204300093333583,
+   0.02062505007959713,
+   1.9285266693529182
+  ],
+  "train": {
+   "score": [
+    0.5722137616472878,
+    0.44954356971412496,
+    0.8371228365638325
+   ],
+   "persistence": [
+    0.07278071125982188,
+    0.0002348079087678455,
+    0.22020387240357067
+   ],
+   "rmse": [
+    1.5284481519675908,
+    0.4368985711533092,
+    0.5786130645481751
+   ]
+  }
+ }
+}

@@ -1,0 +1,6 @@
+model greybox.market_model modules ['m1', 'm2', 'withdraw'] episodes 1 units ['log', 'log', 'log'] sigma [0.004, 0.004, 0.004]
+  restart 0: cost 8689.2 nfev 85 (23s)
+  restart 1: cost 664166.6 nfev 59 (6s)
+  restart 2: cost 968622.4 nfev 5 (17s)
+cost 8689.2 (24s) | train score 0.6329 (persistence 0.0977)
+saved fits\common_validation\market_m12_withdraw_full_horizons.json

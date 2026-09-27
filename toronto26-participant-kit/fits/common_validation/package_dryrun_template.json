@@ -1,0 +1,42 @@
+{
+ "system": "market",
+ "folder": "C:\\Users\\Belia\\AppData\\Local\\Temp\\package_market_a89pvez2\\models\\market",
+ "dry_run": true,
+ "clamp": {
+  "price": [
+   1.0,
+   2000.0
+  ],
+  "volume": [
+   0.001,
+   500.0
+  ],
+  "depth": [
+   0.0,
+   2000.0
+  ]
+ },
+ "zip": "C:\\Users\\Belia\\AppData\\Local\\Temp\\package_market_a89pvez2\\submission-market-v1.zip",
+ "size_bytes": 7091,
+ "expanded_bytes": 18486,
+ "roots_ok": true,
+ "credential_scan": "clean",
+ "contract": {
+  "market": {
+   "pass": true,
+   "wall_s": 3.341549873352051,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  }
+ },
+ "pass": true
+}
