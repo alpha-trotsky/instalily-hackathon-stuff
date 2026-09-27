@@ -183,8 +183,10 @@ Pairs:
 | 2026-09-27 01:05 | R2 | 250–299 (P7 hunting 7, part 2) | 50 | 1160 |
 | 2026-09-27 01:05 | R2 | 300–349 (P7 hunting 7, part 3) | 50 | 1110 |
 | 2026-09-27 01:05 | R2 | 350–399 (P7 hunting 7, part 4) | 50 | 1060 |
+| 2026-09-27 01:20 | R2c (copy of R2, continued; R2.json unchanged) | 400–434 (G3 joint pulse: hunting 6, protection 0.25, corridor 0.9) | 35 | 1025 |
+| 2026-09-27 01:20 | R2c | 435–459 (release to recovery) | 25 | 1000 |
 
-Spend summary: R1 = 540 steps (cap 550), R2 = 400 (cap 400), total 940. Budget remaining 1,060; **60 steps of the
+Spend summary: R1 = 540 steps (cap 550), R2 = 400 (cap 400), total 940. **Phase C (modeler): +60 reserve steps on R2c (free budget check before: 1,060; after: 1,000). CAP of 1,000 now fully used.** Budget remaining 1,060; **60 steps of the
 1,000 CAP are left as the Phase-C reserve.** (Timestamps are the machine clock; the Git Bash clock reads EST.)
 
 ## 6. Run 1 observations (`data/wildlife/R1.json`, 540 ticks, initial N 94.7/13.8, S 74.1/11.5)

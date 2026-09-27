@@ -16,9 +16,9 @@ Budget at start (free read, 2026-09-27): every system 2,000 remaining; market 1,
 | # | System | Cap | Phase | Steps spent | Remaining | Current best model | ZIP |
 |---|---|---:|---|---:|---:|---|---|
 | 1 | epidemic | 1000 | **done (v1)**; 55 reserve unspent | 945 | 1055 | 3-age-group model, m1+m3 fitted on all data, "unresolved". Cross-run R1→R2: m13 0.344, m12 0.374, no-mech 0.410, persistence 0.168. All-data m13 0.75/0.73 on R1/R2. Gates pass | `toronto26-participant-kit/submission-epidemic-v1.zip` |
-| 2 | wildlife | 1000 | A done, B running | 940 | 1060 | persistence baseline (best R1-to-R2 0.386, m1+m3, vs persistence 0.067) | — |
-| 3 | ad_auction | 1000 | A running | 0 | 2000 | persistence baseline | — |
-| 4 | social_contagion | 1000 | not started | 0 | 2000 | persistence baseline | — |
+| 2 | wildlife | 1000 | B done, C running | 940 | 1060 | persistence baseline (best R1-to-R2 0.386, m1+m3, vs persistence 0.067) | — |
+| 3 | ad_auction | 1000 | A done, B running | 945 | 1055 | persistence baseline (Run-1 fits unconverged) | — |
+| 4 | social_contagion | 1000 | A running | 0 | 2000 | persistence baseline | — |
 | 5 | power_grid | 1000 | not started | 0 | 2000 | persistence baseline | — |
 | 6 | reservoir | 1000 | not started | 0 | 2000 | persistence baseline | — |
 | 7 | traffic | 1300 | not started | 0 | 2000 | persistence baseline | — |

@@ -233,3 +233,168 @@ Settled / end-of-hold levels (means of the last 10–20 ticks):
 
 Units: win_rate linear (bounded fraction, additive noise); spend linear (hard cap, zeros); conversions linear (zeros
 during drain). All three hit 0 in R1, so log units are ruled out.
+
+## 8. Model module and Run-1 pair fits
+
+Module: `toronto26-participant-kit/greybox/ad_auction_model.py` (physical-unit controls; ~8 ms per 545-tick
+rollout). Base structure from the brief's facts + catalogue: 5 nested audience rings (breadth edges 0, .1, .325,
+.55, .775, 1), per-ring availability, auction win prob `bid^h/(bid^h+K_r^h)`, price `pi0 (bid/1.5)^rho`,
+**budget pacing** (smooth min of uncapped spend and the cap; throttle also lowers win_rate, B2), purchases → 2-tick
+dead time → prepare stage → fulfillment queue with **ring-dependent work per purchase** and a work capacity (B6,
+B7a), and a pool of unavailable (committed/converted) people that returns at rate `ret` (B3/B4). Reset: everything
+empty/available (B1; the initial reading is ignored). Mechanism modules written from the theses before fitting:
+m1 rival capital per ring (driver: our spend density in the ring, raises the competing threshold), m2 exposure
+fatigue per ring (driver: impressions per ring member, removes reachable people), m3 broad priming (global, driver:
+exposure of the rings above 0.55, multiplies purchase propensity by 1 + g3 P).
+
+Fits on R1 (all 545 ticks, linear units, σ = NOISE, soft_l1, init = base params without module params, module
+gains started nonzero; max_nfev 400–500, 1 restart — quick fits for probe ranking only):
+
+| Fit | Cost | Train score (σ = 0.1 std) | RMSE win / spend / conv | Module params | Notes |
+|---|---:|---:|---|---|---|
+| base (`base_r1`) | 23,509 | 0.552 | 0.0127 / 0.713 / 0.289 | — | om 3.1 (broad rings need ~2× work), capf 2.13 (capacity binds), ret 0.0085 (pool return τ ≈ 120) |
+| m1+m2 (`m12_r1`) | 20,979 | 0.561 | 0.0171 / 0.641 / 0.245 | a_m1 0.038, g1 1.06; **a_m2 → 1.0 (pinned)**, e2 0.69 | m2 acts as a static cut, not a memory |
+| **m1+m3** (`m13_r1`) | **20,062** | 0.556 | 0.0194 / 0.691 / 0.227 | a_m1 0.036, g1 0.25; **a_m3 → 1.0, g3 −5.0 (pinned)** | m3 used as an instantaneous broad-exposure penalty |
+| m2+m3 (`m23_r1`) | 22,845 | 0.560 | 0.0128 / 0.747 / 0.277 | a_m2 0.0096, e2 0.08; a_m3 → 1, g3 −5.1 | |
+
+Plot: `fits/ad_auction/pairs_r1.png` (and `base_r1.png`). Readings:
+- m1 (rival capital) buys the win_rate / spend undershoot after bid-off (B9) — both m1 pairs beat m23 by ~2,000.
+  But the m1 fits also predict a win_rate **overshoot** after the bid-0 rest (440–460) that the data do not show,
+  and they do not reproduce the narrow-breadth creep-down (B8). The m1 driver (our spend density) is probably wrong
+  or incomplete — flag for the modeler.
+- m3 and m2 both end up with memory rates pinned at 1 (static terms): they stand in for missing structure (the
+  bid-5 conversion bump/sag B10 and the breadth transients B7), not evidence. No pair reproduces the bid-5
+  conversions bump (3.85) or the post-bid-off conversion dip (2.26).
+- All three pairs fit the win_rate throttle and the rested-audience depletion well; the base structure carries most
+  of the fit.
+
+## 9. Run 2 design (§4.4)
+
+Candidates simulated through the three R1 pairs after a common 40-tick P0; disagreement = mean |Δ| / (0.1 std) over
+pairs, per 100 steps:
+
+| Candidate | Steps | Pair diff 12-13 / 12-23 / 13-23 (σ) | Score /100 steps |
+|---|---:|---|---:|
+| B P3 bid 5 + cap 100 (40) + rec 40 | 80 | 22.5 / 16.2 / 10.0 | **20.3** |
+| E P2 bid 3.25 + cap 100 (40) + rec 40 | 80 | 21.1 / 12.0 / 11.0 | 18.4 |
+| A P7 pulse action (5, 100, 0.775) 200 + rec 40 | 240 | 36.9 / 26.2 / 12.1 | 10.4 |
+| J cap 100 + breadth 1.0 (40) + rec 40 | 80 | 6.4 / 7.5 / 4.5 | 7.7 |
+| D P5 bid5+cap100 pulses, gaps 10 vs 40 | 200 | 18.6 / 12.7 / 10.3 | 6.9 |
+| H breadth 1.0 (60) + rec 40 | 100 | 3.4 / 3.5 / 1.2 | 2.7 |
+| C P6 breadth 1.0→0.1 vs 0.1→1.0 | 160 | 2.4 / 2.7 / 1.3 | 1.3 |
+| I bid 5 + breadth 0.775 at cap 20 | 80 | 0.6 / 0.8 / 0.5 | 0.8 |
+| G P7 recovery 200 | 200 | 0.3 / 0.5 / 0.6 | 0.2 |
+
+The disagreement is dominated by the unthrottled high bid (bid 5 with cap 100), never seen in R1: every pair
+extrapolates it differently. It is also the key composition test (B5: the cap only matters jointly with the bid).
+
+**Chosen Run 2 (400 steps, fresh reset):**
+
+| Ticks | Segment | Probe / purpose |
+|---|---|---|
+| 0–24 | recovery 25 | P0 (reset replicate; different initial reading) |
+| 25–64 | bid 5, cap 100, breadth 0.55 (40) | **P3** joint bid+budget (top-ranked B) |
+| 65–79 | recovery 15 | short gap |
+| 80–99 | bid 5, cap 100 (20) | **P5** second pulse after a short gap (compare with the first 20 ticks of 25–64) |
+| 100–124 | recovery 25 | |
+| 125–139 | breadth 1.0 (15) | broad introduction (breadth other side, u = +2) |
+| 140–159 | breadth 0.1 (20) | **P6 / M3 probe**: narrow follow-up after broad introduction; compare with R1 480–509 (narrow after recovery) |
+| 160–359 | pulse action bid 5, cap 100, breadth 0.775 (200) | **P7** long hold (sustained level at the full pulse action; A) |
+| 360–399 | recovery 40 | off-step after long exposure (recovery history) |
+
+Not covered (reasons): P2 bid mid-level (E, rank 2) — no room after P7 ≥ 200; candidate for the Phase-C reserve.
+Full P6 reversed order (narrow→broad) — R1 has narrow-from-recovery and broad-from-recovery as the reference halves.
+
+## 10. Run 2 spend log (continues §5)
+
+| Local time | Run | Ticks | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-27 01:29 | R2 | 0–24 (P0 recovery, fresh reset) | 25 | 1430 |
+| 2026-09-27 01:30 | R2 | 25–64 (P3 bid 5 + cap 100) | 40 | 1390 |
+| 2026-09-27 01:31 | R2 | 65–79 (gap recovery) + 80–99 (P5 second pulse bid 5 + cap 100) | 35 | 1355 |
+| 2026-09-27 01:32 | R2 | 100–124 (recovery) + 125–139 (breadth 1.0) + 140–159 (breadth 0.1 after broad) | 60 | 1295 |
+| 2026-09-27 01:33 | R2 | 160–209 (P7 pulse action, part 1) | 50 | 1245 |
+| 2026-09-27 01:34 | R2 | 210–284 (P7 pulse action, part 2) | 75 | 1170 |
+| 2026-09-27 01:35 | R2 | 285–359 (P7 pulse action, part 3; P7 total 200) | 75 | 1095 |
+| 2026-09-27 01:36 | R2 | 360–399 (recovery after long exposure). **R2 complete: 400 steps** | 40 | 1055 |
+
+Spend summary: R1 = 545 (cap 550), R2 = 400 (cap 400), total **945**. Budget remaining 1,055; **55 steps of the
+1,000 CAP are left as the Phase-C reserve.**
+
+## 11. Run 2 observations (`data/ad_auction/R2.json`, 400 ticks, initial reading win 0.325 / spend 21.8 / conv 1.03)
+
+Plot + battery: `data/ad_auction/R2_r0_battery.png`, `R2_battery.json`. R1 pair fits predicting R2:
+`fits/ad_auction/pairs_r1_on_R2.png`.
+
+| Segment (ticks) | win_rate | spend | conversions |
+|---|---|---|---|
+| P0 (0–24) | 0.145 → 0.217 (throttled) | 20 (cap) | 0 → 4.0 — **identical to R1** (reset is deterministic; the initial reading is irrelevant) |
+| P3 bid 5 + cap 100 (25–64) | 0.55 → **creeps up** to 0.60 | **73 → 25.7** (τ ≈ 12, not settled) | peak **6.95** at tick 35, sag to 4.9 |
+| gap recovery (65–79) | 0.272 → 0.255 (above baseline and falling: **no undershoot**, unlike the R1 bid-off) | 7.7 → 10.1 | 4.8 → 2.9 |
+| P5 2nd pulse (80–99) | 0.59 → 0.60 | **33 → 24.6** (the first pulse started at 73) | peak **4.56** (first pulse 6.95) |
+| recovery (100–124) | ~0.26 | 7.5 → 11.2 | 4.5 → 2.4 |
+| breadth 1.0 (125–139) | 0.14 (throttled) | 20 (cap) | **dips** 2.45 → 2.10 |
+| breadth 0.1 after broad (140–159) | 0.35 → 0.33 | 3.0 → 3.2 | **held ~2.19 for 6 ticks**, then drains (R1 narrow-after-recovery drained at once) |
+| P7 pulse action 5/100/0.775 (160–359) | 0.49 → 0.56, settled **0.559** | 86 → **34.4** (τ ≈ 25; settled by ~270) | peak 6.1 (tick 176), **plateau 5.37–5.44 for 60 ticks (185–248)**, then an abrupt drop over 5 ticks to 4.9 and a slide to **4.47** (settled) |
+| recovery after P7 (360–399) | 0.28 → 0.265 | 7.4 → 11.8 (**still rising**, slow) | 2 ticks flat at 4.44, drain to 2.59, then slowly up (2.67) |
+
+Separating probes and P9 that ran:
+- **P3 (bid × budget composition):** ran. The cap was the binding constraint throughout R1; with cap 100 the true
+  bid-5 win probability is only **≈ 0.55–0.60**, far below every R1 fit's extrapolation (0.8–1.0). The R1 fits
+  identified the auction curve from throttled data, so the modeler must refit on R1+R2.
+- **P5 gap test:** ran (15-tick gap). The second pulse is much weaker (spend starts at 33 vs 73; conversions peak
+  4.6 vs 7.0): a strong depletion memory that has not recovered in 15 ticks. Consistent with both the base
+  unavailable pool (ret τ ≈ 120) and M2 fatigue; **not** with M3 priming (M3 predicted a stronger 2nd pulse).
+- **P6 broad → narrow (M3 probe):** ran in short form. No conversion bump on the narrow follow-up after broad
+  introduction; only a 6-tick hold, explained by the fulfillment backlog of broad (high-work) purchases. Weak
+  evidence against a positive M3; a negative M3 ("broad introduction reduces the follow-up effect") is not excluded.
+- **P7 long hold (200):** ran at the full pulse action. Settled levels measured cleanly (win 0.559, spend 34.4,
+  conv 4.47); no slow drift after ~tick 270.
+- **P9 "Equal spending can therefore leave different future opportunities":** partly. R1 bid 5 at cap 20 (spend
+  20), R1 breadth 0.775 (spend ~19) and R2 breadth 1.0 at cap 20 (spend 20) give equal spend with different
+  subsequent recoveries (B7, B9). Not a cleanly designed comparison; open.
+- Not run: P2 (mid bid), the full reversed-order P6 (narrow → broad).
+
+## 12. Behaviour catalogue v2 (after Run 2)
+
+B1–B12 from §7 stand (B1 confirmed by the identical R2 reset). Updates and new behaviours:
+
+| ID | Behaviour | Evidence | Candidate explanations | Status |
+|---|---|---|---|---|
+| B2 (upd.) | Throttle confirmed: the unthrottled bid-5 win rate is ≈ 0.55 at first; cap 100 does not bind after the first ticks (spend 73–86 < 100) | R2 25–64, 160–359 | auction curve p(bid) saturating near 0.6 at bid 5 (not a steep logistic) | open: R1 fits extrapolate p(5) ≈ 0.8–1.0 |
+| B3 (upd.) | Depletion is large and fast at high spend: spend 73 → 26 in 40 ticks (bid 5, cap 100), 86 → 34 at the pulse action | R2 25–64, 160–270 | exposure/commitment depletion of the reachable pool; rested pool ~3× the settled level | open |
+| B13 | **A second pulse after a 15-tick gap is much weaker** (spend 33 vs 73; conv peak 4.6 vs 7.0) | R2 80–99 vs 25–44 | slow pool return (base `ret`) and/or M2 fatigue; against M3 priming | open: key M2 evidence |
+| B14 | **Fulfillment capacity plateau**: conversions flat at 5.37–5.44 for 60 ticks in the P7 hold, then an abrupt drop (5 ticks) to the inflow rate, sliding to 4.47 | R2 185–265 | capacity-limited fulfillment with a backlog built in the first 25 ticks of high spend; the abrupt end is the backlog clearing | open: base structure (capacity ≈ 5.4 conversions/tick at breadth 0.775) |
+| B15 | Conversion peak 6.95 at breadth 0.55 vs 6.1 at 0.775 (plateau 5.4 at 0.775): capacity in conversions/tick depends on breadth | R2 35 vs 176 | work per purchase rises with breadth ("Different audiences require different amounts of fulfillment work") | open: base (`om`) |
+| B16 | win_rate creeps **up** during every unthrottled high-bid hold (0.55 → 0.60; 0.49 → 0.56) | R2 25–64, 160–260 | M1 rivals withdraw capital from audiences we dominate; or a composition shift as core rings deplete (rings differ in competition) | open: M1 candidate |
+| B17 | After a cap-100 pulse the recovery win_rate is **above** baseline (0.272–0.28) and falls; after the R1 cap-20 bid pulse it was **below** (0.222) and rose | R2 65–79, 360–399 vs R1 145–175 | M1 with a driver other than spend (e.g. rivals respond to our win share); or ring composition | open: the reviewer should check this contrast first |
+| B18 | Slow spend recovery after long high exposure: 7.4 → 11.8 in 40 ticks, still rising | R2 360–399 | pool return τ ≈ 100+ (`ret` ≈ 0.0085 in the base fit) | open |
+| B19 | 2-tick conversion dead time confirmed on every switch (R2 65, 360) | R2 | pipeline dead time (DEAD = 2) | modeled (base) |
+
+R1-fitted models predicting R2 (RMSE win / spend / conv): base 0.176 / 7.33 / 1.33; m12 0.126 / 5.36 / 1.05;
+m13 0.288 / 19.96 / 1.38; m23 0.197 / 10.42 / 1.26. All fail mainly on B2 (bid-5 win probability) and B14
+(capacity), i.e. on extrapolating the base structure, not on the mechanisms. m12 is the least bad. Do not read the
+pair ranking from these R1 fits.
+
+## 13. Status / hand-off to reviewer
+
+- **Files:** data `toronto26-participant-kit/data/ad_auction/R1.json` (545 ticks) and `R2.json` (400 ticks), with
+  battery PNG/JSON next to them. Model `greybox/ad_auction_model.py`. Fits `fits/ad_auction/{base,m12,m13,m23}_r1.json`
+  (+ `.log`), `init_r1.json` (base params without module params), plots `base_r1.png`, `pairs_r1.png`,
+  `pairs_r1_on_R2.png`.
+- **Budget:** 945 of the 1,000 CAP spent; remaining budget 1,055; **Phase-C reserve 55 steps.** Suggested use:
+  P2 bid mid-level with cap 100 (bid 3.25, ~30 + 25 recovery), the highest-ranked uncovered probe.
+- **Open, in priority order:**
+  1. Refit the base on R1+R2. The auction curve (p(5) ≈ 0.56), fulfillment capacity (B14/B15) and depletion size
+     (B3) are base structure and dominate the error. Compare mechanisms only after the base fits both runs.
+  2. M1's driver. B8/B16/B17 show a slow win_rate component whose sign after a pulse depends on whether the pulse
+     was throttled (cap 20) or not (cap 100). Spend density (the current m1 driver) predicts the wrong sign in places.
+  3. M2 vs base depletion. Both deplete the pool, and P5 (B13) says the memory is strong. Separate the exposure
+     (impressions) driver from the commitment (purchases) driver: impressions per purchase differ between bid 5
+     and bid 1.5.
+  4. M3. P5 and the short P6 show no positive-priming signature; the R1 pair fits use m3 only as a static
+     broad-exposure penalty (a_m3 pinned at 1, g3 ≈ −5). M3 is probably the absent mechanism, but this is not
+     established.
+  5. Pinned parameters in the R1 pair fits: a_m2 → 1 (m12); a_m3 → 1 and g3 ≈ −5 (m13, m23). Base fits hit
+     max_nfev (400–500), so they are not converged.
+  6. Breadth extremes (0.1, 1.0) were each held only 15–30 ticks.

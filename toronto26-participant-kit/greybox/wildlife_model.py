@@ -1,29 +1,24 @@
-"""Wildlife gray-box model: two-region consumer-resource (food -> prey -> predator) model with a corridor
-transit pipeline and three pluggable mechanisms (m1 patch occupancy, m2 juvenile/nursery, m3 settlement
-competition). Written from the pre-registered theses in plans/wildlife-plan.md, after Run 1 showed:
-  * prey overshoot after deep depletion (reset, full hunting) but not after mild depletion or a habitat pulse
-    -> a hidden, finite, renewing food stock (brief: "Food renewal shares a finite resource");
-  * habitat pulse lowers the prey level, more in the north -> habitat scales food renewal per region;
-  * opening the corridor lowers ALL four totals (animals in transit are not counted), closing it gives
-    a lagged refill and overshoot -> transit stocks (brief: "already travelling animals can still arrive");
-  * predators decay slowly from the reset reading toward ~2.4 and barely follow prey.
-Relaxation-to-target (the template) cannot produce the food-driven overshoot, hence this structure.
+"""Wildlife gray-box model v1 (Phase C, after plans/wildlife-review.md).
 
-Per tick and region r in (N, S); u = normalized controls (uq hunting = quota/7, uh habitat = (1-prot)/0.9,
-uc corridor), all states >= 0:
-  food       F <- F + gF_r (1 - hF_r uh) (1 - F) - cF (X/100) I,   intake I = F / (F + kF) (Holling II)
-  exposure   ex = (1 + eH_r uh) (1 - g1 P)            (m1: P = sheltering memory, fades to uq)
-  harvest    H = 7 uq ex X / (X + Xh)
-  predation  Pd = aP Y ex X / (X + Xp)
-  births     B = bX X I (1 - g1f P)  -> m2 off: recruited at once;  m2 on: juvenile pool J,
-             NJ-stage pipeline J1..J3 (each drains at a_m2), nursery-limited entry B / (1 + iRm B),
-             recruits = a_m2 J3   (nursery competition + Erlang maturation delay)
-  prey       X <- X + recruits - mX X - Pd - H - mvX_r uc X + arrivals_X
-  predator   Y <- Y + eY Pd - dY Y - dY2 Y^2 - mvY uc Y + arrivals_Y
-  transit    T_(r->r') <- T (1 - aT) + departures;  arrivals into r' = aT T * s,
-             s = 1 / (1 + cS X_r'/100)  (m3 settlement competition; unsettled arrivals are lost; off: s = 1)
-Reset convention: F = F0 (fixed reference), J = j0 X0 (deterministic in the initial reading), P = T = 0,
-X and Y start at the noisy reading.
+The previous version is greybox/wildlife_model_v0.py (the fits in fits/wildlife/*_r1.json and *_all_quick.json
+refer to that version).
+
+Mechanism triple rebuilt per review G1 (the brief's competition sentence): "Food renewal shares a finite
+resource, young animals compete for nursery food, and arrivals compete for settlement space."
+  mA food renewal  : a finite, renewing food stock F per region (Holling-II intake, kF >= 0.05).
+                     off: logistic births with a habitat-dependent carrying capacity (no hidden stock).
+  mB nursery       : births pass a NJ-stage juvenile pipeline with nursery-capped entry B / (1 + iRm B),
+                     fixed reset J0 per stage (review G5), maturation rate a_m2 in [0.15, 1].
+                     off: births recruited at once.
+  mC settlement    : arrivals settle at rate 1 / (1 + cS X_dest / 100) (prey) and 1 / (1 + cSY Y_dest)
+                     (predators); the rest WAIT in transit (a queue, review G6). off: all arrivals settle.
+Base (always on): two regions, patch exposure as an instant hunting/habitat effect (patch occupancy is base
+structure, review G1), per-region harvest with a refuge Xr (review G3: harvest and predation act only on
+X - Xr), transit pipeline (animals in transit are not counted), and a LINEAR two-state predator block
+(review G2): Y relaxes at kY toward a hidden reserve Z, Z relaxes at kZ toward Y* = yb Xe/(Xe + Xp)
+(1 + eHY uh); reset Z0 = Yref + zf (Y0 - Yref), so the transient is affine in (Y0 - Yref).
+
+u = normalized controls: uq hunting = quota/7, uh habitat = (1 - protection)/0.9, uc corridor.
 """
 import math
 import numpy as np
@@ -34,32 +29,44 @@ RECOVERY = {'hunting_quota': 0.0, 'habitat_protection': 1.0, 'corridor_access': 
 PULSE = {'hunting_quota': 7.0, 'habitat_protection': 0.1, 'corridor_access': 1.0}
 UNITS = {o: 'log' for o in OBSERVABLES}
 NOISE = {o: 0.01 for o in OBSERVABLES}   # residual scale (true noise ~0.45%; misfit dominates)
-NJ = 3   # juvenile pipeline stages (m2)
+NJ = 6   # juvenile pipeline stages (mB)
 CLAMP = {'prey_north': [0.01, 2000.0], 'predator_north': [0.001, 500.0],
          'prey_south': [0.01, 2000.0], 'predator_south': [0.001, 500.0]}
 
 SPEC = {
-    # food and prey
-    'gF_N': (0.05, 'unit'), 'gF_S': (0.04, 'unit'), 'hF_N': (0.5, 'unit'), 'hF_S': (0.4, 'unit'),
-    'cF': (0.08, 'pos'), 'F0': (0.9, 'unit'), 'kF': (0.2, 'pos'), 'bX': (0.3, 'pos'), 'mX': (0.1, 'unit'),
-    # hunting / exposure
-    'Xh': (40.0, 'pos'), 'eH_N': (0.1, 'pos'), 'eH_S': (0.1, 'pos'),
-    # predators
-    'aP': (0.05, 'pos'), 'Xp': (50.0, 'pos'), 'eY': (0.5, 'unit'), 'dY': (0.01, 'unit'), 'dY2': (0.003, 'pos'),
+    # mA food stock
+    'gF_N': (0.02, 'unit'), 'gF_S': (0.012, 'unit'), 'hF_N': (0.6, 'unit'), 'hF_S': (0.48, 'unit'),
+    'cF': (0.034, 'c2'), 'F0': (0.99, 'unit'), 'kF': (0.03, 'pos'),          # kF used as 0.05 + kF
+    # logistic alternative (only fitted when mA is off)
+    'K_N': (130.0, 'c2000'), 'K_S': (105.0, 'c2000'), 'hK_N': (0.45, 'unit'), 'hK_S': (0.35, 'unit'),
+    # prey base
+    'bX': (0.6, 'c5'), 'mX': (0.11, 'unit'), 'Xh': (36.0, 'c300'), 'Xr': (2.0, 'c30'),
+    'eH_N': (0.02, 'c20'), 'eH_S': (0.05, 'c20'), 'g1': (0.19, 'unit'), 'g1f': (0.5, 'unit'),
+    'aP': (0.02, 'c3'), 'Xq': (2.0, 'c300'),
+    # predators (linear two-state)
+    'kY': (0.05, 'unit'), 'kZ': (0.02, 'unit'), 'yb': (2.4, 'c20'), 'Xp': (3.0, 'c300'), 'eHY': (0.05, 'c5'),
+    'Yref': (2.3, 'c20'), 'zf': (0.5, 'c3'),
     # corridor transit
-    'mvX_N': (0.05, 'unit'), 'mvX_S': (0.1, 'unit'), 'mvY': (0.1, 'unit'), 'aT': (0.1, 'unit'),
-    # m1 patch occupancy (sheltering under hunting pressure)
-    'a_m1': (0.05, 'unit'), 'g1': (0.2, 'unit'), 'g1f': (0.1, 'unit'),
-    # m2 juvenile / nursery
-    'a_m2': (0.3, 'unit'), 'iRm': (0.1, 'pos'), 'j0': (0.3, 'pos'),
-    # m3 settlement competition
-    'cS': (0.3, 'pos'),
+    'mvX_N': (0.017, 'unit'), 'mvX_S': (0.047, 'unit'), 'mvY': (0.03, 'unit'), 'aT': (0.045, 'unit'),
+    # mB nursery
+    'a_m2': (0.6, 'unit'), 'iRm': (0.04, 'c2'), 'J0': (3.0, 'c30'),         # a_m2 used as 0.15 + 0.85 a
+    # mC settlement
+    'cS': (0.3, 'c20'), 'cSY': (0.2, 'c20'),
 }
+FOOD = ['gF_N', 'gF_S', 'hF_N', 'hF_S', 'cF', 'F0', 'kF']
+LOGI = ['K_N', 'K_S', 'hK_N', 'hK_S']
 MODULES = {
-    'm1': (['a_m1', 'g1', 'g1f'], {'g1': 0.0, 'g1f': 0.0}),
-    'm2': (['a_m2', 'iRm', 'j0'], {'a_m2': 1.0, 'iRm': 0.0, 'j0': 0.0}),
-    'm3': (['cS'], {'cS': 0.0}),
+    'mA': (FOOD, {'F0': -1.0}),                      # F0 < 0 flags "food off" (logistic births)
+    'mB': (['a_m2', 'iRm', 'J0'], {'a_m2': -1.0, 'iRm': 0.0}),   # a_m2 < 0 flags "no pipeline"
+    'mC': (['cS', 'cSY'], {'cS': 0.0, 'cSY': 0.0}),
 }
+
+
+def free_names(modules):
+    disabled = {n for m, (names, _) in MODULES.items() if m not in modules for n in names}
+    if 'mA' in modules:
+        disabled |= set(LOGI)
+    return [n for n in SPEC if n not in disabled]
 
 
 def _sigmoid(x):
@@ -72,7 +79,9 @@ def to_natural(name, raw):
     if kind == 'unit':
         return _sigmoid(raw)
     if kind == 'pos':
-        return math.exp(min(max(raw, -50.0), 50.0))
+        return math.exp(min(max(raw, -30.0), 12.0))
+    if kind[0] == 'c':   # capped gain in (0, cap)
+        return float(kind[1:]) * _sigmoid(raw)
     return raw
 
 
@@ -82,7 +91,10 @@ def to_raw(name, value):
         v = min(max(value, 1e-9), 1 - 1e-9)
         return math.log(v / (1 - v))
     if kind == 'pos':
-        return math.log(max(value, 1e-22))
+        return math.log(max(value, 1e-13))
+    if kind[0] == 'c':
+        v = min(max(value / float(kind[1:]), 1e-9), 1 - 1e-9)
+        return math.log(v / (1 - v))
     return value
 
 
@@ -109,23 +121,29 @@ def simulate(p, initial, actions):
     T = len(actions)
     if T == 0:
         return np.zeros((0, 4))
+    food_on = p['F0'] >= 0.0
+    pipe_on = p['a_m2'] >= 0.0
     gF = (p['gF_N'], p['gF_S'])
     hF = (p['hF_N'], p['hF_S'])
+    K = (p['K_N'], p['K_S'])
+    hK = (p['hK_N'], p['hK_S'])
     eH = (p['eH_N'], p['eH_S'])
     mvX = (p['mvX_N'], p['mvX_S'])
-    cF, bX, mX, Xh = p['cF'], p['bX'], p['mX'], p['Xh']
-    aP, Xp, eY, dY, dY2 = p['aP'], p['Xp'], p['eY'], p['dY'], p['dY2']
+    cF, kF = p['cF'], 0.05 + p['kF']
+    bX, mX, Xh, Xr, g1, g1f = p['bX'], p['mX'], p['Xh'], p['Xr'], p['g1'], p['g1f']
+    aP, Xq = p['aP'], p['Xq']
+    kY, kZ, yb, Xp, eHY = p['kY'], p['kZ'], p['yb'], p['Xp'], p['eHY']
     mvY, aT = p['mvY'], p['aT']
-    a1, g1, g1f = p['a_m1'], p['g1'], p['g1f']
-    a2, iRm, j0 = p['a_m2'], p['iRm'], p['j0']
-    kF = p['kF']
-    cS = p['cS']
+    a2 = 0.15 + 0.85 * p['a_m2'] if pipe_on else 1.0
+    iRm, J0 = p['iRm'], p['J0']
+    cS, cSY = p['cS'], p['cSY']
     X = [_init(initial, 'prey_north', 85.0, 0.1, 2000.0), _init(initial, 'prey_south', 85.0, 0.1, 2000.0)]
     Y = [_init(initial, 'predator_north', 11.0, 0.01, 500.0), _init(initial, 'predator_south', 11.0, 0.01, 500.0)]
-    F = [p['F0'], p['F0']]
-    J = [[j0 * X[0]] * NJ, [j0 * X[1]] * NJ]
-    P = [0.0, 0.0]
-    TX = [0.0, 0.0]   # prey in transit leaving region r
+    Yref, zf = p['Yref'], p['zf']
+    Z = [max(Yref + zf * (Y[0] - Yref), 0.001), max(Yref + zf * (Y[1] - Yref), 0.001)]
+    F = [p['F0'], p['F0']] if food_on else [1.0, 1.0]
+    J = [[J0] * NJ, [J0] * NJ]
+    TX = [0.0, 0.0]   # prey in transit leaving region r (heading to the other region)
     TY = [0.0, 0.0]
     out = np.empty((T, 4))
     for t in range(T):
@@ -134,17 +152,28 @@ def simulate(p, initial, actions):
         uh = min(max(uh, 0.0), 1.2)
         uc = min(max(uc, 0.0), 1.0)
         newX, newY = [0.0, 0.0], [0.0, 0.0]
-        arrX = [aT * TX[1], aT * TX[0]]    # arrivals into r come from transit leaving the other region
-        arrY = [aT * TY[1], aT * TY[0]]
+        setX, setY = [0.0, 0.0], [0.0, 0.0]
         for r in (0, 1):
-            x, y, f = X[r], Y[r], F[r]
-            ex = (1.0 + eH[r] * uh) * (1.0 - g1 * P[r])
-            harv = min(7.0 * uq * ex * x / (x + Xh), 0.9 * x)
-            pred = min(aP * y * ex * x / (x + Xp), 0.5 * x)
-            intake = f / (f + kF + 1e-9)
-            births = bX * x * intake * (1.0 - g1f * P[r])
-            if a2 < 1.0 or iRm > 0.0:
-                # NJ-stage juvenile pipeline (Erlang delay, mean NJ / a2 ticks); nursery survival at entry
+            src = 1 - r   # arrivals into r come from transit leaving the other region
+            sx = 1.0 / (1.0 + cS * X[r] / 100.0) if cS > 0 else 1.0
+            sy = 1.0 / (1.0 + cSY * Y[r]) if cSY > 0 else 1.0
+            setX[r] = aT * sx * TX[src]
+            setY[r] = aT * sy * TY[src]
+        for r in (0, 1):
+            x, y = X[r], Y[r]
+            xe = max(x - Xr, 0.0)
+            ex = (1.0 + eH[r] * uh) * (1.0 - g1 * min(uq, 1.0))
+            harv = min(7.0 * uq * ex * xe / (xe + Xh + 1e-9), 0.95 * xe)
+            pred = min(aP * y * ex * xe / (xe + Xq + 1e-9), 0.5 * xe)
+            if food_on:
+                f = F[r]
+                intake = f / (f + kF)
+                phi = intake
+            else:
+                kr = max(K[r] * (1.0 - hK[r] * min(uh, 1.1)), 1.0)
+                phi = max(1.0 - x / kr, 0.0)
+            births = bX * x * phi * max(1.0 - g1f * uq, 0.0)
+            if pipe_on:
                 jr = J[r]
                 inflow = births / (1.0 + iRm * births)
                 for k in range(NJ):
@@ -154,18 +183,23 @@ def simulate(p, initial, actions):
                 recruits = inflow
             else:
                 recruits = births
-            s = 1.0 / (1.0 + cS * x / 100.0) if cS else 1.0
             depX = mvX[r] * uc * x
             depY = mvY * uc * y
-            nx = x + recruits - mX * x - pred - harv - depX + s * arrX[r]
-            ny = y + eY * pred - dY * y - dY2 * y * y - depY + s * arrY[r]
+            nx = x + recruits - mX * x - pred - harv - depX + setX[r]
+            ystar = yb * xe / (xe + Xp + 1e-9) * (1.0 + eHY * uh)
+            ny = y + kY * (Z[r] - y) - depY + setY[r]
+            Z[r] = min(max(Z[r] + kZ * (ystar - Z[r]), 0.001), 500.0)
             newX[r] = min(max(nx, 0.01), 2000.0)
             newY[r] = min(max(ny, 0.001), 500.0)
-            nf = f + gF[r] * max(1.0 - hF[r] * uh, 0.0) * (1.0 - f) - cF * (x / 100.0) * intake
-            F[r] = min(max(nf, 0.0), 1.0)
-            P[r] += a1 * (uq - P[r])
-            TX[r] = TX[r] * (1.0 - aT) + depX
-            TY[r] = TY[r] * (1.0 - aT) + depY
+            if food_on:
+                nf = F[r] + gF[r] * max(1.0 - hF[r] * uh, 0.0) * (1.0 - F[r]) - cF * (x / 100.0) * intake
+                F[r] = min(max(nf, 0.0), 1.0)
+        for r in (0, 1):
+            src = 1 - r
+            TX[r] = min(TX[r] - setX[src] + mvX[r] * uc * X[r], 5000.0)
+            TY[r] = min(TY[r] - setY[src] + mvY * uc * Y[r], 500.0)
+            TX[r] = max(TX[r], 0.0)
+            TY[r] = max(TY[r], 0.0)
         X, Y = newX, newY
         out[t, 0], out[t, 1], out[t, 2], out[t, 3] = X[0], Y[0], X[1], Y[1]
     return out

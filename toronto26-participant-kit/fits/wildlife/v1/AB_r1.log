@@ -1,0 +1,4 @@
+model greybox/wildlife_model.py modules ['mA', 'mB'] episodes 1 units ['log', 'log', 'log', 'log'] sigma [0.01, 0.01, 0.01, 0.01]
+  restart 0: cost 7608.4 nfev 58 (60s)
+cost 7608.4 (60s) | train score 0.6393 (persistence 0.1044) | eval_data score 0.3920 (persistence 0.0662)
+saved fits\wildlife\v1\AB_r1.json

@@ -1,0 +1,6 @@
+mB,mC data/wildlife/R1.json BC_r1 init_BC
+mA,mB data/wildlife/R1.json#data/wildlife/R2c.json AB_all init_AB
+mA,mC data/wildlife/R1.json#data/wildlife/R2c.json AC_all init_ACw
+mB,mC data/wildlife/R1.json#data/wildlife/R2c.json BC_all init_BC
+mA,mB data/wildlife/R1.json AB_r1 init_AB
+mA,mC data/wildlife/R1.json AC_r1 init_ACw

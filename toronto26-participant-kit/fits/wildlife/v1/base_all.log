@@ -1,0 +1,6 @@
+usage: fit.py [-h] --model MODEL --data DATA [DATA ...] [--modules MODULES]
+              [--units UNITS] [--noise NOISE] [--train-end TRAIN_END]
+              [--horizons HORIZONS] [--restarts RESTARTS] [--workers WORKERS]
+              [--max-nfev MAX_NFEV] [--fix FIX] [--init INIT] [--skip SKIP]
+              [--seed SEED] [--perturb PERTURB] [--eval [EVAL ...]] --out OUT
+fit.py: error: argument --modules: expected one argument

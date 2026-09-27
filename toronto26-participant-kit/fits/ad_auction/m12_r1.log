@@ -1,0 +1,4 @@
+model greybox/ad_auction_model.py modules ['m1', 'm2'] episodes 1 units ['linear', 'linear', 'linear'] sigma [0.0047, 0.066, 0.0123]
+  restart 0: cost 20979.2 nfev 500 (184s)
+cost 20979.2 (184s) | train score 0.5606 (persistence 0.0991)
+saved fits\ad_auction\m12_r1.json
