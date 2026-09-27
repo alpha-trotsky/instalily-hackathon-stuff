@@ -203,7 +203,9 @@ Pairs:
 | 06:59 | R2 | 390–414 (P9a idle pause: D, maintenance 0, production 0) + 415–449 (D + maintenance 0) | 60 | 800 |
 | 07:00 | R2 | 450–474 (D + maintenance 0, ext., instead of P2 q = 20 and final recovery) + 475–499 (P2: orders 40, rest recovery). **R2 complete: 500 steps** | 50 | 750 |
 
-Total spent 1,250 of CAP 1,300; **50 reserve left** for Phase C.
+| 12:45 (Phase C) | R3 (fresh reset, `data/supply_chain/R3.json`) | 0–39 orders 20, rest recovery; 40–49 full recovery (reviewer G10/G3/G4 reserve probe) | 50 | 700 |
+
+Total spent **1,300 of CAP 1,300** (R1 750, R2 500, R3 50); gateway reports 700 remaining. **No reserve left.**
 
 ## 6. Run 1 observations and behaviour catalogue v1 (`data/supply_chain/R1.json`, 750 ticks)
 
@@ -527,3 +529,63 @@ orders, B16 retail level); see `fits/supply_chain/r1fits_on_R2.png`.
    (0.02–0.03). Chained passes (`fits/supply_chain/chain.sh`) converge the base to cost 5814.6 on R1.
 6. The 50-step reserve is best spent on P9b (rush switched on together with orders vs 20 ticks after), or on
    orders ≈ 20 (below the service rate).
+
+## 11. Phase C: review responses (modeler, 2026-09-27 afternoon)
+
+Model: `toronto26-participant-kit/greybox/supply_chain_model.py` (v1; the pre-review v0 is kept as
+`greybox/supply_chain_model_v0.py`). Fits and scripts: `fits/supply_chain/v1/`. Reserve probe R3 spent (50 steps,
+see §5): orders 20 from reset for 40 ticks, then 10 ticks of recovery.
+
+**R3 findings.** Shipments are 0.78 × 20 = 15.6 from tick 3 (no queue, no class-2 delay at mix 0.5), step to 19.0
+at tick 13 when the first rework (22%) returns 10 ticks later, then about 20. After the stop, 4 ticks at 20, then a
+flat 4.4 = 0.22 × 20 rework tail. Retail stays at 0 the whole time (sales ≥ 20 at R = 0). The supplier climbs
+about 1.6 per tick at q = 20 and 11–20 per tick after the stop. So φ ≈ 0.22 is directly measured, and the
+reviewer's F2 (mix splits dispatch into a 21-tick class-2 path) is falsified at low orders.
+
+| Gap | Response |
+|---|---|
+| G1 clock-like parameters | **Fixed.** Every rate and gain now has hard bounds via a scaled sigmoid (`BOUNDS`): memory rates in [0.005, 0.5], gains g1/g2s/g2p ≤ 0.5, g1r ≥ 0, `az` ≥ 0.05, `al` ≥ 0.02; `simulate` also clips hand-edited values. Retail `aS`/`Dg` (the slow sales memory) were removed. The 4,000-tick held-action table (`v1/stab.py`) shows no drift in shipments or supplier and ≤ 17 in retail (< 0.5σ). |
+| G2 mix / rush integrators | **Fixed.** Mix acts through a fixed 19-tick delay with factor `1 + wmix·clip(mix − 0.5, ±0.3)`, `wmix` ∈ [−1.5, 1.5] (fit −0.46). Rush uses a lag with `al` ∈ [0.02, 0.5] and `wl` ∈ [−1, 1] (fit ≈ +0.09, i.e. rush is nearly neutral in the mean). Held mix 0.8 or 1.0 now gives 27.4 shipments (data ≈ 28), mix 0 gives 36.1. |
+| G3 long-run retail | **Improved, not solved.** Sales = min(R + ship, D0 + kR·R + dz·z) (fit D0 = 18, kR = 0.017). At D the model settles at 781 (data ≈ 975), with maintenance 0 at 1,264 (data ≈ 1,180). The residual error is inherited from the D-level shipment bias (G5): with the true 34.8 the same law gives ≈ 954. q = 20 gives ≈ 100 (data: 0 over the 40 observed ticks). Loss weighting of settled ticks was not tried (time). |
+| G4 release tail / burst | **Partly.** `Bmax` bounded to [200, 2000] (fit 1,270, from 2,470). An idle-service boost `wid` (service × (1 + wid) when no transit arrivals) was added, but the fit sets it to 0, so the burst to ≈ 50 is still missed. |
+| G5 D-level bias | **Tried, not adopted.** Fitting on a [¼, ½, ¼]-smoothed shipments target with φ fixed at the R3 value 0.215 (`v1/phi_all.json`) raised D to 32.9 but lowered the raw-data score (0.509 vs 0.512) and the cross-run score (0.419 vs 0.464). D is still 31.7 vs 34.8 in the shipped fit. |
+| G6 25-then-35 phase | **Fixed structurally.** Dispatch fills a fast path (DT = 3) up to rate `c1` (fit 30) and the overflow takes the 21-tick path. This gives ≈ 25 then ≈ 32 at orders 80 and the exact R3 behaviour at orders 20. |
+| G7 idle-pause restart | **Not captured.** Effort 0 still stops production (`e^pe`), so the supplier holds instead of refilling to the cap. The data suggest effort gates dispatch more than production; left open. |
+| G8 B15 step, G9 B4 second drawdown | **Not captured.** With bounded rates, M1+M2 and M1+M3 fitted on R1 converge to the base cost (6,219.9, identical) — the modules stay unused. The pair question is **not identifiable** with this base; M2+M3 and the bootstrap were not run (time). |
+| G10 coverage | R3 covers orders < service rate. Mix < 0.5, lead 0–0.2, receiving < 0.35 remain extrapolations (bounded by construction). |
+| G11 fitting | Fits now take 10–50 s (bounded parameters, `--max-nfev` 600–800). |
+
+## 12. Phase C: final model and hand-off
+
+**Model-selection record.**
+
+| Candidate | Data | Cost | Score (raw R1–R3, σ = 0.1×std R1+R2) | Cross-run R1 → R2 |
+|---|---|---:|---:|---:|
+| v1 base, no mechanisms (`v1/base_all2.json`) | R1+R2+R3 | 10,812.7 | **0.512** | **0.464** (`v1/base_r1.json`) |
+| v1 base, φ fixed 0.215, smoothed target (`v1/phi_all.json`) | smoothed R1–R3 | n/c | 0.509 | 0.419 |
+| v1 + M1+M2 / M1+M3 | R1 | 6,219.9 (= base) | — | — (modules unused) |
+| persistence | | | 0.128 | 0.137 |
+
+**Decision: not identifiable → ship the v1 base without mechanism modules** (as the reviewer advised). Confidence in
+the pair: none; confidence the base is safe: good.
+
+**Gates.** Local score beats persistence cross-run (0.464 vs 0.137): pass. Contract (40 × 4,000 steps from the
+extracted ZIP, all malformed-input cases): pass, 50.8 s. Stability (`v1/stab_gate.json`): no range failures (max
+shipments 49.7, supplier ≤ 361.8, retail ≤ 1,817 over 200 schedules + 8 × 40,000 steps), but **61 sawtooth flags**.
+Checked by hand: every flag is the 10-tick rework loop echoing an earlier fast "switch" schedule and decaying
+geometrically inside the next hold (mean |Δ| ≤ 3.2 in the first 40 ticks, ≤ 0.008 in the last 40; the level tends
+to 0, which inflates the relative amplitude). The real system shows the same 10-tick rework echo (R1 680–750, R3
+40–49). **Accepted as a false positive.**
+
+**Package.** `toronto26-participant-kit/models/supply_chain/` (predict.py, model copy, params.json) and
+`toronto26-participant-kit/submission-supply_chain-v1.zip` (5.8 kB); package check passed (roots, credential scan,
+contract).
+
+**Budget.** 1,300 of CAP 1,300 spent; gateway 700 remaining (not to be used under this CAP).
+
+**Top open issues.**
+1. D-level shipments 31.7 vs 34.8 (−2.5σ on every sustained-operation tick) and the resulting retail level (781 vs
+   975). A service-rate structure that reproduces both the φ = 0.22 rework and the 35 level is still missing.
+2. Release burst to ≈ 50 (G4) and idle-pause restart / effort-0 supplier refill (G7) not captured.
+3. Mechanism pair unresolved: no module reproduces B15 or B4; a threshold heat state (G8) and a withdrawal-rate
+   commitment (G9) are the next candidates.

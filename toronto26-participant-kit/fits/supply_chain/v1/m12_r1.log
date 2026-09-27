@@ -1,0 +1,4 @@
+model greybox/supply_chain_model.py modules ['m1', 'm2'] episodes 1 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 6219.9 nfev 29 (6s)
+cost 6219.9 (6s) | train score 0.4994 (persistence 0.1090)
+saved fits\supply_chain\v1\m12_r1.json

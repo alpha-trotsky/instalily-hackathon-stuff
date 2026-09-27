@@ -1,0 +1,4 @@
+start 0: cost 18538.4 (5s)
+start 1: cost 16108.4 (44s)
+start 2: cost 58106.7 (50s)
+saved fits/hospital_queue/v1_base_all.json 16108.4 {'Ae': 24.3834, 'aphi': 0.0472, 'we': 1.7826, 'wo': 1.1182, 'wd': 6.0384, 'az': 1.0, 'Kz': 1624.2915, 'gq': 0.0, 'aqu': 0.0, 'aqd': 1.0, 'ca': 1.3079, 'ct': 1.0468, 'Ca': 17.2956, 'Cb': 92.2159, 'Wmax': 204.2491, 'theta': 0.0307, 'kw': 0.0335, 'kd': 1.0, 'wu': -1.004}

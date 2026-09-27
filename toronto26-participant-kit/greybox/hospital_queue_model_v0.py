@@ -1,5 +1,4 @@
-"""hospital_queue gray-box model v1 (Phase C: + deterioration Z, long-stay residual Lq, wf fixed 0; v0 in hospital_queue_model_v0.py)
-(v0 by the Phase A researcher): tandem fluid queue + wait estimate + 3 mechanism modules.
+"""hospital_queue gray-box model v0 (Phase A researcher): tandem fluid queue + wait estimate + 3 mechanism modules.
 
 Controls (normalize, physical units kept): s = staffing [1, 20], e = elective_scheduling / 20, d = diagnostic_allocation,
 up = urgent_priority, ot = overtime, fu = followup_capacity.
@@ -7,9 +6,7 @@ up = urgent_priority, ot = overtime, fu = followup_capacity.
 BASE (from the brief's structure; always on)
   arrivals   A = A0 + Ae*e + Ret                                   (Ret = M3 returns, 0 when M3 is off)
   mix        phi <- phi + aphi (Ae*e/A - phi)                      elective share of the patients in the system
-  deterior.  Z <- Z + az (W/(W+Kz) - Z)       backlog-age proxy (0 at reset: fresh initial patients are light)
-  work/pt    wpp = 1 + we*phi + wd*Z
-  long-stay  Lq <- Lq + aqu*max(gq*phi - Lq, 0) - aqd*Lq ; counted in queue only (residual occupancy after load, G4)
+  work/pt    wpp = 1 + we*phi
   capacity   mu = kmu * s_eff * (1 + wo*ot) * (1 - g1*F) * (1 - wf*fu) / wpp      patients' work per tick
   split      mua = mu * d * ca / 0.4 ; mut = mu * (1 - d) * ct / 0.6          (diagnostic allocation divides staff)
   stages     W waiting, Xa in assessment (chairs, cap Ca, includes Bk = assessed patients holding a chair),
@@ -19,7 +16,7 @@ BASE (from the brief's structure; always on)
                da   = min(Xa, mua) ; Xa -= da ; Bk += da            assessment completions wait for a bed in their chair
                tb   = min(Bk, Cb - Xt) ; Bk -= tb ; Xt += tb
                D    = min(Xt, mut) ; Xt -= D                          discharges (gross)
-  outputs    queue = W + Xa + Bk + Xt + nsv*D + Lq (patients being served this tick) ; discharges = D
+  outputs    queue = W + Xa + Bk + Xt + nsv*D (patients being served this tick) ; discharges = D
              wait: v <- v + kw (W / max(Dm, 0.5) * exp(wu*(up-0.6)) - v),  Dm <- Dm + kd (D - Dm)
   reset      W0 = initial queue reading (all waiting), services empty, v0 = initial wait reading, Dm0 = A0.
 
@@ -43,9 +40,7 @@ CLAMP = {'wait_time': [0.0, 1000.0], 'queue': [0.0, 1000.0], 'discharges': [0.0,
 
 SPEC = {
     'A0': (11.5, 'pos'), 'Ae': (20.0, 'pos'), 'aphi': (0.05, 'unit'), 'we': (0.3, 'free'),
-    'kmu': (0.65, 'pos'), 'wo': (1.0, 'free'), 'wf': (0.0, 'unit'),
-    'wd': (0.4, 'pos'), 'az': (0.03, 'unit'), 'Kz': (60.0, 'pos'),
-    'gq': (20.0, 'pos'), 'aqu': (0.02, 'unit'), 'aqd': (0.001, 'unit'),
+    'kmu': (0.65, 'pos'), 'wo': (1.0, 'free'), 'wf': (0.05, 'unit'),
     'ca': (1.0, 'pos'), 'ct': (1.0, 'pos'),
     'Ca': (30.0, 'pos'), 'Cb': (30.0, 'pos'), 'Wmax': (270.0, 'pos'), 'theta': (0.02, 'unit'),
     'nsv': (2.0, 'pos'), 'kw': (0.1, 'unit'), 'kd': (0.1, 'unit'), 'wu': (0.0, 'free'),
@@ -56,8 +51,6 @@ SPEC = {
     # m3 returns
     'g3': (0.1, 'unit'), 'a3': (0.05, 'unit'), 'Pc': (12.0, 'pos'), 'wr': (0.5, 'free'),
 }
-FIXED = ('A0', 'kmu', 'nsv', 'wf')   # G1: follow-up has no capacity cost (R9); visible P0 constants
-
 MODULES = {
     'm1': (['a1u', 'a1d', 'g1'], {'g1': 0.0}),
     'm2': (['a2', 'g2', 'k2d'], {'g2': 0.0}),
@@ -132,9 +125,6 @@ def simulate(p, initial, actions):
     a1u, a1d, g1 = p['a1u'], p['a1d'], p['g1']
     a2, g2, k2d = p['a2'], p['g2'], min(p['k2d'], 20.0)
     g3, a3, Pc, wr = p['g3'], p['a3'], p['Pc'], p['wr']
-    wd, az, Kz = min(p.get('wd', 0.0), 20.0), p.get('az', 0.03), max(p.get('Kz', 60.0), 1e-3)
-    gq, aqu, aqd = min(p.get('gq', 0.0), 500.0), p.get('aqu', 0.02), p.get('aqd', 0.001)
-    Z = Lq = 0.0
     W = min(max(_f(initial.get('queue') if isinstance(initial, dict) else None, 40.0), 0.0), 1000.0)
     v = min(max(_f(initial.get('wait_time') if isinstance(initial, dict) else None, 3.0), 0.0), 1000.0)
     Xa = Bk = Xt = 0.0
@@ -160,8 +150,7 @@ def simulate(p, initial, actions):
         A = A0 + Ae * e + Ret
         drv = (Ae * e + wr * Ret) / max(A, 1e-6)
         phi += aphi * (min(max(drv, -1.0), 2.0) - phi)
-        Z += az * (W / (W + Kz) - Z)
-        wpp = max(1.0 + we * phi + wd * Z, 0.1)
+        wpp = max(1.0 + we * phi, 0.1)
         mu = kmu * s_eff * (1.0 + wo * ot) * (1.0 - g1 * F) * (1.0 - wf * fu) / wpp
         mu = max(mu, 0.0)
         mua = mu * d * ca / 0.4
@@ -187,14 +176,11 @@ def simulate(p, initial, actions):
             r = g3 * max(D - fu * Pc, 0.0)
             L1 += a3 * (r - L1)
             L2 += a3 * (L1 - L2)
-        # --- long-stay residual occupancy
-        Lq += aqu * max(gq * phi - Lq, 0.0) - aqd * Lq
-        Lq = min(max(Lq, 0.0), 500.0)
         # --- wait estimate
         Dm += kd * (D - Dm)
         v += kw * (W / max(Dm, 0.5) * math.exp(wu * (up - 0.6)) - v)
         v = min(max(v, 0.0), 1000.0)
         out[t, 0] = v
-        out[t, 1] = W + Xa + Bk + Xt + nsv * D + Lq
+        out[t, 1] = W + Xa + Bk + Xt + nsv * D
         out[t, 2] = D
     return out
