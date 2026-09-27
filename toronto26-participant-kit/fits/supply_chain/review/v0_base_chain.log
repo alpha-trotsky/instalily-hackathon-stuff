@@ -1,0 +1,23 @@
+model greybox/supply_chain_model.py modules ['none'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 14247.4 nfev 16 (2s)
+  restart 1: cost 13777.0 nfev 29 (9s)
+cost 13777.0 (11s) | train score 0.4735 (persistence 0.1233)
+saved fits\supply_chain\review\v0_base_all.json
+model greybox/supply_chain_model.py modules ['none'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 13777.0 nfev 16 (2s)
+  restart 1: cost 14098.0 nfev 46 (17s)
+cost 13777.0 (18s) | train score 0.4735 (persistence 0.1233)
+saved fits\supply_chain\review\v0_base_all_t.json
+best 13777.014199843645
+model greybox/supply_chain_model.py modules ['none'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 13776.9 nfev 19 (6s)
+  restart 1: cost 13472.2 nfev 24 (8s)
+cost 13472.2 (14s) | train score 0.4850 (persistence 0.1233)
+saved fits\supply_chain\review\v0_base_all_t.json
+best 13472.203584971145
+model greybox/supply_chain_model.py modules ['none'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 13471.0 nfev 24 (5s)
+  restart 1: cost 14581.1 nfev 38 (13s)
+cost 13471.0 (18s) | train score 0.4850 (persistence 0.1233)
+saved fits\supply_chain\review\v0_base_all_t.json
+best 13470.998984496966

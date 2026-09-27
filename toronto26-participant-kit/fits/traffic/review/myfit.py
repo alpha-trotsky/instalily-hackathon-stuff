@@ -10,6 +10,10 @@ model_path, mods, out = sys.argv[1], set(m for m in sys.argv[2].split(',') if m 
 init = json.load(open(sys.argv[4]))['params'] if len(sys.argv) > 4 and sys.argv[4] != '-' else None
 nfev = int(sys.argv[5]) if len(sys.argv) > 5 else 300
 m = core.load_model(model_path)
+if init is not None:  # active modules start from SPEC defaults, not from the init file's off values
+    for mod in mods:
+        for n in m.MODULES[mod][0]:
+            init[n] = m.SPEC[n][0]
 eps = core.load_episodes(['data/traffic/R1.json', 'data/traffic/R2.json'], model=m)
 for ep in eps:
     ep['u'] = [m.normalize(a, ep['bounds']) for a in ep['actions']]

@@ -1,0 +1,8 @@
+start cost 42542.2
+round 0 ds 0.01: cost 20651.2 nfev 16 status 3 (2s)
+round 0 ds 0.001: cost 20587.8 nfev 16 status 3 (2s)
+round 1 ds 0.01: cost 20587.8 nfev 21 status 3 (3s)
+round 1 ds 0.001: cost 20578.6 nfev 17 status 3 (3s)
+round 2 ds 0.01: cost 20578.6 nfev 15 status 3 (4s)
+round 2 ds 0.001: cost 20481.8 nfev 17 status 3 (4s)
+saved fits/hospital_queue/review/m12_all.json {'A0': 11.5, 'Ae': 22.4055, 'aphi': 0.0714, 'we': 2.4034, 'kmu': 0.65, 'wo': 1.8295, 'wf': 0.0, 'ca': 1.0938, 'ct': 0.937, 'Ca': 17.1207, 'Cb': 89.5558, 'Wmax': 208.8543, 'theta': 0.0175, 'nsv': 2.0, 'kw': 0.0335, 'kd': 1.0, 'wu': -0.5411, 'a1u': 0.0132, 'a1d': 0.0291, 'g1': 0.2356, 'a2': 0.0528, 'g2': 0.4172, 'k2d': 0.0, 'g3': 0.0, 'a3': 0.05, 'Pc': 12.0, 'wr': 0.5}

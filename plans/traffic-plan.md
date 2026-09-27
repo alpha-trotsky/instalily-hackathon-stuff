@@ -190,7 +190,9 @@ Pairs:
 | 06:43 | R2 | 410–469 S7 second joint pulse (gap 40) | 60 | 785 |
 | 06:44 | R2 | 470–499 S8 P9b: ramp 0 + signal 0.85, rest at pulse. **R2 complete: 500 steps** | 30 | 755 |
 
-Total spent 1,245 of CAP 1,300 → **reserve 55 steps** for Phase C.
+| 07:15 (Phase C) | R3 (fresh reset) | 0–54 ramp 1 + toll 2.5, rest at recovery (reviewer gap G6) | 55 | 700 |
+
+Total spent **1,300 of CAP 1,300** (R1 745, R2 500, R3 55). Reserve exhausted.
 
 
 ## 6. Run 1 observations and behaviour catalogue v1 (`data/traffic/R1.json`, 745 ticks)

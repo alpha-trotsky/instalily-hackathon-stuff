@@ -1,0 +1,23 @@
+model fits/supply_chain/review/sc_rv.py modules ['m1', 'm3'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 11489.4 nfev 28 (9s)
+  restart 1: cost 11412.8 nfev 50 (16s)
+cost 11412.8 (25s) | train score 0.4936 (persistence 0.1233)
+saved fits\supply_chain\review\rv_m13_all.json
+model fits/supply_chain/review/sc_rv.py modules ['m1', 'm3'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 11412.8 nfev 25 (1s)
+  restart 1: cost 11343.2 nfev 29 (9s)
+cost 11343.2 (11s) | train score 0.4766 (persistence 0.1233)
+saved fits\supply_chain\review\rv_m13_all_t.json
+best 11343.196422925761
+model fits/supply_chain/review/sc_rv.py modules ['m1', 'm3'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 11366.6 nfev 38 (11s)
+  restart 1: cost 11535.2 nfev 800 (391s)
+cost 11366.6 (402s) | train score 0.4757 (persistence 0.1233)
+saved fits\supply_chain\review\rv_m13_all_t.json
+best 11343.196422925761
+model fits/supply_chain/review/sc_rv.py modules ['m1', 'm3'] episodes 2 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 11366.6 nfev 38 (11s)
+  restart 1: cost 14699.0 nfev 50 (19s)
+cost 11366.6 (31s) | train score 0.4757 (persistence 0.1233)
+saved fits\supply_chain\review\rv_m13_all_t.json
+best 11343.196422925761

@@ -1,4 +1,4 @@
-powell 0 cost 29195.2 nfev 3000 52s
-powell 1 cost 29169.2 nfev 3000 104s
-diff_step 0.01 horizon None cost 29169.2 nfev 22 105s
-cost 29169.2 score all 0.5724 R1 0.5996 R2 0.5319 [0.544, 0.494, 0.653, 0.599]
+powell 0 cost 28255.8 nfev 3000 89s
+powell 1 cost 27707.5 nfev 3000 181s
+diff_step 0.01 horizon None cost 27698.1 nfev 30 196s
+cost 27698.1 score all 0.5543 R1 0.5672 R2 0.5352 [0.507, 0.45, 0.665, 0.596]

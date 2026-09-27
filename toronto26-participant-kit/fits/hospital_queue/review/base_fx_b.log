@@ -1,0 +1,8 @@
+start cost 30439.6
+round 0 ds 0.01: cost 22109.5 nfev 15 status 3 (1s)
+round 0 ds 0.001: cost 22109.5 nfev 15 status 3 (1s)
+round 1 ds 0.01: cost 21228.3 nfev 17 status 3 (2s)
+round 1 ds 0.001: cost 21228.3 nfev 15 status 3 (2s)
+round 2 ds 0.01: cost 21228.3 nfev 15 status 3 (3s)
+round 2 ds 0.001: cost 21228.3 nfev 15 status 3 (3s)
+saved fits/hospital_queue/review/base_fx_b.json {'A0': 11.5, 'Ae': 22.3426, 'aphi': 0.0819, 'we': 2.3403, 'kmu': 0.65, 'wo': 0.9755, 'wf': 0.4135, 'ca': 1.9906, 'ct': 1.6206, 'Ca': 16.6108, 'Cb': 97.0211, 'Wmax': 202.4025, 'theta': 0.0114, 'nsv': 2.0, 'kw': 0.031, 'kd': 1.0, 'wu': 0.4234, 'a1u': 0.02, 'a1d': 0.01, 'g1': 0.0, 'a2': 0.08, 'g2': 0.0, 'k2d': 0.3, 'g3': 0.0, 'a3': 0.05, 'Pc': 12.0, 'wr': 0.5}

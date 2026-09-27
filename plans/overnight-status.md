@@ -21,9 +21,9 @@ Budget at start (free read, 2026-09-27): every system 2,000 remaining; market 1,
 | 4 | social_contagion | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | M1+M2 (core population + bridge lag in base), medium confidence (bootstrap 5/5 and 3/5; real margin inside M1+M2 range). Cross-run R1→R2 0.255 vs persistence 0.223 (weak: R1 lacked seeding+incentive). All-data fit good; gates pass | `toronto26-participant-kit/submission-social_contagion-v1.zip` |
 | 5 | power_grid | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | m1+m3, moderate (~65%): M2 ruled out by the charging test (no share rise). Cross-run R1→R2 0.439 vs persistence 0.175 (m1 alone 0.441). Gates pass. Frequency weak | `toronto26-participant-kit/submission-power_grid-v1.zip` |
 | 6 | reservoir | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | M1+M3 (groundwater + deposited material); M1 high confidence, M3 vs M2 unresolved (weak diagonal). Cross-run R1→R2 0.533 vs persistence 0.083. Gates pass | `toronto26-participant-kit/submission-reservoir-v1.zip` |
-| 7 | traffic | 1300 | B done, C running | 1245 | 755 | persistence baseline (R1→R2: m23 0.371, m12 0.330, base 0.260, persistence 0.060; base structure needs work) | — |
+| 7 | traffic | 1300 | B done, C running (resumed; cap spent on R3 toll 2.5) | 1300 | 700 | persistence baseline | — |
 | 8 | supply_chain | 1300 | A done, B running | 1250 | 750 | persistence baseline (R1→R2: m12 0.388, base 0.353, persistence 0.137) | — |
-| 9 | hospital_queue | 1300 | A done, B running | 1250 | 750 | persistence baseline (R1→R2: m12 0.482, base 0.475, persistence 0.284) | — |
+| 9 | hospital_queue | 1300 | B done, C running | 1250 | 750 | persistence baseline (R1→R2: m12 0.482, base 0.475, persistence 0.284) | — |
 
 Phases: A researcher, B reviewer, C modeler, D commit/push. Phases are pipelined across systems (the next system's research overlaps the current system's review or modeling); each system still runs A, B, C in order and never exceeds its own cap.
 
@@ -43,3 +43,4 @@ Phases: A researcher, B reviewer, C modeler, D commit/push. Phases are pipelined
 - power_grid C done: m1+m3 shipped. Its modeler found that core.params_for applied --init values after switching off disabled modules, so an init from another pair leaked that pair's modules in. Orchestrator fixed core.py (off values applied last). Shipped ZIPs store full param dicts, so they are unchanged, but the pair comparisons for epidemic, wildlife and ad_auction may have been contaminated if they used cross-pair --init (open issue for the report).
 - reservoir C done: M1+M3 shipped; 50 reserve spent on R3 (reference pulse from reset). Open: sustained-pulse groundwater excess under-predicted; quality misses at σ≈0.001.
 - Leak audit (orchestrator): all six shipped params.json files have every disabled module exactly at its off values, so each shipped model really is the named pair. Rival-pair costs in earlier comparisons may still have been inflated/deflated by the leak.
+- ~10:50–11:30+ Toronto: third API usage limit; traffic C, hospital_queue C and supply_chain B died. On disk: traffic R3 (55, cap spent, logged), hospital_queue no reserve spent, supply_chain review partial (fits/supply_chain/review/). Relaunched as resumes at ~12:45.
