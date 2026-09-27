@@ -1,0 +1,2874 @@
+{
+ "data": "data/wildlife/R1.json",
+ "system": "wildlife",
+ "recovery": {
+  "corridor_access": 0.0,
+  "habitat_protection": 1.0,
+  "hunting_quota": 0.0
+ },
+ "pulse": {
+  "corridor_access": 1.0,
+  "habitat_protection": 0.1,
+  "hunting_quota": 7.0
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 540,
+   "controls": [
+    "hunting_quota",
+    "habitat_protection",
+    "corridor_access"
+   ],
+   "observables": [
+    "prey_north",
+    "predator_north",
+    "prey_south",
+    "predator_south"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-27T00:51:08"
+    },
+    {
+     "start_tick": 40,
+     "started_at": "2026-09-27T00:51:27"
+    },
+    {
+     "start_tick": 60,
+     "started_at": "2026-09-27T00:51:39"
+    },
+    {
+     "start_tick": 80,
+     "started_at": "2026-09-27T00:51:48"
+    },
+    {
+     "start_tick": 100,
+     "started_at": "2026-09-27T00:51:58"
+    },
+    {
+     "start_tick": 120,
+     "started_at": "2026-09-27T00:52:05"
+    },
+    {
+     "start_tick": 160,
+     "started_at": "2026-09-27T00:52:16"
+    },
+    {
+     "start_tick": 185,
+     "started_at": "2026-09-27T00:52:26"
+    },
+    {
+     "start_tick": 225,
+     "started_at": "2026-09-27T00:52:35"
+    },
+    {
+     "start_tick": 250,
+     "started_at": "2026-09-27T00:52:45"
+    },
+    {
+     "start_tick": 290,
+     "started_at": "2026-09-27T00:52:54"
+    },
+    {
+     "start_tick": 330,
+     "started_at": "2026-09-27T00:53:05"
+    },
+    {
+     "start_tick": 370,
+     "started_at": "2026-09-27T00:53:15"
+    },
+    {
+     "start_tick": 410,
+     "started_at": "2026-09-27T00:53:26"
+    },
+    {
+     "start_tick": 440,
+     "started_at": "2026-09-27T00:53:36"
+    },
+    {
+     "start_tick": 490,
+     "started_at": "2026-09-27T00:53:46"
+    }
+   ],
+   "noise": {
+    "prey_north": {
+     "sigma": 0.5147540764317536,
+     "per_hold": [
+      [
+       135.3944,
+       0.6298
+      ],
+      [
+       44.8817,
+       0.1974
+      ],
+      [
+       130.5575,
+       0.5525
+      ],
+      [
+       73.1312,
+       0.2908
+      ],
+      [
+       113.4762,
+       0.4165
+      ],
+      [
+       108.9356,
+       0.6276
+      ],
+      [
+       132.1729,
+       0.7036
+      ],
+      [
+       91.4206,
+       0.5148
+      ],
+      [
+       117.3067,
+       0.4799
+      ]
+     ],
+     "loglog_slope": 1.0551696199716496,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.004398610806044325
+    },
+    "predator_north": {
+     "sigma": 0.01098266393971682,
+     "per_hold": [
+      [
+       3.9397,
+       0.0137
+      ],
+      [
+       2.2536,
+       0.008
+      ],
+      [
+       2.1171,
+       0.0091
+      ],
+      [
+       2.343,
+       0.0161
+      ],
+      [
+       2.298,
+       0.011
+      ],
+      [
+       1.7683,
+       0.0095
+      ],
+      [
+       2.4501,
+       0.0123
+      ],
+      [
+       2.411,
+       0.0083
+      ],
+      [
+       2.2777,
+       0.0111
+      ]
+     ],
+     "loglog_slope": 0.5086329622496044,
+     "scales_with_level": "partial",
+     "sigma_rel": 0.004779201133020244
+    },
+    "prey_south": {
+     "sigma": 0.3947833562242726,
+     "per_hold": [
+      [
+       111.3598,
+       0.5677
+      ],
+      [
+       22.4028,
+       0.0993
+      ],
+      [
+       110.6361,
+       0.574
+      ],
+      [
+       68.3446,
+       0.1983
+      ],
+      [
+       92.7035,
+       0.3618
+      ],
+      [
+       76.3848,
+       0.3948
+      ],
+      [
+       102.9574,
+       0.4522
+      ],
+      [
+       66.1643,
+       0.4997
+      ],
+      [
+       93.2568,
+       0.3759
+      ]
+     ],
+     "loglog_slope": 1.0183545223835473,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.004434364342538943
+    },
+    "predator_south": {
+     "sigma": 0.010032530022136943,
+     "per_hold": [
+      [
+       3.5755,
+       0.0134
+      ],
+      [
+       2.1995,
+       0.01
+      ],
+      [
+       2.0711,
+       0.0088
+      ],
+      [
+       2.3335,
+       0.0128
+      ],
+      [
+       2.2932,
+       0.0163
+      ],
+      [
+       1.7279,
+       0.0077
+      ],
+      [
+       2.3774,
+       0.0094
+      ],
+      [
+       2.33,
+       0.01
+      ],
+      [
+       2.2368,
+       0.0116
+      ]
+     ],
+     "loglog_slope": 0.7180380616930212,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.004468814787085778
+    }
+   },
+   "reset_transient": {
+    "prey_north": {
+     "initial": 94.6934,
+     "first_obs": 100.435,
+     "jump_first3": 11.0453,
+     "end_level": 120.8765,
+     "total_change": 26.1831,
+     "change_sigma": 50.9,
+     "settling_time": 56.0,
+     "t90": 4,
+     "monotone": false
+    },
+    "predator_north": {
+     "initial": 13.8272,
+     "first_obs": 13.1289,
+     "jump_first3": -1.3914,
+     "end_level": 2.5711,
+     "total_change": -11.2561,
+     "change_sigma": -1024.9,
+     "settling_time": "> 120",
+     "t90": 50,
+     "monotone": true
+    },
+    "prey_south": {
+     "initial": 74.1002,
+     "first_obs": 78.5278,
+     "jump_first3": 9.2415,
+     "end_level": 96.6876,
+     "total_change": 22.5874,
+     "change_sigma": 57.2,
+     "settling_time": 65.0,
+     "t90": 4,
+     "monotone": false
+    },
+    "predator_south": {
+     "initial": 11.5002,
+     "first_obs": 10.9929,
+     "jump_first3": -1.106,
+     "end_level": 2.5205,
+     "total_change": -8.9797,
+     "change_sigma": -895.1,
+     "settling_time": "> 120",
+     "t90": 49,
+     "monotone": true
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 120,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 120.8765,
+      "predator_north": 2.5711,
+      "prey_south": 96.6876,
+      "predator_south": 2.5205
+     },
+     "settled": {
+      "prey_north": true,
+      "predator_north": false,
+      "prey_south": true,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "56",
+      "predator_north": "> 120",
+      "prey_south": "65",
+      "predator_south": "> 120"
+     },
+     "drift_sigma": {
+      "prey_north": 0.86,
+      "predator_north": 13.36,
+      "prey_south": 2.3e-06,
+      "predator_south": 14.54
+     }
+    },
+    {
+     "start": 120,
+     "end": 185,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 30.4136,
+      "predator_north": 2.0917,
+      "prey_south": 11.933,
+      "predator_south": 2.0082
+     },
+     "settled": {
+      "prey_north": false,
+      "predator_north": false,
+      "prey_south": true,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "> 65",
+      "predator_north": "> 65",
+      "prey_south": "> 65",
+      "predator_south": "> 65"
+     },
+     "drift_sigma": {
+      "prey_north": 6.41,
+      "predator_north": 21.19,
+      "prey_south": 0.54,
+      "predator_south": 16.23
+     }
+    },
+    {
+     "start": 185,
+     "end": 250,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 128.4919,
+      "predator_north": 2.2669,
+      "prey_south": 106.2669,
+      "predator_south": 2.2539
+     },
+     "settled": {
+      "prey_north": false,
+      "predator_north": false,
+      "prey_south": false,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "> 65",
+      "predator_north": "> 65",
+      "prey_south": "> 65",
+      "predator_south": "> 65"
+     },
+     "drift_sigma": {
+      "prey_north": 104.57,
+      "predator_north": 13.98,
+      "prey_south": 107.05,
+      "predator_south": 17.97
+     }
+    },
+    {
+     "start": 250,
+     "end": 290,
+     "kind": "hold",
+     "u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 67.5411,
+      "predator_north": 2.3436,
+      "prey_south": 64.7216,
+      "predator_south": 2.3265
+     },
+     "settled": {
+      "prey_north": true,
+      "predator_north": true,
+      "prey_south": true,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "> 40",
+      "predator_north": "6",
+      "prey_south": "29",
+      "predator_south": "20"
+     },
+     "drift_sigma": {
+      "prey_north": 1.64,
+      "predator_north": 1.77,
+      "prey_south": 0.45,
+      "predator_south": 3.25
+     }
+    },
+    {
+     "start": 290,
+     "end": 330,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 119.9985,
+      "predator_north": 2.2901,
+      "prey_south": 96.5107,
+      "predator_south": 2.2906
+     },
+     "settled": {
+      "prey_north": true,
+      "predator_north": true,
+      "prey_south": true,
+      "predator_south": true
+     },
+     "settling_time": {
+      "prey_north": "> 40",
+      "predator_north": "11",
+      "prey_south": "28",
+      "predator_south": "1"
+     },
+     "drift_sigma": {
+      "prey_north": 0.92,
+      "predator_north": 0.15,
+      "prey_south": 0.11,
+      "predator_south": 0.72
+     }
+    },
+    {
+     "start": 330,
+     "end": 370,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "level": {
+      "prey_north": 109.8597,
+      "predator_north": 1.6909,
+      "prey_south": 76.0612,
+      "predator_south": 1.6425
+     },
+     "settled": {
+      "prey_north": false,
+      "predator_north": true,
+      "prey_south": false,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "26",
+      "predator_north": "> 40",
+      "prey_south": "24",
+      "predator_south": "29"
+     },
+     "drift_sigma": {
+      "prey_north": 4.54,
+      "predator_north": 1.49,
+      "prey_south": 3.69,
+      "predator_south": 7.36
+     }
+    },
+    {
+     "start": 370,
+     "end": 440,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 131.4745,
+      "predator_north": 2.6211,
+      "prey_south": 98.9906,
+      "predator_south": 2.4421
+     },
+     "settled": {
+      "prey_north": false,
+      "predator_north": true,
+      "prey_south": false,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "> 70",
+      "predator_north": "> 70",
+      "prey_south": "> 70",
+      "predator_south": "> 70"
+     },
+     "drift_sigma": {
+      "prey_north": 19.17,
+      "predator_north": 0.0,
+      "prey_south": 14.27,
+      "predator_south": 11.39
+     }
+    },
+    {
+     "start": 440,
+     "end": 490,
+     "kind": "hold",
+     "u": [
+      0.5,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 86.686,
+      "predator_north": 2.3272,
+      "prey_south": 62.0527,
+      "predator_south": 2.2633
+     },
+     "settled": {
+      "prey_north": true,
+      "predator_north": false,
+      "prey_south": true,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "35",
+      "predator_north": "> 50",
+      "prey_south": "35",
+      "predator_south": "> 50"
+     },
+     "drift_sigma": {
+      "prey_north": 0.43,
+      "predator_north": 10.81,
+      "prey_south": 0.23,
+      "predator_south": 10.36
+     }
+    },
+    {
+     "start": 490,
+     "end": 540,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "level": {
+      "prey_north": 120.7275,
+      "predator_north": 2.2973,
+      "prey_south": 96.8052,
+      "predator_south": 2.2619
+     },
+     "settled": {
+      "prey_north": true,
+      "predator_north": false,
+      "prey_south": true,
+      "predator_south": false
+     },
+     "settling_time": {
+      "prey_north": "28",
+      "predator_north": "34",
+      "prey_south": "32",
+      "predator_south": "33"
+     },
+     "drift_sigma": {
+      "prey_north": 0.0,
+      "predator_north": 4.42,
+      "prey_south": 0.14,
+      "predator_south": 5.22
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 120,
+       "prey_north": 120.8765,
+       "predator_north": 2.5711,
+       "prey_south": 96.6876,
+       "predator_south": 2.5205
+      },
+      {
+       "start": 185,
+       "end": 250,
+       "prey_north": 128.4919,
+       "predator_north": 2.2669,
+       "prey_south": 106.2669,
+       "predator_south": 2.2539
+      },
+      {
+       "start": 290,
+       "end": 330,
+       "prey_north": 119.9985,
+       "predator_north": 2.2901,
+       "prey_south": 96.5107,
+       "predator_south": 2.2906
+      },
+      {
+       "start": 370,
+       "end": 440,
+       "prey_north": 131.4745,
+       "predator_north": 2.6211,
+       "prey_south": 98.9906,
+       "predator_south": 2.4421
+      },
+      {
+       "start": 490,
+       "end": 540,
+       "prey_north": 120.7275,
+       "predator_north": 2.2973,
+       "prey_south": 96.8052,
+       "predator_south": 2.2619
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 120,
+       "end": 185,
+       "prey_north": 30.4136,
+       "predator_north": 2.0917,
+       "prey_south": 11.933,
+       "predator_south": 2.0082
+      }
+     ]
+    },
+    {
+     "u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 250,
+       "end": 290,
+       "prey_north": 67.5411,
+       "predator_north": 2.3436,
+       "prey_south": 64.7216,
+       "predator_south": 2.3265
+      }
+     ]
+    },
+    {
+     "u": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 330,
+       "end": 370,
+       "prey_north": 109.8597,
+       "predator_north": 1.6909,
+       "prey_south": 76.0612,
+       "predator_south": 1.6425
+      }
+     ]
+    },
+    {
+     "u": [
+      0.5,
+      -0.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 440,
+       "end": 490,
+       "prey_north": 86.686,
+       "predator_north": 2.3272,
+       "prey_south": 62.0527,
+       "predator_south": 2.2633
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 120,
+     "from_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0
+     ],
+     "hold": 65,
+     "pre_unsettled": [
+      "predator_north",
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 120.8765,
+       "post": 30.4136,
+       "delta": -90.4629,
+       "delta_sigma": -175.74,
+       "peak_excursion": -91.8005,
+       "peak_tick": 64,
+       "delay": 0,
+       "settling_time": "> 65",
+       "t90": 34,
+       "overshoot": 0.015,
+       "overshoot_sigma": 2.6,
+       "k_lin": 0.0589,
+       "k_log": 0.034,
+       "ringing_crossings": 1
+      },
+      "predator_north": {
+       "pre": 2.4596,
+       "post": 2.0917,
+       "delta": -0.3679,
+       "delta_sigma": -33.5,
+       "peak_excursion": -0.4007,
+       "peak_tick": 64,
+       "delay": 8,
+       "settling_time": "> 65",
+       "t90": 51,
+       "overshoot": 0.089,
+       "overshoot_sigma": 2.99,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "prey_south": {
+       "pre": 96.6876,
+       "post": 11.933,
+       "delta": -84.7546,
+       "delta_sigma": -214.69,
+       "peak_excursion": -85.0401,
+       "peak_tick": 63,
+       "delay": 0,
+       "settling_time": 47.0,
+       "t90": 27,
+       "overshoot": 0.003,
+       "overshoot_sigma": 0.72,
+       "k_lin": 0.0807,
+       "k_log": 0.0397,
+       "ringing_crossings": 0
+      },
+      "predator_south": {
+       "pre": 2.4231,
+       "post": 2.0082,
+       "delta": -0.4149,
+       "delta_sigma": -41.35,
+       "peak_excursion": -0.4568,
+       "peak_tick": 64,
+       "delay": 5,
+       "settling_time": "> 65",
+       "t90": 51,
+       "overshoot": 0.101,
+       "overshoot_sigma": 4.18,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 185,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "hold": 65,
+     "pre_unsettled": [
+      "prey_north",
+      "predator_north",
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 28.7158,
+       "post": 128.4919,
+       "delta": 99.7761,
+       "delta_sigma": 193.83,
+       "peak_excursion": 139.9492,
+       "peak_tick": 38,
+       "delay": 0,
+       "settling_time": "> 65",
+       "t90": 18,
+       "overshoot": 0.403,
+       "overshoot_sigma": 78.04,
+       "k_lin": 0.0944,
+       "k_log": 0.1105,
+       "ringing_crossings": 2
+      },
+      "predator_north": {
+       "pre": 2.0499,
+       "post": 2.2669,
+       "delta": 0.217,
+       "delta_sigma": 19.76,
+       "peak_excursion": 0.2589,
+       "peak_tick": 64,
+       "delay": 16,
+       "settling_time": "> 65",
+       "t90": 53,
+       "overshoot": 0.193,
+       "overshoot_sigma": 3.81,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "prey_south": {
+       "pre": 11.933,
+       "post": 106.2669,
+       "delta": 94.3339,
+       "delta_sigma": 238.95,
+       "peak_excursion": 142.6536,
+       "peak_tick": 34,
+       "delay": 0,
+       "settling_time": "> 65",
+       "t90": 19,
+       "overshoot": 0.512,
+       "overshoot_sigma": 122.4,
+       "k_lin": 0.0873,
+       "k_log": 0.1105,
+       "ringing_crossings": 2
+      },
+      "predator_south": {
+       "pre": 1.9571,
+       "post": 2.2539,
+       "delta": 0.2968,
+       "delta_sigma": 29.59,
+       "peak_excursion": 0.3276,
+       "peak_tick": 61,
+       "delay": 11,
+       "settling_time": "> 65",
+       "t90": 52,
+       "overshoot": 0.104,
+       "overshoot_sigma": 3.07,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 250,
+     "from_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "prey_north",
+      "predator_north",
+      "prey_south",
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 122.4784,
+       "post": 67.5411,
+       "delta": -54.9373,
+       "delta_sigma": -106.73,
+       "peak_excursion": -55.3423,
+       "peak_tick": 35,
+       "delay": 0,
+       "settling_time": 28.0,
+       "t90": 17,
+       "overshoot": 0.007,
+       "overshoot_sigma": 0.79,
+       "k_lin": 0.1293,
+       "k_log": 0.1105,
+       "ringing_crossings": 0
+      },
+      "predator_north": {
+       "pre": 2.3124,
+       "post": 2.3436,
+       "delta": 0.0312,
+       "delta_sigma": 2.84,
+       "peak_excursion": 0.047,
+       "peak_tick": 19,
+       "delay": 4,
+       "settling_time": 6.0,
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "prey_south": {
+       "pre": 98.3381,
+       "post": 64.7216,
+       "delta": -33.6165,
+       "delta_sigma": -85.15,
+       "peak_excursion": -33.7562,
+       "peak_tick": 35,
+       "delay": 1,
+       "settling_time": 27.0,
+       "t90": 18,
+       "overshoot": 0.004,
+       "overshoot_sigma": 0.35,
+       "k_lin": 0.1196,
+       "k_log": 0.1105,
+       "ringing_crossings": 0
+      },
+      "predator_south": {
+       "pre": 2.3023,
+       "post": 2.3265,
+       "delta": 0.0242,
+       "delta_sigma": 2.41,
+       "peak_excursion": 0.0483,
+       "peak_tick": 20,
+       "delay": 7,
+       "settling_time": 20.0,
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      }
+     }
+    },
+    {
+     "tick": 290,
+     "from_u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 67.5411,
+       "post": 119.9985,
+       "delta": 52.4574,
+       "delta_sigma": 101.91,
+       "peak_excursion": 52.843,
+       "peak_tick": 37,
+       "delay": 0,
+       "settling_time": 29.0,
+       "t90": 19,
+       "overshoot": 0.007,
+       "overshoot_sigma": 0.75,
+       "k_lin": 0.1105,
+       "k_log": 0.1293,
+       "ringing_crossings": 0
+      },
+      "predator_north": {
+       "pre": 2.3436,
+       "post": 2.2901,
+       "delta": -0.0535,
+       "delta_sigma": -4.87,
+       "peak_excursion": -0.0642,
+       "peak_tick": 28,
+       "delay": 9,
+       "settling_time": 11.0,
+       "t90": 16,
+       "overshoot": 0.2,
+       "overshoot_sigma": 0.97,
+       "k_lin": 0.1514,
+       "k_log": 0.1514,
+       "ringing_crossings": 0
+      },
+      "prey_south": {
+       "pre": 64.7216,
+       "post": 96.5107,
+       "delta": 31.7891,
+       "delta_sigma": 80.52,
+       "peak_excursion": 32.102,
+       "peak_tick": 35,
+       "delay": 0,
+       "settling_time": 27.0,
+       "t90": 20,
+       "overshoot": 0.01,
+       "overshoot_sigma": 0.79,
+       "k_lin": 0.1105,
+       "k_log": 0.1196,
+       "ringing_crossings": 0
+      },
+      "predator_south": {
+       "pre": 2.3156,
+       "post": 2.2906,
+       "delta": -0.025,
+       "delta_sigma": -2.49,
+       "peak_excursion": -0.0303,
+       "peak_tick": 15,
+       "delay": 25,
+       "settling_time": 1.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 330,
+     "from_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [],
+     "obs": {
+      "prey_north": {
+       "pre": 119.9985,
+       "post": 109.8597,
+       "delta": -10.1389,
+       "delta_sigma": -19.7,
+       "peak_excursion": -12.4585,
+       "peak_tick": 17,
+       "delay": 0,
+       "settling_time": 26.0,
+       "t90": 6,
+       "overshoot": 0.229,
+       "overshoot_sigma": 4.51,
+       "k_lin": 0.3073,
+       "k_log": 0.3073,
+       "ringing_crossings": 1
+      },
+      "predator_north": {
+       "pre": 2.2901,
+       "post": 1.6909,
+       "delta": -0.5993,
+       "delta_sigma": -54.57,
+       "peak_excursion": -0.6049,
+       "peak_tick": 39,
+       "delay": 0,
+       "settling_time": 28.0,
+       "t90": 21,
+       "overshoot": 0.009,
+       "overshoot_sigma": 0.51,
+       "k_lin": 0.1022,
+       "k_log": 0.0944,
+       "ringing_crossings": 0
+      },
+      "prey_south": {
+       "pre": 96.5107,
+       "post": 76.0612,
+       "delta": -20.4495,
+       "delta_sigma": -51.8,
+       "peak_excursion": -21.5391,
+       "peak_tick": 19,
+       "delay": 0,
+       "settling_time": 24.0,
+       "t90": 10,
+       "overshoot": 0.053,
+       "overshoot_sigma": 2.76,
+       "k_lin": 0.2074,
+       "k_log": 0.2074,
+       "ringing_crossings": 1
+      },
+      "predator_south": {
+       "pre": 2.2906,
+       "post": 1.6425,
+       "delta": -0.6481,
+       "delta_sigma": -64.6,
+       "peak_excursion": -0.6534,
+       "peak_tick": 37,
+       "delay": 0,
+       "settling_time": 29.0,
+       "t90": 20,
+       "overshoot": 0.008,
+       "overshoot_sigma": 0.53,
+       "k_lin": 0.1022,
+       "k_log": 0.0944,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 370,
+     "from_u": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "hold": 70,
+     "pre_unsettled": [
+      "prey_north",
+      "prey_south",
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 110.1872,
+       "post": 131.4745,
+       "delta": 21.2873,
+       "delta_sigma": 41.35,
+       "peak_excursion": 26.6524,
+       "peak_tick": 39,
+       "delay": 1,
+       "settling_time": "> 70",
+       "t90": 16,
+       "overshoot": 0.252,
+       "overshoot_sigma": 10.42,
+       "k_lin": 0.1105,
+       "k_log": 0.1105,
+       "ringing_crossings": 2
+      },
+      "predator_north": {
+       "pre": 1.6909,
+       "post": 2.6211,
+       "delta": 0.9303,
+       "delta_sigma": 84.7,
+       "peak_excursion": 0.9659,
+       "peak_tick": 54,
+       "delay": 0,
+       "settling_time": "> 70",
+       "t90": 35,
+       "overshoot": 0.038,
+       "overshoot_sigma": 3.25,
+       "k_lin": 0.0465,
+       "k_log": 0.0544,
+       "ringing_crossings": 2
+      },
+      "prey_south": {
+       "pre": 76.5995,
+       "post": 98.9906,
+       "delta": 22.3911,
+       "delta_sigma": 56.72,
+       "peak_excursion": 32.1598,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 70",
+       "t90": 9,
+       "overshoot": 0.436,
+       "overshoot_sigma": 24.74,
+       "k_lin": 0.1917,
+       "k_log": 0.1917,
+       "ringing_crossings": 2
+      },
+      "predator_south": {
+       "pre": 1.6342,
+       "post": 2.4421,
+       "delta": 0.8079,
+       "delta_sigma": 80.53,
+       "peak_excursion": 0.8843,
+       "peak_tick": 42,
+       "delay": 0,
+       "settling_time": "> 70",
+       "t90": 23,
+       "overshoot": 0.095,
+       "overshoot_sigma": 7.62,
+       "k_lin": 0.0807,
+       "k_log": 0.0873,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 440,
+     "from_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "to_u": [
+      0.5,
+      -0.0,
+      0.0
+     ],
+     "hold": 50,
+     "pre_unsettled": [
+      "prey_north",
+      "prey_south",
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 127.1629,
+       "post": 86.686,
+       "delta": -40.4769,
+       "delta_sigma": -78.63,
+       "peak_excursion": -40.5537,
+       "peak_tick": 49,
+       "delay": 0,
+       "settling_time": 33.0,
+       "t90": 22,
+       "overshoot": 0.002,
+       "overshoot_sigma": 0.15,
+       "k_lin": 0.1022,
+       "k_log": 0.0873,
+       "ringing_crossings": 0
+      },
+      "predator_north": {
+       "pre": 2.6211,
+       "post": 2.3272,
+       "delta": -0.2939,
+       "delta_sigma": -26.76,
+       "peak_excursion": -0.3132,
+       "peak_tick": 49,
+       "delay": 0,
+       "settling_time": "> 50",
+       "t90": 39,
+       "overshoot": 0.065,
+       "overshoot_sigma": 1.75,
+       "k_lin": 0.0132,
+       "k_log": 0.0104,
+       "ringing_crossings": 0
+      },
+      "prey_south": {
+       "pre": 97.1621,
+       "post": 62.0527,
+       "delta": -35.1094,
+       "delta_sigma": -88.93,
+       "peak_excursion": -35.3771,
+       "peak_tick": 49,
+       "delay": 0,
+       "settling_time": 34.0,
+       "t90": 22,
+       "overshoot": 0.008,
+       "overshoot_sigma": 0.68,
+       "k_lin": 0.1022,
+       "k_log": 0.0873,
+       "ringing_crossings": 0
+      },
+      "predator_south": {
+       "pre": 2.4111,
+       "post": 2.2633,
+       "delta": -0.1478,
+       "delta_sigma": -14.73,
+       "peak_excursion": -0.1641,
+       "peak_tick": 48,
+       "delay": 21,
+       "settling_time": "> 50",
+       "t90": 41,
+       "overshoot": 0.11,
+       "overshoot_sigma": 1.62,
+       "k_lin": 0.0023,
+       "k_log": null,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 490,
+     "from_u": [
+      0.5,
+      -0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "hold": 50,
+     "pre_unsettled": [
+      "predator_north",
+      "predator_south"
+     ],
+     "obs": {
+      "prey_north": {
+       "pre": 86.686,
+       "post": 120.7275,
+       "delta": 34.0415,
+       "delta_sigma": 66.13,
+       "peak_excursion": 34.4705,
+       "peak_tick": 42,
+       "delay": 0,
+       "settling_time": 28.0,
+       "t90": 20,
+       "overshoot": 0.013,
+       "overshoot_sigma": 0.83,
+       "k_lin": 0.1105,
+       "k_log": 0.1196,
+       "ringing_crossings": 0
+      },
+      "predator_north": {
+       "pre": 2.3008,
+       "post": 2.2973,
+       "delta": -0.0036,
+       "delta_sigma": -0.33,
+       "peak_excursion": -0.0392,
+       "peak_tick": 27,
+       "delay": 12,
+       "settling_time": 34.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "prey_south": {
+       "pre": 62.0527,
+       "post": 96.8052,
+       "delta": 34.7525,
+       "delta_sigma": 88.03,
+       "peak_excursion": 34.8952,
+       "peak_tick": 43,
+       "delay": 0,
+       "settling_time": 31.0,
+       "t90": 20,
+       "overshoot": 0.004,
+       "overshoot_sigma": 0.36,
+       "k_lin": 0.1105,
+       "k_log": 0.1293,
+       "ringing_crossings": 0
+      },
+      "predator_south": {
+       "pre": 2.2392,
+       "post": 2.2619,
+       "delta": 0.0227,
+       "delta_sigma": 2.26,
+       "peak_excursion": 0.0357,
+       "peak_tick": 48,
+       "delay": 12,
+       "settling_time": 33.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [
+    {
+     "on_tick": 120,
+     "off_tick": 185,
+     "obs": {
+      "prey_north": {
+       "delta_on": -90.4629,
+       "delta_off": 99.7761,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 65",
+       "settle_off": "> 65",
+       "return_to_baseline_sigma": 14.79,
+       "k_ratio_lin": 0.624,
+       "symmetric_lin": false,
+       "k_ratio_log": 0.308,
+       "symmetric_log": false
+      },
+      "predator_north": {
+       "delta_on": -0.3679,
+       "delta_off": 0.217,
+       "delay_on": 8,
+       "delay_off": 16,
+       "settle_on": "> 65",
+       "settle_off": "> 65",
+       "return_to_baseline_sigma": -17.55
+      },
+      "prey_south": {
+       "delta_on": -84.7546,
+       "delta_off": 94.3339,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 47.0,
+       "settle_off": "> 65",
+       "return_to_baseline_sigma": 24.26,
+       "k_ratio_lin": 0.924,
+       "symmetric_lin": true,
+       "k_ratio_log": 0.359,
+       "symmetric_log": false
+      },
+      "predator_south": {
+       "delta_on": -0.4149,
+       "delta_off": 0.2968,
+       "delay_on": 5,
+       "delay_off": 11,
+       "settle_on": "> 65",
+       "settle_off": "> 65",
+       "return_to_baseline_sigma": -16.87
+      }
+     }
+    },
+    {
+     "on_tick": 250,
+     "off_tick": 290,
+     "obs": {
+      "prey_north": {
+       "delta_on": -54.9373,
+       "delta_off": 52.4574,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 28.0,
+       "settle_off": 29.0,
+       "return_to_baseline_sigma": -4.82,
+       "k_ratio_lin": 1.17,
+       "symmetric_lin": true,
+       "k_ratio_log": 0.855,
+       "symmetric_log": true
+      },
+      "predator_north": {
+       "delta_on": 0.0312,
+       "delta_off": -0.0535,
+       "delay_on": 4,
+       "delay_off": 9,
+       "settle_on": 6.0,
+       "settle_off": 11.0,
+       "return_to_baseline_sigma": -2.03
+      },
+      "prey_south": {
+       "delta_on": -33.6165,
+       "delta_off": 31.7891,
+       "delay_on": 1,
+       "delay_off": 0,
+       "settle_on": 27.0,
+       "settle_off": 27.0,
+       "return_to_baseline_sigma": -4.63,
+       "k_ratio_lin": 1.082,
+       "symmetric_lin": true,
+       "k_ratio_log": 0.924,
+       "symmetric_log": true
+      },
+      "predator_south": {
+       "delta_on": 0.0242,
+       "delta_off": -0.025,
+       "delay_on": 7,
+       "delay_off": 25,
+       "settle_on": 20.0,
+       "settle_off": 1.0,
+       "return_to_baseline_sigma": -1.17
+      }
+     }
+    },
+    {
+     "on_tick": 330,
+     "off_tick": 370,
+     "obs": {
+      "prey_north": {
+       "delta_on": -10.1389,
+       "delta_off": 21.2873,
+       "delay_on": 0,
+       "delay_off": 1,
+       "settle_on": 26.0,
+       "settle_off": "> 70",
+       "return_to_baseline_sigma": 22.29,
+       "k_ratio_lin": 2.781,
+       "symmetric_lin": false,
+       "k_ratio_log": 2.781,
+       "symmetric_log": false
+      },
+      "predator_north": {
+       "delta_on": -0.5993,
+       "delta_off": 0.9303,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 28.0,
+       "settle_off": "> 70",
+       "return_to_baseline_sigma": 30.14,
+       "k_ratio_lin": 2.198,
+       "symmetric_lin": false,
+       "k_ratio_log": 1.735,
+       "symmetric_log": false
+      },
+      "prey_south": {
+       "delta_on": -20.4495,
+       "delta_off": 22.3911,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 24.0,
+       "settle_off": "> 70",
+       "return_to_baseline_sigma": 6.28,
+       "k_ratio_lin": 1.082,
+       "symmetric_lin": true,
+       "k_ratio_log": 1.082,
+       "symmetric_log": true
+      },
+      "predator_south": {
+       "delta_on": -0.6481,
+       "delta_off": 0.8079,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 29.0,
+       "settle_off": "> 70",
+       "return_to_baseline_sigma": 15.1,
+       "k_ratio_lin": 1.266,
+       "symmetric_lin": true,
+       "k_ratio_log": 1.081,
+       "symmetric_log": true
+      }
+     }
+    },
+    {
+     "on_tick": 440,
+     "off_tick": 490,
+     "obs": {
+      "prey_north": {
+       "delta_on": -40.4769,
+       "delta_off": 34.0415,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 33.0,
+       "settle_off": 28.0,
+       "return_to_baseline_sigma": -12.5,
+       "k_ratio_lin": 0.925,
+       "symmetric_lin": true,
+       "k_ratio_log": 0.73,
+       "symmetric_log": true
+      },
+      "predator_north": {
+       "delta_on": -0.2939,
+       "delta_off": -0.0036,
+       "delay_on": 0,
+       "delay_off": 12,
+       "settle_on": "> 50",
+       "settle_off": 34.0,
+       "return_to_baseline_sigma": -29.48
+      },
+      "prey_south": {
+       "delta_on": -35.1094,
+       "delta_off": 34.7525,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 34.0,
+       "settle_off": 31.0,
+       "return_to_baseline_sigma": -0.9,
+       "k_ratio_lin": 0.925,
+       "symmetric_lin": true,
+       "k_ratio_log": 0.675,
+       "symmetric_log": true
+      },
+      "predator_south": {
+       "delta_on": -0.1478,
+       "delta_off": 0.0227,
+       "delay_on": 21,
+       "delay_off": 12,
+       "settle_on": "> 50",
+       "settle_off": 33.0,
+       "return_to_baseline_sigma": -14.87
+      }
+     }
+    }
+   ],
+   "returns": [
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "tick": 185,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "prey_north": 14.79,
+      "predator_north": -27.7,
+      "prey_south": 24.26,
+      "predator_south": -26.57
+     }
+    },
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "tick": 290,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "prey_north": -1.71,
+      "predator_north": -25.59,
+      "prey_south": -0.45,
+      "predator_south": -22.92
+     }
+    },
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "tick": 370,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "prey_north": 20.59,
+      "predator_north": 4.55,
+      "prey_south": 5.83,
+      "predator_south": -7.81
+     }
+    },
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "tick": 490,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "prey_north": -0.29,
+      "predator_north": -24.93,
+      "prey_south": 0.3,
+      "predator_south": -25.78
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "predator_north",
+     "feature": "level",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -2,
+     "best_corr": 0.995,
+     "corr_lag0": 0.994
+    },
+    {
+     "source": "predator_south",
+     "feature": "level",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": 0.995,
+     "corr_lag0": 0.994
+    },
+    {
+     "source": "prey_north",
+     "feature": "level",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.974,
+     "corr_lag0": 0.974
+    },
+    {
+     "source": "prey_south",
+     "feature": "level",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.974,
+     "corr_lag0": 0.974
+    },
+    {
+     "source": "predator_north",
+     "feature": "diff",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.95,
+     "corr_lag0": 0.95
+    },
+    {
+     "source": "predator_south",
+     "feature": "diff",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.95,
+     "corr_lag0": 0.95
+    },
+    {
+     "source": "predator_south",
+     "feature": "fall",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.916,
+     "corr_lag0": -0.916
+    },
+    {
+     "source": "prey_north",
+     "feature": "diff",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.902,
+     "corr_lag0": 0.902
+    },
+    {
+     "source": "prey_south",
+     "feature": "diff",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": 0.902,
+     "corr_lag0": 0.902
+    },
+    {
+     "source": "predator_north",
+     "feature": "fall",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.877,
+     "corr_lag0": -0.877
+    },
+    {
+     "source": "predator_north",
+     "feature": "fall",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": 0.84,
+     "corr_lag0": 0.784
+    },
+    {
+     "source": "predator_north",
+     "feature": "diff",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -6,
+     "best_corr": -0.808,
+     "corr_lag0": -0.743
+    },
+    {
+     "source": "predator_south",
+     "feature": "level",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": -0.808,
+     "corr_lag0": -0.743
+    },
+    {
+     "source": "predator_south",
+     "feature": "fall",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.801,
+     "corr_lag0": 0.754
+    },
+    {
+     "source": "prey_north",
+     "feature": "rise",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.766,
+     "corr_lag0": 0.766
+    },
+    {
+     "source": "predator_north",
+     "feature": "absdiff",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.765,
+     "corr_lag0": 0.727
+    },
+    {
+     "source": "predator_north",
+     "feature": "level",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": -0.757,
+     "corr_lag0": -0.707
+    },
+    {
+     "source": "predator_south",
+     "feature": "diff",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.757,
+     "corr_lag0": -0.707
+    },
+    {
+     "source": "prey_south",
+     "feature": "rise",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.743,
+     "corr_lag0": 0.743
+    },
+    {
+     "source": "prey_south",
+     "feature": "fall",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.681,
+     "corr_lag0": -0.677
+    },
+    {
+     "source": "predator_north",
+     "feature": "absdiff",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.676,
+     "corr_lag0": -0.676
+    },
+    {
+     "source": "predator_south",
+     "feature": "absdiff",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": 0.671,
+     "corr_lag0": 0.64
+    },
+    {
+     "source": "prey_north",
+     "feature": "fall",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.667,
+     "corr_lag0": -0.662
+    },
+    {
+     "source": "predator_south",
+     "feature": "absdiff",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.667,
+     "corr_lag0": -0.667
+    },
+    {
+     "source": "prey_north",
+     "feature": "level",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.597,
+     "corr_lag0": -0.045
+    },
+    {
+     "source": "predator_north",
+     "feature": "rise",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.568,
+     "corr_lag0": 0.568
+    },
+    {
+     "source": "prey_south",
+     "feature": "level",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.55,
+     "corr_lag0": 0.446
+    },
+    {
+     "source": "prey_south",
+     "feature": "level",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.531,
+     "corr_lag0": -0.108
+    },
+    {
+     "source": "prey_south",
+     "feature": "level",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.527,
+     "corr_lag0": 0.441
+    },
+    {
+     "source": "predator_south",
+     "feature": "level",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.518,
+     "corr_lag0": 0.446
+    },
+    {
+     "source": "prey_north",
+     "feature": "level",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.51,
+     "corr_lag0": 0.414
+    },
+    {
+     "source": "prey_north",
+     "feature": "level",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.499,
+     "corr_lag0": 0.417
+    },
+    {
+     "source": "predator_north",
+     "feature": "level",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.499,
+     "corr_lag0": 0.441
+    },
+    {
+     "source": "predator_south",
+     "feature": "rise",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.483,
+     "corr_lag0": 0.482
+    },
+    {
+     "source": "predator_south",
+     "feature": "level",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.478,
+     "corr_lag0": 0.414
+    },
+    {
+     "source": "predator_north",
+     "feature": "level",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.47,
+     "corr_lag0": 0.417
+    },
+    {
+     "source": "prey_south",
+     "feature": "diff",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.467,
+     "corr_lag0": -0.045
+    },
+    {
+     "source": "prey_north",
+     "feature": "diff",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.462,
+     "corr_lag0": -0.108
+    },
+    {
+     "source": "prey_north",
+     "feature": "rise",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.46,
+     "corr_lag0": -0.04
+    },
+    {
+     "source": "prey_south",
+     "feature": "rise",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.446,
+     "corr_lag0": -0.002
+    },
+    {
+     "source": "predator_north",
+     "feature": "absdiff",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.442,
+     "corr_lag0": 0.412
+    },
+    {
+     "source": "predator_north",
+     "feature": "absdiff",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.43,
+     "corr_lag0": 0.412
+    },
+    {
+     "source": "prey_north",
+     "feature": "diff",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": -0.408,
+     "corr_lag0": -0.384
+    },
+    {
+     "source": "predator_south",
+     "feature": "level",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.408,
+     "corr_lag0": -0.384
+    },
+    {
+     "source": "predator_south",
+     "feature": "absdiff",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -2,
+     "best_corr": 0.403,
+     "corr_lag0": 0.382
+    },
+    {
+     "source": "prey_north",
+     "feature": "diff",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": -0.39,
+     "corr_lag0": -0.365
+    },
+    {
+     "source": "predator_north",
+     "feature": "level",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.39,
+     "corr_lag0": -0.365
+    },
+    {
+     "source": "predator_south",
+     "feature": "absdiff",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -2,
+     "best_corr": 0.388,
+     "corr_lag0": 0.375
+    },
+    {
+     "source": "predator_south",
+     "feature": "level",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 13,
+     "best_corr": -0.387,
+     "corr_lag0": -0.324
+    },
+    {
+     "source": "prey_south",
+     "feature": "fall",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.386,
+     "corr_lag0": 0.072
+    },
+    {
+     "source": "prey_south",
+     "feature": "diff",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.371,
+     "corr_lag0": -0.324
+    },
+    {
+     "source": "prey_north",
+     "feature": "fall",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": 0.37,
+     "corr_lag0": 0.335
+    },
+    {
+     "source": "prey_north",
+     "feature": "fall",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": 0.366,
+     "corr_lag0": 0.337
+    },
+    {
+     "source": "predator_north",
+     "feature": "level",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 13,
+     "best_corr": -0.363,
+     "corr_lag0": -0.297
+    },
+    {
+     "source": "prey_north",
+     "feature": "fall",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.352,
+     "corr_lag0": 0.132
+    },
+    {
+     "source": "prey_north",
+     "feature": "diff",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.349,
+     "corr_lag0": 0.324
+    },
+    {
+     "source": "prey_south",
+     "feature": "diff",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.344,
+     "corr_lag0": -0.297
+    },
+    {
+     "source": "prey_south",
+     "feature": "diff",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.34,
+     "corr_lag0": 0.273
+    },
+    {
+     "source": "prey_north",
+     "feature": "diff",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.339,
+     "corr_lag0": 0.296
+    },
+    {
+     "source": "predator_north",
+     "feature": "fall",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.336,
+     "corr_lag0": 0.303
+    },
+    {
+     "source": "prey_north",
+     "feature": "fall",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.335,
+     "corr_lag0": -0.329
+    },
+    {
+     "source": "predator_north",
+     "feature": "fall",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.332,
+     "corr_lag0": -0.329
+    },
+    {
+     "source": "predator_north",
+     "feature": "fall",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.331,
+     "corr_lag0": 0.307
+    },
+    {
+     "source": "prey_south",
+     "feature": "rise",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.326,
+     "corr_lag0": 0.24
+    },
+    {
+     "source": "predator_north",
+     "feature": "diff",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.324,
+     "corr_lag0": 0.324
+    },
+    {
+     "source": "predator_north",
+     "feature": "rise",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.321,
+     "corr_lag0": -0.186
+    },
+    {
+     "source": "prey_south",
+     "feature": "diff",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.32,
+     "corr_lag0": 0.264
+    },
+    {
+     "source": "predator_south",
+     "feature": "diff",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.316,
+     "corr_lag0": 0.296
+    },
+    {
+     "source": "predator_south",
+     "feature": "fall",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.315,
+     "corr_lag0": -0.309
+    },
+    {
+     "source": "predator_south",
+     "feature": "rise",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.314,
+     "corr_lag0": -0.215
+    },
+    {
+     "source": "predator_north",
+     "feature": "absdiff",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": -0.313,
+     "corr_lag0": -0.291
+    },
+    {
+     "source": "predator_north",
+     "feature": "rise",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": 11,
+     "best_corr": 0.313,
+     "corr_lag0": 0.269
+    },
+    {
+     "source": "predator_south",
+     "feature": "diff",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.31,
+     "corr_lag0": 0.273
+    },
+    {
+     "source": "prey_south",
+     "feature": "rise",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -9,
+     "best_corr": -0.309,
+     "corr_lag0": -0.288
+    },
+    {
+     "source": "predator_north",
+     "feature": "rise",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": 9,
+     "best_corr": 0.302,
+     "corr_lag0": 0.259
+    },
+    {
+     "source": "predator_north",
+     "feature": "diff",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.294,
+     "corr_lag0": 0.264
+    },
+    {
+     "source": "prey_south",
+     "feature": "rise",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.294,
+     "corr_lag0": 0.209
+    },
+    {
+     "source": "predator_south",
+     "feature": "rise",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": 9,
+     "best_corr": 0.293,
+     "corr_lag0": 0.25
+    },
+    {
+     "source": "predator_south",
+     "feature": "rise",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": 9,
+     "best_corr": 0.291,
+     "corr_lag0": 0.253
+    },
+    {
+     "source": "prey_north",
+     "feature": "rise",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.288,
+     "corr_lag0": 0.198
+    },
+    {
+     "source": "predator_south",
+     "feature": "fall",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -2,
+     "best_corr": 0.283,
+     "corr_lag0": 0.258
+    },
+    {
+     "source": "prey_north",
+     "feature": "rise",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -7,
+     "best_corr": -0.282,
+     "corr_lag0": -0.271
+    },
+    {
+     "source": "predator_south",
+     "feature": "absdiff",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": -0.281,
+     "corr_lag0": -0.255
+    },
+    {
+     "source": "prey_north",
+     "feature": "fall",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.279,
+     "corr_lag0": -0.271
+    },
+    {
+     "source": "prey_south",
+     "feature": "fall",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.276,
+     "corr_lag0": 0.212
+    },
+    {
+     "source": "prey_south",
+     "feature": "fall",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.275,
+     "corr_lag0": 0.22
+    },
+    {
+     "source": "predator_north",
+     "feature": "absdiff",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 11,
+     "best_corr": -0.274,
+     "corr_lag0": -0.2
+    },
+    {
+     "source": "predator_south",
+     "feature": "fall",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.272,
+     "corr_lag0": 0.252
+    },
+    {
+     "source": "prey_south",
+     "feature": "rise",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": -0.268,
+     "corr_lag0": -0.255
+    },
+    {
+     "source": "prey_north",
+     "feature": "rise",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.266,
+     "corr_lag0": 0.184
+    },
+    {
+     "source": "predator_south",
+     "feature": "absdiff",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 12,
+     "best_corr": -0.259,
+     "corr_lag0": -0.173
+    },
+    {
+     "source": "predator_south",
+     "feature": "fall",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.257,
+     "corr_lag0": -0.254
+    },
+    {
+     "source": "predator_north",
+     "feature": "fall",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": 11,
+     "best_corr": -0.256,
+     "corr_lag0": -0.25
+    },
+    {
+     "source": "prey_north",
+     "feature": "rise",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -6,
+     "best_corr": -0.25,
+     "corr_lag0": -0.243
+    },
+    {
+     "source": "predator_south",
+     "feature": "rise",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.238,
+     "corr_lag0": 0.157
+    },
+    {
+     "source": "prey_south",
+     "feature": "fall",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.23,
+     "corr_lag0": -0.207
+    },
+    {
+     "source": "predator_north",
+     "feature": "rise",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.22,
+     "corr_lag0": 0.142
+    },
+    {
+     "source": "prey_north",
+     "feature": "level",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": -0.207,
+     "corr_lag0": -0.175
+    },
+    {
+     "source": "predator_north",
+     "feature": "diff",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.207,
+     "corr_lag0": -0.175
+    },
+    {
+     "source": "predator_north",
+     "feature": "diff",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.207,
+     "corr_lag0": -0.182
+    },
+    {
+     "source": "prey_south",
+     "feature": "level",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": -0.207,
+     "corr_lag0": -0.182
+    },
+    {
+     "source": "prey_south",
+     "feature": "fall",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.206,
+     "corr_lag0": -0.189
+    },
+    {
+     "source": "prey_south",
+     "feature": "absdiff",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.205,
+     "corr_lag0": 0.103
+    },
+    {
+     "source": "prey_north",
+     "feature": "absdiff",
+     "target": "prey_south",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.198,
+     "corr_lag0": 0.089
+    },
+    {
+     "source": "predator_south",
+     "feature": "rise",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.179,
+     "corr_lag0": 0.103
+    },
+    {
+     "source": "predator_north",
+     "feature": "rise",
+     "target": "prey_north",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.174,
+     "corr_lag0": 0.115
+    },
+    {
+     "source": "prey_north",
+     "feature": "absdiff",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.167,
+     "corr_lag0": 0.075
+    },
+    {
+     "source": "prey_south",
+     "feature": "absdiff",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.164,
+     "corr_lag0": 0.055
+    },
+    {
+     "source": "prey_north",
+     "feature": "absdiff",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.141,
+     "corr_lag0": -0.117
+    },
+    {
+     "source": "prey_south",
+     "feature": "absdiff",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": 0.136,
+     "corr_lag0": 0.057
+    },
+    {
+     "source": "prey_north",
+     "feature": "level",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": -0.13,
+     "corr_lag0": -0.107
+    },
+    {
+     "source": "predator_south",
+     "feature": "diff",
+     "target": "prey_north",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.13,
+     "corr_lag0": -0.107
+    },
+    {
+     "source": "prey_south",
+     "feature": "level",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": -0.127,
+     "corr_lag0": -0.104
+    },
+    {
+     "source": "predator_south",
+     "feature": "diff",
+     "target": "prey_south",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.127,
+     "corr_lag0": -0.104
+    },
+    {
+     "source": "prey_north",
+     "feature": "absdiff",
+     "target": "predator_south",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.108,
+     "corr_lag0": -0.059
+    },
+    {
+     "source": "prey_north",
+     "feature": "absdiff",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": 0.097,
+     "corr_lag0": 0.073
+    },
+    {
+     "source": "prey_south",
+     "feature": "absdiff",
+     "target": "predator_north",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.089,
+     "corr_lag0": 0.017
+    },
+    {
+     "source": "prey_south",
+     "feature": "absdiff",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": -0.073,
+     "corr_lag0": -0.073
+    },
+    {
+     "source": "prey_north",
+     "feature": "absdiff",
+     "target": "predator_south",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.07,
+     "corr_lag0": 0.052
+    },
+    {
+     "source": "prey_south",
+     "feature": "absdiff",
+     "target": "predator_north",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": -0.054,
+     "corr_lag0": -0.052
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "predator_south",
+     "target": "predator_north",
+     "r2_controls_only": 0.3561,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.8523,
+     "r2_gain": 0.4962,
+     "coef_rise_sigma": -30.409,
+     "coef_fall_sigma": 33.608
+    },
+    {
+     "source": "predator_north",
+     "target": "predator_south",
+     "r2_controls_only": 0.4192,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.8547,
+     "r2_gain": 0.4355,
+     "coef_rise_sigma": -21.71,
+     "coef_fall_sigma": 24.104
+    },
+    {
+     "source": "prey_north",
+     "target": "predator_north",
+     "r2_controls_only": 0.3561,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.5486,
+     "r2_gain": 0.1925,
+     "coef_rise_sigma": -20.437,
+     "coef_fall_sigma": 23.51
+    },
+    {
+     "source": "prey_north",
+     "target": "predator_south",
+     "r2_controls_only": 0.4192,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.6036,
+     "r2_gain": 0.1844,
+     "coef_rise_sigma": -17.897,
+     "coef_fall_sigma": 20.334
+    },
+    {
+     "source": "prey_south",
+     "target": "predator_north",
+     "r2_controls_only": 0.3561,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.4974,
+     "r2_gain": 0.1413,
+     "coef_rise_sigma": -22.397,
+     "coef_fall_sigma": 2.571
+    },
+    {
+     "source": "prey_south",
+     "target": "predator_south",
+     "r2_controls_only": 0.4192,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.5573,
+     "r2_gain": 0.1381,
+     "coef_rise_sigma": -20.001,
+     "coef_fall_sigma": 4.809
+    },
+    {
+     "source": "prey_south",
+     "target": "prey_north",
+     "r2_controls_only": 0.8543,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9154,
+     "r2_gain": 0.0611,
+     "coef_rise_sigma": 15.939,
+     "coef_fall_sigma": -22.251
+    },
+    {
+     "source": "prey_north",
+     "target": "prey_south",
+     "r2_controls_only": 0.8148,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.8676,
+     "r2_gain": 0.0528,
+     "coef_rise_sigma": 18.651,
+     "coef_fall_sigma": 2.481
+    },
+    {
+     "source": "predator_south",
+     "target": "prey_south",
+     "r2_controls_only": 0.8148,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.8538,
+     "r2_gain": 0.039,
+     "coef_rise_sigma": 33.937,
+     "coef_fall_sigma": 9.952
+    },
+    {
+     "source": "predator_north",
+     "target": "prey_south",
+     "r2_controls_only": 0.8148,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.8534,
+     "r2_gain": 0.0386,
+     "coef_rise_sigma": 43.804,
+     "coef_fall_sigma": 9.42
+    },
+    {
+     "source": "predator_north",
+     "target": "prey_north",
+     "r2_controls_only": 0.8543,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.876,
+     "r2_gain": 0.0217,
+     "coef_rise_sigma": -31.524,
+     "coef_fall_sigma": -19.107
+    },
+    {
+     "source": "predator_south",
+     "target": "prey_north",
+     "r2_controls_only": 0.8543,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.8719,
+     "r2_gain": 0.0176,
+     "coef_rise_sigma": 16.858,
+     "coef_fall_sigma": 5.652
+    }
+   ]
+  }
+ ]
+}

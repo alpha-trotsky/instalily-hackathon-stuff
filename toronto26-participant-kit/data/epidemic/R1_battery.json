@@ -1,0 +1,1536 @@
+{
+ "data": "data/epidemic/R1.json",
+ "system": "epidemic",
+ "recovery": {
+  "mask_mandate": 0.0,
+  "school_closure": 0.0,
+  "vaccination_rate": 0.0
+ },
+ "pulse": {
+  "mask_mandate": 1.0,
+  "school_closure": 1.0,
+  "vaccination_rate": 0.003
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 545,
+   "controls": [
+    "school_closure",
+    "mask_mandate",
+    "vaccination_rate"
+   ],
+   "observables": [
+    "daily_cases",
+    "hospital_load"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-27T00:35:20"
+    },
+    {
+     "start_tick": 40,
+     "started_at": "2026-09-27T00:35:44"
+    },
+    {
+     "start_tick": 60,
+     "started_at": "2026-09-27T00:35:56"
+    },
+    {
+     "start_tick": 80,
+     "started_at": "2026-09-27T00:36:08"
+    },
+    {
+     "start_tick": 100,
+     "started_at": "2026-09-27T00:36:22"
+    },
+    {
+     "start_tick": 120,
+     "started_at": "2026-09-27T00:36:32"
+    },
+    {
+     "start_tick": 160,
+     "started_at": "2026-09-27T00:36:43"
+    },
+    {
+     "start_tick": 185,
+     "started_at": "2026-09-27T00:36:54"
+    },
+    {
+     "start_tick": 225,
+     "started_at": "2026-09-27T00:37:10"
+    },
+    {
+     "start_tick": 270,
+     "started_at": "2026-09-27T00:37:23"
+    },
+    {
+     "start_tick": 315,
+     "started_at": "2026-09-27T00:37:34"
+    },
+    {
+     "start_tick": 375,
+     "started_at": "2026-09-27T00:37:47"
+    },
+    {
+     "start_tick": 435,
+     "started_at": "2026-09-27T00:43:30"
+    },
+    {
+     "start_tick": 470,
+     "started_at": "2026-09-27T00:43:41"
+    },
+    {
+     "start_tick": 495,
+     "started_at": "2026-09-27T00:43:49"
+    },
+    {
+     "start_tick": 520,
+     "started_at": "2026-09-27T00:43:58"
+    }
+   ],
+   "noise": {
+    "daily_cases": {
+     "sigma": 0.17994365308693794,
+     "per_hold": [
+      [
+       175.7952,
+       0.1934
+      ],
+      [
+       38.0246,
+       0.0885
+      ],
+      [
+       125.6696,
+       0.3176
+      ],
+      [
+       156.9123,
+       0.4349
+      ],
+      [
+       90.8234,
+       0.1715
+      ],
+      [
+       89.4291,
+       0.2494
+      ],
+      [
+       86.9228,
+       0.1799
+      ],
+      [
+       78.9008,
+       0.1733
+      ],
+      [
+       94.88,
+       0.2317
+      ],
+      [
+       63.4128,
+       0.1396
+      ],
+      [
+       73.41,
+       0.1236
+      ]
+     ],
+     "loglog_slope": 0.84542924012963,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.002201468444414889
+    },
+    "hospital_load": {
+     "sigma": 0.13646620638509468,
+     "per_hold": [
+      [
+       107.248,
+       0.2367
+      ],
+      [
+       31.0148,
+       0.0619
+      ],
+      [
+       48.1683,
+       0.0911
+      ],
+      [
+       145.5828,
+       0.3063
+      ],
+      [
+       85.7972,
+       0.2278
+      ],
+      [
+       63.4762,
+       0.1009
+      ],
+      [
+       53.6264,
+       0.1365
+      ],
+      [
+       64.01,
+       0.1087
+      ],
+      [
+       58.6061,
+       0.1216
+      ],
+      [
+       70.4813,
+       0.1432
+      ],
+      [
+       54.0951,
+       0.1608
+      ]
+     ],
+     "loglog_slope": 1.039013976424805,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.002075642335326529
+    }
+   },
+   "reset_transient": {
+    "daily_cases": {
+     "initial": 113.7831,
+     "first_obs": 114.0159,
+     "jump_first3": 7.2711,
+     "end_level": 50.9629,
+     "total_change": -62.8202,
+     "change_sigma": -349.1,
+     "settling_time": "> 120",
+     "t90": 73,
+     "monotone": false
+    },
+    "hospital_load": {
+     "initial": 37.6654,
+     "first_obs": 34.1967,
+     "jump_first3": -6.4288,
+     "end_level": 46.7786,
+     "total_change": 9.1133,
+     "change_sigma": 66.8,
+     "settling_time": "> 120",
+     "t90": 9,
+     "monotone": false
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 120,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 50.9629,
+      "hospital_load": 46.7786
+     },
+     "settled": {
+      "daily_cases": true,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 120",
+      "hospital_load": "> 120"
+     },
+     "drift_sigma": {
+      "daily_cases": 0.04,
+      "hospital_load": 292.07
+     }
+    },
+    {
+     "start": 120,
+     "end": 185,
+     "kind": "hold",
+     "u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 36.7084,
+      "hospital_load": 25.5854
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 65",
+      "hospital_load": "> 65"
+     },
+     "drift_sigma": {
+      "daily_cases": 18.97,
+      "hospital_load": 2.35
+     }
+    },
+    {
+     "start": 185,
+     "end": 225,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 180.7991,
+      "hospital_load": 73.7171
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 40",
+      "hospital_load": "> 40"
+     },
+     "drift_sigma": {
+      "daily_cases": 290.59,
+      "hospital_load": 362.48
+     }
+    },
+    {
+     "start": 225,
+     "end": 270,
+     "kind": "hold",
+     "u": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 112.8875,
+      "hospital_load": 151.6631
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 45",
+      "hospital_load": "> 45"
+     },
+     "drift_sigma": {
+      "daily_cases": 223.44,
+      "hospital_load": 64.1
+     }
+    },
+    {
+     "start": 270,
+     "end": 315,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 93.3773,
+      "hospital_load": 66.2336
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 45",
+      "hospital_load": "> 45"
+     },
+     "drift_sigma": {
+      "daily_cases": 33.89,
+      "hospital_load": 22.14
+     }
+    },
+    {
+     "start": 315,
+     "end": 375,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "level": {
+      "daily_cases": 82.0045,
+      "hospital_load": 59.5673
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 60",
+      "hospital_load": "> 60"
+     },
+     "drift_sigma": {
+      "daily_cases": 66.55,
+      "hospital_load": 70.84
+     }
+    },
+    {
+     "start": 375,
+     "end": 435,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 97.6473,
+      "hospital_load": 58.2314
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 60",
+      "hospital_load": "> 60"
+     },
+     "drift_sigma": {
+      "daily_cases": 107.18,
+      "hospital_load": 87.14
+     }
+    },
+    {
+     "start": 435,
+     "end": 470,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.5,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 72.0425,
+      "hospital_load": 60.1793
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 35",
+      "hospital_load": "> 35"
+     },
+     "drift_sigma": {
+      "daily_cases": 27.59,
+      "hospital_load": 55.8
+     }
+    },
+    {
+     "start": 470,
+     "end": 495,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 105.2056,
+      "hospital_load": 62.3011
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 25",
+      "hospital_load": "> 25"
+     },
+     "drift_sigma": {
+      "daily_cases": 105.91,
+      "hospital_load": 61.65
+     }
+    },
+    {
+     "start": 495,
+     "end": 520,
+     "kind": "hold",
+     "u": [
+      1.0,
+      1.0,
+      0.0
+     ],
+     "level": {
+      "daily_cases": 50.1593,
+      "hospital_load": 67.7491
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": false
+     },
+     "settling_time": {
+      "daily_cases": "> 25",
+      "hospital_load": "> 25"
+     },
+     "drift_sigma": {
+      "daily_cases": 74.7,
+      "hospital_load": 58.01
+     }
+    },
+    {
+     "start": 520,
+     "end": 545,
+     "kind": "hold",
+     "u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "level": {
+      "daily_cases": 87.1086,
+      "hospital_load": 52.9455
+     },
+     "settled": {
+      "daily_cases": false,
+      "hospital_load": true
+     },
+     "settling_time": {
+      "daily_cases": "> 25",
+      "hospital_load": "15"
+     },
+     "drift_sigma": {
+      "daily_cases": 150.41,
+      "hospital_load": 6.96e-05
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 120,
+       "daily_cases": 50.9629,
+       "hospital_load": 46.7786
+      },
+      {
+       "start": 185,
+       "end": 225,
+       "daily_cases": 180.7991,
+       "hospital_load": 73.7171
+      },
+      {
+       "start": 270,
+       "end": 315,
+       "daily_cases": 93.3773,
+       "hospital_load": 66.2336
+      },
+      {
+       "start": 375,
+       "end": 435,
+       "daily_cases": 97.6473,
+       "hospital_load": 58.2314
+      },
+      {
+       "start": 470,
+       "end": 495,
+       "daily_cases": 105.2056,
+       "hospital_load": 62.3011
+      }
+     ]
+    },
+    {
+     "u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 120,
+       "end": 185,
+       "daily_cases": 36.7084,
+       "hospital_load": 25.5854
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 225,
+       "end": 270,
+       "daily_cases": 112.8875,
+       "hospital_load": 151.6631
+      }
+     ]
+    },
+    {
+     "u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 315,
+       "end": 375,
+       "daily_cases": 82.0045,
+       "hospital_load": 59.5673
+      },
+      {
+       "start": 520,
+       "end": 545,
+       "daily_cases": 87.1086,
+       "hospital_load": 52.9455
+      }
+     ]
+    },
+    {
+     "u": [
+      0.0,
+      0.5,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 435,
+       "end": 470,
+       "daily_cases": 72.0425,
+       "hospital_load": 60.1793
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      1.0,
+      0.0
+     ],
+     "holds": [
+      {
+       "start": 495,
+       "end": 520,
+       "daily_cases": 50.1593,
+       "hospital_load": 67.7491
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 120,
+     "from_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "hold": 65,
+     "pre_unsettled": [
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 50.9629,
+       "post": 36.7084,
+       "delta": -14.2545,
+       "delta_sigma": -79.22,
+       "peak_excursion": -16.2087,
+       "peak_tick": 41,
+       "delay": 0,
+       "settling_time": "> 65",
+       "t90": 22,
+       "overshoot": 0.137,
+       "overshoot_sigma": 10.86,
+       "k_lin": 0.1196,
+       "k_log": 0.1022,
+       "ringing_crossings": 2
+      },
+      "hospital_load": {
+       "pre": 34.0621,
+       "post": 25.5854,
+       "delta": -8.4767,
+       "delta_sigma": -62.12,
+       "peak_excursion": -8.6344,
+       "peak_tick": 59,
+       "delay": 0,
+       "settling_time": "> 65",
+       "t90": 47,
+       "overshoot": 0.019,
+       "overshoot_sigma": 1.16,
+       "k_lin": 0.0143,
+       "k_log": 0.0096,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 185,
+     "from_u": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 38.2377,
+       "post": 180.7991,
+       "delta": 142.5614,
+       "delta_sigma": 792.26,
+       "peak_excursion": 154.5894,
+       "peak_tick": 39,
+       "delay": 2,
+       "settling_time": "> 40",
+       "t90": 31,
+       "overshoot": 0.084,
+       "overshoot_sigma": 66.84,
+       "k_lin": null,
+       "k_log": 0.034,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 25.3277,
+       "post": 73.7171,
+       "delta": 48.3894,
+       "delta_sigma": 354.59,
+       "peak_excursion": 58.4598,
+       "peak_tick": 39,
+       "delay": 3,
+       "settling_time": "> 40",
+       "t90": 33,
+       "overshoot": 0.208,
+       "overshoot_sigma": 73.79,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 225,
+     "from_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "to_u": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "hold": 45,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 196.8822,
+       "post": 112.8875,
+       "delta": -83.9947,
+       "delta_sigma": -466.78,
+       "peak_excursion": -93.4706,
+       "peak_tick": 44,
+       "delay": 0,
+       "settling_time": "> 45",
+       "t90": 36,
+       "overshoot": 0.113,
+       "overshoot_sigma": 52.66,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 86.5296,
+       "post": 151.6631,
+       "delta": 65.1335,
+       "delta_sigma": 477.29,
+       "peak_excursion": 69.0127,
+       "peak_tick": 23,
+       "delay": 0,
+       "settling_time": "> 45",
+       "t90": 16,
+       "overshoot": 0.06,
+       "overshoot_sigma": 28.43,
+       "k_lin": 0.1022,
+       "k_log": 0.1105,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 270,
+     "from_u": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "hold": 45,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 100.86,
+       "post": 93.3773,
+       "delta": -7.4828,
+       "delta_sigma": -41.58,
+       "peak_excursion": -12.4709,
+       "peak_tick": 17,
+       "delay": 0,
+       "settling_time": "> 45",
+       "t90": 5,
+       "overshoot": 0.667,
+       "overshoot_sigma": 27.72,
+       "k_lin": 0.3073,
+       "k_log": 0.3073,
+       "ringing_crossings": 2
+      },
+      "hospital_load": {
+       "pre": 145.3794,
+       "post": 66.2336,
+       "delta": -79.1458,
+       "delta_sigma": -579.97,
+       "peak_excursion": -80.5455,
+       "peak_tick": 44,
+       "delay": 0,
+       "settling_time": "> 45",
+       "t90": 29,
+       "overshoot": 0.018,
+       "overshoot_sigma": 10.26,
+       "k_lin": 0.0397,
+       "k_log": 0.0248,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 315,
+     "from_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "hold": 60,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 94.557,
+       "post": 82.0045,
+       "delta": -12.5526,
+       "delta_sigma": -69.76,
+       "peak_excursion": -14.5032,
+       "peak_tick": 59,
+       "delay": 8,
+       "settling_time": "> 60",
+       "t90": 49,
+       "overshoot": 0.155,
+       "overshoot_sigma": 10.84,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 64.173,
+       "post": 59.5673,
+       "delta": -4.6056,
+       "delta_sigma": -33.75,
+       "peak_excursion": -7.0599,
+       "peak_tick": 59,
+       "delay": 1,
+       "settling_time": "> 60",
+       "t90": 51,
+       "overshoot": 0.533,
+       "overshoot_sigma": 17.98,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 375,
+     "from_u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "to_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "hold": 60,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 79.6141,
+       "post": 97.6473,
+       "delta": 18.0333,
+       "delta_sigma": 100.22,
+       "peak_excursion": 21.9808,
+       "peak_tick": 59,
+       "delay": 2,
+       "settling_time": "> 60",
+       "t90": 50,
+       "overshoot": 0.219,
+       "overshoot_sigma": 21.94,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 56.7518,
+       "post": 58.2314,
+       "delta": 1.4796,
+       "delta_sigma": 10.84,
+       "peak_excursion": -6.3669,
+       "peak_tick": 25,
+       "delay": 10,
+       "settling_time": "> 60",
+       "t90": 52,
+       "overshoot": 2.075,
+       "overshoot_sigma": 22.5,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 435,
+     "from_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      0.5,
+      0.0
+     ],
+     "hold": 35,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 102.2608,
+       "post": 72.0425,
+       "delta": -30.2183,
+       "delta_sigma": -167.93,
+       "peak_excursion": -31.1089,
+       "peak_tick": 34,
+       "delay": 2,
+       "settling_time": "> 35",
+       "t90": 24,
+       "overshoot": 0.029,
+       "overshoot_sigma": 4.95,
+       "k_lin": 0.0689,
+       "k_log": 0.0544,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 61.8016,
+       "post": 60.1793,
+       "delta": -1.6223,
+       "delta_sigma": -11.89,
+       "peak_excursion": 5.2571,
+       "peak_tick": 11,
+       "delay": 1,
+       "settling_time": "> 35",
+       "t90": 31,
+       "overshoot": 0.632,
+       "overshoot_sigma": 7.51,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 470,
+     "from_u": [
+      0.0,
+      0.5,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "hold": 25,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 70.7702,
+       "post": 105.2056,
+       "delta": 34.4354,
+       "delta_sigma": 191.37,
+       "peak_excursion": 36.6463,
+       "peak_tick": 24,
+       "delay": 1,
+       "settling_time": "> 25",
+       "t90": 20,
+       "overshoot": 0.064,
+       "overshoot_sigma": 12.29,
+       "k_lin": 0.0229,
+       "k_log": 0.043,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 58.7095,
+       "post": 62.3011,
+       "delta": 3.5916,
+       "delta_sigma": 26.32,
+       "peak_excursion": 4.7381,
+       "peak_tick": 24,
+       "delay": 7,
+       "settling_time": "> 25",
+       "t90": 22,
+       "overshoot": 0.319,
+       "overshoot_sigma": 8.4,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 495,
+     "from_u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "to_u": [
+      1.0,
+      1.0,
+      0.0
+     ],
+     "hold": 25,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 108.9275,
+       "post": 50.1593,
+       "delta": -58.7682,
+       "delta_sigma": -326.59,
+       "peak_excursion": -60.9096,
+       "peak_tick": 24,
+       "delay": 2,
+       "settling_time": "> 25",
+       "t90": 18,
+       "overshoot": 0.036,
+       "overshoot_sigma": 11.9,
+       "k_lin": 0.0873,
+       "k_log": 0.043,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 64.1795,
+       "post": 67.7491,
+       "delta": 3.5696,
+       "delta_sigma": 26.16,
+       "peak_excursion": 8.3441,
+       "peak_tick": 11,
+       "delay": 3,
+       "settling_time": "> 25",
+       "t90": 3,
+       "overshoot": 1.338,
+       "overshoot_sigma": 34.99,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 520,
+     "from_u": [
+      1.0,
+      1.0,
+      0.0
+     ],
+     "to_u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "hold": 25,
+     "pre_unsettled": [
+      "daily_cases",
+      "hospital_load"
+     ],
+     "obs": {
+      "daily_cases": {
+       "pre": 46.5688,
+       "post": 87.1086,
+       "delta": 40.5398,
+       "delta_sigma": 225.29,
+       "peak_excursion": 43.9005,
+       "peak_tick": 24,
+       "delay": 1,
+       "settling_time": "> 25",
+       "t90": 20,
+       "overshoot": 0.083,
+       "overshoot_sigma": 18.68,
+       "k_lin": null,
+       "k_log": 0.0367,
+       "ringing_crossings": 1
+      },
+      "hospital_load": {
+       "pre": 65.6012,
+       "post": 52.9455,
+       "delta": -12.6557,
+       "delta_sigma": -92.74,
+       "peak_excursion": -13.0526,
+       "peak_tick": 19,
+       "delay": 1,
+       "settling_time": "> 25",
+       "t90": 12,
+       "overshoot": 0.031,
+       "overshoot_sigma": 2.91,
+       "k_lin": 0.1638,
+       "k_log": 0.1514,
+       "ringing_crossings": 2
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [
+    {
+     "on_tick": 120,
+     "off_tick": 185,
+     "obs": {
+      "daily_cases": {
+       "delta_on": -14.2545,
+       "delta_off": 142.5614,
+       "delay_on": 0,
+       "delay_off": 2,
+       "settle_on": "> 65",
+       "settle_off": "> 40",
+       "return_to_baseline_sigma": 721.54,
+       "k_ratio_log": 3.006,
+       "symmetric_log": false
+      },
+      "hospital_load": {
+       "delta_on": -8.4767,
+       "delta_off": 48.3894,
+       "delay_on": 0,
+       "delay_off": 3,
+       "settle_on": "> 65",
+       "settle_off": "> 40",
+       "return_to_baseline_sigma": 290.58
+      }
+     }
+    },
+    {
+     "on_tick": 225,
+     "off_tick": 270,
+     "obs": {
+      "daily_cases": {
+       "delta_on": -83.9947,
+       "delta_off": -7.4828,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 45",
+       "settle_off": "> 45",
+       "return_to_baseline_sigma": -575.21
+      },
+      "hospital_load": {
+       "delta_on": 65.1335,
+       "delta_off": -79.1458,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 45",
+       "settle_off": "> 45",
+       "return_to_baseline_sigma": -148.73,
+       "k_ratio_lin": 2.574,
+       "symmetric_lin": false,
+       "k_ratio_log": 4.456,
+       "symmetric_log": false
+      }
+     }
+    },
+    {
+     "on_tick": 315,
+     "off_tick": 375,
+     "obs": {
+      "daily_cases": {
+       "delta_on": -12.5526,
+       "delta_off": 18.0333,
+       "delay_on": 8,
+       "delay_off": 2,
+       "settle_on": "> 60",
+       "settle_off": "> 60",
+       "return_to_baseline_sigma": 17.17
+      },
+      "hospital_load": {
+       "delta_on": -4.6056,
+       "delta_off": 1.4796,
+       "delay_on": 1,
+       "delay_off": 10,
+       "settle_on": "> 60",
+       "settle_off": "> 60",
+       "return_to_baseline_sigma": -43.54
+      }
+     }
+    },
+    {
+     "on_tick": 435,
+     "off_tick": 470,
+     "obs": {
+      "daily_cases": {
+       "delta_on": -30.2183,
+       "delta_off": 34.4354,
+       "delay_on": 2,
+       "delay_off": 1,
+       "settle_on": "> 35",
+       "settle_off": "> 25",
+       "return_to_baseline_sigma": 16.37,
+       "k_ratio_lin": 3.009,
+       "symmetric_lin": false,
+       "k_ratio_log": 1.265,
+       "symmetric_log": true
+      },
+      "hospital_load": {
+       "delta_on": -1.6223,
+       "delta_off": 3.5916,
+       "delay_on": 1,
+       "delay_off": 7,
+       "settle_on": "> 35",
+       "settle_off": "> 25",
+       "return_to_baseline_sigma": 3.66
+      }
+     }
+    }
+   ],
+   "returns": [
+    {
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tick": 185,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "daily_cases": 721.54,
+      "hospital_load": 197.4
+     }
+    },
+    {
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tick": 270,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "daily_cases": 235.71,
+      "hospital_load": 142.56
+     }
+    },
+    {
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tick": 375,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "daily_cases": 259.44,
+      "hospital_load": 83.92
+     }
+    },
+    {
+     "u": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tick": 470,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "daily_cases": 301.44,
+      "hospital_load": 113.75
+     }
+    },
+    {
+     "u": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "tick": 520,
+     "vs_tick": 315,
+     "diff_sigma": {
+      "daily_cases": 28.36,
+      "hospital_load": -48.52
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "daily_cases",
+     "feature": "level",
+     "target": "hospital_load",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.78,
+     "corr_lag0": 0.607
+    },
+    {
+     "source": "hospital_load",
+     "feature": "level",
+     "target": "daily_cases",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.733,
+     "corr_lag0": 0.607
+    },
+    {
+     "source": "daily_cases",
+     "feature": "rise",
+     "target": "hospital_load",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.667,
+     "corr_lag0": 0.391
+    },
+    {
+     "source": "daily_cases",
+     "feature": "diff",
+     "target": "hospital_load",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": -0.663,
+     "corr_lag0": -0.646
+    },
+    {
+     "source": "hospital_load",
+     "feature": "level",
+     "target": "daily_cases",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.663,
+     "corr_lag0": -0.646
+    },
+    {
+     "source": "daily_cases",
+     "feature": "fall",
+     "target": "hospital_load",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": 0.642,
+     "corr_lag0": 0.633
+    },
+    {
+     "source": "daily_cases",
+     "feature": "absdiff",
+     "target": "hospital_load",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.64,
+     "corr_lag0": 0.541
+    },
+    {
+     "source": "hospital_load",
+     "feature": "rise",
+     "target": "daily_cases",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.603,
+     "corr_lag0": 0.382
+    },
+    {
+     "source": "hospital_load",
+     "feature": "diff",
+     "target": "daily_cases",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.516,
+     "corr_lag0": 0.367
+    },
+    {
+     "source": "daily_cases",
+     "feature": "level",
+     "target": "hospital_load",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.482,
+     "corr_lag0": 0.367
+    },
+    {
+     "source": "daily_cases",
+     "feature": "rise",
+     "target": "hospital_load",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.383,
+     "corr_lag0": -0.28
+    },
+    {
+     "source": "hospital_load",
+     "feature": "rise",
+     "target": "daily_cases",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.383,
+     "corr_lag0": 0.191
+    },
+    {
+     "source": "daily_cases",
+     "feature": "diff",
+     "target": "hospital_load",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.366,
+     "corr_lag0": 0.086
+    },
+    {
+     "source": "hospital_load",
+     "feature": "diff",
+     "target": "daily_cases",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.289,
+     "corr_lag0": 0.086
+    },
+    {
+     "source": "daily_cases",
+     "feature": "absdiff",
+     "target": "hospital_load",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.281,
+     "corr_lag0": 0.184
+    },
+    {
+     "source": "hospital_load",
+     "feature": "fall",
+     "target": "daily_cases",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": -0.242,
+     "corr_lag0": -0.21
+    },
+    {
+     "source": "daily_cases",
+     "feature": "fall",
+     "target": "hospital_load",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.216,
+     "corr_lag0": 0.042
+    },
+    {
+     "source": "hospital_load",
+     "feature": "absdiff",
+     "target": "daily_cases",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.214,
+     "corr_lag0": 0.085
+    },
+    {
+     "source": "hospital_load",
+     "feature": "absdiff",
+     "target": "daily_cases",
+     "target_feature": "diff",
+     "best_lag": -7,
+     "best_corr": 0.184,
+     "corr_lag0": 0.163
+    },
+    {
+     "source": "hospital_load",
+     "feature": "fall",
+     "target": "daily_cases",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.13,
+     "corr_lag0": 0.033
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "daily_cases",
+     "target": "hospital_load",
+     "r2_controls_only": 0.5699,
+     "best_rate": 0.1,
+     "r2_with_memories": 0.8192,
+     "r2_gain": 0.2493,
+     "coef_rise_sigma": -4.06,
+     "coef_fall_sigma": 10.613
+    },
+    {
+     "source": "hospital_load",
+     "target": "daily_cases",
+     "r2_controls_only": 0.2355,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.4215,
+     "r2_gain": 0.1861,
+     "coef_rise_sigma": 33.775,
+     "coef_fall_sigma": -69.775
+    }
+   ],
+   "plot": "data\\epidemic\\R1_r0_battery.png"
+  }
+ ]
+}

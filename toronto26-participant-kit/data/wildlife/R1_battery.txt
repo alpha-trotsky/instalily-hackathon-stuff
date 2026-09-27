@@ -1,0 +1,52 @@
+
+=== run 0: 540 ticks, controls ['hunting_quota', 'habitat_protection', 'corridor_access']
+noise sigma: prey_north 0.5148 (rel 0.44%, proportional), predator_north 0.01098 (rel 0.48%, partial), prey_south 0.3948 (rel 0.44%, proportional), predator_south 0.01003 (rel 0.45%, proportional)
+reset transient: prey_north 94.6934->120.8765 settle 56.0, predator_north 13.8272->2.5711 settle > 120, prey_south 74.1002->96.6876 settle 65.0, predator_south 11.5002->2.5205 settle > 120
+switch @120 u [0.0, -0.0, 0.0]->[1.0, -0.0, 0.0] (hold 65):
+   prey_north       d  -90.4629 (-175.74 sig) delay    0 settle   > 65 k_lin  0.0589 k_log   0.034 overshoot 0.015 
+   predator_north   d   -0.3679 (  -33.5 sig) delay    8 settle   > 65 k_lin    None k_log    None overshoot 0.089 
+   prey_south       d  -84.7546 (-214.69 sig) delay    0 settle   47.0 k_lin  0.0807 k_log  0.0397 overshoot 0.003 
+   predator_south   d   -0.4149 ( -41.35 sig) delay    5 settle   > 65 k_lin    None k_log    None overshoot 0.101 
+switch @185 u [1.0, -0.0, 0.0]->[0.0, -0.0, 0.0] (hold 65):
+   prey_north       d   99.7761 ( 193.83 sig) delay    0 settle   > 65 k_lin  0.0944 k_log  0.1105 overshoot 0.403 
+   predator_north   d     0.217 (  19.76 sig) delay   16 settle   > 65 k_lin    None k_log    None overshoot 0.193 
+   prey_south       d   94.3339 ( 238.95 sig) delay    0 settle   > 65 k_lin  0.0873 k_log  0.1105 overshoot 0.512 
+   predator_south   d    0.2968 (  29.59 sig) delay   11 settle   > 65 k_lin    None k_log    None overshoot 0.104 
+switch @250 u [0.0, -0.0, 0.0]->[0.0, 1.0, 0.0] (hold 40):
+   prey_north       d  -54.9373 (-106.73 sig) delay    0 settle   28.0 k_lin  0.1293 k_log  0.1105 overshoot 0.007 
+   predator_north   d    0.0312 (   2.84 sig) delay    4 settle    6.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma), transient excursion
+   prey_south       d  -33.6165 ( -85.15 sig) delay    1 settle   27.0 k_lin  0.1196 k_log  0.1105 overshoot 0.004 
+   predator_south   d    0.0242 (   2.41 sig) delay    7 settle   20.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma), transient excursion
+switch @290 u [0.0, 1.0, 0.0]->[0.0, -0.0, 0.0] (hold 40):
+   prey_north       d   52.4574 ( 101.91 sig) delay    0 settle   29.0 k_lin  0.1105 k_log  0.1293 overshoot 0.007 
+   predator_north   d   -0.0535 (  -4.87 sig) delay    9 settle   11.0 k_lin  0.1514 k_log  0.1514 overshoot   0.2 
+   prey_south       d   31.7891 (  80.52 sig) delay    0 settle   27.0 k_lin  0.1105 k_log  0.1196 overshoot  0.01 
+   predator_south   d    -0.025 (  -2.49 sig) delay   25 settle    1.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+switch @330 u [0.0, -0.0, 0.0]->[0.0, -0.0, 1.0] (hold 40):
+   prey_north       d  -10.1389 (  -19.7 sig) delay    0 settle   26.0 k_lin  0.3073 k_log  0.3073 overshoot 0.229 
+   predator_north   d   -0.5993 ( -54.57 sig) delay    0 settle   28.0 k_lin  0.1022 k_log  0.0944 overshoot 0.009 
+   prey_south       d  -20.4495 (  -51.8 sig) delay    0 settle   24.0 k_lin  0.2074 k_log  0.2074 overshoot 0.053 
+   predator_south   d   -0.6481 (  -64.6 sig) delay    0 settle   29.0 k_lin  0.1022 k_log  0.0944 overshoot 0.008 
+switch @370 u [0.0, -0.0, 1.0]->[0.0, -0.0, 0.0] (hold 70):
+   prey_north       d   21.2873 (  41.35 sig) delay    1 settle   > 70 k_lin  0.1105 k_log  0.1105 overshoot 0.252 
+   predator_north   d    0.9303 (   84.7 sig) delay    0 settle   > 70 k_lin  0.0465 k_log  0.0544 overshoot 0.038 
+   prey_south       d   22.3911 (  56.72 sig) delay    0 settle   > 70 k_lin  0.1917 k_log  0.1917 overshoot 0.436 
+   predator_south   d    0.8079 (  80.53 sig) delay    0 settle   > 70 k_lin  0.0807 k_log  0.0873 overshoot 0.095 
+switch @440 u [0.0, -0.0, 0.0]->[0.5, -0.0, 0.0] (hold 50):
+   prey_north       d  -40.4769 ( -78.63 sig) delay    0 settle   33.0 k_lin  0.1022 k_log  0.0873 overshoot 0.002 
+   predator_north   d   -0.2939 ( -26.76 sig) delay    0 settle   > 50 k_lin  0.0132 k_log  0.0104 overshoot 0.065 
+   prey_south       d  -35.1094 ( -88.93 sig) delay    0 settle   34.0 k_lin  0.1022 k_log  0.0873 overshoot 0.008 
+   predator_south   d   -0.1478 ( -14.73 sig) delay   21 settle   > 50 k_lin  0.0023 k_log    None overshoot  0.11 
+switch @490 u [0.5, -0.0, 0.0]->[0.0, -0.0, 0.0] (hold 50):
+   prey_north       d   34.0415 (  66.13 sig) delay    0 settle   28.0 k_lin  0.1105 k_log  0.1196 overshoot 0.013 
+   predator_north   d   -0.0036 (  -0.33 sig) delay   12 settle   34.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   prey_south       d   34.7525 (  88.03 sig) delay    0 settle   31.0 k_lin  0.1105 k_log  0.1293 overshoot 0.004 
+   predator_south   d    0.0227 (   2.26 sig) delay   12 settle   33.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+on/off @120/185: prey_north k_on/k_off lin 0.624 log 0.308 return 14.79 sig; predator_north k_on/k_off lin None log None return -17.55 sig; prey_south k_on/k_off lin 0.924 log 0.359 return 24.26 sig; predator_south k_on/k_off lin None log None return -16.87 sig
+on/off @250/290: prey_north k_on/k_off lin 1.17 log 0.855 return -4.82 sig; predator_north k_on/k_off lin None log None return -2.03 sig; prey_south k_on/k_off lin 1.082 log 0.924 return -4.63 sig; predator_south k_on/k_off lin None log None return -1.17 sig
+on/off @330/370: prey_north k_on/k_off lin 2.781 log 2.781 return 22.29 sig; predator_north k_on/k_off lin 2.198 log 1.735 return 30.14 sig; prey_south k_on/k_off lin 1.082 log 1.082 return 6.28 sig; predator_south k_on/k_off lin 1.266 log 1.081 return 15.1 sig
+on/off @440/490: prey_north k_on/k_off lin 0.925 log 0.73 return -12.5 sig; predator_north k_on/k_off lin None log None return -29.48 sig; prey_south k_on/k_off lin 0.925 log 0.675 return -0.9 sig; predator_south k_on/k_off lin None log None return -14.87 sig
+top correlations: predator_north.level->predator_south.level 0.995@-2; predator_south.level->predator_north.level 0.995@2; prey_north.level->prey_south.level 0.974@0; prey_south.level->prey_north.level 0.974@0; predator_north.diff->predator_south.diff 0.95@0; predator_south.diff->predator_north.diff 0.95@0
+top memory regressions: predator_south rise/fall -> predator_north gain 0.4962 a=0.3; predator_north rise/fall -> predator_south gain 0.4355 a=0.3; prey_north rise/fall -> predator_north gain 0.1925 a=0.05; prey_north rise/fall -> predator_south gain 0.1844 a=0.05
+
+saved data\wildlife\R1_battery.json

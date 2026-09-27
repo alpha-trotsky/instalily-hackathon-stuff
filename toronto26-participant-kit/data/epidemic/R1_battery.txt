@@ -1,0 +1,42 @@
+
+=== run 0: 545 ticks, controls ['school_closure', 'mask_mandate', 'vaccination_rate']
+noise sigma: daily_cases 0.1799 (rel 0.22%, proportional), hospital_load 0.1365 (rel 0.21%, proportional)
+reset transient: daily_cases 113.7831->50.9629 settle > 120, hospital_load 37.6654->46.7786 settle > 120
+switch @120 u [0.0, 0.0, 0.0]->[0.0, 1.0, 0.0] (hold 65):
+   daily_cases      d  -14.2545 ( -79.22 sig) delay    0 settle   > 65 k_lin  0.1196 k_log  0.1022 overshoot 0.137 
+   hospital_load    d   -8.4767 ( -62.12 sig) delay    0 settle   > 65 k_lin  0.0143 k_log  0.0096 overshoot 0.019 
+switch @185 u [0.0, 1.0, 0.0]->[0.0, 0.0, 0.0] (hold 40):
+   daily_cases      d  142.5614 ( 792.26 sig) delay    2 settle   > 40 k_lin    None k_log   0.034 overshoot 0.084 
+   hospital_load    d   48.3894 ( 354.59 sig) delay    3 settle   > 40 k_lin    None k_log    None overshoot 0.208 
+switch @225 u [0.0, 0.0, 0.0]->[1.0, 0.0, 0.0] (hold 45):
+   daily_cases      d  -83.9947 (-466.78 sig) delay    0 settle   > 45 k_lin    None k_log    None overshoot 0.113 
+   hospital_load    d   65.1335 ( 477.29 sig) delay    0 settle   > 45 k_lin  0.1022 k_log  0.1105 overshoot  0.06 
+switch @270 u [1.0, 0.0, 0.0]->[0.0, 0.0, 0.0] (hold 45):
+   daily_cases      d   -7.4828 ( -41.58 sig) delay    0 settle   > 45 k_lin  0.3073 k_log  0.3073 overshoot 0.667 
+   hospital_load    d  -79.1458 (-579.97 sig) delay    0 settle   > 45 k_lin  0.0397 k_log  0.0248 overshoot 0.018 
+switch @315 u [0.0, 0.0, 0.0]->[0.0, 0.0, 1.0] (hold 60):
+   daily_cases      d  -12.5526 ( -69.76 sig) delay    8 settle   > 60 k_lin    None k_log    None overshoot 0.155 
+   hospital_load    d   -4.6056 ( -33.75 sig) delay    1 settle   > 60 k_lin    None k_log    None overshoot 0.533 
+switch @375 u [0.0, 0.0, 1.0]->[0.0, 0.0, 0.0] (hold 60):
+   daily_cases      d   18.0333 ( 100.22 sig) delay    2 settle   > 60 k_lin    None k_log    None overshoot 0.219 
+   hospital_load    d    1.4796 (  10.84 sig) delay   10 settle   > 60 k_lin    None k_log    None overshoot 2.075 
+switch @435 u [0.0, 0.0, 0.0]->[0.0, 0.5, 0.0] (hold 35):
+   daily_cases      d  -30.2183 (-167.93 sig) delay    2 settle   > 35 k_lin  0.0689 k_log  0.0544 overshoot 0.029 
+   hospital_load    d   -1.6223 ( -11.89 sig) delay    1 settle   > 35 k_lin    None k_log    None overshoot 0.632 
+switch @470 u [0.0, 0.5, 0.0]->[0.0, 0.0, 0.0] (hold 25):
+   daily_cases      d   34.4354 ( 191.37 sig) delay    1 settle   > 25 k_lin  0.0229 k_log   0.043 overshoot 0.064 
+   hospital_load    d    3.5916 (  26.32 sig) delay    7 settle   > 25 k_lin    None k_log    None overshoot 0.319 
+switch @495 u [0.0, 0.0, 0.0]->[1.0, 1.0, 0.0] (hold 25):
+   daily_cases      d  -58.7682 (-326.59 sig) delay    2 settle   > 25 k_lin  0.0873 k_log   0.043 overshoot 0.036 
+   hospital_load    d    3.5696 (  26.16 sig) delay    3 settle   > 25 k_lin    None k_log    None overshoot 1.338 
+switch @520 u [1.0, 1.0, 0.0]->[0.0, 0.0, 1.0] (hold 25):
+   daily_cases      d   40.5398 ( 225.29 sig) delay    1 settle   > 25 k_lin    None k_log  0.0367 overshoot 0.083 
+   hospital_load    d  -12.6557 ( -92.74 sig) delay    1 settle   > 25 k_lin  0.1638 k_log  0.1514 overshoot 0.031 
+on/off @120/185: daily_cases k_on/k_off lin None log 3.006 return 721.54 sig; hospital_load k_on/k_off lin None log None return 290.58 sig
+on/off @225/270: daily_cases k_on/k_off lin None log None return -575.21 sig; hospital_load k_on/k_off lin 2.574 log 4.456 return -148.73 sig
+on/off @315/375: daily_cases k_on/k_off lin None log None return 17.17 sig; hospital_load k_on/k_off lin None log None return -43.54 sig
+on/off @435/470: daily_cases k_on/k_off lin 3.009 log 1.265 return 16.37 sig; hospital_load k_on/k_off lin None log None return 3.66 sig
+top correlations: daily_cases.level->hospital_load.level 0.78@15; hospital_load.level->daily_cases.level 0.733@-10; daily_cases.rise->hospital_load.diff 0.667@15; daily_cases.diff->hospital_load.level -0.663@-4; hospital_load.level->daily_cases.diff -0.663@4; daily_cases.fall->hospital_load.level 0.642@6
+top memory regressions: daily_cases rise/fall -> hospital_load gain 0.2493 a=0.1; hospital_load rise/fall -> daily_cases gain 0.1861 a=0.02
+
+saved data\epidemic\R1_battery.json

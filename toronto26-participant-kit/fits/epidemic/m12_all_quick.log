@@ -1,0 +1,6 @@
+model greybox/epidemic_model.py modules ['m1', 'm2'] episodes 2 units ['log', 'log'] sigma [0.01, 0.01]
+  restart 0: cost 37567.7 nfev 119 (12s)
+  restart 1: cost 260223.1 nfev 3 (0s)
+  restart 2: cost 29361.9 nfev 149 (15s)
+cost 29361.9 (27s) | train score 0.5796 (persistence 0.1869)
+saved fits\epidemic\m12_all_quick.json

@@ -1,0 +1,40 @@
+{
+ "note": "PARTIAL: stopped after 3 of 6 jobs (draws=2, restarts=1). Refits start from SPEC defaults and reach 48-67k vs real 8.8-20k: optimizer failure dominates; uninformative.",
+ "results": [
+  {
+   "truth": "m13_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 48360.2,
+    "m13_all": 52723.0,
+    "m23_all": 61289.6
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 54917.9,
+    "m13_all": 54125.4,
+    "m23_all": 66846.6
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 48444.4,
+    "m13_all": 48482.3,
+    "m23_all": 57811.4
+   },
+   "selected": "m12_all"
+  }
+ ],
+ "real_costs": {
+  "m12_all": 10623.2,
+  "m13_all": 8838.7,
+  "m23_all": 20388.9
+ }
+}
