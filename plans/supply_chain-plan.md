@@ -340,6 +340,68 @@ structure of sales (B12).
 stops early on this piecewise (min/clip) model and restarts with perturbation 0.1 land in bad basins
 (cost 33k–57k), so fits are chained with perturbation 0.02–0.03 (`fits/supply_chain/chain.sh`).
 
+## 8. Run-1 pair fits (for probe ranking)
+
+Chained fits (`fits/supply_chain/chain.sh`) from the converged base, gains started at their SPEC defaults (not 0).
+Cost on R1 (σ 1.5/10/25, soft_l1), train score at σ = 0.1×std:
+
+| Fit | Cost | Train score | Mechanism parameters |
+|---|---:|---:|---|
+| base (no mechanism) | 5814.6 | 0.525 | — |
+| **m1+m2** | **5256.1** | 0.551 | m1: g1 = 0 (service unaffected), **g1r = −0.14** (rework *falls* with queue fill), a1 0.031; m2: g2p 0.088 but **a2 → 0** (H never builds: m2 inactive) |
+| m1+m3 | 5346.3 | 0.547 | m1: g1 = 0, g1r = −0.15; m3: g3 = 42.8 goods/tick, builds slowly (a3u 0.025) and fades fast (a3d 0.26) |
+| m2+m3 | 5529.7 | 0.530 | m2: a2 0.97 (instant), g2p 0.10; m3: a3u → 1 (instant), **a3d → 0 (never fades: an integrator, pinned)**, g3 8.2 |
+
+Reading (quick fits, not a verdict): m1's gain works through a *negative* rework term (less rework when the queue
+is full), which is really a patch for the shipment levels 25 vs 35 (B6) rather than congestion; m2 is unused in
+m1+m2 and pinned instant in m2+m3; m3 in m2+m3 is a pinned near-integrator. Parameters pinned at limits = missing
+structure (framework lesson 9). The m1 − m2 − m3 evidence has to come from Run 2.
+
+## 9. Run 2 design (§4.4)
+
+Candidates simulated through m12, m13, m23 (`scratchpad` script `sc_rank.py`, recorded here), ranked by the
+smallest pairwise disagreement (mean |Δ|/score σ over the probe; a probe must separate every pair):
+
+| Candidate | Steps | min pair | per 100 steps | m12/m13 | m12/m23 | m13/m23 |
+|---|---:|---:|---:|---:|---:|---:|
+| **P9c production high→low under D** (1.5 then 0.5) | 160 | **2.34** | 4.58 | 2.58 | 2.34 | 2.40 |
+| **P9a idle-then-maintenance after D+m0** | 220 | 1.38 | 2.46 | 1.38 | 2.40 | 1.63 |
+| P9a maintenance-then-idle | 220 | 1.09 | 2.30 | 1.09 | 1.96 | 2.02 |
+| P5 short order gap (20) | 160 | 1.07 | 4.00 | 2.36 | 1.07 | 2.97 |
+| P9c production low→high | 160 | 0.84 | 2.72 | 1.82 | 0.84 | 1.69 |
+| all-pulse 60 + recovery 60 | 120 | 0.74 | 2.38 | 1.03 | 0.74 | 1.09 |
+| all-pulse, gap 20, all-pulse | 160 | 0.54 | 3.47 | 2.37 | 0.54 | 2.63 |
+| P7 all-pulse hold 200 | 200 | 0.43 | 0.98 | 0.63 | 0.43 | 0.91 |
+| P2 orders 40 | 100 | 0.28 | 1.60 | 0.28 | 0.57 | 0.75 |
+| P9b rush at order start / after dispatch | 80 / 100 | 0.27 / 0.25 | 2.6 / 2.5 | 0.27 / 0.25 | 0.82 / 1.06 | 0.98 / 1.20 |
+| P5 long order gap (80) | 220 | 0.27 | 1.01 | 0.27 | 0.89 | 1.06 |
+| P7 D + maintenance 0 hold 200 | 200 | 0.19 | 1.92 | 0.19 | 1.77 | 1.89 |
+| mix 0.2 under D | 80 | 0.12 | 3.51 | 0.12 | 1.37 | 1.32 |
+| P7 D hold 200 | 200 | 0.09 | 1.14 | 0.09 | 1.09 | 1.10 |
+| rush 100 under D | 150 | 0.08 | 2.70 | 0.08 | 2.00 | 1.96 |
+| production 0 under D | 80 | 0.06 | 0.96 | 0.06 | 0.37 | 0.34 |
+
+**Chosen Run 2 (fresh reset, 500 steps):**
+
+| Block | Ticks | Steps | Purpose |
+|---|---|---:|---|
+| P0 recovery | 0–29 | 30 | reset transient, 2nd initial reading |
+| D + production 1.5 | 30–79 | 50 | **P9c** first half (high effort first) |
+| D + production 0.5 | 80–129 | 50 | **P9c** second half (low; production below recovery = other side of recovery, tip 10). Opposite sequence is R1 (1.0 → 1.5) |
+| **P7** D + maintenance 0 | 130–329 | 200 | long hold near the pulse: wear build-up (M2), commitments (M3), long-run retail/supplier levels |
+| **P9a** maintenance pause (D, maintenance 1) | 330–354 | 25 | maintenance vs … |
+| D + maintenance 0 | 355–389 | 35 | throughput after the maintenance pause |
+| **P9a** idle pause (D, maintenance 0, production 0) | 390–414 | 25 | … idle pause, mix fixed at 0.5 throughout; production 0 = other side of recovery |
+| D + maintenance 0 | 415–449 | 35 | throughput after the idle pause |
+| **P2** orders 40, then 20 | 450–489 | 40 | mid-level orders (above / below the service rate) |
+| recovery | 490–499 | 10 | release |
+
+Pair disagreement of this exact schedule (σ units, mean over each block): P9c low-effort block m12/m13 3.72,
+m13/m23 4.17; P7 m12/m23 3.2, m13/m23 3.8; P9a blocks m12/m23 3.8–5.3, m12/m13 0.3–1.2 (weakest pair). Not
+included for budget: P9b (rush before/after dispatch; low ranking, R1 already has "after"), P5 long gap (R1 has
+an 80-tick gap), all-pulse repeat (in R1). The idle pause keeps orders on, so it also gives a production-0
+drawdown.
+
 ## Status / hand-off to reviewer
 
 (Filled in at the end of Phase A.)

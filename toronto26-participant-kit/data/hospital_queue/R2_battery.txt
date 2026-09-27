@@ -1,0 +1,41 @@
+
+=== run 0: 500 ticks, controls ['staffing', 'elective_scheduling', 'diagnostic_allocation', 'urgent_priority', 'overtime', 'followup_capacity']
+noise sigma: wait_time 0.08165 (rel 0.67%, partial), queue 1.626 (rel 0.71%, proportional), discharges 1.224 (rel 9.96%, constant)
+reset transient: wait_time 2.6091->0.1176 settle 19.0, queue 36.5739->22.9542 settle 10.0, discharges 12.2141->11.5191 settle 9.0
+switch @30 u [-0.0, 0.0, 0.0, 0.0, 0.0, -0.0]->[-0.0, 0.0, 0.0, 0.0, 0.0, 1.0] (hold 80):
+   wait_time        d   -0.1161 (  -1.42 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   queue            d    0.0189 (   0.01 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   discharges       d   -0.0365 (  -0.03 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+switch @110 u [-0.0, 0.0, 0.0, 0.0, 0.0, 1.0]->[0.5, 1.0, 0.0, 0.0, 0.0, -0.0] (hold 30):
+   wait_time        d   29.5719 ( 362.18 sig) delay    0 settle   > 30 k_lin    None k_log    None overshoot 0.075 
+   queue            d  247.6635 ( 152.33 sig) delay    0 settle   > 30 k_lin  0.1514 k_log  0.2625 overshoot 0.021 
+   discharges       d   -4.2923 (  -3.51 sig) delay    2 settle   14.0 k_lin  0.0689 k_log    None overshoot 1.292 
+switch @260 u [0.5, 1.0, 0.0, 0.0, 1.0, -0.0]->[0.5, 1.0, 0.0, 0.0, 0.0, -0.0] (hold 30):
+   wait_time        d    15.749 ( 192.89 sig) delay    0 settle   > 30 k_lin  0.0465 k_log    None overshoot  0.04 
+   queue            d    1.7467 (   1.07 sig) delay    0 settle   12.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma), transient excursion
+   discharges       d   -3.6839 (  -3.01 sig) delay   24 settle    0.0 k_lin    None k_log    None overshoot 0.569 
+switch @290 u [0.5, 1.0, 0.0, 0.0, 0.0, -0.0]->[0.5, 1.0, -0.857, 0.0, 0.0, -0.0] (hold 30):
+   wait_time        d    0.6966 (   8.53 sig) delay    0 settle   > 30 k_lin  0.3073 k_log    None overshoot 23.025 
+   queue            d -115.1866 ( -70.85 sig) delay    3 settle   > 30 k_lin    None k_log    None overshoot  0.13 
+   discharges       d    4.1863 (   3.42 sig) delay   26 settle   22.0 k_lin    None k_log    None overshoot 0.184 
+switch @320 u [0.5, 1.0, -0.857, 0.0, 0.0, -0.0]->[0.5, 1.0, 0.0, 0.0, 0.0, -0.0] (hold 30):
+   wait_time        d   -7.9381 ( -97.22 sig) delay    2 settle   > 30 k_lin  0.5766 k_log    None overshoot 1.586 
+   queue            d  103.8241 (  63.86 sig) delay    1 settle   > 30 k_lin  0.0314 k_log  0.0465 overshoot 0.037 
+   discharges       d   -4.8488 (  -3.96 sig) delay    0 settle   18.0 k_lin  0.7898 k_log    None overshoot 0.807 
+switch @350 u [0.5, 1.0, 0.0, 0.0, 0.0, -0.0]->[-0.0, 0.0, 0.0, 0.0, 1.0, -0.0] (hold 30):
+   wait_time        d  -30.1702 (-369.51 sig) delay    0 settle   > 30 k_lin    None k_log    None overshoot 0.108 
+   queue            d -189.5571 (-116.59 sig) delay    0 settle   > 30 k_lin    None k_log    None overshoot 0.131 
+   discharges       d   17.1508 (  14.01 sig) delay    2 settle   22.0 k_lin    None k_log    None overshoot 0.096 
+switch @380 u [-0.0, 0.0, 0.0, 0.0, 1.0, -0.0]->[-0.0, 0.0, 0.0, 0.0, 0.0, 1.0] (hold 75):
+   wait_time        d  -12.9262 (-158.31 sig) delay    1 settle   37.0 k_lin  0.1196 k_log    None overshoot 0.000392 
+   queue            d  -19.3242 ( -11.89 sig) delay    0 settle   49.0 k_lin    None k_log    None overshoot 0.128 
+   discharges       d  -13.1076 ( -10.71 sig) delay    0 settle    0.0 k_lin    None k_log    None overshoot 0.022 
+switch @455 u [-0.0, 0.0, 0.0, 0.0, 0.0, 1.0]->[-0.0, 0.0, 0.0, 0.0, 0.0, -0.0] (hold 45):
+   wait_time        d   -0.0044 (  -0.05 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   queue            d   -2.3861 (  -1.47 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   discharges       d   -0.2113 (  -0.17 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+on/off @290/320: wait_time k_on/k_off lin 0.533 log None return -157.77 sig; queue k_on/k_off lin None log None return -20.68 sig; discharges k_on/k_off lin None log None return -0.16 sig
+top correlations: wait_time.level->queue.level 0.952@-10; queue.level->wait_time.level 0.952@12; wait_time.diff->queue.diff 0.662@-10; queue.diff->wait_time.diff 0.662@10; queue.fall->wait_time.diff -0.608@8; discharges.level->queue.level -0.586@14
+top memory regressions: queue rise/fall -> discharges gain 0.0689 a=0.3; wait_time rise/fall -> discharges gain 0.0218 a=0.2; wait_time rise/fall -> queue gain 0.0061 a=0.3; discharges rise/fall -> queue gain 0.0037 a=0.2
+
+saved data\hospital_queue\R2_battery.json

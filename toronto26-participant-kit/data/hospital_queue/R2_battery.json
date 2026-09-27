@@ -1,0 +1,1996 @@
+{
+ "data": "data/hospital_queue/R2.json",
+ "system": "hospital_queue",
+ "recovery": {
+  "diagnostic_allocation": 0.4,
+  "elective_scheduling": 0.0,
+  "followup_capacity": 1.0,
+  "overtime": 0.0,
+  "staffing": 20.0,
+  "urgent_priority": 0.6
+ },
+ "pulse": {
+  "diagnostic_allocation": 0.75,
+  "elective_scheduling": 20.0,
+  "followup_capacity": 0.0,
+  "overtime": 1.0,
+  "staffing": 5.0,
+  "urgent_priority": 1.0
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 500,
+   "controls": [
+    "staffing",
+    "elective_scheduling",
+    "diagnostic_allocation",
+    "urgent_priority",
+    "overtime",
+    "followup_capacity"
+   ],
+   "observables": [
+    "wait_time",
+    "queue",
+    "discharges"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-27T06:55:20"
+    },
+    {
+     "start_tick": 30,
+     "started_at": "2026-09-27T06:55:29"
+    },
+    {
+     "start_tick": 90,
+     "started_at": "2026-09-27T06:55:47"
+    },
+    {
+     "start_tick": 110,
+     "started_at": "2026-09-27T06:55:56"
+    },
+    {
+     "start_tick": 140,
+     "started_at": "2026-09-27T06:56:05"
+    },
+    {
+     "start_tick": 220,
+     "started_at": "2026-09-27T06:56:21"
+    },
+    {
+     "start_tick": 290,
+     "started_at": "2026-09-27T06:56:35"
+    },
+    {
+     "start_tick": 350,
+     "started_at": "2026-09-27T06:56:52"
+    },
+    {
+     "start_tick": 365,
+     "started_at": "2026-09-27T06:57:03"
+    },
+    {
+     "start_tick": 380,
+     "started_at": "2026-09-27T06:57:12"
+    },
+    {
+     "start_tick": 455,
+     "started_at": "2026-09-27T06:57:32"
+    }
+   ],
+   "noise": {
+    "wait_time": {
+     "sigma": 0.08164932605995938,
+     "per_hold": [
+      [
+       0.4746,
+       0.0048
+      ],
+      [
+       0.0058,
+       0.0036
+      ],
+      [
+       17.2005,
+       0.0525
+      ],
+      [
+       44.7759,
+       0.3696
+      ],
+      [
+       54.4531,
+       0.3441
+      ],
+      [
+       67.7708,
+       0.4066
+      ],
+      [
+       40.4931,
+       0.2687
+      ],
+      [
+       30.129,
+       0.1108
+      ],
+      [
+       0.8096,
+       0.0054
+      ],
+      [
+       0.0018,
+       0.0022
+      ]
+     ],
+     "loglog_slope": 0.5044621822830746,
+     "scales_with_level": "partial",
+     "sigma_rel": 0.006669774679468924
+    },
+    "queue": {
+     "sigma": 1.6258227408108017,
+     "per_hold": [
+      [
+       24.1492,
+       0.1667
+      ],
+      [
+       22.9753,
+       0.1348
+      ],
+      [
+       243.6297,
+       3.6324
+      ],
+      [
+       310.2794,
+       2.2705
+      ],
+      [
+       313.6069,
+       4.0847
+      ],
+      [
+       243.8537,
+       1.9049
+      ],
+      [
+       241.5113,
+       1.4109
+      ],
+      [
+       174.7178,
+       1.8408
+      ],
+      [
+       44.4212,
+       0.2533
+      ],
+      [
+       34.5008,
+       0.1611
+      ]
+     ],
+     "loglog_slope": 1.2150564622893991,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.007110639953012249
+    },
+    "discharges": {
+     "sigma": 1.2242192567593024,
+     "per_hold": [
+      [
+       12.3548,
+       0.0645
+      ],
+      [
+       11.4888,
+       0.0709
+      ],
+      [
+       5.6394,
+       3.5806
+      ],
+      [
+       9.5735,
+       0.4709
+      ],
+      [
+       5.6628,
+       4.0512
+      ],
+      [
+       7.7491,
+       1.9775
+      ],
+      [
+       3.9133,
+       3.6392
+      ],
+      [
+       18.0507,
+       2.7063
+      ],
+      [
+       11.7106,
+       0.0499
+      ],
+      [
+       11.5158,
+       0.0597
+      ]
+     ],
+     "loglog_slope": -2.5058224632326285,
+     "scales_with_level": "constant",
+     "sigma_rel": 0.09956017221221276
+    }
+   },
+   "reset_transient": {
+    "wait_time": {
+     "initial": 2.6091,
+     "first_obs": 2.5139,
+     "jump_first3": -0.3628,
+     "end_level": 0.1176,
+     "total_change": -2.4916,
+     "change_sigma": -30.5,
+     "settling_time": 19.0,
+     "t90": 17,
+     "monotone": true
+    },
+    "queue": {
+     "initial": 36.5739,
+     "first_obs": 47.6137,
+     "jump_first3": 16.512,
+     "end_level": 22.9542,
+     "total_change": -13.6197,
+     "change_sigma": -8.4,
+     "settling_time": 10.0,
+     "t90": 9,
+     "monotone": false
+    },
+    "discharges": {
+     "initial": 12.2141,
+     "first_obs": 0.000686,
+     "jump_first3": -6.2761,
+     "end_level": 11.5191,
+     "total_change": -0.695,
+     "change_sigma": -0.6,
+     "settling_time": 9.0,
+     "t90": 0,
+     "monotone": false
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 30,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 0.1176,
+      "queue": 22.9542,
+      "discharges": 11.5191
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "10",
+      "discharges": "9"
+     },
+     "drift_sigma": {
+      "wait_time": 0.92,
+      "queue": 0.05,
+      "discharges": 0.12
+     }
+    },
+    {
+     "start": 30,
+     "end": 110,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "level": {
+      "wait_time": 0.0015,
+      "queue": 22.9732,
+      "discharges": 11.4826
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "0",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 0.01,
+      "queue": 0.05,
+      "discharges": 0.02
+     }
+    },
+    {
+     "start": 110,
+     "end": 140,
+     "kind": "hold",
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 29.5734,
+      "queue": 270.6367,
+      "discharges": 7.1904
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "> 30",
+      "discharges": "14"
+     },
+     "drift_sigma": {
+      "wait_time": 146.64,
+      "queue": 19.8,
+      "discharges": 2.68
+     }
+    },
+    {
+     "start": 140,
+     "end": 220,
+     "kind": "varying",
+     "u": null
+    },
+    {
+     "start": 220,
+     "end": 260,
+     "kind": "hold",
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 42.8425,
+      "queue": 309.4287,
+      "discharges": 9.6562
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 40",
+      "queue": "5",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 23.92,
+      "queue": 1.18,
+      "discharges": 7.64e-09
+     }
+    },
+    {
+     "start": 260,
+     "end": 290,
+     "kind": "hold",
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 58.172,
+      "queue": 311.1754,
+      "discharges": 5.9723
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "12",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 32.82,
+      "queue": 2.01,
+      "discharges": 0.36
+     }
+    },
+    {
+     "start": 290,
+     "end": 320,
+     "kind": "hold",
+     "u": [
+      0.5,
+      1.0,
+      -0.857,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 59.725,
+      "queue": 195.9888,
+      "discharges": 10.1585
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": false
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "> 30",
+      "discharges": "22"
+     },
+     "drift_sigma": {
+      "wait_time": 317.88,
+      "queue": 52.75,
+      "discharges": 3.98
+     }
+    },
+    {
+     "start": 320,
+     "end": 350,
+     "kind": "hold",
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 46.1467,
+      "queue": 277.5611,
+      "discharges": 5.7706
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "> 30",
+      "discharges": "18"
+     },
+     "drift_sigma": {
+      "wait_time": 55.8,
+      "queue": 2.73,
+      "discharges": 2.53
+     }
+    },
+    {
+     "start": 350,
+     "end": 380,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 17.67,
+      "queue": 93.1658,
+      "discharges": 22.9215
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": false
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "> 30",
+      "discharges": "22"
+     },
+     "drift_sigma": {
+      "wait_time": 278.33,
+      "queue": 97.07,
+      "discharges": 8.06
+     }
+    },
+    {
+     "start": 380,
+     "end": 455,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "level": {
+      "wait_time": 0.0051,
+      "queue": 36.8791,
+      "discharges": 11.7062
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "37",
+      "queue": "51",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 0.03,
+      "queue": 0.44,
+      "discharges": 0.35
+     }
+    },
+    {
+     "start": 455,
+     "end": 500,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 0.000663,
+      "queue": 34.493,
+      "discharges": 11.4948
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "0",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 0.04,
+      "queue": 0.1,
+      "discharges": 0.01
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 30,
+       "wait_time": 0.1176,
+       "queue": 22.9542,
+       "discharges": 11.5191
+      },
+      {
+       "start": 455,
+       "end": 500,
+       "wait_time": 0.000663,
+       "queue": 34.493,
+       "discharges": 11.4948
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 30,
+       "end": 110,
+       "wait_time": 0.0015,
+       "queue": 22.9732,
+       "discharges": 11.4826
+      },
+      {
+       "start": 380,
+       "end": 455,
+       "wait_time": 0.0051,
+       "queue": 36.8791,
+       "discharges": 11.7062
+      }
+     ]
+    },
+    {
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 110,
+       "end": 140,
+       "wait_time": 29.5734,
+       "queue": 270.6367,
+       "discharges": 7.1904
+      },
+      {
+       "start": 260,
+       "end": 290,
+       "wait_time": 58.172,
+       "queue": 311.1754,
+       "discharges": 5.9723
+      },
+      {
+       "start": 320,
+       "end": 350,
+       "wait_time": 46.1467,
+       "queue": 277.5611,
+       "discharges": 5.7706
+      }
+     ]
+    },
+    {
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 220,
+       "end": 260,
+       "wait_time": 42.8425,
+       "queue": 309.4287,
+       "discharges": 9.6562
+      }
+     ]
+    },
+    {
+     "u": [
+      0.5,
+      1.0,
+      -0.857,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 290,
+       "end": 320,
+       "wait_time": 59.725,
+       "queue": 195.9888,
+       "discharges": 10.1585
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 350,
+       "end": 380,
+       "wait_time": 17.67,
+       "queue": 93.1658,
+       "discharges": 22.9215
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 30,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "hold": 80,
+     "pre_unsettled": [],
+     "obs": {
+      "wait_time": {
+       "pre": 0.1176,
+       "post": 0.0015,
+       "delta": -0.1161,
+       "delta_sigma": -1.42,
+       "peak_excursion": -0.1176,
+       "peak_tick": 61,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "queue": {
+       "pre": 22.9542,
+       "post": 22.9732,
+       "delta": 0.0189,
+       "delta_sigma": 0.01,
+       "peak_excursion": 0.1489,
+       "peak_tick": 28,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "discharges": {
+       "pre": 11.5191,
+       "post": 11.4826,
+       "delta": -0.0365,
+       "delta_sigma": -0.03,
+       "peak_excursion": -0.0672,
+       "peak_tick": 45,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 110,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "to_u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [],
+     "obs": {
+      "wait_time": {
+       "pre": 0.0015,
+       "post": 29.5734,
+       "delta": 29.5719,
+       "delta_sigma": 362.18,
+       "peak_excursion": 31.7816,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 24,
+       "overshoot": 0.075,
+       "overshoot_sigma": 27.06,
+       "k_lin": null,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 22.9732,
+       "post": 270.6367,
+       "delta": 247.6635,
+       "delta_sigma": 152.33,
+       "peak_excursion": 252.8176,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 16,
+       "overshoot": 0.021,
+       "overshoot_sigma": 3.17,
+       "k_lin": 0.1514,
+       "k_log": 0.2625,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 11.4826,
+       "post": 7.1904,
+       "delta": -4.2923,
+       "delta_sigma": -3.51,
+       "peak_excursion": -9.8361,
+       "peak_tick": 4,
+       "delay": 2,
+       "settling_time": 14.0,
+       "t90": 1,
+       "overshoot": 1.292,
+       "overshoot_sigma": 4.53,
+       "k_lin": 0.0689,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 260,
+     "from_u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "to_u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 42.423,
+       "post": 58.172,
+       "delta": 15.749,
+       "delta_sigma": 192.89,
+       "peak_excursion": 16.3734,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 21,
+       "overshoot": 0.04,
+       "overshoot_sigma": 7.65,
+       "k_lin": 0.0465,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 309.4287,
+       "post": 311.1754,
+       "delta": 1.7467,
+       "delta_sigma": 1.07,
+       "peak_excursion": 9.0039,
+       "peak_tick": 2,
+       "delay": 0,
+       "settling_time": 12.0,
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "discharges": {
+       "pre": 9.6562,
+       "post": 5.9723,
+       "delta": -3.6839,
+       "delta_sigma": -3.01,
+       "peak_excursion": -5.7797,
+       "peak_tick": 0,
+       "delay": 24,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.569,
+       "overshoot_sigma": 1.71,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 290,
+     "from_u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      0.5,
+      1.0,
+      -0.857,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 59.0284,
+       "post": 59.725,
+       "delta": 0.6966,
+       "delta_sigma": 8.53,
+       "peak_excursion": 16.737,
+       "peak_tick": 17,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 0,
+       "overshoot": 23.025,
+       "overshoot_sigma": 196.45,
+       "k_lin": 0.3073,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 311.1754,
+       "post": 195.9888,
+       "delta": -115.1866,
+       "delta_sigma": -70.85,
+       "peak_excursion": -130.1923,
+       "peak_tick": 29,
+       "delay": 3,
+       "settling_time": "> 30",
+       "t90": 25,
+       "overshoot": 0.13,
+       "overshoot_sigma": 9.23,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 5.9723,
+       "post": 10.1585,
+       "delta": 4.1863,
+       "delta_sigma": 3.42,
+       "peak_excursion": 4.9581,
+       "peak_tick": 28,
+       "delay": 26,
+       "settling_time": 22.0,
+       "t90": 25,
+       "overshoot": 0.184,
+       "overshoot_sigma": 0.63,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 320,
+     "from_u": [
+      0.5,
+      1.0,
+      -0.857,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time",
+      "queue",
+      "discharges"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 54.0848,
+       "post": 46.1467,
+       "delta": -7.9381,
+       "delta_sigma": -97.22,
+       "peak_excursion": -20.5274,
+       "peak_tick": 12,
+       "delay": 2,
+       "settling_time": "> 30",
+       "t90": 4,
+       "overshoot": 1.586,
+       "overshoot_sigma": 154.19,
+       "k_lin": 0.5766,
+       "ringing_crossings": 2
+      },
+      "queue": {
+       "pre": 173.737,
+       "post": 277.5611,
+       "delta": 103.8241,
+       "delta_sigma": 63.86,
+       "peak_excursion": 107.7065,
+       "peak_tick": 29,
+       "delay": 1,
+       "settling_time": "> 30",
+       "t90": 21,
+       "overshoot": 0.037,
+       "overshoot_sigma": 2.39,
+       "k_lin": 0.0314,
+       "k_log": 0.0465,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 10.6194,
+       "post": 5.7706,
+       "delta": -4.8488,
+       "delta_sigma": -3.96,
+       "peak_excursion": -8.7632,
+       "peak_tick": 10,
+       "delay": 0,
+       "settling_time": 18.0,
+       "t90": 0,
+       "overshoot": 0.807,
+       "overshoot_sigma": 3.2,
+       "k_lin": 0.7898,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 350,
+     "from_u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time",
+      "queue"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 47.8402,
+       "post": 17.67,
+       "delta": -30.1702,
+       "delta_sigma": -369.51,
+       "peak_excursion": -33.4173,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 25,
+       "overshoot": 0.108,
+       "overshoot_sigma": 39.77,
+       "k_lin": null,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 282.7229,
+       "post": 93.1658,
+       "delta": -189.5571,
+       "delta_sigma": -116.59,
+       "peak_excursion": -214.3126,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 25,
+       "overshoot": 0.131,
+       "overshoot_sigma": 15.23,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 5.7706,
+       "post": 22.9215,
+       "delta": 17.1508,
+       "delta_sigma": 14.01,
+       "peak_excursion": 18.7897,
+       "peak_tick": 29,
+       "delay": 2,
+       "settling_time": 22.0,
+       "t90": 23,
+       "overshoot": 0.096,
+       "overshoot_sigma": 1.34,
+       "k_lin": null,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 380,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "hold": 75,
+     "pre_unsettled": [
+      "wait_time",
+      "queue",
+      "discharges"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 12.9313,
+       "post": 0.0051,
+       "delta": -12.9262,
+       "delta_sigma": -158.31,
+       "peak_excursion": -12.9313,
+       "peak_tick": 74,
+       "delay": 1,
+       "settling_time": 37.0,
+       "t90": 19,
+       "overshoot": 0.000392,
+       "overshoot_sigma": 0.06,
+       "k_lin": 0.1196,
+       "ringing_crossings": 0
+      },
+      "queue": {
+       "pre": 56.2033,
+       "post": 36.8791,
+       "delta": -19.3242,
+       "delta_sigma": -11.89,
+       "peak_excursion": -21.7911,
+       "peak_tick": 73,
+       "delay": 0,
+       "settling_time": 49.0,
+       "t90": 48,
+       "overshoot": 0.128,
+       "overshoot_sigma": 1.52,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 24.8138,
+       "post": 11.7062,
+       "delta": -13.1076,
+       "delta_sigma": -10.71,
+       "peak_excursion": -13.395,
+       "peak_tick": 51,
+       "delay": 0,
+       "settling_time": 0.0,
+       "t90": 2,
+       "overshoot": 0.022,
+       "overshoot_sigma": 0.23,
+       "k_lin": null,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 455,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 45,
+     "pre_unsettled": [],
+     "obs": {
+      "wait_time": {
+       "pre": 0.0051,
+       "post": 0.000663,
+       "delta": -0.0044,
+       "delta_sigma": -0.05,
+       "peak_excursion": -0.0051,
+       "peak_tick": 35,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "queue": {
+       "pre": 36.8791,
+       "post": 34.493,
+       "delta": -2.3861,
+       "delta_sigma": -1.47,
+       "peak_excursion": -2.5166,
+       "peak_tick": 18,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "discharges": {
+       "pre": 11.7062,
+       "post": 11.4948,
+       "delta": -0.2113,
+       "delta_sigma": -0.17,
+       "peak_excursion": -0.244,
+       "peak_tick": 40,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [
+    {
+     "on_tick": 290,
+     "off_tick": 320,
+     "obs": {
+      "wait_time": {
+       "delta_on": 0.6966,
+       "delta_off": -7.9381,
+       "delay_on": 0,
+       "delay_off": 2,
+       "settle_on": "> 30",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -157.77,
+       "k_ratio_lin": 0.533,
+       "symmetric_lin": false
+      },
+      "queue": {
+       "delta_on": -115.1866,
+       "delta_off": 103.8241,
+       "delay_on": 3,
+       "delay_off": 1,
+       "settle_on": "> 30",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -20.68
+      },
+      "discharges": {
+       "delta_on": 4.1863,
+       "delta_off": -4.8488,
+       "delay_on": 26,
+       "delay_off": 0,
+       "settle_on": 22.0,
+       "settle_off": 18.0,
+       "return_to_baseline_sigma": -0.16
+      }
+     }
+    }
+   ],
+   "returns": [
+    {
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 260,
+     "vs_tick": 110,
+     "diff_sigma": {
+      "wait_time": 350.26,
+      "queue": 24.93,
+      "discharges": -1.0
+     }
+    },
+    {
+     "u": [
+      0.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 320,
+     "vs_tick": 110,
+     "diff_sigma": {
+      "wait_time": 202.98,
+      "queue": 4.26,
+      "discharges": -1.16
+     }
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "tick": 380,
+     "vs_tick": 30,
+     "diff_sigma": {
+      "wait_time": 0.04,
+      "queue": 8.55,
+      "discharges": 0.18
+     }
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 455,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "wait_time": -1.43,
+      "queue": 7.1,
+      "discharges": -0.02
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.952,
+     "corr_lag0": 0.913
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 12,
+     "best_corr": 0.952,
+     "corr_lag0": 0.913
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.662,
+     "corr_lag0": 0.416
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": 0.662,
+     "corr_lag0": 0.416
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 8,
+     "best_corr": -0.608,
+     "corr_lag0": -0.495
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": -0.586,
+     "corr_lag0": -0.498
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.585,
+     "corr_lag0": -0.434
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.578,
+     "corr_lag0": -0.498
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.556,
+     "corr_lag0": 0.253
+    },
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.546,
+     "corr_lag0": -0.434
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.537,
+     "corr_lag0": -0.504
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.537,
+     "corr_lag0": -0.504
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.529,
+     "corr_lag0": -0.517
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -8,
+     "best_corr": -0.515,
+     "corr_lag0": -0.392
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 5,
+     "best_corr": 0.508,
+     "corr_lag0": 0.49
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.449,
+     "corr_lag0": 0.413
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.439,
+     "corr_lag0": -0.427
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.439,
+     "corr_lag0": -0.427
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": 0.428,
+     "corr_lag0": 0.184
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": 0.417,
+     "corr_lag0": 0.413
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.401,
+     "corr_lag0": -0.359
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 5,
+     "best_corr": 0.401,
+     "corr_lag0": 0.391
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.39,
+     "corr_lag0": 0.294
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.327,
+     "corr_lag0": 0.327
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.315,
+     "corr_lag0": 0.314
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 9,
+     "best_corr": 0.283,
+     "corr_lag0": 0.226
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -9,
+     "best_corr": 0.283,
+     "corr_lag0": 0.226
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.277,
+     "corr_lag0": -0.225
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.277,
+     "corr_lag0": -0.225
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 2,
+     "best_corr": 0.27,
+     "corr_lag0": 0.247
+    },
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": -0.265,
+     "corr_lag0": -0.201
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.265,
+     "corr_lag0": -0.201
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.265,
+     "corr_lag0": 0.265
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": 0.24,
+     "corr_lag0": 0.183
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": 0.233,
+     "corr_lag0": 0.132
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 7,
+     "best_corr": 0.219,
+     "corr_lag0": 0.038
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -7,
+     "best_corr": 0.219,
+     "corr_lag0": 0.038
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.213,
+     "corr_lag0": 0.069
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.211,
+     "corr_lag0": -0.154
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": 0.206,
+     "corr_lag0": 0.029
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -2,
+     "best_corr": 0.206,
+     "corr_lag0": 0.196
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": -0.201,
+     "corr_lag0": -0.195
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.2,
+     "corr_lag0": -0.198
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -7,
+     "best_corr": 0.195,
+     "corr_lag0": 0.019
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.191,
+     "corr_lag0": 0.144
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.18,
+     "corr_lag0": -0.17
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.179,
+     "corr_lag0": 0.152
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.179,
+     "corr_lag0": -0.099
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 8,
+     "best_corr": -0.159,
+     "corr_lag0": -0.031
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -8,
+     "best_corr": -0.146,
+     "corr_lag0": -0.04
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.129,
+     "corr_lag0": 0.119
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 8,
+     "best_corr": -0.109,
+     "corr_lag0": -0.049
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.1,
+     "corr_lag0": -0.049
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": 0.095,
+     "corr_lag0": 0.082
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.095,
+     "corr_lag0": 0.082
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.088,
+     "corr_lag0": -0.088
+    },
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": 0.071,
+     "corr_lag0": 0.071
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": 0.071,
+     "corr_lag0": 0.071
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 14,
+     "best_corr": 0.056,
+     "corr_lag0": -0.017
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": 0.046,
+     "corr_lag0": -0.007
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "queue",
+     "target": "discharges",
+     "r2_controls_only": 0.6708,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.7397,
+     "r2_gain": 0.0689,
+     "coef_rise_sigma": -0.541,
+     "coef_fall_sigma": 1.132
+    },
+    {
+     "source": "wait_time",
+     "target": "discharges",
+     "r2_controls_only": 0.6708,
+     "best_rate": 0.2,
+     "r2_with_memories": 0.6926,
+     "r2_gain": 0.0218,
+     "coef_rise_sigma": 0.129,
+     "coef_fall_sigma": 0.139
+    },
+    {
+     "source": "wait_time",
+     "target": "queue",
+     "r2_controls_only": 0.9837,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.9898,
+     "r2_gain": 0.0061,
+     "coef_rise_sigma": 2.157,
+     "coef_fall_sigma": 0.25
+    },
+    {
+     "source": "discharges",
+     "target": "queue",
+     "r2_controls_only": 0.9837,
+     "best_rate": 0.2,
+     "r2_with_memories": 0.9874,
+     "r2_gain": 0.0037,
+     "coef_rise_sigma": 34.753,
+     "coef_fall_sigma": -2.605
+    },
+    {
+     "source": "queue",
+     "target": "wait_time",
+     "r2_controls_only": 0.9907,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.9921,
+     "r2_gain": 0.0013,
+     "coef_rise_sigma": 1.57,
+     "coef_fall_sigma": 13.642
+    },
+    {
+     "source": "discharges",
+     "target": "wait_time",
+     "r2_controls_only": 0.9907,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9917,
+     "r2_gain": 0.000954,
+     "coef_rise_sigma": 315.773,
+     "coef_fall_sigma": -429.588
+    }
+   ],
+   "plot": "data\\hospital_queue\\R2_r0_battery.png"
+  }
+ ]
+}
