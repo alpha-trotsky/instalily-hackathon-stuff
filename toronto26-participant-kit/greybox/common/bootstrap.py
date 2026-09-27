@@ -68,7 +68,8 @@ def job(task):
         cu, cs = core.resolve_units_noise(cmodel, names, episodes, cand['units'], cand['noise'])
         eps = [{**ep, 'u': [cmodel.normalize(a, ep['bounds']) for a in ep['actions']]} for ep in synthetic]
         res = fit(cmodel, eps, set(cand['modules']), cu, cs, restarts=restarts, horizons=cand['horizons'],
-                  train_end=cand['train_end'], seed=draw, workers=1, skip=cand['skip'], verbose=False)
+                  train_end=cand['train_end'], seed=draw, workers=1, skip=cand['skip'], verbose=False,
+                  init=cand['params'] if cand.get('warm') else None)
         costs[cand['label']] = res['cost']
     return {'truth': truth['label'], 'draw': draw, 'costs': costs, 'selected': min(costs, key=costs.get)}
 
@@ -102,11 +103,12 @@ def main(argv=None):
     ap.add_argument('--skip', type=int, default=20)
     ap.add_argument('--restarts', type=int, default=2)
     ap.add_argument('--workers', type=int, default=max(1, (os.cpu_count() or 2) - 1))
+    ap.add_argument('--warm', action='store_true', help='start every refit from the real-data params of its candidate')
     ap.add_argument('--out', type=Path, required=True)
     args = ap.parse_args(argv)
     defaults = {'model': args.model, 'units': parse_value_arg(args.units), 'noise': parse_value_arg(args.noise),
                 'data': args.data}
-    candidates = [load_candidate(f, defaults) for f in args.fits]
+    candidates = [{**load_candidate(f, defaults), 'warm': args.warm} for f in args.fits]
     labels = [c['label'] for c in candidates]
     tasks = [(t, d, candidates, args.block, args.skip, args.restarts) for d in range(args.draws) for t in candidates]
     results = []

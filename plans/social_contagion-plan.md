@@ -334,6 +334,14 @@ same-state comparison; P5 seeding gap test (D) ranked low. Candidates for the Ph
 Spend summary: R1 = 550 (cap 550), R2 = 400 (cap 400), total **950**. Budget remaining 1,050; **50 steps of the
 1,000 CAP are left as the Phase-C reserve.**
 
+Phase C reserve (modeler, review G4; free budget read before: 1,050 remaining):
+
+| Local time | Run | Ticks | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-27 02:05 | R3 (fresh reset) | 0–14 P0 recovery, 15–49 seeding 9 / incentive 0 / bridge 0.6 (M1 probe, review §4) | 50 | 1000 |
+
+**Total spent: 1,000 = CAP. No further steps may be spent on social_contagion.**
+
 ## 11. Run 2 observations (`data/social_contagion/R2.json`, 400 ticks, initial reading A 48.6 / B 37.8)
 
 Plot + battery: `data/social_contagion/R2_r0_battery.png`, `R2_battery.json`. R1 fits predicting R2:

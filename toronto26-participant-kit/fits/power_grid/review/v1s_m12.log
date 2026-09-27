@@ -1,0 +1,4 @@
+model fits/power_grid/review/pg_model_v1s.py modules ['m1', 'm2'] episodes 2 units ['linear', 'linear', 'linear'] sigma [0.5, 0.03, 0.003]
+  restart 0: cost 26828.1 nfev 89 (24s)
+cost 26828.1 (24s) | train score 0.5054 (persistence 0.2053)
+saved fits\power_grid\review\v1s_m12.json

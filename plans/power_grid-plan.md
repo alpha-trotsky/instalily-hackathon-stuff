@@ -169,8 +169,18 @@ Pairs:
 | 2026-09-27 01:48 | R1 | 470–499 (recovery ext) | 30 | 1500 |
 | 2026-09-27 01:49 | R1 | 500–524 (P1 charging 0) | 25 | 1475 |
 | 2026-09-27 01:49 | R1 | 525–549 (charging back to 1). **R1 complete: 550 steps** | 25 | 1450 |
+| 2026-09-27 01:55 | R2 | 0–39 (P0 recovery, fresh reset) | 40 | 1410 |
+| 2026-09-27 01:56 | R2 | 40–89 (interconnector 0) | 50 | 1360 |
+| 2026-09-27 01:56 | R2 | 90–129 (reopen, recovery) | 40 | 1320 |
+| 2026-09-27 01:56 | R2 | 130–169 (price 0.75, P2) | 40 | 1280 |
+| 2026-09-27 01:56 | R2 | 170–219 (all-controls pulse) | 50 | 1230 |
+| 2026-09-27 01:57 | R2 | 220–269 (all-controls pulse, ext) | 50 | 1180 |
+| 2026-09-27 01:57 | R2 | 270–319 (all-controls pulse, ext) | 50 | 1130 |
+| 2026-09-27 01:57 | R2 | 320–369 (release to recovery) | 50 | 1080 |
+| 2026-09-27 01:58 | R2 | 370–399 (reserve 150 re-pulse, charging 1). **R2 complete: 400 steps** | 30 | 1050 |
 
 Spend summary: R1 = 550 steps (cap 550). Budget remaining 1,450 (spent 550 of CAP 1,000).
+Spend summary after R2: R1 550 + R2 400 = **950 of CAP 1,000**; budget remaining **1,050**; Phase C reserve **50**.
 
 ## 6. Run 1 observations (`data/power_grid/R1.json`, 550 ticks, initial reading load 115.4, f 49.95, share 0.350)
 
@@ -220,3 +230,169 @@ Noise σ (second differences, flat stretches): load ≈ 0.09, frequency ≈ 0.02
 | reserve 150 | load unaffected | 52.0 (clipped) | 0.073 |
 | interconnector 0.2 | unaffected | ≈ 49.4 | 0.21 |
 | charging 0 | unaffected | unaffected | ≈ 0.378 |
+
+## 7. Model v0 and Run-1 pair fits
+
+Model module `toronto26-participant-kit/greybox/power_grid_model.py` (written from the theses before fitting; see
+its docstring). Base: price-dependent load level with instant + slow part, reserve delivery, renewable share relaxing
+to a target with a curtailment cap `Smax`, frequency from the supply–load imbalance with a governor (droop, finite
+response, output limit) and hard clip [47.97, 52.03]. Reset convention: the price before tick 0 is the reference 0.8
+and the slow load state starts at its 0.8 equilibrium. m1 = damped resonator on load driven by the price *step*
+(rate of change); m2 = reserve energy E (depletes with delivery, refills ∝ charging_allowance, delivered reserve
+fades when E is low, recharging draws load); m3 = interconnector heat H (fading memory of renewable flow S·x,
+curtailment when H > h3). Units linear for all three (share is a fraction, load/frequency symmetric enough for
+now). Fit residual σ: load 0.5, frequency 0.03, share 0.003 (≈ 5× the noise, to balance the observables).
+
+Run-1 pair fits (2 restarts, `fits/power_grid/m{12,13,23}_r1.json`, plot `fits/power_grid/r1_pairs.png`):
+
+| Pair | Cost | Train score (σ = 0.1×std) | Notes |
+|---|---:|---:|---|
+| m1+m2 | 14,605 | 0.495 | m2 unused (d2 → 0) |
+| m1+m3 | **14,238** | **0.504** | g3 = 0.41 (small; fits a bit of the share oscillation) |
+| m2+m3 | 25,730 | 0.449 | cannot ring: load stays first-order; g2L pinned large (misfit sink) |
+| persistence | — | 0.215 | |
+
+**Reading:** m1 is required (without it the load ringing is impossible: cost +11,000). m12 vs m13 is a tie: Run 1
+contains no probe that exercises either reserve depletion (reserve dispatch was only 70 ticks, with charging on)
+or long low interconnector flow. Not captured in v0: the share spike 0.505 after reserve release (clipped by
+Smax), the slow share oscillation at recovery, the full depth of the reset dip (72 vs model 78).
+
+## 8. Run 2 design (§4.4)
+
+`fits/power_grid/rank_probes.py` → `fits/power_grid/probe_ranking.json`: each candidate (after a 40-tick P0) is
+simulated through the three R1 pairs and through module on/off variants (m12 with a hypothetical M2 of ~150 ticks
+of full-dispatch energy; m13 with g3 = 0 / 1.5); mean |difference| in score-σ units over the probe:
+
+| Probe | Cost | m12 vs m13 | m12 vs m23 | M2 hyp on/off | M3 on/off |
+|---|---:|---:|---:|---:|---:|
+| C1 all-controls pulse 150 + release 60 | 210 | 0.18 | 10.3 | **1.22** | 0.15–0.25 |
+| C1s all-controls pulse 60 + release 60 | 120 | 0.26 | 7.3 | 0.01 | 0.25–0.39 |
+| C2 reserve 150 + charging 0 100, gap, re-pulse | 190 | 0.22 | 5.8 | 0.02 | 0.22–0.38 |
+| C3 interconnector 0 for 60, reopen 50 | 110 | 0.29 | 1.9 | 0.00 | 0.16–0.22 |
+| C4 price ramp 1.5→0 over 40, hold, ramp back | 110 | 0.23 | 4.3 | 0.00 | 0.56–1.14 |
+| C5 price 0.75 60, back 50 | 110 | 0.22 | 3.9 | 0.00 | 0.72–1.48 |
+| C6 reserve 60 for 100, off 40 | 140 | 0.35 | 1.8 | 0.01 | 0.21–0.40 |
+| C7 ic 0.2 + reserve pulse at 0.2 | 110 | 0.26 | 2.4 | 0.01 | 0.06–0.08 |
+| C8 reserve 150 pulses with a 10-tick gap | 90 | 0.18 | 2.5 | 0.02 | 0.05–0.10 |
+
+Reasons for the choice: the fitted m12 and m13 agree everywhere (≤ 0.35 σ) because neither module was
+exercised, so the ranking must lean on the "module on" hypotheses. M2 only becomes visible when stored energy runs
+low, i.e. a **long full dispatch with charging off** (C1, the only probe with a clear M2 signal); M3's model
+signal is small everywhere, but its thesis signature (overshoot after reopening a line that carried no flow) needs
+a **full closure (interconnector 0)**; the R1 closure at 0.2 kept 55% of the flow. m1 vs the rest separates on any
+price move and is already established, so the price ramp (C4) is dropped. Chosen (400 steps):
+
+| Segment | Ticks | Steps | Purpose |
+|---|---|---:|---|
+| P0 recovery | 0–39 | 40 | reset transient replicate with a new initial reading (b_init) |
+| interconnector 0 | 40–89 | 50 | M3: line cools with zero flow (u = 1.25, untested side of the pulse) |
+| reopen (recovery) | 90–129 | 40 | M3: overshoot above the ≈ 0.39 plateau then decay? (vs R1 reopen after 0.2: none). P9c |
+| price 0.75 | 130–169 | 40 | P2 mid level (linearity of the price effect, u = 0.5) |
+| **all-controls pulse** (price 0, reserve 150, charging 0, ic 0.2) | 170–319 | 150 | tip 4 joint pulse; P3; M2 depletion with no recharge; long hold (P7-lite) |
+| release to recovery | 320–369 | 50 | recovery from a joint pulse: M1 rebound, M2 recharge load draw, M3 reopen after low flow |
+| reserve 150 only (charging 1) | 370–399 | 30 | P5/P9b: second dispatch after a short gap; weaker if M2 (energy not yet refilled) |
+
+Not in Run 2 (budget): price ramp P4 (M1 already clear), a 200-tick P7 (the 150-tick joint hold is the longest), a
+mid-level reserve. Holds are adapted with the settle check; Phase C reserve = 50.
+
+## 9. Run 2 observations (`data/power_grid/R2.json`, 400 ticks, initial reading load 101.1, f 50.08, share 0.242)
+
+Run as designed (§8), no hold changed. Plot `data/power_grid/R2_r0_battery.png`, battery `R2_battery.json`.
+
+- **Reset replicate:** despite a different initial reading (load 101 vs 115, share 0.24 vs 0.35) the trajectory
+  is the same as R1 after ≈ 20 ticks (R1 − R2 load: 12.1 at tick 0, 5.2 at tick 5, 0.5 at tick 20, mean 0.49 over
+  ticks 10–39; share differs by ≤ 0.004 from tick 0). The initial load reading decays away at ≈ 17%/tick; the
+  renewable share **ignores** its initial reading entirely. Hidden state is the fixed reference (b_init ≈ 0 for
+  the slow part; the initial load deviation is a fast transient).
+- **Interconnector 0 (tick 40):** share 0.36 → 0.16 at once (0.21 at 0.2, 0.38 at 1: not proportional; ≈ 0.15 of
+  local renewables plus remote delivery). Frequency −0.9 Hz, then governors recover +0.4 Hz over 40 ticks.
+- **Reopen after full closure (tick 90), the M3 / P9c test:** share → 0.372, plateau 0.379, then declines to 0.336
+  as load rises. **No overshoot**, and the share trajectory after reopening is the same as R1's at the same ticks
+  without any closure (R1 ticks 77–119). A line that cooled for 50 ticks gave no extra delivery → **evidence
+  against M3** (unless a share cap ≈ 0.38–0.39 masks it; but that level was exceeded, to 0.505 in R1 and 0.415 in
+  R2).
+- **Price 0.75 (P2):** instant +24 (half of the +47 at price 0 → linear), peak +39 at 10 ticks (vs +75), then a
+  rebound to 94 at tick 169, below the recovery level, while price is still 0.75. Ringing amplitude roughly linear
+  in the step size.
+- **All-controls pulse (tick 170, 150 ticks):** load 94 → 145 (peak tick 183) → 114 (210) → 128 (225) → ≈ 122–129
+  (settled ≈ 124–125, slightly above R1's price-0 level ≈ 120: charging 0 / reserve may add ≈ +4, or it is the
+  0.75 → 0 history). Frequency is **not** clipped here (load high, interconnector 0.2): 49.6–50.5, settling ≈ 50.2.
+  Share 0.040 → 0.050, creeping up slowly over the whole 150 ticks. **No sign of reserve depletion** after 150 ticks
+  at full dispatch with charging 0 (frequency tracks load only; share never climbs back).
+- **Release (tick 320):** load drops to 63 (tick 339) and rebounds to 109 (tick 375): M1 ringing on release.
+  Share 0.41, plateau 0.384 while load is very low (63–66), then 0.415 at load 95: the share "cap" is not a
+  fixed fraction. Frequency rises (load fell); no shortfall dip this time.
+- **Second dispatch after a 50-tick gap (tick 370, P5/P9b):** share 0.092 → 0.063 → 0.074 and frequency 51.95 → 51.78,
+  almost identical to R1's first dispatch (share 0.100 → 0.059 → 0.072; linear fit of f on load in the dispatch:
+  f at load 100 = 51.80 in R1 vs 51.76 here). **No weaker second pulse** → weak evidence against M2 at the energy
+  scale tested.
+
+## 10. Behaviour catalogue v2 (§6.1; v1 after Run 1 is the observation list in §6, merged here)
+
+| ID | Behaviour | Evidence | Candidate explanation | Status |
+|---|---|---|---|---|
+| B1 | Load rings after every price step: overshoot ≈ 1.6× the settled change, then a rebound below/above the new level, period ≈ 60–90 ticks, weakly damped (> 130 ticks at large amplitude after price off in R1) | R1 ticks 120–350; R2 130–170, 320–400; `R1_r0_battery.png` | **M1** thermostat synchronisation | modeled by m1 resonator (single mode; amplitude after R1 price-off under-predicted) |
+| B2 | Instant load jump on a price step (+47 for 1.5 → 0 on the first tick, +24 for 1.5 → 0.75); settled change only +25 | R1 t120, t210; R2 t130 | non-thermostatic demand + synchronised switching | modeled (wLi instant + m1 resonator) |
+| B3 | Reset transient: load dips to ≈ 72 at tick 14 and rings; identical in R1 and R2 | both runs 0–120 | M1 driven by the reference-price step 0.8 → 1.5 | modeled (reset price 0.8); depth of the first dip under-predicted (78 vs 72) |
+| B4 | Initial load reading fades in ≈ 20 ticks; initial share reading ignored | R1 vs R2 ticks 0–39 | fixed hidden reference state | partly (model starts share at the reading; it should start at the reference) |
+| B5 | Price effect linear in u (P2 at u = 0.5 ≈ half of u = 1: instant and peak) | R2 130–170 | base | modeled (linear) |
+| B6 | Frequency ≈ 50 − 0.03·(load − ref) + supply terms; partial restoration (droop) | both runs | governor droop, finite response | modeled (governor loop) |
+| B7 | Frequency hard clip at ≈ 52.03 (flat while load swings) | R1 283–340, R2 374–378 | frequency / output limits | modeled (fixed clip) |
+| B8 | Reserve 150 curtails renewables within 1 tick (share 0.34 → 0.06), then share creeps 0.059 → 0.073 in ≈ 20 ticks; under the joint pulse 0.040 → 0.050 over 150 ticks | R1 280–300, R2 170–320 | dispatch by operating cost; the creep = dispatch settling, or M2 fading reserve, or M3 line cooling | **not captured** in the joint pulse: the additive share target goes to 0 (model 0.0 vs data 0.045) |
+| B9 | Share spike after reserve release (0.505 in R1, decays to 0.39 in ≈ 15 ticks) with a frequency dip to 49.15 | R1 350–365 | governors backed down during the surplus (finite ramp) → shortfall; alternatively M3 | not captured (Smax clip) |
+| B10 | Share plateau ≈ 0.38–0.39 at recovery, exceeded only after releases | R1 77–102, 380–389, 446–456; R2 96–102 | curtailment for system conditions | modeled as a hard cap Smax (wrong for B9, B11) |
+| B11 | Slow share oscillation at recovery (0.34–0.39, period ≈ 50–60) not explained by load alone | R1 430–550, R2 90–130 | lagged 1/load dilution + cap; M3 hysteresis (weak) | open |
+| B12 | Interconnector: share 0.38 (x = 1), 0.21 (0.2), 0.16 (0), instant both ways; frequency −0.7 to −0.9 Hz then partial governor recovery | R1 390–470, R2 40–130 | remote delivery capacity | modeled (linear in x; the nonlinear shape is not) |
+| B13 | No overshoot on reopening after 50 ticks at x = 0 or 40 ticks at x = 0.2 | R1 430, R2 90 | **M3 absent** (or masked) | evidence |
+| B14 | No reserve depletion in 150 ticks of full dispatch with charging 0; a second dispatch after 50 ticks equals the first | R2 170–320, 370–400 vs R1 280–310 | **M2 absent**, or reserve energy ≫ 150 ticks × 150 | evidence |
+| B15 | Charging 0 alone (reserves full): no effect | R1 500–525 | M2 idle | consistent with both |
+| B16 | Under the joint pulse the load ringing damps within ≈ 60 ticks; settled load ≈ 124–125 (vs ≈ 120 for price 0 alone) | R2 170–320 | smaller price step (0.75 → 0); possibly a charging/reserve load effect | open |
+| B17 | Noise σ: load ≈ 0.09, frequency ≈ 0.02, share ≈ 0.0004, not level-dependent | settle output | — | — |
+
+**Mechanism reading after R2.** M1 is certain (B1–B3; every pair without m1 is ≈ 11,000–17,000 cost units
+worse). Between M2 and M3 both direct probes came back **null** (B13, B14). Exactly two are active, so one of these
+nulls is misleading: either M2 needs a far longer dispatch (energy scale ≫ 150 ticks at 150; under surplus the
+dispatcher may deliver much less than 150, so energy drains slowly), or M3's heating only acts above a flow level
+not reached (the line cooled at x = 0, but capacity was not the binding limit on reopening). Candidate M3 traces:
+the slow share creep during dispatch at x = 0.2 (B8: line cooling → more import) and the recovery share
+oscillation (B11). Candidate M2 traces: the same creep (reserve fading, renewables refilling) and the ≈ +4 load
+under the joint pulse (B16). The creep is the key ambiguous observation.
+
+**Pair fits on R1 + R2** (2 restarts, `fits/power_grid/m{12,13,23}_all.json`, plot `fits/power_grid/all_pairs.png`):
+
+| Pair | Cost (R1+R2) | Train score | R1-fit → R2 score (σ = 0.1×std; persistence 0.173) | Notes |
+|---|---:|---:|---:|---|
+| m1+m2 | **30,289** | 0.472 | 0.367 | d2 = 0.006, e2 = 0.97: m2 used to fake the share creep in the joint pulse (B8) |
+| m1+m3 | 31,511 | 0.459 | 0.365 | g3 = 0.59 |
+| m2+m3 | 47,495 | 0.447 | 0.294 | no ringing; g3 = 31.9 and Smax = 2.1 (absurd) |
+
+The m12 vs m13 margin (1,200) comes from the share misfit in the joint pulse (B8), which is base-model structure,
+so it is **not** evidence yet.
+
+## 11. Status / hand-off to reviewer
+
+Files: `plans/power_grid-plan.md` (this), `toronto26-participant-kit/data/power_grid/R1.json` (550 ticks),
+`R2.json` (400 ticks), battery JSON/PNGs next to them, `greybox/power_grid_model.py` (v0), `fits/power_grid/`
+(`m*_r1.json`, `m*_all.json`, logs, `rank_probes.py`, `probe_ranking.json`, `r1_pairs.png`, `all_pairs.png`).
+
+Spent 950 of CAP 1,000 (R1 550, R2 400); simulator budget remaining 1,050; **Phase C reserve 50**.
+
+Probes run: P0 ×2; P1 for all four controls; P2 price 0.75; P3 via the all-controls joint pulse + release (tip 4);
+separating probes for M3 (full closure → reopen, P9c) and M2 (150-tick full dispatch with charging 0, then a second
+dispatch after a 50-tick gap, P5/P9b); longest hold 150 (joint pulse). Not run: price ramp (P4/P9a), mid-level
+reserve, P6 order swap, a ≥ 200-tick hold.
+
+Open, in priority order for the modeler:
+1. **Share structure (B8, B9, B10, B12):** the additive linear share target is wrong. Model delivered renewables and
+   total generation explicitly (e.g. share = min(renewables available × capacity(x), headroom) / generation,
+   curtailed by reserve surplus; governor lag gives the post-release spike). This misfit currently decides the m12
+   vs m13 comparison.
+2. **M2 vs M3 is unresolved** (both direct probes null). Re-examine the share creep in the joint pulse and the
+   recovery share oscillation once the base share model is right. If the reserve (50) is used, candidates: a long
+   mid-level dispatch that keeps frequency unclipped (e.g. reserve 60 with price 0) for M2, or interconnector fully
+   open under high renewable flow (low load: price 2.0) for M3 line heating.
+3. M1 resonator: one mode fits the first swings but under-predicts the long ringing after price off (R1 210–350) and
+   the first reset dip; try two modes or amplitude-dependent damping. Step vs ramp is untested.
+4. Initial state: the load reading is a fast transient (≈ 17%/tick) toward the fixed reference; the share reading
+   should be ignored (start share from the reference, not the reading).
+5. Untested sides: price 1.5–2.0 (u < 0), interconnector 0–0.2 tested only at 0 (share 0.16).

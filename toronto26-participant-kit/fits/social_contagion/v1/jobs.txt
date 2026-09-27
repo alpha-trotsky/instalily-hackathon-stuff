@@ -1,0 +1,7 @@
+m12 all
+m13 all
+none all
+m12 r1
+m13 r1
+m23 r1
+none r1

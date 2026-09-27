@@ -17,10 +17,10 @@ Budget at start (free read, 2026-09-27): every system 2,000 remaining; market 1,
 |---|---|---:|---|---:|---:|---|---|
 | 1 | epidemic | 1000 | **done (v1)**; 55 reserve unspent | 945 | 1055 | 3-age-group model, m1+m3 fitted on all data, "unresolved". Cross-run R1→R2: m13 0.344, m12 0.374, no-mech 0.410, persistence 0.168. All-data m13 0.75/0.73 on R1/R2. Gates pass | `toronto26-participant-kit/submission-epidemic-v1.zip` |
 | 2 | wildlife | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | food renewal + nursery (mA+mB), "unresolved" (real margin ~½ smallest bootstrap margin). Cross-run R1→R2c: mA+mB 0.417, mB+mC 0.406, mA+mC 0.302, persistence 0.066. Gates pass; no extinction/cycles in 100 constant settings | `toronto26-participant-kit/submission-wildlife-v1.zip` |
-| 3 | ad_auction | 1000 | B done, C running | 945 | 1055 | persistence baseline (Run-1 fits unconverged) | — |
-| 4 | social_contagion | 1000 | A done, B running | 950 | 1050 | persistence baseline (R1 fits score 0.23–0.40 on R2) | — |
-| 5 | power_grid | 1000 | A running | 0 | 2000 | persistence baseline | — |
-| 6 | reservoir | 1000 | not started | 0 | 2000 | persistence baseline | — |
+| 3 | ad_auction | 1000 | **done (v1)**; cap fully spent | 1000 | 1000 | M2+M3 (`m23f`, M3 memory fixed at τ=200), "accepted" by bootstrap rule (margin 109 vs min 78) but pinned params remain. Cross-run R1→R2c: m23f 0.391, base 0.355, persistence 0.107. Gates pass | `toronto26-participant-kit/submission-ad_auction-v1.zip` |
+| 4 | social_contagion | 1000 | B done, C running | 950 | 1050 | persistence baseline (R1 fits score 0.23–0.40 on R2) | — |
+| 5 | power_grid | 1000 | A done, B running | 950 | 1050 | persistence baseline (R1→R2: m12 0.367, m13 0.365, persistence 0.173) | — |
+| 6 | reservoir | 1000 | A running | 0 | 2000 | persistence baseline | — |
 | 7 | traffic | 1300 | not started | 0 | 2000 | persistence baseline | — |
 | 8 | supply_chain | 1300 | not started | 0 | 2000 | persistence baseline | — |
 | 9 | hospital_queue | 1300 | not started | 0 | 2000 | persistence baseline | — |
@@ -37,3 +37,4 @@ Phases: A researcher, B reviewer, C modeler, D commit/push. Phases are pipelined
 - Status file was accidentally truncated by a cp1252 write error and rebuilt from the orchestrator's notes; later edits use UTF-8.
 - epidemic C done (~23 min): shipped m1+m3 (age-group model), unresolved (bootstrap refits didn't converge). If time at the end: spend the 55 reserve on the reviewer's probe (fresh reset, school closure 1.0 from tick 0) and refit with longer warm starts.
 - ~01:30 Toronto: API session limit hit; the ad_auction reviewer and social_contagion researcher died at start (0 steps). Wildlife C had already spent its 60 reserve (R2c.json; wildlife now 1000/1000 of cap). Snapshot committed; relaunched ad_auction B and social_contagion A.
+- ad_auction C done (~25 min): M2+M3 shipped; 55 reserve spent on broad→narrow probe (R2c). greybox/common/bootstrap.py gained an opt-in --warm flag.

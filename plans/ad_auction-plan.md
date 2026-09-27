@@ -398,3 +398,96 @@ pair ranking from these R1 fits.
   5. Pinned parameters in the R1 pair fits: a_m2 → 1 (m12); a_m3 → 1 and g3 ≈ −5 (m13, m23). Base fits hit
      max_nfev (400–500), so they are not converged.
   6. Breadth extremes (0.1, 1.0) were each held only 15–30 ticks.
+
+## 14. Phase C spend log (reserve, review G7)
+
+| Local time | Run | Ticks | Steps | Remaining after |
+|---|---|---|---|---:|
+| 2026-09-27 01:52 | R2c (copy of R2, `--continue`; R2.json untouched) | 400–424 bid 5 / cap 100 / breadth 1.0; 425–444 bid 1.5 / cap 20 / breadth 0.1; 445–454 recovery | 55 | 1000 |
+
+Free `--budget` read before: 1,055 remaining (945 spent). **Total spent 1,000 = CAP. No reserve left.**
+Observed: unthrottled broad intro spend 82.7 → 50.8 (never capped), win 0.49 → 0.55 (creeps up), conversions rise
+2.7 → 5.2 without an overshoot; narrow follow-up win 0.358 → 0.310 (creeps down), conversions drain 5.25 → 1.87
+(no preparedness boost visible); recovery back to 13.7–14.2 spend, conv 1.65 → 2.17.
+
+## 15. Review responses (plans/ad_auction-review.md)
+
+Fits: `toronto26-participant-kit/fits/ad_auction/v1/` (driver `fitdrv.py`: fit.py's Problem, soft_l1 f_scale 2,
+residuals in **local-score σ** 0.0151 / 1.52 / 0.124 from R1+R2c, start + basin hops). Old model kept as
+`fits/ad_auction/review/ad_auction_model_v0.py`.
+
+| Gap | Response |
+|---|---|
+| G1 readiness pool τ≈15–20 | **Tested, τ≈20 rejected; fast form kept.** Added `Y_r` acting on purchases only (`J = I q (1−Y)`). Free fit drives ret_y → 0.94–1.0 (τ ≈ 1 tick: a static per-ring purchase saturation) and improves the base (R1+R2c score 0.615 / 0.543). Holding ret_y = 0.05 or 0.1 raises the cost by +160–180 (3,137 → 3,317 / 3,300). The R8 bump/dip (τ≈15–20) is therefore still **not captured**; it is not a readiness pool of this form. |
+| G2 two opportunity timescales | **Tested and rejected.** A fast purchase-driven pool `X2` (free, or ret2 held at 0.04) fits eps_x2 → 0. It is held off (`FIXED`). The exposure-driven fast pool is M2 (below), acting on opportunities only; M2's F no longer shares a degenerate role with purchase limitation (now Y). The reset win transient is still too low (G10: not chased). |
+| G3 M1 driver | **Variant (b), win share with free-sign gain, fitted.** m12 (R1 fit) g1 = 4.7, cross-run 0.253 (worst); m13 0.365. Variants (a) bid alone cannot differ between R1 and R2 pulses (same bid 5), so it cannot explain R9 by construction; (c) spend density was the v0 fit (contradicted). No M1 variant fits both R1 145–175 and R2 65–80 → **M1 not supported.** (d) ring-composition check not done (time). |
+| G4 P7 settled conversions 4.47 | **Fixed in the chosen model**: m23f settles at 4.45–4.57 at the pulse action (data 4.47); base 4.79. Plateau/abrupt drop at ~255 still not captured (no hard queue added). |
+| G5 score units | **Fixed**: all v1 fits use σ = 0.1×std (R1+R2c). |
+| G6 restarts | 1–3 basin hops per fit (fits converge in 50–100 nfev; hops rarely improve). Pinned parameters remain (below). |
+| G7 broad→narrow probe | **Run** (55 steps, §14). All fits predict the new segment within ~0.3 conversions; no positive-priming signature (narrow follow-up drains like R1 480–509). |
+| G8 proportional spend noise | Superseded by G5 (score-σ residuals are constant per observable, as the score is). |
+| G9 untested ranges | Tolerated (no reserve left). |
+| G10 reset transient | Not chased, as advised. |
+| Priming bound | `J ×= 1 + 0.8 tanh(g3 P)` ∈ [0.2, 1.8]: priming can never switch purchases off. |
+
+## 16. Model selection (§6.3)
+
+Cross-run test: fit on R1 only, predict R2c (455 ticks), local score σ = 0.1×std(R1+R2c after tick 20), mean over
+observables. Refit costs on R1+R2c are in score-σ units (comparable within this table).
+
+| Model | Cross-run R2c score | Cost R1+R2c | Score R1 / R2c (all-data fit) | Pinned / extreme |
+|---|---:|---:|---|---|
+| persistence | 0.107 | — | 0.183 / 0.107 | — |
+| base (relaxation-only fallback, no mechanism) | 0.355 | 3,137 | 0.615 / 0.543 | ret_y ≈ 1 (static saturation) |
+| m12 | 0.253 | 3,091 | 0.615 / 0.536 | **a_m2 = 1.0** |
+| m13 | 0.365 | 3,013 | 0.619 / 0.537 | **a_m3 = 1.0**, g3 = −4.2 (static penalty) |
+| m23 | 0.388 | **2,904** | 0.626 / 0.550 | **a_m3 ≈ 2e-4** (τ ≈ 5,000: near-integrator), g3 = −250 |
+| **m23f** (m23, a_m3 held at 0.005, τ = 200) | **0.391** | 2,928 | 0.626 / 0.551 | g3 −15 (bounded tanh), a_m2 0.0067 (τ ≈ 150), e2 0.35 |
+
+Why m23f and not m23: m23's near-integrator priming keeps accumulating over a 4,000-step hold. At the pulse action
+it drives settled conversions from 4.46 (t = 300) to **1.58 (t = 4,000)**, and at bid 5 / cap 100 / breadth 1.0 to
+1.32. The data cover ≤ 455 ticks and show no such decline (P7 settles at 4.47; conversions after P7 rise again to
+5.2 at breadth 1.0). Holding a_m3 at τ = 200 costs +24 in cost, gives the **best cross-run score (0.391)**, and
+settles at 4.45 / 4.04 at 4,000 ticks.
+
+Bootstrap (`fits/ad_auction/v1/boot.py`, bootstrap.py with refits warm-started from the real fits, 2 draws,
+1 restart, candidates m12_all / m13_all / m23_all, `fits/ad_auction/v1/bootstrap.json`):
+
+| Truth \ selected | m12 | m13 | m23 |
+|---|---:|---:|---:|
+| m12 | 0 | 1 | 1 |
+| m13 | 0 | 2 | 0 |
+| m23 | 0 | 0 | 2 |
+
+Winning margins: m13 33, 107; m23 149, 78; m12 never recovered (m1 is not identifiable on these schedules). Real
+winner m23 with margin 109 (over m13) ≥ smallest m23 bootstrap margin 78.
+
+**Decision: M2 + M3 (shipped as m23f), flagged "accepted by the bootstrap rule, but with a pinned parameter".**
+The confusion matrix has a strong diagonal for m13/m23 and the real margin (109) exceeds the smallest bootstrap
+margin (78), which §6.3.4 would accept. But every pair has a parameter pinned at a limit (a_m2 = 1 in m12, a_m3 = 1
+in m13, a_m3 → 0 in m23), which counts as missing structure, and m12 is not identifiable (row 0/2). m23 wins on
+cost and on the cross-run score, and m1 (any driver tried) hurts the cross-run score, so M1 is
+the most likely **absent** mechanism. M3 acts only as a slow, broad-exposure purchase penalty (negative priming),
+not as the thesis' positive priming.
+
+## 17. Final model and hand-off
+
+- **Model:** `greybox/ad_auction_model.py` (v1: + fast readiness saturation Y, win-share m1, bounded m3), modules
+  m2 + m3, a_m3 held at 0.005. Params `fits/ad_auction/final.json` (= `fits/ad_auction/v1/m23f_all.json`, fitted on
+  R1 + R2c). Confidence: **medium** in M2+M3 over the alternatives (bootstrap diagonal, margin 109 ≥ 78), **low** in M3's form (a_m3 pinned, held by hand); medium in the base structure.
+- **Scores:** cross-run (R1 fit → R2c) 0.391 vs persistence 0.107; in-sample R1 0.626 / R2c 0.551.
+  Fallback relaxation-only (base) cross-run 0.355.
+- **Gates:** score pass (0.391 > 0.107, `v1/gate_score_m23f.json`); stability pass (200 schedules + 8 × 40,000,
+  0 failures, max conversions 7.97, `v1/stab_m23f.json`); contract pass (40 × 4,000 in 9.1 s, malformed inputs ok);
+  credential scan clean.
+- **Submission:** `toronto26-participant-kit/models/ad_auction/` (predict.py, ad_auction_model.py, params.json) and
+  `toronto26-participant-kit/submission-ad_auction-v1.zip` (package.py re-verified from the extracted ZIP). Not uploaded.
+- **Budget:** 1,000 of the 1,000 CAP spent (remaining gateway budget 1,000, none usable under the CAP).
+- **Top open issues:**
+  1. Conversions' τ ≈ 15–20 bump/dip after bid steps (R8) and the P7 plateau/abrupt drop (R13) are not captured;
+     a readiness pool of the proposed form is rejected by the fit. Candidate: a hard fulfillment queue, or
+     readiness driven by impressions rather than purchases.
+  2. Long-horizon extrapolation of slow memories (M3 τ = 200 held by hand; M2 τ ≈ 150) is unverified beyond
+     455 ticks; sustained-scoring episodes rest on it.
+  3. Reset win transient (0.05 vs 0.147) and untested control ranges (bid in (0, 1.5), cap < 20 or 20–100 at high
+     bid).

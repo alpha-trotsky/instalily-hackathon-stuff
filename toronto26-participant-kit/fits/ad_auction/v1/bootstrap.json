@@ -1,0 +1,124 @@
+{
+ "results": [
+  {
+   "truth": "m12_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 2019.3881283308385,
+    "m13_all": 2011.3377814426622,
+    "m23_all": 2041.5396982912644
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m13_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 2580.4840554318184,
+    "m13_all": 2529.212486325926,
+    "m23_all": 2562.3390814209697
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 3136.7799597007242,
+    "m13_all": 2895.518878423916,
+    "m23_all": 2746.374761247992
+   },
+   "selected": "m23_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 2077.8918703259296,
+    "m13_all": 2008.1562146483438,
+    "m23_all": 1920.6864186453838
+   },
+   "selected": "m23_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 2761.203238189747,
+    "m13_all": 2691.8039367245124,
+    "m23_all": 2614.1167408273905
+   },
+   "selected": "m23_all"
+  },
+  {
+   "truth": "m13_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 2574.0058127958114,
+    "m13_all": 2467.1468581025374,
+    "m23_all": 2574.19878324373
+   },
+   "selected": "m13_all"
+  }
+ ],
+ "summary": {
+  "confusion": {
+   "m12_all": {
+    "m12_all": 0,
+    "m13_all": 1,
+    "m23_all": 1
+   },
+   "m13_all": {
+    "m12_all": 0,
+    "m13_all": 2,
+    "m23_all": 0
+   },
+   "m23_all": {
+    "m12_all": 0,
+    "m13_all": 0,
+    "m23_all": 2
+   }
+  },
+  "margins": {
+   "m12_all": [],
+   "m13_all": [
+    33.12659509504374,
+    106.85895469327397
+   ],
+   "m23_all": [
+    149.14411717592384,
+    77.68719589712191
+   ]
+  },
+  "row_accuracy": {
+   "m12_all": 0.0,
+   "m13_all": 1.0,
+   "m23_all": 1.0
+  },
+  "real_costs": {
+   "m12_all": 3090.9474759247496,
+   "m13_all": 3013.072047707603,
+   "m23_all": 2904.0119972870907
+  },
+  "real_winner": "m23_all",
+  "real_margin": 109.0600504205122,
+  "min_bootstrap_margin_winner": 77.68719589712191
+ },
+ "settings": {
+  "fits": [
+   "fits/ad_auction/v1/m12_all.json",
+   "fits/ad_auction/v1/m13_all.json",
+   "fits/ad_auction/v1/m23_all.json"
+  ],
+  "data": null,
+  "model": null,
+  "units": null,
+  "noise": null,
+  "draws": 2,
+  "block": 50,
+  "skip": 20,
+  "restarts": 1,
+  "workers": 2,
+  "out": "fits\\ad_auction\\v1\\bootstrap.json"
+ }
+}
