@@ -1,0 +1,10 @@
+m12_all 0 selected m12_all {'m12_all': 5768.8, 'm23_all': 6639.3}
+m12_all 1 selected m12_all {'m12_all': 6441.6, 'm23_all': 7403.6}
+m23_all 0 selected m23_all {'m12_all': 7862.9, 'm23_all': 7695.3}
+m23_all 1 selected m12_all {'m12_all': 6350.0, 'm23_all': 6418.2}
+
+confusion (rows: truth, columns: selected)
+                           m12_all    m23_all
+               m12_all           2          0
+               m23_all           1          1
+{"margins": {"m12_all": [870.5060741914886, 961.9489544468852], "m23_all": [167.60610866555362]}, "row_accuracy": {"m12_all": 1.0, "m23_all": 0.5}, "real_costs": {"m12_all": 7868.114666275488, "m23_all": 8722.81934997613}, "real_winner": "m12_all", "real_margin": 854.704683700641, "min_bootstrap_margin_winner": 870.5060741914886}

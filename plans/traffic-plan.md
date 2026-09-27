@@ -160,6 +160,112 @@ Pairs:
 | Local time | Run | Ticks (0-based obs idx) | Steps | Remaining after |
 |---|---|---|---:|---:|
 | 2026-09-27 02:18 (start) | — | — | 0 | 2,000 |
+| 02:19 | R1 | 0–39 (P0 recovery) | 40 | 1960 |
+| 02:20 | R1 | 40–79 (P1 ramp_metering 1 on) | 40 | 1920 |
+| 02:20 | R1 | 80–104 (ramp on, ext) | 25 | 1895 |
+| 02:20 | R1 | 105–144 (ramp off = recovery) | 40 | 1855 |
+| 02:21 | R1 | 145–169 (recovery, ext) | 25 | 1830 |
+| 02:21 | R1 | 170–209 (ramp 1 again = demand baseline D; also a P5-style repeat after a 65-tick gap) | 40 | 1790 |
+| 02:21 | R1 | 210–259 (D + signal 0.15) | 50 | 1740 |
+| 02:22 | R1 | 260–284 (D + signal 0.15, ext) | 25 | 1715 |
+| 02:22 | R1 | 285–334 (D, signal back 0.5) | 50 | 1665 |
+| 02:22 | R1 | 335–374 (D + lane_closure 0.65) | 40 | 1625 |
+| 02:22 | R1 | 375–389 (D) + 390–429 (D + clearance 0) | 55 | 1570 |
+| 02:23 | R1 | 430–469 (D + toll 0) | 40 | 1530 |
+| 02:23 | R1 | 470–494 (D + toll 0, ext) | 25 | 1505 |
+| 02:23 | R1 | 495–524 (D + toll 0 + freight 1) | 30 | 1475 |
+| 02:24 | R1 | 525–554 (D + toll 0 + lane_closure 0.65) | 30 | 1445 |
+| 02:24 | R1 | 555–584 (D + toll 0 + clearance 0) | 30 | 1415 |
+| 02:24 | R1 | 585–604 (D + toll 0, clearance back 1) | 20 | 1395 |
+| 02:24 | R1 | 605–654 (D: toll back 5) | 50 | 1345 |
+| 02:24 | R1 | 655–699 (D, ext) | 45 | 1300 |
+| 02:25 | R1 | 700–744 (full recovery, ramp 0). **R1 complete: 745 steps** | 45 | 1255 |
+
+
+## 6. Run 1 observations and behaviour catalogue v1 (`data/traffic/R1.json`, 745 ticks)
+
+Initial reading flow 37.3/34.1, speed 42.1/35.4. Plot `data/traffic/R1_r0_battery.png`, battery JSON
+`data/traffic/R1_battery.json`. "D" = demand baseline: recovery action except ramp_metering = 1.
+
+**Design change made during Run 1 (important):** at the recovery action the network is **empty** (flow 0 on both
+routes): ramp_metering 0 admits no demand. Signal, lane closure, clearance and freight can only act on vehicles, so
+their P1s were run on top of D (ramp 1) instead of on top of recovery. Every control still got an on/off P1; lane
+closure, clearance and freight were additionally tested in the congested regime created by toll 0.
+
+Settled / end-of-hold levels (means of the last 10–20 ticks; congested flows are means of bursty series):
+
+| Setting (ticks) | flow_a | flow_b | speed_a | speed_b |
+|---|---:|---:|---:|---:|
+| recovery, P0 (20–39) | 0 | 0 | 48.9 | 48.9 |
+| D (ramp 1), first (85–104) | 12.07 | 11.92 | 31.4 | 30.55 |
+| recovery (145–169) | 0 | 0 | 48.85 | **47.05** |
+| D second (195–209) | 12.30 | 11.68 | 31.4 | 31.5 |
+| D + signal 0.15 (270–284) | 11.19 | 12.82 | 25.9 | 30.65 |
+| D (signal back) (320–334) | 11.85 | 12.17 | 30.35 | 29.4 |
+| D + lane 0.65 (355–374) | 12.07 | 11.93 | 30.3 | 29.45 |
+| D + clearance 0 (410–429) | 12.15 | 11.86 | 30.3 | 29.48 |
+| D + toll 0 (482–494) | ~21.4 | ~11.5 | 11.9 (falling) | 15.1 |
+| D + toll 0 + freight 1 (510–524) | ~18 | ~12 | 8.8 (falling) | 15.1 |
+| D + toll 0 + lane 0.65 (540–554) | ~25 | ~13 | 8.4 | 15.1 |
+| D + toll 0 + clearance 0 (570–584) | ~15 | ~12.5 | 10.3 | 15.6 |
+| D + toll 0 (595–604) | ~19 | ~14 | 8.9 | 15.2 |
+| D, toll back 5 (690–699) | 12.0 | 12.0 | 30.2 | **15.0** |
+| recovery (730–744) | 0 | 0 | 48.9 | **46.6** |
+
+Noise σ (second differences in smooth holds): flows ≈ 0.025 (0.2 % of 12), speeds ≈ 0.10. Score σ
+(0.1 × std after tick 20): flows ≈ 0.9–1.0, speeds ≈ 1.2.
+
+### Behaviours (catalogue v1)
+
+- **B1 Empty network at recovery.** ramp_metering 0 admits no vehicles: flows are 0 (tiny positive noise) from tick
+  0 whatever the initial reading ("roads start empty"); speeds relax from the reading to free flow ≈ 48.9 in ~10
+  ticks (k ≈ 0.2). Evidence: ticks 0–39. Explanation: base (demand = f(ramp)); reset transient only in speeds.
+  Status: open (to model: demand ∝ ramp, speed relaxation from the reading).
+- **B2 Pure dead time of flows.** After ramp on, flows stay 0 for 11 ticks, then arrive in quanta (≈ 6.4, then
+  12.0); after ramp off flows continue ~10–14 ticks (pipeline drains) then drop to 0 through quanta 18/5.7. Speeds
+  react after ~2–3 ticks and relax with k ≈ 0.1 (31 after ~20 ticks). Evidence: ticks 40–60, 105–125, 170–190,
+  700–725. Explanation: base (committed vehicles travel ≈ 10 ticks; shift register, not a first-order lag).
+- **B3 Uncongested demand level.** At ramp 1, toll 5: total flow = 24.0 split ≈ 12/12, speeds ≈ 30–31.5. Lane
+  closure 0.65 and clearance 0 have **no visible effect** in this regime (ticks 335–429): the demand is below every
+  capacity they change. Status: open.
+- **B4 Slow anti-symmetric route split drift with memory (M1 candidate).** During D holds flow_a − flow_b drifts
+  with the total conserved at 24.0: 12.03/11.97 → 12.12/11.88 over 50 ticks (ticks 55–104, speed_a > speed_b); the
+  second D episode, after a 65-tick zero-demand gap during which speed_b sat 1.9 below speed_a, **starts** further
+  toward A (12.33/11.65) and drifts back to 12.25/11.75 as speed_b > speed_a. Signal 0.15 (A loses green): speed_a
+  falls 5.4 at once (no dead time), while the flow split moves only after ~15 ticks and slowly (τ ≈ 30):
+  12.2/11.8 → 11.15/12.9 over 75 ticks; after signal off it returns with the same delay and τ (11.94/12.11 at 334,
+  12.14/11.87 at 429). A split that follows the **speed gap** with a delay, and remembers it across an empty
+  period, is the route-learning signature (M1). Alternative: plain diversion of waiting drivers (would be fast and
+  need a queue). Status: open → m1.
+- **B5 Toll 0 creates congestion.** Toll 0 raises total demand to ≈ 33 (A ≈ 20, B ≈ 12.5) and makes flows
+  **bursty** (0–50 per tick, quanta ≈ 6/9.5/30/40). speed_b falls to 15 within ~20 ticks and stays; speed_a falls
+  steadily 30 → 8.5 over ~100 ticks (a queue on A still growing). B's flow is capped near 12–12.5 (B capacity),
+  and the extra demand goes to A ("waiting approach drivers may divert"). Status: open (base: demand(toll),
+  capacity-limited queues, diversion).
+- **B6 Slow, asymmetric recovery from congestion.** Toll back to 5 (ticks 605–700): A keeps discharging at ≈ 20
+  per tick for ~80 ticks (stored queue) before flow_a returns to 12 and speed_a to 30.3 (onset took ~100 ticks,
+  recovery ~85, with a delay of ~40 ticks before speed_a starts rising). Explanation: queue storage (base) and/or
+  spillback fronts (M3).
+- **B7 Persistent standing queue on B (hysteresis; M3 candidate).** After the congestion episode, at D (same
+  inputs as ticks 320–429 where speed_b = 29.4), speed_b stays at **15.0** for 95 ticks with flow_b = 12.0 — two
+  different states under identical inputs. Only ramp 0 removes it: B then discharges a stored queue (flow_b bursts
+  of 19–36 at ticks 710–722, longer than A's drain). Explanation: B's demand ≈ B's capacity so a queue that formed
+  never drains (neutral queue), or a persistent spillback front (M3). Status: open → m3 / base queue.
+- **B8 Zero-demand speed_b ratchet.** Free-flow speed_b is 48.9 before any traffic, 47.05 after the first demand
+  episode (flat for 65 ticks), 46.6 after the congestion episode; speed_a returns to 48.9 every time. A persistent,
+  B-specific state that does not fade in 50–65 ticks. Explanation: persistent spillback front on B (M3), or a
+  stale journey-time memory on B ("observed completed journey times"). Status: open.
+- **B9 Clearance in congestion.** Clearance 0 (crew to the intersection) at toll 0: speed_a rises 8.5 → 10.5 within
+  ~10 ticks, flows fall after ~20 ticks (exits no longer cleared); switching back reverses both within ~15 ticks.
+  No obvious extra switching dip. Status: open (M2 test needs a dedicated probe).
+- **B10 Freight 1 and lane closure 0.65 in congestion:** no clear effect beyond the ongoing trend (speed_a decline
+  flattened during lane 0.65, which is the wrong sign for a capacity cut). Status: open; low priority.
+- **B11 Flow quantization and burstiness.** Uncongested flows are smooth (σ 0.025) but switch in quanta of ≈ 6;
+  congested flows are bursty with a per-tick std ≈ 10–12. The score compares with noiseless values, so these bursts
+  are part of the target. The best point forecast under the |error| score is the **conditional median/mean** of
+  the burst process; a smooth model is the right target. Status: note for the modeler.
+
+Speeds are strongly correlated between routes (level corr 0.93 at lag 4, battery), through shared demand.
 
 ## Status / hand-off to reviewer
 

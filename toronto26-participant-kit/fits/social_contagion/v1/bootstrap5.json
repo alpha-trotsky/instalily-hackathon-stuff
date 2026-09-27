@@ -1,0 +1,148 @@
+{
+ "results": [
+  {
+   "truth": "m12_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 5768.836319545888,
+    "m23_all": 6639.342393737376
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 6441.625714769003,
+    "m23_all": 7403.574669215888
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 7862.897091666344,
+    "m23_all": 7695.29098300079
+   },
+   "selected": "m23_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 2,
+   "costs": {
+    "m12_all": 8407.658928657474,
+    "m23_all": 9517.895028279254
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 6350.011302655543,
+    "m23_all": 6418.196359844689
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 3,
+   "costs": {
+    "m12_all": 7899.485689290359,
+    "m23_all": 7863.689422152078
+   },
+   "selected": "m23_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 4,
+   "costs": {
+    "m12_all": 5189.086451136294,
+    "m23_all": 5920.337571676741
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 2,
+   "costs": {
+    "m12_all": 7979.960333863013,
+    "m23_all": 7737.428248315454
+   },
+   "selected": "m23_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 4,
+   "costs": {
+    "m12_all": 8722.84147953472,
+    "m23_all": 8759.341216955381
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 3,
+   "costs": {
+    "m12_all": 5826.533355684738,
+    "m23_all": 6316.054295393925
+   },
+   "selected": "m12_all"
+  }
+ ],
+ "summary": {
+  "confusion": {
+   "m12_all": {
+    "m12_all": 5,
+    "m23_all": 0
+   },
+   "m23_all": {
+    "m12_all": 2,
+    "m23_all": 3
+   }
+  },
+  "margins": {
+   "m12_all": [
+    870.5060741914886,
+    961.9489544468852,
+    1110.2360996217794,
+    731.2511205404471,
+    489.5209397091867
+   ],
+   "m23_all": [
+    167.60610866555362,
+    35.79626713828111,
+    242.5320855475593
+   ]
+  },
+  "row_accuracy": {
+   "m12_all": 1.0,
+   "m23_all": 0.6
+  },
+  "real_costs": {
+   "m12_all": 7868.114666275488,
+   "m23_all": 8722.81934997613
+  },
+  "real_winner": "m12_all",
+  "real_margin": 854.704683700641,
+  "min_bootstrap_margin_winner": 489.5209397091867
+ },
+ "settings": {
+  "fits": [
+   "fits/social_contagion/v1/m12_all.json",
+   "fits/social_contagion/v1/m23_all.json"
+  ],
+  "data": null,
+  "model": null,
+  "units": null,
+  "noise": null,
+  "draws": 5,
+  "block": 50,
+  "skip": 20,
+  "restarts": 1,
+  "workers": 3,
+  "warm": true,
+  "out": "fits\\social_contagion\\v1\\bootstrap5.json"
+ }
+}

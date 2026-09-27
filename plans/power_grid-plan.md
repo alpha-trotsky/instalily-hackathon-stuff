@@ -179,6 +179,9 @@ Pairs:
 | 2026-09-27 01:57 | R2 | 320–369 (release to recovery) | 50 | 1080 |
 | 2026-09-27 01:58 | R2 | 370–399 (reserve 150 re-pulse, charging 1). **R2 complete: 400 steps** | 30 | 1050 |
 
+| 2026-09-27 02:22 | R2c (copy of R2, `--continue`) | 400–404 (reserve 150, charging 0, price 1.5, ic 1; continuity check: share 0.075, f 51.79 ✓) | 5 | 1045 |
+| 2026-09-27 02:22 | R2c | 405–449 (same action; Phase C G1 charging A/B). **Total spent 1,000 = CAP** | 45 | 1000 |
+
 Spend summary: R1 = 550 steps (cap 550). Budget remaining 1,450 (spent 550 of CAP 1,000).
 Spend summary after R2: R1 550 + R2 400 = **950 of CAP 1,000**; budget remaining **1,050**; Phase C reserve **50**.
 

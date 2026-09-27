@@ -1,0 +1,12 @@
+m13_all recovery   late mean L  941.7 [  942,  942] in  11.26 out  10.12 q 0.9475  finite True
+m13_all pulse      late mean L  294.9 [  272,  317] in  11.37 out  11.18 q 0.9226  finite True
+m13_all pulse0.7   late mean L  294.1 [  271,  317] in  11.36 out  11.17 q 0.9285  finite True
+m13_all rel12only  late mean L  288.4 [  265,  311] in  11.27 out  11.09 q 0.9489  finite True
+m13_all rel10only  late mean L  922.5 [  900,  942] in  11.27 out  10.13 q 0.9486  finite True
+m13_all alt200     late mean L  732.7 [  353,  942] in  11.36 out   9.66 q 0.9374  finite True
+m12_all recovery   late mean L  941.5 [  942,  942] in  11.26 out  10.16 q 0.9460  finite True
+m12_all pulse      late mean L  291.7 [  269,  314] in  11.29 out  11.13 q 0.9292  finite True
+m12_all pulse0.7   late mean L  291.6 [  269,  314] in  11.29 out  11.13 q 0.9317  finite True
+m12_all rel12only  late mean L  292.7 [  270,  315] in  11.29 out  11.13 q 0.9464  finite True
+m12_all rel10only  late mean L  923.9 [  902,  941] in  11.29 out  10.19 q 0.9464  finite True
+m12_all alt200     late mean L  733.4 [  353,  942] in  11.36 out   9.67 q 0.9387  finite True

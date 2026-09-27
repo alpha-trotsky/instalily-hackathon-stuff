@@ -1,0 +1,6 @@
+model greybox/social_contagion_model.py modules ['m2', 'm3'] episodes 1 units ['log', 'log'] sigma [0.01, 0.01]
+  restart 0: cost 743.2 nfev 600 (179s)
+  restart 1: cost 732.1 nfev 600 (158s)
+  restart 2: cost 743.0 nfev 600 (101s)
+cost 732.1 (438s) | train score 0.8644 (persistence 0.2024) | eval_data score 0.3164 (persistence 0.2367)
+saved fits\social_contagion\v1\m23_r1.json
