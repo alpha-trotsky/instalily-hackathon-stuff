@@ -193,7 +193,9 @@ Pairs:
 | ~06:56 | R2 | 380–454 (recovery + follow-up 0 after the burst, P9c; shortened 90 → 75 for the extra overtime) | 75 | 795 |
 | ~06:57 | R2 | 455–499 (recovery, follow-up 1). **R2 complete: 500 steps** | 45 | 750 |
 
-**Total spent 1,250 of CAP 1,300; 750 remain on the gateway; reserve for Phase C = 50.**
+| 2026-09-27 12:41 (Phase C) | R2c (copy of R2, `--continue`) | 500–549 (recovery action, residual lifetime G4; free `--budget` check before: 750) | 50 | 700 |
+
+**Total spent 1,300 of CAP 1,300 (reserve used); 700 remain on the gateway. No further spending on this system.**
 
 ## 6. Run 1 observations and behaviour catalogue v1 (`data/hospital_queue/R1.json`, 750 ticks)
 
