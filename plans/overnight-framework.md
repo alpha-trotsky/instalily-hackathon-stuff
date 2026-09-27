@@ -31,15 +31,39 @@ The user uploads the ZIPs in the morning. **Never upload anything.**
   - `--confirm N` must equal the number of steps.
   - It handles OneDrive file locks.
   - Never write collection code that bypasses these protections.
-- **Credentials.** They are read only from `app-141-1d2abb-credentials.json` by the scripts. Never print the key, copy it into a file, or put it in a ZIP.
+- **Credentials.** Always get a client from `toronto26-participant-kit/gateway.py` (`make_client()`). It tries these sources in order:
+  1. the gitignored credentials file (local machine);
+  2. the `GROUNDTRUTH_GATEWAY_URL` / `GROUNDTRUTH_KEY` environment variables;
+  3. no key at all, in a cloud session, where the agent proxy adds it (§0.1).
+
+  For a free budget read, run `python toronto26-participant-kit/run_schedule.py --budget <system>`. Never print the key, copy it into a file, or put it in a ZIP.
 - **Scope.** Don't touch market data, market models or `submission-market-v1.zip`. Don't upload anything.
-- **Backups.** After each system is finished, commit and push to `origin main`. End the commit message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+- **Backups.** After each system is finished, commit and push. On a local machine, push to `origin main`. In a cloud session, push to the session's own working branch; never push to `main` and never force-push. End the commit message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 - **Every system must end with a valid submission folder**, even if something fails. The fallbacks, in order, are:
   1. the pair model;
   2. a relaxation-only model;
   3. the persistence baseline.
 
   A missing system scores 0.
+
+## 0.1 If this is a Claude Code cloud session
+
+You are in a cloud session if the environment variable `CLAUDE_CODE_REMOTE` is `true`. In that case:
+
+- **The credentials file is not in the clone, and that is expected.**
+  - Don't look for the key or ask for it. `gateway.make_client()` sends requests without an `Authorization` header, and the environment's **API credential** for `gt-gateway-wavddee32q-uc.a.run.app` adds it outside the VM.
+  - `make_client()` also points `SSL_CERT_FILE` at the system CA bundle, so httpx trusts the proxy.
+- **First action (free).** Run `python toronto26-participant-kit/run_schedule.py --budget epidemic`. It must print a JSON budget.
+  - **401/403:** the credential isn't being attached. Retry once. If it still fails, write the error into `plans/overnight-status.md`, do Phase 0 (it needs no steps), then stop. Don't guess at other ways to authenticate.
+  - **TLS/SSL error:** set `SSL_CERT_FILE` to the bundle named in `REQUESTS_CA_BUNDLE` (or `/etc/ssl/certs/ca-certificates.crt`) and retry.
+  - **Connection blocked:** the host isn't reachable. Record it and stop, as for 401.
+- **Python packages.** If `python -c "import numpy, scipy, matplotlib, httpx"` fails, install them with `python -m pip install numpy scipy matplotlib httpx`. If pip refuses with "externally managed", add `--break-system-packages`.
+- **The VM has 4 vCPUs and 16 GB of RAM.** Run the bootstrap with 3 workers (its default is CPU count − 1), and run at most 3 fits in parallel. If a system is running behind schedule, use 2 bootstrap draws per pair instead of 3.
+- **Never end your turn while work remains.** An idle cloud session is reclaimed, and its background processes are lost.
+  - Run long jobs in the background and wait on them with blocking checks (for example an `until` loop inside one Bash call of up to 10 minutes). Repeat until they finish.
+  - Keep going until every system is done and `plans/overnight-report.md` is written.
+  - If the session is resumed after being reclaimed, follow the resume rule in §1.
+- **Git.** Commit and push to the session's own branch after each system. The user will collect the ZIPs from that branch.
 
 ## 1. Context management (one session, orchestrator + subagents)
 
@@ -292,7 +316,7 @@ Also plot every run, as in `data/market/A_0-600.png`: one panel per observable p
 4. **Submission folder.**
    - `models/<system>/` contains `predict.py`, a copy of the model module and `params.json`.
    - Standard library plus NumPy/SciPy only, files loaded relative to `__file__`, no state kept between episodes.
-   - `package.py` builds `submission-<system>-v1.zip` with the `<system>/` folder at the ZIP root, re-runs the contract check from an extracted copy, and confirms that no credential value appears in any file.
+   - `package.py` builds `submission-<system>-v1.zip` with the `<system>/` folder at the ZIP root, re-runs the contract check from an extracted copy, and confirms that no credential value appears in any file. In a cloud session there is no credentials file to compare against. There, reject any file that contains `gateway_key`, `portal_credential` or an `Authorization` header value.
 
 ## 8. Morning deliverables
 

@@ -12,21 +12,25 @@ Key dates (America/Toronto): final uploads open 2026-09-28 12:00 and close 2026-
 
 ## Simulator budget: treat it as irreversible spending
 
-Each system has **2,000 simulator steps total for the whole event**. The budget never resets, and every `/step` call costs one step (reset, brief, documents and budget reads are free). Do not run `collect.py` or call `Client.step` without the user's explicit go-ahead, and check `client.budget(system)` first. Save every observation to disk as soon as it arrives. `collect.py` does this after every step and refuses to overwrite an existing output file; preserve that behavior in any new collection scripts.
+Each system has **2,000 simulator steps total for the whole event**. The budget never resets, and every `/step` call costs one step (reset, brief, documents and budget reads are free). Do not run `collect.py` or call `Client.step` without the user's explicit go-ahead, and check the budget first. Running `plans/overnight-framework.md` counts as that go-ahead, but only within its per-system caps (1,000 steps, or 1,300 for systems with 6 controls). Market has already spent 600 steps and is excluded from that run. Save every observation to disk as soon as it arrives. `collect.py` does this after every step and refuses to overwrite an existing output file; preserve that behavior in any new collection scripts.
 
 ## Workspace layout (our additions to the kit)
 
-- `app-141-1d2abb-credentials.json` (repo root, gitignored): has the fields `gateway_url`, `gateway_key`, `portal_credential` and `team_id`. Load the key into `os.environ` only for the duration of a process. Never print it, copy it into files, or put it in a ZIP. `team_id` is the application ID, not a key.
+- `app-141-1d2abb-credentials.json` (repo root, gitignored): has the fields `gateway_url`, `gateway_key`, `portal_credential` and `team_id`. Load the key into `os.environ` only for the duration of a process. Never print it, copy it into files, or put it in a ZIP. `team_id` is the application ID, not a key. It doesn't exist in cloud sessions. There, the environment's API credential adds the key outside the VM.
+- `toronto26-participant-kit/gateway.py`: `make_client()` builds a gateway client from the credentials file, from environment variables, or with no key for the cloud proxy. `python run_schedule.py --budget <system>` is a free budget read.
+- `toronto26-participant-kit/run_schedule.py`: the only way to spend steps. It runs explicit segment schedules, saves after every step, refuses to overwrite, and `--continue` extends a run without a reset. `--confirm N` must equal the step count.
+- `toronto26-participant-kit/greybox/`: the gray-box model, rollout fitter, parametric bootstrap and plotting, from the market work. `data/<system>/` holds raw runs, and `fits/<system>/` holds fitted parameters and logs.
+- `plans/`: `market-plan.md` is the worked example (log, observations, model, bootstrap, public score). `overnight-framework.md` is the autonomous runbook for the other nine systems.
 - `toronto26-participant-kit/fetch_docs.py`: makes free reads only (brief, documents, budget) and writes `docs/<system>.json`. `brief.forecast_context` in those files is the exact `context` dict passed to `predict`, so use it for local tests.
 - `docs/<system>.md`: human-readable digest of a system's published info (`market.md` exists so far). The documents add little beyond `briefs.md` except the initial-observation ranges.
-- `models/<system>/predict.py`: submission folders. All ten currently hold the persistence baseline. `submission-baseline.zip` bundles them.
+- `models/<system>/predict.py`: submission folders. Market holds the M1+M2 gray-box model (`submission-market-v1.zip`, public score 0.6838). The other nine hold the persistence baseline, and `submission-baseline.zip` bundles them.
 
 ## Modeling approach agreed so far
 
 - Start each system with a first-order relaxation model: the target level is `c + W·controls`, and `y += k·(target − y)`. Add slow hidden states, saturation, and then mechanistic structure only when a backtest shows the need.
 - Fit parameters by minimizing error over full simulated rollouts (for example `scipy.optimize.least_squares`), not one-step-ahead regression. Rollouts are 4,000 steps and the observations are noisy.
-- Experiments should hold settings long enough to settle (step responses, pulse-then-recover, reversed orders), not random blocks. For `market`, the proposed first experiment is recovery for 150 steps, then pulse for 150, then recovery for 150. It has not been run yet.
-- Backtest locally on held-out runs you collected yourself. Use each observable's standard deviation as a stand-in for the organizer's hidden `sigma`.
+- Experiments should hold settings long enough to settle (step responses, pulse-then-recover, reversed orders), not random blocks. Market Run A (600 steps) followed this pattern. See `plans/market-plan.md`.
+- For the organizer's hidden `sigma`, use 0.1 × each observable's standard deviation when scoring locally. With 1 × std, market's local estimate was 0.93, while its public score was 0.68.
 
 ## Commands
 

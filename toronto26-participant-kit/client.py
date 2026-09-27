@@ -4,7 +4,9 @@ import httpx
 
 class Client:
     def __init__(self,base_url,team_key,transport=None):
-        self.http=httpx.Client(base_url=base_url,headers={'Authorization':'Bearer '+team_key},timeout=360,transport=transport)
+        # No key: a cloud session's agent proxy adds the Authorization header outside the VM.
+        headers={'Authorization':'Bearer '+team_key} if team_key else {}
+        self.http=httpx.Client(base_url=base_url,headers=headers,timeout=360,transport=transport)
     def close(self): self.http.close()
     def __enter__(self): return self
     def __exit__(self,*args): self.close()

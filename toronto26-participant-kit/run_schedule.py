@@ -11,6 +11,13 @@ Continue the same simulator run later (no reset) by pointing --continue at an ea
 
 A segment holds `action` for `steps` ticks, or ramps linearly from `action` to `ramp_to`.
 New runs refuse to overwrite an existing file; continued runs only append.
+
+Free budget read (no steps spent):
+
+    python run_schedule.py --budget epidemic
+
+Credentials come from gateway.make_client(): the local credentials file, environment variables, or a
+cloud session's agent proxy.
 """
 import argparse
 import json
@@ -18,9 +25,7 @@ import os
 import time
 import uuid
 from pathlib import Path
-from client import Client
-
-CREDENTIALS = Path(__file__).resolve().parent.parent / 'app-141-1d2abb-credentials.json'
+from gateway import make_client
 
 
 def expand(segments, bounds):
@@ -99,13 +104,19 @@ if __name__ == '__main__':
     parser.add_argument('--system')
     parser.add_argument('--output', type=Path)
     parser.add_argument('--continue', dest='continue_path', type=Path)
-    parser.add_argument('--segments', required=True, help='JSON list, or a path to a JSON file')
-    parser.add_argument('--confirm', type=int, required=True, help='must equal the number of steps spent')
+    parser.add_argument('--segments', help='JSON list, or a path to a JSON file')
+    parser.add_argument('--confirm', type=int, help='must equal the number of steps spent')
+    parser.add_argument('--budget', metavar='SYSTEM', help='print the remaining budget and exit (free)')
     args = parser.parse_args()
+    if args.budget:
+        with make_client() as client:
+            print(json.dumps(client.budget(args.budget)))
+        raise SystemExit(0)
+    if args.segments is None or args.confirm is None:
+        parser.error('--segments and --confirm are required to spend steps')
     text = Path(args.segments).read_text() if args.segments.endswith('.json') else args.segments
     segments = json.loads(text)
-    credentials = json.loads(CREDENTIALS.read_text())
-    with Client(credentials['gateway_url'], credentials['gateway_key']) as client:
+    with make_client() as client:
         if args.continue_path:
             run(client, args.continue_path, segments, args.confirm, continue_run=True)
         else:

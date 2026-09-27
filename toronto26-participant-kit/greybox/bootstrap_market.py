@@ -9,6 +9,7 @@ candidate pair with the same procedure used on the real data and record which pa
 """
 import argparse
 import json
+import os
 import sys
 from multiprocessing import Pool
 from pathlib import Path
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     parser.add_argument('--draws', type=int, default=5)
     parser.add_argument('--block', type=int, default=50)
     parser.add_argument('--restarts', type=int, default=2)
-    parser.add_argument('--workers', type=int, default=7)
+    parser.add_argument('--workers', type=int, default=max(1, (os.cpu_count() or 2) - 1))
     parser.add_argument('--out', type=Path, default=FITS / 'bootstrap.json')
     args = parser.parse_args()
     truths = args.truths.split(',')
