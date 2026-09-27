@@ -20,10 +20,10 @@ Each system has **2,000 simulator steps total for the whole event**. The budget 
 - `toronto26-participant-kit/gateway.py`: `make_client()` builds a gateway client from the credentials file, from environment variables, or with no key for the cloud proxy. `python run_schedule.py --budget <system>` is a free budget read.
 - `toronto26-participant-kit/run_schedule.py`: the only way to spend steps. It runs explicit segment schedules, saves after every step, refuses to overwrite, and `--continue` extends a run without a reset. `--confirm N` must equal the step count.
 - `toronto26-participant-kit/greybox/`: the gray-box model, rollout fitter, parametric bootstrap and plotting, from the market work. `data/<system>/` holds raw runs, and `fits/<system>/` holds fitted parameters and logs.
-- `plans/`: `market-plan.md` is the worked example (log, observations, model, bootstrap, public score). `overnight-framework.md` is the autonomous runbook for the other nine systems.
+- `plans/`: `market-plan.md` is the worked example (log, observations, model, bootstrap, public score). `overnight-framework.md` is the autonomous runbook for the other nine systems (run completed; see `overnight-report.md`). `<system>-plan.md` and `<system>-review.md` hold each system's full record.
 - `toronto26-participant-kit/fetch_docs.py`: makes free reads only (brief, documents, budget) and writes `docs/<system>.json`. `brief.forecast_context` in those files is the exact `context` dict passed to `predict`, so use it for local tests.
 - `docs/<system>.md`: human-readable digest of a system's published info (`market.md` exists so far). The documents add little beyond `briefs.md` except the initial-observation ranges.
-- `models/<system>/predict.py`: submission folders. Market holds the M1+M2 gray-box model (`submission-market-v1.zip`, public score 0.6838). The other nine hold the persistence baseline, and `submission-baseline.zip` bundles them.
+- `models/<system>/`: submission folders. All ten hold gray-box models (`predict.py`, a model-module copy, `params.json`). Market is v1 (public 0.6838). The other nine come from the overnight run of 2026-09-27; the combined upload `submission-overnight-all.zip` scored 0.71 average publicly. **Start any new session by reading `plans/overnight-report.md`**: it has the handoff, per-system findings, remaining budgets, tooling gotchas and the next plan.
 
 ## Modeling approach agreed so far
 
