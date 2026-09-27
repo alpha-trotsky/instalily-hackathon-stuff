@@ -240,3 +240,177 @@ Separating evidence still needed (for Run 2): M1 has no signature yet (needs a P
 M2 vs base promises (needs the incentive-off step vs ramp, and short vs long incentive holds); M3 vs B backlog
 (needs a second bridge campaign, a longer post-bridge observation and a local-vs-bridge comparison from the same
 state).
+
+## 8. Model module and Run-1 pair fits
+
+Module: `toronto26-participant-kit/greybox/social_contagion_model.py` (v0, ~17 ms per 550-tick rollout; log units,
+residual σ 0.01). Base structure from the brief + catalogue: per community (A, B) two audience types
+(r = relationship/deliberative, i = incentive-led) with potential pools N_c·(1−φ_c | φ_c); interest from word of
+mouth (β_c M_c/N_c), local outreach (σ_c × seeding(1−b), through 2 lag stages = dead time B3), bridge introductions
+(τ_c × seeding·b × M_other/N_other) and, for type i, the incentive (ι ui); an onboarding queue with a capacity
+κ_c/(1 + ω M_c/100) (workforce shared with members) and abandonment; churn d_k·exp(−γ ui) (incentive retains, B5)
+into a disappointed pool that reconsiders at ρ. Reset: a fixed share ψ_c of the reading is type i (B1), queues empty.
+Mechanism modules written from the theses before fitting:
+- m1 credibility: fading memory of the waiting time (queue / capacity) lowers all interest by exp(−g1 Cm).
+- m2 incentive expectations: E ← E + a2(ui − E), E(0) = e0; extra churn g2·max(E − ui, 0) for all members.
+- m3 cross-community ties: R ← R + a3u·(seeding·b)(1 − R) − a3d R; extra cross-community interest g3 R M_o/N_o.
+
+Plotting: `fits/social_contagion/plotfit.py` (run with `PYTHONPATH=.` from the kit).
+
+Fits on R1 (all 550 ticks, log units, σ 0.01, soft_l1; pairs init from `init_r1.json` = base params with pinned
+values moved into the interior and module params at SPEC defaults (nonzero gains); 1 restart, max_nfev 400 —
+quick fits for probe ranking only):
+
+| Fit | Cost | Train score (σ = 0.1 std) | Module params | Notes |
+|---|---:|---:|---|---|
+| base (`base_r1`) | 6,884 | 0.633 | — | 2 restarts; restart 0 stopped at nfev 97. Pinned: qa → 1, psiB → 1, om → 0, gret → 0, iota ≈ 10 (large). Misses B9 (B's continued growth after the bridge campaign) and the incentive-on transient |
+| m1+m2 (`m12_r1`) | 3,477 | 0.718 | a1 0.019, g1 1.18; a2 0.06, g2 0.033, **e0 → 1 (pinned)** | iota 162 (pinned large), qa → 1, psiA → 0 |
+| m1+m3 (`m13_r1`) | 3,938 | 0.693 | a1 0.04, **g1 → 21**; a3u 0.0016, a3d → 0, **g3 → 10 (cap)** | iota → 5e21 (runaway), stopped at nfev 168 |
+| **m2+m3** (`m23_r1`) | **1,648** | **0.796** | a2 0.043, g2 0.078, e0 0.13; a3u 0.0003, a3d 0.0012, **g3 → 10 (cap)** | iota → 0, dr 0.066, psiB → 1 |
+
+Plot `fits/social_contagion/pairs_r1.png` (base + three pairs). Readings:
+- m2+m3 fits R1 best by a wide margin: m2 (disappointment when the offer falls below the expectation) explains the
+  incentive-off crash (B6) and, with e0 0.13, part of the reset drop (B1); m3 explains B's continued growth after the
+  bridge campaign (B9). m3's rates are very slow and g3 is at its cap: R acts as a near-permanent accumulator of bridge
+  work — standing in for structure (possibly a B onboarding backlog), not yet evidence.
+- The pairs without m2 need a runaway incentive attraction (iota) to fake the incentive-on step; the pairs without m3
+  miss B9 (A overshoots, B undershoots after the bridge campaign).
+- Pinned parameters everywhere (qa → 1, ψ → 0/1, g3 at cap): the base is not yet right; the modeler must revisit
+  the onboarding queue (qa → 1 means the queue is not used) and the initial mix.
+
+## 9. Run 2 design (§4.4)
+
+Candidates simulated through the three R1 pairs after a common 30-tick P0 (`fits/social_contagion/run2_design.py`);
+disagreement = mean |Δ| / (0.1 std) over the three pair differences, per 100 steps:
+
+| Candidate | Steps | Pair diff 12-13 / 12-23 / 13-23 (σ) | Score /100 steps |
+|---|---:|---|---:|
+| I P3 seeding 9 + incentive 2 (60) + rec 40 | 100 | 2.7 / 7.6 / 7.9 | **6.07** |
+| G bridge 1.0 campaign (seeding 9) 40 + rec 60 | 100 | 7.1 / 4.7 / 2.3 | 4.70 |
+| A2 P7 full pulse (9, 2, 0.6) 150 + rec 60 | 210 | 5.8 / 10.1 / 12.2 | 4.45 |
+| A P7 full pulse 200 + rec 60 | 260 | 6.0 / 12.4 / 13.5 | 4.10 |
+| B P9b incentive before: inc 40, seed+inc 40, rec 40 | 120 | 2.6 / 5.5 / 5.9 | 3.89 |
+| J short incentive 15 + rec 45 | 60 | 1.5 / 2.2 / 2.5 | 3.42 |
+| E P2 seeding 4.5 (80) + rec 40 | 120 | 2.6 / 5.9 / 3.4 | 3.33 |
+| H local campaign 40 + rec 60 | 100 | 1.3 / 3.6 / 2.9 | 2.58 |
+| F M2 incentive 60, ramp down 30, rec 30 | 120 | 1.4 / 3.9 / 3.9 | 2.57 |
+| C P9b incentive after: seed 40, inc 40, rec 40 | 120 | 2.5 / 2.7 / 2.6 | 2.15 |
+| F2 M2 incentive 60, step down, rec 60 | 120 | 1.5 / 3.3 / 2.9 | 2.15 |
+| D P5 seeding 30 / gap 20 / 30 + rec 40 | 120 | 1.3 / 2.7 / 2.2 | 1.73 |
+| K P7 recovery 200 | 200 | 0.2 / 1.2 / 1.3 | 0.45 |
+
+The largest total disagreement is the long full-pulse hold (A: 12–13 σ for m23 vs the others) and the joint
+seeding + incentive composition (I); per step, I and the bridge-1.0 campaign (G) rank highest.
+
+**Chosen Run 2 (400 steps, fresh reset):**
+
+| Ticks | Segment | Probe / purpose |
+|---|---|---|
+| 0–24 | recovery 25 | P0 (reset replicate; different initial reading) |
+| 25–54 | incentive 2 alone (30) | **P9b "incentive before recruitment"** (R1 280 was incentive *after* the local campaign); M2 expectation builds before recruits arrive |
+| 55–254 | full pulse action seeding 9, incentive 2, bridge 0.6 (200) | **P7** long hold (settled level under sustained controls, tip 5), **P3** joint composition (I, A), **all-controls pulse** (tip 4) |
+| 255–304 | recovery 50 (all controls released at once) | **all-controls release**, P9c recovery with outreach stopped, M2 crash after a 230-tick expectation |
+| 305–344 | seeding 9, bridge 1.0 (40) | **G / M3 probe**: bridge at its upper bound (u = 1.67, other side of the pulse); a second bridge campaign from a post-crash state like R1 435 (P5-style repeat, M1) |
+| 345–399 | recovery 55 | M3: does B keep growing after the bridge stops (R1 B9 replicate at a higher bridge share)? |
+
+Not covered (reasons): P2 seeding mid-level (E) and the M2 ramp-vs-step test (F) — no room next to the ≥200 P7
+and the all-controls release; P9b "after" half comes from R1 (incentive after the local campaign), not a clean
+same-state comparison; P5 seeding gap test (D) ranked low. Candidates for the Phase-C reserve: E (P2) or F (M2 ramp).
+
+## 10. Run 2 spend log (continues §5)
+
+| Local time | Run | Ticks | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-27 01:50 | R2 | 0–24 (P0 recovery, fresh reset) | 25 | 1425 |
+| 2026-09-27 01:50 | R2 | 25–54 (incentive 2 alone: P9b "before") | 30 | 1395 |
+| 2026-09-27 01:50 | R2 | 55–104 (full pulse 9/2/0.6, part 1) | 50 | 1345 |
+| 2026-09-27 01:50 | R2 | 105–154 (full pulse, part 2) | 50 | 1295 |
+| 2026-09-27 01:51 | R2 | 155–204 (full pulse, part 3) | 50 | 1245 |
+| 2026-09-27 01:51 | R2 | 205–254 (full pulse, part 4; P7 total 200, settled) | 50 | 1195 |
+| 2026-09-27 01:51 | R2 | 255–304 (all-controls release to recovery) | 50 | 1145 |
+| 2026-09-27 01:51 | R2 | 305–344 (seeding 9 + bridge 1.0) | 40 | 1105 |
+| 2026-09-27 01:51 | R2 | 345–399 (recovery after bridge 1.0). **R2 complete: 400 steps** | 55 | 1050 |
+
+Spend summary: R1 = 550 (cap 550), R2 = 400 (cap 400), total **950**. Budget remaining 1,050; **50 steps of the
+1,000 CAP are left as the Phase-C reserve.**
+
+## 11. Run 2 observations (`data/social_contagion/R2.json`, 400 ticks, initial reading A 48.6 / B 37.8)
+
+Plot + battery: `data/social_contagion/R2_r0_battery.png`, `R2_battery.json`. R1 fits predicting R2:
+`fits/social_contagion/pairs_r1_on_R2.png` (scores σ = 0.1 std: base 0.396, m12 0.234, m13 0.248, m23 0.240).
+
+| Segment (ticks) | adopters_a | adopters_b |
+|---|---|---|
+| P0 (0–24) | 48.6 → 37.4 at tick 15 (×0.77), then +0.1/tick | 37.8 → 28.3 (×0.75), then flat — **same proportional reset drop as R1 (×0.75)** |
+| incentive 2 alone (25–54) | +0.55/tick (39 → 55) | +0.5/tick (29.5 → 43.4) — from a low member base the offer recruits in **both** communities (R1, after the campaign: A flat, B +0.3) |
+| full pulse 9/2/0.6 (55–254) | dead time 5, max +4.9/tick, **settled 199.2** | dead time 7, max +1.75/tick, 131.4 (drift < 0.02/tick at the end) |
+| all-controls release (255–304) | **0-tick-delay crash**, 199 → 43.1 (k ≈ 0.09), floor at ~tick 300 | 131 → 32.8 at tick 287, then **rises again** (+0.27/tick) |
+| seeding 9 + bridge 1.0 (305–344) | 43 → 55.5, slow, accelerating (no local effort) | 37 → 53.5 (+0.4 → +0.8/tick) |
+| recovery after bridge 1.0 (345–399) | **keeps growing 55.9 → 102.8** (+0.8 → +1.1 → +0.5/tick) | **keeps growing 53.9 → 96.5** (+0.9 → +1.0 → +0.4/tick) |
+
+Separating probes and P9 that ran:
+- **All-controls pulse and release (tip 4):** ran. The release after 200 ticks of full pulse crashes both
+  communities to the **same floor as R1's incentive-off crash and the reset trough** (A ≈ 43–46, B ≈ 29–33) within
+  ~45 ticks. The crash takes **members recruited by seeding too**, not only incentive-led recruits: every R1 fit
+  predicted a floor of 100–150. Contrast with R1 190 (seeding off at incentive 0): a slow 2%/tick decline.
+  → Members who joined or stayed **while the incentive was on** leave at ≈ 9%/tick when it is cut. Strong evidence
+  for M2 (an expectation built by the offer, and disappointment when the offer falls below it), or for a base
+  "paid promise" structure that covers everyone recruited under an offer.
+- **P7 full pulse (200):** ran; settled levels A 199.2, B 131.4. A under the full pulse (199) is **lower** than under
+  seeding alone in R1 (230): bridge 0.6 moves 40% of effort off local recruitment. B (131) is higher than under
+  seeding alone (≈ 121, still rising slowly).
+- **P3 composition (seeding + incentive + bridge):** covered by the full pulse. The effects are not additive (A is
+  lower than under seeding alone despite the incentive).
+- **P9b incentive before recruitment:** incentive alone from a low base recruits +0.5/tick in both communities, then
+  the full campaign. R1's incentive *after* recruitment (at 131 / 92 after a campaign) only held A and raised B. Both
+  ended with the same crash on removal. Not a clean same-state comparison.
+- **P9a local vs bridge / M3 probe (bridge 1.0):** ran. Bridge 1.0 (no local effort) grows both communities slowly
+  during the campaign, and **both keep growing ~1/tick for 55+ ticks after it stops**, at first faster than during the
+  campaign. R1 (bridge 0.6) showed the same in B only. A queue backlog would drain at most at the capacity rate seen
+  during the campaign; here growth **accelerates after the stop** and involves both communities → **self-sustaining
+  cross-community recruitment through relationships that outlast the campaign (M3)**.
+- **P9c recovery with new outreach stopped:** R1 190 (local: slow decline), R1 475 (bridge 0.6: A flat, B +1.1/tick
+  for 45 ticks), R2 345 (bridge 1.0: both +1/tick for 55 ticks). With the incentive also stopped (R2 255): crash.
+- **P5 / M1:** no clean seeding gap test was run. The R2 bridge campaign after the crash only partly repeats R1's
+  post-crash campaign (different bridge share), so M1 (credibility) has **no separating evidence**.
+- Not run: P2 (seeding mid-level), the M2 ramp-vs-step incentive removal, the P5 seeding gap test.
+
+## 12. Behaviour catalogue v2 (after Run 2)
+
+B1–B10 from §7 stand. Updates and new behaviours:
+
+| ID | Behaviour | Evidence | Candidate explanations | Status |
+|---|---|---|---|---|
+| B1 (upd.) | The reset drop is proportional: ×0.75–0.77 of the reading in both communities and both runs, in ~15 ticks | R1/R2 0–20 | fixed initial mix: ~25% of initial members leave (disappointed expectation e0 > 0, or type i without promises) | open |
+| B6 (upd.) | **Removing the incentive crashes both communities to a fixed floor (A 43–46, B 29–33)**, whatever recruited the members (incentive alone in R1, the full campaign in R2), at ≈ 5–9%/tick with a 0-tick delay | R1 355–405, R2 255–305 | M2 disappointment for everyone who experienced the offer; the floor is a core that never expects the offer (≈ the reset trough) | open — key, not captured by any R1 fit |
+| B11 | The floor after a crash ≈ the reset trough: the core population is the same after every crash | R1 16, 405; R2 15, 300 | core members (relationship-led initial members) are not subject to disappointment | open |
+| B12 | The full pulse settles at A 199 / B 131 (seeding alone: 230 / ≥ 121) | R2 55–254 vs R1 100–190 | the bridge share takes effort from local recruitment in A and adds to B | open: base (allocation) |
+| B13 | Incentive alone from a low base: +0.5/tick in both communities | R2 25–55 | the incentive attracts type i in both communities; the response scales with the susceptible pool | open |
+| B14 | **After a bridge campaign, growth continues (and accelerates) for 50+ ticks in both communities (bridge 1.0) or in B (bridge 0.6)** | R1 475–550, R2 345–400 | M3 persistent cross-community ties feeding contagion; a queue backlog (weaker: growth is faster after the stop than during) | open — key M3 evidence |
+| B15 | During bridge 1.0 (no local effort) both communities grow slowly and accelerate | R2 305–345 | introductions scale with the other community's members (few after the crash) | open: base |
+| B16 | After the R2 crash, B turns up by itself (+0.27/tick from tick 287) while A is flat | R2 287–305 | the disappointed pool reconsidering, or ties from the earlier bridge 0.6 (M3) | open |
+
+## 13. Status / hand-off to reviewer
+
+- **Files:** data `toronto26-participant-kit/data/social_contagion/R1.json` (550 ticks) and `R2.json` (400 ticks),
+  with battery PNG/JSON next to them. Model `greybox/social_contagion_model.py` (v0). Fits
+  `fits/social_contagion/{base,m12,m13,m23}_r1.json` (+ `.log`), `init_r1.json`; plots `base_r1.png`,
+  `pairs_r1.png`, `pairs_r1_on_R2.png`; tools `fits/social_contagion/run2_design.py`, `plotfit.py`.
+- **Budget:** 950 of the 1,000 CAP spent; remaining budget 1,050; **Phase-C reserve 50 steps.** Suggested use: the
+  M2 separating test (incentive on ~20, then a **ramp** down over ~15 instead of a step; M2 predicts a much smaller
+  crash) or P2 (seeding 4.5), whichever the reviewer ranks higher. A fresh reset costs its own P0 (~20).
+- **Open, in priority order:**
+  1. **The crash floor (B6/B11).** No R1 fit predicts that removing the incentive strips every non-core member. The
+     base needs a core (never-disappointed) population ≈ the reset trough and a non-core population whose departures
+     depend on the offer history (m2: expectation vs the current offer). The v0 base splits members by how they were
+     recruited (type i vs r), which is wrong here: members recruited by seeding under incentive 2 left too.
+  2. **M3 (B14):** strong evidence that bridge work leaves persistent cross-community recruitment. In the R1 fits m3
+     has g3 at its cap and near-zero rates (an accumulator), so the functional form is wrong. The post-bridge growth
+     is self-reinforcing (it scales with members of both communities × ties) and lasts 50+ ticks. Consider ties driven
+     by introductions (seeding × bridge) that fade slowly and multiply cross-community word of mouth.
+  3. **M1 has no separating evidence.** With M2 (B6) and M3 (B14) both strongly indicated, the working hypothesis is
+     **m2 + m3**. m1 was never directly tested (no seeding gap test).
+  4. Pinned parameters in the R1 fits (qa → 1, ψ at 0/1, runaway iota, g3 at its cap): the queue/onboarding structure
+     is not identified. The dead time (5–7 ticks) is carried by the outreach lag stages.
+  5. Not measured: seeding mid-level (P2), and a long recovery hold (> 100 ticks). The organic growth at recovery was
+     still going at tick 100 (R1), and the post-bridge growth was still going at the end of R2.

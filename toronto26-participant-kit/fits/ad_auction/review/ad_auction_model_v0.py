@@ -18,14 +18,10 @@ Structure (base, from the brief's facts and Run-1 behaviours B1-B12, plans/ad_au
   pool       X_r (unavailable: committed / converted people) += eps_x J_r/(N0 n_r) (1 - X_r - F_r),
              returns at rate ret ('converted customers take time to become available again')   (B3, B4).
 Mechanism modules (written from the theses in plans/ad_auction-plan.md before fitting):
-  m1 rival capital: R_r <- R_r + a_m1 (win share_r - R_r); scales the competing threshold K_r by exp(clip(g1 R_r, +-3))
-     (free-sign gain; v0 used spend density, contradicted by R1 vs R2, review G3).
+  m1 rival capital: R_r <- R_r + a_m1 (spend_r/(n_r*SREF) - R_r); raises the competing threshold K_r by exp(g1 R_r).
   m2 exposure fatigue: F_r <- F_r + e2 I_r/(N0 n_r) (1 - X_r - F_r) - a_m2 F_r  (exposure removes reachable people).
-  m3 broad priming: P <- P + a_m3 (E - P), E = broad-ring exposure sum_r I_r max(m_r, 0)/(N0*0.1);
-     purchases x(1 + 0.8 tanh(g3 P)), bounded in [0.2, 1.8] so priming can never switch purchases off (review §5).
-Review responses (plans/ad_auction-review.md): G1 readiness pool Y_r (fast, acts on purchases only:
-  J_r = I_r q_r (1 - Y_r)); G2 second, fast opportunity pool X2_r next to the slow X_r.
-Reset convention: X = X2 = Y = F = R = P = 0, pipeline empty (the initial reading is ignored, B1).
+  m3 broad priming: P <- P + a_m3 (E - P), E = broad-ring exposure sum_r I_r max(m_r, 0)/(N0*0.1); purchases x(1 + g3 P).
+Reset convention: X = F = R = P = 0, pipeline empty (the initial reading is ignored, B1).
 """
 import math
 import numpy as np
@@ -49,11 +45,8 @@ SPEC = {
     # purchases / pipeline
     'q0': (0.5, 'pos'), 'qm': (0.0, 'free'), 'om': (1.0, 'free'), 'capf': (5.0, 'pos'),
     'kf': (0.15, 'unit'), 'a_p': (0.5, 'unit'),
-    # pool depletion by committed / converted people: slow (eps_x, ret) + fast (eps_x2, ret2) opportunity pools (G2)
+    # pool depletion by committed / converted people
     'eps_x': (0.3, 'pos'), 'ret': (0.02, 'unit'),
-    'eps_x2': (0.3, 'pos'), 'ret2': (0.04, 'unit'),
-    # purchase readiness pool (G1): acts on purchases only
-    'eps_y': (1.0, 'pos'), 'ret_y': (0.05, 'unit'),
     # mechanisms
     'a_m1': (0.05, 'unit'), 'g1': (0.2, 'free'),
     'a_m2': (0.03, 'unit'), 'e2': (0.05, 'pos'),
@@ -126,12 +119,8 @@ def simulate(p, initial, actions):
     h, pi0, rho = p['h'], p['pi0'], p['rho']
     capf, kf, a_p = p['capf'], p['kf'], p['a_p']
     eps_x, ret = p['eps_x'], p['ret']
-    eps_x2, ret2 = p['eps_x2'], p['ret2']
-    eps_y, ret_y = p['eps_y'], p['ret_y']
     a1, g1, a2, e2, a3, g3 = p['a_m1'], p['g1'], p['a_m2'], p['e2'], p['a_m3'], p['g3']
     X = [0.0] * nr
-    X2 = [0.0] * nr
-    Y = [0.0] * nr
     F = [0.0] * nr
     R = [0.0] * nr
     P = 0.0
@@ -155,11 +144,11 @@ def simulate(p, initial, actions):
                 cov = min(max((b - lo[r]) / (hi[r] - lo[r]), 0.0), 1.0)
             if cov <= 0.0:
                 continue
-            a = 1.0 - X[r] - X2[r] - F[r]
+            a = 1.0 - X[r] - F[r]
             if a <= 0.0:
                 continue
             o[r] = N0 * n[r] * cov * a
-            K = Kbase[r] * math.exp(min(max(g1 * R[r], -3.0), 3.0)) if g1 else Kbase[r]
+            K = Kbase[r] * math.exp(min(max(g1 * R[r], -30.0), 30.0)) if g1 else Kbase[r]
             pr = bidh / (bidh + K ** h) if bidh > 0 else 0.0
             pw[r] = pr
             su += pr * o[r] * bidprice * pim[r]
@@ -179,38 +168,28 @@ def simulate(p, initial, actions):
             else:
                 I = th * pw[r] * o[r]
             imp_tot += I
-            J = I * qr[r] * (1.0 - Y[r])
-            if g3:
-                J *= 1.0 + 0.8 * math.tanh(g3 * P)      # bounded priming: multiplier in [0.2, 1.8]
+            J = I * qr[r] * (1.0 + g3 * P) if g3 else I * qr[r]
             if J < 0.0:
                 J = 0.0
             jn += J
             jw += J * wr[r]
             E += I * broad[r]
             size = N0 * n[r]
-            free = 1.0 - X[r] - X2[r] - F[r]
+            free = 1.0 - X[r] - F[r]
             if free < 0.0:
                 free = 0.0
             dx = eps_x * J / size * free
-            dx2 = eps_x2 * J / size * free
             df = e2 * I / size * free if e2 else 0.0
-            if dx + dx2 + df > free:
-                s = free / (dx + dx2 + df)
+            if dx + df > free:
+                s = free / (dx + df)
                 dx *= s
-                dx2 *= s
                 df *= s
             X[r] += dx - ret * X[r]
-            X2[r] += dx2 - ret2 * X2[r]
-            dy = eps_y * J / size
-            Y[r] += dy * (1.0 - Y[r]) - ret_y * Y[r]
-            if Y[r] < 0.0:
-                Y[r] = 0.0
-            elif Y[r] > 1.0:
-                Y[r] = 1.0
             if e2:
                 F[r] += df - a2 * F[r]
             if g1:
-                R[r] += a1 * (th * pw[r] - R[r])      # G3 variant (b): driver = our win share in ring r
+                sp = th * pw[r] * o[r] * bidprice * pim[r]
+                R[r] += a1 * (sp / (n[r] * SREF) - R[r])
         if g3:
             P += a3 * (E / (N0 * 0.1) - P)
         win = imp_tot / osum if osum > 0.0 else 0.0
