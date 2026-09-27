@@ -180,6 +180,17 @@ Pairs:
 | 02:24 | R1 | 605–654 (D: toll back 5) | 50 | 1345 |
 | 02:24 | R1 | 655–699 (D, ext) | 45 | 1300 |
 | 02:25 | R1 | 700–744 (full recovery, ramp 0). **R1 complete: 745 steps** | 45 | 1255 |
+| 06:42 | R2 (fresh reset) | 0–29 S1 P0 recovery | 30 | 1225 |
+| 06:42 | R2 | 30–69 S2 ramp 0.5 | 40 | 1185 |
+| 06:42 | R2 | 70–114 S3 ramp 0.5 + signal 0.9 | 45 | 1140 |
+| 06:42 | R2 | 115–169 S4 P9a ramp 0.72 + toll 0 | 55 | 1085 |
+| 06:43 | R2 | 170–269 S5 joint pulse (all u = 1), part 1 | 100 | 985 |
+| 06:43 | R2 | 270–369 S5 joint pulse, part 2 | 100 | 885 |
+| 06:43 | R2 | 370–409 S6 release to recovery | 40 | 845 |
+| 06:43 | R2 | 410–469 S7 second joint pulse (gap 40) | 60 | 785 |
+| 06:44 | R2 | 470–499 S8 P9b: ramp 0 + signal 0.85, rest at pulse. **R2 complete: 500 steps** | 30 | 755 |
+
+Total spent 1,245 of CAP 1,300 → **reserve 55 steps** for Phase C.
 
 
 ## 6. Run 1 observations and behaviour catalogue v1 (`data/traffic/R1.json`, 745 ticks)
@@ -267,6 +278,170 @@ Noise σ (second differences in smooth holds): flows ≈ 0.025 (0.2 % of 12), sp
 
 Speeds are strongly correlated between routes (level corr 0.93 at lag 4, battery), through shared demand.
 
+- **B12 (added on resume) Speed memory of completed journeys held while the network is empty.** B8's ratchet
+  fits "reported speed combines observed completed journey times": with no completions the journey-time part
+  keeps its last value (B's last completions at 115–120 and 710–722 were slow drains). Candidate base term for
+  the modeler: v = w·V_inst + (1 − w)·J, J updated only in proportion to completions. Status: not captured
+  (current model: speed relaxes to vf at zero demand, 1.5–2.3 too high on speed_b ≈ 1.5–2 score σ).
+- **B13 Unknown: speeds at zero demand under non-recovery controls.** Every empty-network period in R1 was at the
+  full recovery action, so whether toll / lane / freight / clearance / signal move free-flow speeds is untested
+  (the model's vh, vc, ws terms act at zero demand). Run 2 S8 tests it.
+
+## 7. Run-1 pair fits (`fits/traffic/`, quick fits for probe ranking)
+
+Fitted on R1 (745 ticks), linear units, σ = 1.0 (flows) / 0.3 (speeds), soft_l1. The loss surface is rough:
+restarts from SPEC-default mechanism values landed in different basins (m13 12,099 > base), so every pair was
+also re-started from the other pairs' optima (`*_r1_from_*`), and the base was re-fit from the m13 optimum.
+
+| Fit | Cost | Train score (σ = 0.1×std) | Notes |
+|---|---:|---:|---|
+| base (`base_r1best.json`) | 10,828 | 0.641 | first attempt 11,454 (not converged); qmax ≈ 150 binds, diversion dv → 0 |
+| m1+m2 (`m12_r1best.json`) | 10,090 | 0.642 | g1 0.15, a1 0.044 (τ ≈ 23); switching g2s 0.16, a2s 0.019 (τ ≈ 53); fatigue g2f < 0 |
+| m1+m3 (`m13_r1best.json`) | **10,035** | 0.655 | g1 0.12; m3 fronts a3u 0.48, a3d 0.24 (not persistent), g3x −0.29, g3v −0.39 (wrong sign: soaks misfit) |
+| m2+m3 (`m23_r1best.json`) | 10,216 | 0.642 | same m2 as m12; m3 again wrong-signed speed gain |
+
+All three pairs beat the converged base by 6–7 %; spread between pairs 1.8 % (R1 was not designed to separate).
+gam (demand exponent in ramp) is unidentified (only ramp 0/1 seen) — P2 ramp 0.5 needed.
+The m3 speed gain g3v < 0 and cross gain g3x < 0 are the wrong physical sign → m3 as written is standing in for
+missing congested-regime structure (lesson 9), not evidence for spillback.
+
+## 8. Run 2 design (§4.4)
+
+Candidates simulated through the three best pair fits (`fits/traffic/rank_probes.py`), each after a 30-tick P0
+from reset; disagreement = mean over ticks of |Δ|/score-σ summed over the four observables, worst pair:
+
+| Candidate | Steps | Disagreement | Decision |
+|---|---:|---:|---|
+| joint pulse of all controls 200 + release 40 | 240 | **18.1** | **run** (tip 4, P3/composition, P7 ≥ 200, recovery category) |
+| P9b clearance: joint 100 then ramp 0 + clearance 1 | 130 | 17.1 | covered by S6 release (ramp 0 + clearance 1 + rest) |
+| P9b signal reversal: joint 100 then ramp 0 + signal 0.85 | 130 | 15.5 | **run** as S8 (after S7) |
+| P5 joint 60, gap 30, joint 60 | 150 | 11.5 | **run** as S5-S6-S7 (gap 40) |
+| P9a ramp 0.72 + toll 0 (total ≈ D's 24, heavier mix) | 70 | 4.8 | **run** (P9a) |
+| P2 toll 2.5 at D | 60 | 4.7 | not run (budget); toll linearity stays open |
+| P6 toll then lane / lane then toll | 120 each | 4.4 / 2.7 | not run (P5 covers the recovery-history category) |
+| P7 D + toll 0 250 | 250 | 4.0 | superseded by the joint 200 hold |
+| P5' clearance toggles at D + toll 0 | 100 | 3.9 | not run |
+| P8 signal 0.3 at D | 80 | 0.5 | not run |
+| P2 ramp 0.5 + signal 0.9 | 120 | 0.4 | **run** (cheap coverage: gam and the untested side of signal; M1 drift sign) |
+| P2 ramp 0.5 | 60 | 0.3 | **run** (as above) |
+
+Run 2 schedule (fresh reset, `data/traffic/R2.json`, 500 steps = the Run-2 cap; total 1,245 ≤ 1,250):
+
+| Seg | Steps | Action (others at recovery) | Purpose |
+|---|---:|---|---|
+| S1 | 30 | recovery | P0 (fresh reset; initial-reading dependence) |
+| S2 | 40 | ramp 0.5 | P2 ramp (gam, split at half demand) |
+| S3 | 45 | ramp 0.5, signal 0.9 | other side of signal (u = −1.14); M1 drift should reverse sign vs R1 |
+| S4 | 55 | ramp 0.72, toll 0 | P9a: total ≈ 24 like D but toll-driven heavy mix; congestion threshold |
+| S5 | 200 | **all controls at pulse** (signal 0.15, lane 0.65, toll 0, ramp 1, freight 1, clearance 0) | joint pulse, P7 long hold, settled level |
+| S6 | 40 | recovery (all released) | joint release; drain with clearance back to 1; zero-demand speed memory |
+| S7 | 60 | all at pulse again | P5: 2nd pulse after a 40-tick gap vs S5's first 60 ticks (M3 fronts / M2 fatigue memory) |
+| S8 | 30 | ramp 0, signal 0.85, others at pulse (clearance held 0) | P9b signal reversal after stopping arrivals, compare the drain with S6; B13 |
+
+## 9. Run 2 observations and behaviour catalogue v2 (`data/traffic/R2.json`, 500 ticks)
+
+Initial reading 36.0/42.0/43.6/38.8. Plots: battery `data/traffic/R2_r0_battery.png` + `R2_battery.json`;
+R1 pair fits predicting R2: `fits/traffic/r1pairs_on_R2.png`; base fit on R1: `fits/traffic/base_r1.png`
+(plot helper `fits/traffic/plotfit.py OUT.png DATA FIT...`).
+
+Settled / end-of-hold levels (means; medians for bursty flows in brackets):
+
+| Setting (ticks) | flow_a | flow_b | speed_a | speed_b |
+|---|---:|---:|---:|---:|
+| P0 recovery (20–29) | 0 | 0 | 48.96 | 48.86 |
+| ramp 0.5 (55–69) | 5.99 | 6.01 | 34.64 | 36.50 |
+| ramp 0.5 + signal 0.9 (100–114) | 6.20 (drifting) | 5.80 | 35.47 | 29.98 |
+| P9a ramp 0.72 + toll 0 (140–169) | 16.8 [19.1] | 12.8 [10.6] | 15.6 (falling) | 16.2 |
+| joint pulse, all u = 1 (340–369) | **6.66** (smooth) | 12.9 [13.1] | **6.09** | 16.12 |
+| release, recovery (400–409) | draining → 0 at 403 | 0 from 393 | 32 (rising) | 47.7 |
+| 2nd joint pulse end (455–469) | 7.3 | 13.1 | 9.3 (falling) | 16.1 |
+| P9b ramp 0 + signal 0.85, rest at pulse (490–499) | 20.6 [23.7] | 5.1 [3.6] | 15.1 | **13.0** (falling) |
+
+**Cross-run check (quick R1 fits → R2, σ = 0.1×std):** base 0.260, m12 0.330, m13 0.309, **m23 0.371**,
+persistence 0.060. All pairs miss the same things (B15–B21), so the base structure is the first job, not the pair
+choice.
+
+### Behaviours added / updated (catalogue v2)
+
+- **B1/B2 confirmed (B23).** Fresh reset from a different reading: flows 0 from tick 0 at ramp 0, speeds relax to
+  48.9 in ~15 ticks; after ramp on, first flow 12 ticks later, in half-size quanta (3.2) at ramp 0.5.
+- **B14 Demand ∝ ramp (gam = 1).** Total flow 12.0 at ramp 0.5 vs 24.0 at ramp 1 (toll 5). Status: fix gam = 1.
+- **B15 Concave speed–load relation (not captured).** Mean route speed at total flow 0 / 12 / 24 = 49 / 35.6 /
+  31: half the demand gives ~80 % of the full-demand speed drop. The model's exp(−al·n/100) is nearly linear in n
+  and predicts ≈ 38 at ramp 0.5 (≈ 3 score σ error on both speeds for every mid-ramp tick). Needs a saturating
+  load term (e.g. vf/(1 + a·n^p), or journey time = free time + load-dependent delay, speed = length/time).
+  Also B's speed at ramp 0.5 is 1.9 above A's (A above B at ramp 1): route-specific curves.
+- **B16 Signal effect is one-sided per route (not captured).** Signal 0.9 (A gets green): speed_b −6.5, speed_a
+  +0.9. R1 signal 0.15 (B gets green): speed_a −5.4, speed_b +1. The route losing green loses ~6; the route gaining
+  green gains ~1 → saturating in green share (e.g. delay ∝ 1/green), not the model's linear ws·u_sig (which also
+  lifts free-flow speed above 49 when u_sig < 0: seen in the R2 prediction, S8).
+- **B4 confirmed on the other side (M1).** Under signal 0.9 the split drifts toward A (5.94/6.05 → 6.25/5.75 over
+  45 ticks, ~15-tick delay, still moving): drift toward the faster route, both signs of the speed gap. At ramp 0.5
+  (speed_b > speed_a) the split drifted toward B (5.99/6.00 → 5.95/6.06). Route learning is the best-supported
+  mechanism. Size: ~0.3–1 flow unit (≈ 0.3–1 score σ on flows) but persistent.
+- **B17 P9a: mix, not volume, causes congestion (not captured).** ramp 0.72 + toll 0 has the same expected total
+  (≈ 24) as the uncongested D (ramp 1, toll 5; speeds 30/29, smooth flows), yet it congests within ~30 ticks:
+  speeds 15.6/16.2, bursty flows. Heavy vehicles (toll 0) cut capacity per vehicle; capacity must depend on the
+  heavy share, not only on toll as an additive demand boost. The R1 fits predict speeds ≈ 30 here (≈ 10 score σ).
+- **B18 Joint pulse settled level (not captured).** All controls at pulse for 200 ticks: flow_a settles to
+  **6.66 and becomes smooth** (A's service rate is the binding capacity: green 0.3 × lane closure × clearance/
+  freight), flow_b 12.9 bursty, speed_a 6.1 (settled by tick ~300, ~130 ticks after onset), speed_b 16.1. The R1
+  fits put flow_a at 15–19 and speed_a 5–20 (m13 20). speed_b ≈ 15–16 in **every** congested hold (R1 toll 0,
+  R2 P9a, joint): a floor for B's congested speed.
+- **B19 Slow release on A (recovery category).** After the joint release, B empties in 23 ticks and speed_b is
+  back to 48 in 30; A keeps discharging bursts (up to 60/tick) for 33 ticks and speed_a is only 34 after 40 ticks.
+  The fits recover speed_a ~15 ticks too early. Stored queue size on A is large (buffers much larger than served
+  rate × dead time).
+- **B20 Second joint pulse after a 40-tick gap.** From a nearly empty network, speeds fall over ~60 ticks
+  (speed_a 9.2, speed_b 16.1 at +60), similar to R1 toll-0 onset rates. No clear "worse 2nd pulse". Caveat: S5
+  started from the congested P9a state, so this P5 is not a clean comparison; evidence for persistent fronts
+  (M3) is weak here.
+- **B21 P9b signal reversal after stopping arrivals (M2/M3 evidence, not captured).** With ramp 0, signal 0.85
+  and the crew kept at the intersection (clearance 0, lane/freight/toll at pulse): A (now green) discharges its
+  queue in bursts (mean 20) and speed_a recovers slowly (8.5 → 17.6 in 30 ticks); B discharges only ~3/tick and
+  **speed_b keeps falling 15.6 → 12.7 with no arrivals**. Compare S6 (release incl. clearance 1): B empty in 23
+  ticks, speed_b 48. So stored vehicles keep B blocked when B loses green and exits are not cleared — the brief's
+  "keep occupying the shared junction until … exit space opens". Signal reversal and clearance act very
+  differently on the drain (the P9b contrast the organizers point at). Clean M2-vs-M3 separation still needs a
+  clearance-only switch with arrivals stopped (reserve probe below). The R1 fits empty B at once and send speed_b
+  to 50+.
+- **B22 Speed noise ∝ level.** Noise σ of speed_a 0.018 at 6.1 vs 0.115 at 49 (battery: proportional,
+  σ_rel ≈ 0.5 %). Consider log units for speeds. Flow noise: 0.01–0.02 in smooth holds; congested flows are bursts
+  (per-tick std 4–20) that the score sees; target the conditional mean.
+- **B8/B12 (zero-demand speed_b ratchet).** R2 P0 speed_b 48.86; after the joint release speed_b reached 48.6 at
+  +38 and was still rising — no clear ratchet this time (A was the long-draining route). Still open.
+
+### Probes run vs coverage list (§4.2)
+
+P0 both runs ✓; P1 all six controls ✓ (R1; signal/lane/clearance/freight on top of D, lane/clearance/freight also in
+congestion); P2 ramp 0.5 ✓ (most important control), signal other side 0.9 ✓; P3 → joint pulse of all six ✓
+(and R1 toll+freight, toll+lane, toll+clearance pairs); P7 ≥ 200 ✓ (joint hold 200); P5 ✓ (joint, gap 40, joint;
+weak because the first pulse started congested); P9a ✓ (ramp 0.72 + toll 0 vs D; result B17); P9b ✓ signal-reversal
+arm (S8; the clearance arm is only the S6 full release); separating probes: M1 via signal both sides ✓, M2/M3 via
+S8 vs S6 drain (partial). Not run: toll mid level (2.5), P6 order swap, P5' clearance toggles, P8.
+
 ## Status / hand-off to reviewer
 
-(Filled in at the end of Phase A.)
+**Files:** plan (this file); data `toronto26-participant-kit/data/traffic/R1.json` (745), `R2.json` (500);
+battery `data/traffic/R1_battery.json/.png`, `R2_battery.json`, `R2_r0_battery.png`; model
+`greybox/traffic_model.py`; fits `fits/traffic/base_r1best.json`, `m12_r1best.json`, `m13_r1best.json`,
+`m23_r1best.json` (the `*_r1b`, `*_r1_from_*`, `base_r1*` files are the restart history); probe ranking
+`fits/traffic/rank_probes.py`; plot helper `fits/traffic/plotfit.py`; cross-run plot `fits/traffic/r1pairs_on_R2.png`.
+
+**Budget:** 1,245 spent (R1 745, R2 500), 755 remaining on the server; **reserve under the CAP = 55 steps.**
+
+**What to look at first (base structure before pairs; the cross-run scores are 0.26–0.37):**
+1. B17/B18: capacity must depend on the heavy (toll-0) share and the joint controls multiplicatively; A's joint
+   settled flow 6.66 and speed 6.1; B's congested speed floor ≈ 15–16.
+2. B15/B16: concave speed–load curve and one-sided (1/green-type) signal effect; no speed above free flow.
+3. B21/B19: stored vehicles block a route that loses green with the crew at the intersection, even with no
+   arrivals; slow A release after the joint pulse. The queue/buffer sizes and the clearance-dependent exit
+   service carry most of the recovery-category score.
+4. Mechanisms: M1 route learning is supported on both signal sides (B4). m3 as written fits with wrong-signed
+   gains (g3v, g3x < 0) — rewrite it as a one-sided front on the obstructed route (driver: queue above a threshold,
+   slow recession) before comparing pairs. M2 has only the S6/S8 contrast.
+5. Open: toll mid level (2.5) never tested (demand and mix effects assumed linear in u_free); order swap not run.
+
+**Suggested reserve use (≤ 55):** a new run R3 (fresh reset; continuing R2 after a long gap may fail):
+P0 15 + ramp 1 with toll 2.5 for 40. It tests the toll mid level, which matters for the sustained category. A clean M2 test (clearance-only switch after stopping arrivals) needs a congestion build of
+≥ 60 ticks first and does not fit in 55.

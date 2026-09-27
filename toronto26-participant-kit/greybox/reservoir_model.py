@@ -18,7 +18,7 @@ BASE (always on)
 MECHANISMS (gain 0 = off): "Groundwater, irrigated land and deposited material may return water or
 contaminants after a delay."
   m1 groundwater (G1 reshape, R3 evidence):
-       fast bank head hf <- hf + af1 (V - hf), hf0 = H0 (fixed reset convention, NOT the reading);
+       fast bank head hf <- hf + af1 (V - hf) - b1 hf (leak to deep groundwater), hf0 = H0 (fixed reset convention, NOT the reading);
          signed exchange Qf = gf1 (hf - V)/100: Qf > 0 adds to inflow, Qf < 0 is extra loss
          (R3 from level 404: +2.3 excess at tick 1 decaying ~0.25/tick; R1 from 515: +0.7; R2 from 601: 0)
        slow aquifer head hs <- hs + a1 (V - hs), hs0 = initial level; return G = g1 max(hs - V - th1, 0)/100
@@ -26,7 +26,8 @@ contaminants after a delay."
          seepage loss g1s max(V - hs, 0)/100
   m2 irrigated land: two lag stages s1 <- s1 + a2 (Idel/8 - s1), s2 <- s2 + a2 (s1 - s2);
          return G2 = g2 * 8 * max(s2 - th2, 0) adds to inflow; quality target -= g2q * s2
-  m3 deposited material: anoxic release pool Dm <- Dm + a3 (ua - Dm) (grows without aeration, fades with it);
+  m3 deposited material: anoxic release pool Dm <- Dm + a3 ua (1 - Dm) - a3d (1 - ua) Dm (grows without aeration
+         at rate a3, fades with it at a3d);
          quality target -= g3 * Dm * (1 + h3 * ud)  (worse when drawing the deep layer)
        G3 remobilization: aeration on while deep moves the pool into the column:
          Cm <- Cm + kr * Dm * ud * (1 - ua) * (1 - Cm) - dC * Cm;  quality target -= gC * Cm
@@ -57,17 +58,17 @@ SPEC = {
     # m1 groundwater: slow aquifer head
     'a1': (0.01, 'unit'), 'g1': (0.3, 'pos'), 'th1': (50.0, 'free'), 'g1s': (0.1, 'pos'),
     # m1 groundwater: fast bank head with a fixed reset head
-    'af1': (0.25, 'unit'), 'gf1': (1.5, 'pos'), 'H0': (560.0, 'free'),
+    'af1': (0.25, 'unit'), 'gf1': (1.5, 'pos'), 'H0': (560.0, 'free'), 'b1': (0.006, 'unit'),
     # m2 irrigated land
     'a2': (0.05, 'unit'), 'g2': (0.0, 'free'), 'th2': (0.3, 'unit'), 'g2q': (0.005, 'free'),
     # m3 deposited material
-    'a3': (0.03, 'unit'), 'g3': (0.01, 'free'), 'h3': (0.5, 'free'),
+    'a3': (0.03, 'unit'), 'a3d': (0.05, 'unit'), 'g3': (0.01, 'free'), 'h3': (0.5, 'free'),
     'kr': (0.05, 'unit'), 'dC': (0.003, 'unit'), 'gC': (0.015, 'free'),
 }
 MODULES = {
-    'm1': (['a1', 'g1', 'th1', 'g1s', 'af1', 'gf1', 'H0'], {'g1': 0.0, 'g1s': 0.0, 'gf1': 0.0}),
+    'm1': (['a1', 'g1', 'th1', 'g1s', 'af1', 'gf1', 'H0', 'b1'], {'g1': 0.0, 'g1s': 0.0, 'gf1': 0.0}),
     'm2': (['a2', 'g2', 'th2', 'g2q'], {'g2': 0.0, 'g2q': 0.0}),
-    'm3': (['a3', 'g3', 'h3', 'kr', 'dC', 'gC'], {'g3': 0.0, 'gC': 0.0}),
+    'm3': (['a3', 'a3d', 'g3', 'h3', 'kr', 'dC', 'gC'], {'g3': 0.0, 'gC': 0.0}),
     'harm2': (['B_s', 'B_c'], {'B_s': 0.0, 'B_c': 0.0}),
 }
 # G2 season fixed; fouling dropped (af = 0); spill instantaneous; M2 inflow return unsupported (G4: quality
@@ -144,7 +145,8 @@ def simulate(p, initial, actions):
     kq, cq = p['kq'], p['cq']
     a_z, lam_q = p['a_z'], p['lam_q']
     a1, g1, th1, g1s = p['a1'], p['g1'], p['th1'], p['g1s']
-    af1, gf1 = p.get('af1', 0.25), p.get('gf1', 0.0)
+    af1, gf1, b1 = p.get('af1', 0.25), p.get('gf1', 0.0), p.get('b1', 0.0)
+    a3d = p.get('a3d', p['a3'])
     a2, g2, th2, g2q = p['a2'], p['g2'], p['th2'], p['g2q']
     a3, g3, h3 = p['a3'], p['g3'], p['h3']
     kr, dC, gC = p.get('kr', 0.0), p.get('dC', 0.0), p.get('gC', 0.0)
@@ -187,12 +189,13 @@ def simulate(p, initial, actions):
         # memories (after outputs)
         Idel = Iq * (D / req) if req > 1e-9 else 0.0
         hs += a1 * (Vn - hs)
-        hf += af1 * (Vn - hf)
+        hf += af1 * (Vn - hf) - b1 * hf
         s1 += a2 * (Idel / 8.0 - s1)
         s2 += a2 * (s1 - s2)
         Cm += kr * Dm * ud * (1.0 - ua) * (1.0 - Cm) - dC * Cm
         Cm = min(max(Cm, 0.0), 1.0)
-        Dm += a3 * (ua - Dm)
+        Dm += a3 * ua * (1.0 - Dm) - a3d * (1.0 - ua) * Dm
+        Dm = min(max(Dm, 0.0), 1.0)
         f += af * (gf * ua - f)
         f = min(max(f, 0.0), 0.9)
         z *= (1.0 - a_z)

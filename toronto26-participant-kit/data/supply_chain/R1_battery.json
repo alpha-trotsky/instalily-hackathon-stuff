@@ -1,0 +1,3129 @@
+{
+ "data": "data/supply_chain/R1.json",
+ "system": "supply_chain",
+ "recovery": {
+  "lead_time_buy": 1.0,
+  "maintenance": 1.0,
+  "order_quantity": 0.0,
+  "product_mix": 0.5,
+  "production_effort": 1.0,
+  "receiving_effort": 1.5
+ },
+ "pulse": {
+  "lead_time_buy": 0.2,
+  "maintenance": 0.0,
+  "order_quantity": 80.0,
+  "product_mix": 0.8,
+  "production_effort": 1.5,
+  "receiving_effort": 0.35
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 750,
+   "controls": [
+    "order_quantity",
+    "lead_time_buy",
+    "product_mix",
+    "production_effort",
+    "receiving_effort",
+    "maintenance"
+   ],
+   "observables": [
+    "shipments",
+    "inventory_supplier",
+    "inventory_retail"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-27T06:39:48"
+    },
+    {
+     "start_tick": 40,
+     "started_at": "2026-09-27T06:40:16"
+    },
+    {
+     "start_tick": 80,
+     "started_at": "2026-09-27T06:40:46"
+    },
+    {
+     "start_tick": 120,
+     "started_at": "2026-09-27T06:41:03"
+    },
+    {
+     "start_tick": 160,
+     "started_at": "2026-09-27T06:41:20"
+    },
+    {
+     "start_tick": 200,
+     "started_at": "2026-09-27T06:41:37"
+    },
+    {
+     "start_tick": 240,
+     "started_at": "2026-09-27T06:42:16"
+    },
+    {
+     "start_tick": 280,
+     "started_at": "2026-09-27T06:42:37"
+    },
+    {
+     "start_tick": 320,
+     "started_at": "2026-09-27T06:42:54"
+    },
+    {
+     "start_tick": 340,
+     "started_at": "2026-09-27T06:43:05"
+    },
+    {
+     "start_tick": 380,
+     "started_at": "2026-09-27T06:43:20"
+    },
+    {
+     "start_tick": 410,
+     "started_at": "2026-09-27T06:43:34"
+    },
+    {
+     "start_tick": 445,
+     "started_at": "2026-09-27T06:43:46"
+    },
+    {
+     "start_tick": 470,
+     "started_at": "2026-09-27T06:44:00"
+    },
+    {
+     "start_tick": 500,
+     "started_at": "2026-09-27T06:44:14"
+    },
+    {
+     "start_tick": 535,
+     "started_at": "2026-09-27T06:44:28"
+    },
+    {
+     "start_tick": 560,
+     "started_at": "2026-09-27T06:44:44"
+    },
+    {
+     "start_tick": 585,
+     "started_at": "2026-09-27T06:44:56"
+    },
+    {
+     "start_tick": 600,
+     "started_at": "2026-09-27T06:45:07"
+    },
+    {
+     "start_tick": 625,
+     "started_at": "2026-09-27T06:45:17"
+    },
+    {
+     "start_tick": 670,
+     "started_at": "2026-09-27T06:45:30"
+    }
+   ],
+   "noise": {
+    "shipments": {
+     "sigma": 0.2470169139007956,
+     "per_hold": [
+      [
+       0.000829,
+       0.000862
+      ],
+      [
+       33.3045,
+       9.4969
+      ],
+      [
+       20.4673,
+       0.2008
+      ],
+      [
+       30.1181,
+       1.2787
+      ],
+      [
+       34.6697,
+       0.4795
+      ],
+      [
+       34.5426,
+       0.5006
+      ],
+      [
+       17.2221,
+       0.0284
+      ],
+      [
+       34.9326,
+       0.126
+      ],
+      [
+       31.3474,
+       0.2897
+      ],
+      [
+       29.9812,
+       0.0933
+      ],
+      [
+       43.7932,
+       0.1999
+      ],
+      [
+       34.783,
+       8.9159
+      ],
+      [
+       30.4635,
+       5.805
+      ],
+      [
+       32.4187,
+       2.5322
+      ],
+      [
+       18.2275,
+       0.1402
+      ],
+      [
+       19.3664,
+       0.2044
+      ]
+     ],
+     "loglog_slope": 0.6361547727866875,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.012192084523098504
+    },
+    "inventory_supplier": {
+     "sigma": 2.4521391938960653,
+     "per_hold": [
+      [
+       293.3111,
+       1.3516
+      ],
+      [
+       116.5984,
+       3.1165
+      ],
+      [
+       361.6762,
+       1.0034
+      ],
+      [
+       43.8295,
+       0.0037
+      ],
+      [
+       238.3288,
+       7.9191
+      ],
+      [
+       330.2828,
+       3.6192
+      ],
+      [
+       346.9595,
+       2.2054
+      ],
+      [
+       333.8982,
+       2.4501
+      ],
+      [
+       331.9695,
+       3.7236
+      ],
+      [
+       300.7731,
+       1.622
+      ],
+      [
+       273.9318,
+       1.1174
+      ],
+      [
+       330.4,
+       2.6068
+      ],
+      [
+       336.6298,
+       4.7651
+      ],
+      [
+       329.2547,
+       2.4542
+      ],
+      [
+       341.4482,
+       5.1889
+      ],
+      [
+       361.651,
+       1.0683
+      ]
+     ],
+     "loglog_slope": 2.4449689820856126,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.007395802540805665
+    },
+    "inventory_retail": {
+     "sigma": 2.3844407525743594,
+     "per_hold": [
+      [
+       0.0011,
+       0.0022
+      ],
+      [
+       342.0018,
+       3.3241
+      ],
+      [
+       638.6557,
+       2.3758
+      ],
+      [
+       267.7751,
+       2.7075
+      ],
+      [
+       413.3546,
+       3.6435
+      ],
+      [
+       518.6176,
+       5.9139
+      ],
+      [
+       318.6206,
+       0.9503
+      ],
+      [
+       394.3955,
+       1.4989
+      ],
+      [
+       730.7475,
+       2.8952
+      ],
+      [
+       745.1961,
+       1.7557
+      ],
+      [
+       860.8923,
+       1.5005
+      ],
+      [
+       976.184,
+       4.0142
+      ],
+      [
+       909.7939,
+       3.9028
+      ],
+      [
+       759.0877,
+       2.3931
+      ],
+      [
+       430.9938,
+       1.446
+      ],
+      [
+       285.6376,
+       0.6076
+      ]
+     ],
+     "loglog_slope": 0.5274954290485051,
+     "scales_with_level": "partial",
+     "sigma_rel": 0.0038811879813188117
+    }
+   },
+   "reset_transient": {
+    "shipments": {
+     "initial": 23.2303,
+     "first_obs": 0.0,
+     "jump_first3": -23.2283,
+     "end_level": 0.0013,
+     "total_change": -23.229,
+     "change_sigma": -94.0,
+     "settling_time": 0.0,
+     "t90": 0,
+     "monotone": true
+    },
+    "inventory_supplier": {
+     "initial": 91.21,
+     "first_obs": 90.1465,
+     "jump_first3": 0.8717,
+     "end_level": 361.3815,
+     "total_change": 270.1715,
+     "change_sigma": 110.2,
+     "settling_time": 27.0,
+     "t90": 23,
+     "monotone": false
+    },
+    "inventory_retail": {
+     "initial": 109.1152,
+     "first_obs": 81.4028,
+     "jump_first3": -55.5885,
+     "end_level": 0.0011,
+     "total_change": -109.1141,
+     "change_sigma": -45.8,
+     "settling_time": 6.0,
+     "t90": 4,
+     "monotone": true
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 40,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 0.0013,
+      "inventory_supplier": 361.3815,
+      "inventory_retail": 0.0011
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": true
+     },
+     "settling_time": {
+      "shipments": "0",
+      "inventory_supplier": "28",
+      "inventory_retail": "6"
+     },
+     "drift_sigma": {
+      "shipments": 0.000299,
+      "inventory_supplier": 0.03,
+      "inventory_retail": 0.000596
+     }
+    },
+    {
+     "start": 40,
+     "end": 160,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 34.8137,
+      "inventory_supplier": 309.4305,
+      "inventory_retail": 519.0929
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": false,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 120",
+      "inventory_supplier": "> 120",
+      "inventory_retail": "> 120"
+     },
+     "drift_sigma": {
+      "shipments": 1.45,
+      "inventory_supplier": 42.28,
+      "inventory_retail": 86.99
+     }
+    },
+    {
+     "start": 160,
+     "end": 240,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 0.5336,
+      "inventory_supplier": 361.1169,
+      "inventory_retail": 500.1826
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 80",
+      "inventory_supplier": "0",
+      "inventory_retail": "> 80"
+     },
+     "drift_sigma": {
+      "shipments": 0.0,
+      "inventory_supplier": 0.47,
+      "inventory_retail": 233.46
+     }
+    },
+    {
+     "start": 240,
+     "end": 280,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 34.8214,
+      "inventory_supplier": 0.0014,
+      "inventory_retail": 293.6955
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 40",
+      "inventory_supplier": "21",
+      "inventory_retail": "> 40"
+     },
+     "drift_sigma": {
+      "shipments": 27.48,
+      "inventory_supplier": 0.000895,
+      "inventory_retail": 39.0
+     }
+    },
+    {
+     "start": 280,
+     "end": 320,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      1.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 34.7368,
+      "inventory_supplier": 327.1595,
+      "inventory_retail": 460.8819
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 40",
+      "inventory_supplier": "25",
+      "inventory_retail": "> 40"
+     },
+     "drift_sigma": {
+      "shipments": 4.84,
+      "inventory_supplier": 9.96e-08,
+      "inventory_retail": 30.31
+     }
+    },
+    {
+     "start": 320,
+     "end": 340,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 33.9971,
+      "inventory_supplier": 329.8202,
+      "inventory_retail": 533.0475
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 20",
+      "inventory_supplier": "0",
+      "inventory_retail": "> 20"
+     },
+     "drift_sigma": {
+      "shipments": 10.02,
+      "inventory_supplier": 0.38,
+      "inventory_retail": 11.41
+     }
+    },
+    {
+     "start": 340,
+     "end": 380,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 17.246,
+      "inventory_supplier": 346.4594,
+      "inventory_retail": 265.2166
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "0",
+      "inventory_supplier": "1",
+      "inventory_retail": "> 40"
+     },
+     "drift_sigma": {
+      "shipments": 0.21,
+      "inventory_supplier": 0.19,
+      "inventory_retail": 26.45
+     }
+    },
+    {
+     "start": 380,
+     "end": 410,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 34.946,
+      "inventory_supplier": 333.1858,
+      "inventory_retail": 456.3589
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "5",
+      "inventory_supplier": "0",
+      "inventory_retail": "> 30"
+     },
+     "drift_sigma": {
+      "shipments": 0.11,
+      "inventory_supplier": 0.91,
+      "inventory_retail": 42.67
+     }
+    },
+    {
+     "start": 410,
+     "end": 470,
+     "kind": "hold",
+     "u": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 22.4852,
+      "inventory_supplier": 339.7673,
+      "inventory_retail": 844.5509
+     },
+     "settled": {
+      "shipments": false,
+      "inventory_supplier": false,
+      "inventory_retail": true
+     },
+     "settling_time": {
+      "shipments": "44",
+      "inventory_supplier": "> 60",
+      "inventory_retail": "> 60"
+     },
+     "drift_sigma": {
+      "shipments": 16.33,
+      "inventory_supplier": 7.58,
+      "inventory_retail": 0.000536
+     }
+    },
+    {
+     "start": 470,
+     "end": 500,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 29.2758,
+      "inventory_supplier": 273.9655,
+      "inventory_retail": 711.5817
+     },
+     "settled": {
+      "shipments": false,
+      "inventory_supplier": false,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "17",
+      "inventory_supplier": "> 30",
+      "inventory_retail": "> 30"
+     },
+     "drift_sigma": {
+      "shipments": 3.36,
+      "inventory_supplier": 22.79,
+      "inventory_retail": 24.64
+     }
+    },
+    {
+     "start": 500,
+     "end": 535,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "level": {
+      "shipments": 43.8681,
+      "inventory_supplier": 325.2275,
+      "inventory_retail": 960.394
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": false,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "8",
+      "inventory_supplier": "> 35",
+      "inventory_retail": "> 35"
+     },
+     "drift_sigma": {
+      "shipments": 0.1,
+      "inventory_supplier": 3.96,
+      "inventory_retail": 67.25
+     }
+    },
+    {
+     "start": 535,
+     "end": 560,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 34.7462,
+      "inventory_supplier": 328.9204,
+      "inventory_retail": 972.6204
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": true
+     },
+     "settling_time": {
+      "shipments": "> 25",
+      "inventory_supplier": "7",
+      "inventory_retail": "12"
+     },
+     "drift_sigma": {
+      "shipments": 0.3,
+      "inventory_supplier": 1.65,
+      "inventory_retail": 2.43
+     }
+    },
+    {
+     "start": 560,
+     "end": 600,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      1.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 27.9701,
+      "inventory_supplier": 334.0912,
+      "inventory_retail": 838.4157
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 40",
+      "inventory_supplier": "20",
+      "inventory_retail": "> 40"
+     },
+     "drift_sigma": {
+      "shipments": 5.93,
+      "inventory_supplier": 0.32,
+      "inventory_retail": 56.73
+     }
+    },
+    {
+     "start": 600,
+     "end": 625,
+     "kind": "hold",
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 32.6171,
+      "inventory_supplier": 330.0458,
+      "inventory_retail": 754.7404
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "18",
+      "inventory_supplier": "0",
+      "inventory_retail": "14"
+     },
+     "drift_sigma": {
+      "shipments": 8.06,
+      "inventory_supplier": 1.85,
+      "inventory_retail": 4.11
+     }
+    },
+    {
+     "start": 625,
+     "end": 670,
+     "kind": "hold",
+     "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "level": {
+      "shipments": 19.2874,
+      "inventory_supplier": 342.1736,
+      "inventory_retail": 303.9627
+     },
+     "settled": {
+      "shipments": true,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "28",
+      "inventory_supplier": "16",
+      "inventory_retail": "> 45"
+     },
+     "drift_sigma": {
+      "shipments": 0.01,
+      "inventory_supplier": 2.56,
+      "inventory_retail": 77.24
+     }
+    },
+    {
+     "start": 670,
+     "end": 750,
+     "kind": "hold",
+     "u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "shipments": 0.2903,
+      "inventory_supplier": 361.8026,
+      "inventory_retail": 36.3265
+     },
+     "settled": {
+      "shipments": false,
+      "inventory_supplier": true,
+      "inventory_retail": false
+     },
+     "settling_time": {
+      "shipments": "> 80",
+      "inventory_supplier": "0",
+      "inventory_retail": "> 80"
+     },
+     "drift_sigma": {
+      "shipments": 78.11,
+      "inventory_supplier": 0.18,
+      "inventory_retail": 70.69
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 40,
+       "shipments": 0.0013,
+       "inventory_supplier": 361.3815,
+       "inventory_retail": 0.0011
+      },
+      {
+       "start": 160,
+       "end": 240,
+       "shipments": 0.5336,
+       "inventory_supplier": 361.1169,
+       "inventory_retail": 500.1826
+      },
+      {
+       "start": 670,
+       "end": 750,
+       "shipments": 0.2903,
+       "inventory_supplier": 361.8026,
+       "inventory_retail": 36.3265
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 40,
+       "end": 160,
+       "shipments": 34.8137,
+       "inventory_supplier": 309.4305,
+       "inventory_retail": 519.0929
+      },
+      {
+       "start": 240,
+       "end": 280,
+       "shipments": 34.8214,
+       "inventory_supplier": 0.0014,
+       "inventory_retail": 293.6955
+      },
+      {
+       "start": 320,
+       "end": 340,
+       "shipments": 33.9971,
+       "inventory_supplier": 329.8202,
+       "inventory_retail": 533.0475
+      },
+      {
+       "start": 380,
+       "end": 410,
+       "shipments": 34.946,
+       "inventory_supplier": 333.1858,
+       "inventory_retail": 456.3589
+      },
+      {
+       "start": 470,
+       "end": 500,
+       "shipments": 29.2758,
+       "inventory_supplier": 273.9655,
+       "inventory_retail": 711.5817
+      },
+      {
+       "start": 535,
+       "end": 560,
+       "shipments": 34.7462,
+       "inventory_supplier": 328.9204,
+       "inventory_retail": 972.6204
+      },
+      {
+       "start": 600,
+       "end": 625,
+       "shipments": 32.6171,
+       "inventory_supplier": 330.0458,
+       "inventory_retail": 754.7404
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      1.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 280,
+       "end": 320,
+       "shipments": 34.7368,
+       "inventory_supplier": 327.1595,
+       "inventory_retail": 460.8819
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 340,
+       "end": 380,
+       "shipments": 17.246,
+       "inventory_supplier": 346.4594,
+       "inventory_retail": 265.2166
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 410,
+       "end": 470,
+       "shipments": 22.4852,
+       "inventory_supplier": 339.7673,
+       "inventory_retail": 844.5509
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 500,
+       "end": 535,
+       "shipments": 43.8681,
+       "inventory_supplier": 325.2275,
+       "inventory_retail": 960.394
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      1.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 560,
+       "end": 600,
+       "shipments": 27.9701,
+       "inventory_supplier": 334.0912,
+       "inventory_retail": 838.4157
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 625,
+       "end": 670,
+       "shipments": 19.2874,
+       "inventory_supplier": 342.1736,
+       "inventory_retail": 303.9627
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 40,
+     "from_u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 120,
+     "pre_unsettled": [],
+     "obs": {
+      "shipments": {
+       "pre": 0.0013,
+       "post": 34.8137,
+       "delta": 34.8123,
+       "delta_sigma": 140.93,
+       "peak_excursion": 35.6556,
+       "peak_tick": 38,
+       "delay": 3,
+       "settling_time": "> 120",
+       "t90": 25,
+       "overshoot": 0.024,
+       "overshoot_sigma": 3.41,
+       "k_lin": 0.0544,
+       "ringing_crossings": 78
+      },
+      "inventory_supplier": {
+       "pre": 361.3815,
+       "post": 309.4305,
+       "delta": -51.951,
+       "delta_sigma": -21.19,
+       "peak_excursion": -361.3815,
+       "peak_tick": 15,
+       "delay": 0,
+       "settling_time": "> 120",
+       "t90": 0,
+       "overshoot": 5.956,
+       "overshoot_sigma": 126.19,
+       "k_lin": null,
+       "ringing_crossings": 1
+      },
+      "inventory_retail": {
+       "pre": 0.0011,
+       "post": 519.0929,
+       "delta": 519.0919,
+       "delta_sigma": 217.7,
+       "peak_excursion": 558.7653,
+       "peak_tick": 119,
+       "delay": 3,
+       "settling_time": "> 120",
+       "t90": 89,
+       "overshoot": 0.076,
+       "overshoot_sigma": 16.64,
+       "k_lin": 0.0104,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 160,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 80,
+     "pre_unsettled": [
+      "inventory_supplier",
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 34.8137,
+       "post": 0.5336,
+       "delta": -34.2801,
+       "delta_sigma": -138.78,
+       "peak_excursion": -34.7123,
+       "peak_tick": 76,
+       "delay": 0,
+       "settling_time": "> 80",
+       "t90": 54,
+       "overshoot": 0.013,
+       "overshoot_sigma": 1.75,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_supplier": {
+       "pre": 350.6989,
+       "post": 361.1169,
+       "delta": 10.4181,
+       "delta_sigma": 4.25,
+       "peak_excursion": 11.7914,
+       "peak_tick": 10,
+       "delay": 6,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.132,
+       "overshoot_sigma": 0.56,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_retail": {
+       "pre": 563.1633,
+       "post": 500.1826,
+       "delta": -62.9806,
+       "delta_sigma": -26.41,
+       "peak_excursion": 294.1065,
+       "peak_tick": 42,
+       "delay": 17,
+       "settling_time": "> 80",
+       "t90": 70,
+       "overshoot": 2.031,
+       "overshoot_sigma": 53.64,
+       "k_lin": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 240,
+     "from_u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 0.5336,
+       "post": 34.8214,
+       "delta": 34.2878,
+       "delta_sigma": 138.81,
+       "peak_excursion": 35.0969,
+       "peak_tick": 28,
+       "delay": 4,
+       "settling_time": "> 40",
+       "t90": 24,
+       "overshoot": 0.024,
+       "overshoot_sigma": 3.28,
+       "k_lin": null,
+       "ringing_crossings": 12
+      },
+      "inventory_supplier": {
+       "pre": 361.1169,
+       "post": 0.0014,
+       "delta": -361.1155,
+       "delta_sigma": -147.27,
+       "peak_excursion": -361.1168,
+       "peak_tick": 22,
+       "delay": 0,
+       "settling_time": 21.0,
+       "t90": 16,
+       "overshoot": 3.49e-06,
+       "overshoot_sigma": 0.000514,
+       "k_lin": 0.0944,
+       "ringing_crossings": 0
+      },
+      "inventory_retail": {
+       "pre": 355.5938,
+       "post": 293.6955,
+       "delta": -61.8982,
+       "delta_sigma": -25.96,
+       "peak_excursion": -119.2587,
+       "peak_tick": 22,
+       "delay": 4,
+       "settling_time": "> 40",
+       "t90": 4,
+       "overshoot": 0.927,
+       "overshoot_sigma": 24.06,
+       "k_lin": 0.3596,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 280,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      1.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 34.8214,
+       "post": 34.7368,
+       "delta": -0.0846,
+       "delta_sigma": -0.34,
+       "peak_excursion": -1.377,
+       "peak_tick": 39,
+       "delay": 0,
+       "settling_time": "> 40",
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "inventory_supplier": {
+       "pre": 0.0014,
+       "post": 327.1595,
+       "delta": 327.1581,
+       "delta_sigma": 133.42,
+       "peak_excursion": 328.3252,
+       "peak_tick": 33,
+       "delay": 7,
+       "settling_time": 25.0,
+       "t90": 21,
+       "overshoot": 0.004,
+       "overshoot_sigma": 0.48,
+       "k_lin": 0.1105,
+       "ringing_crossings": 0
+      },
+      "inventory_retail": {
+       "pre": 315.674,
+       "post": 460.8819,
+       "delta": 145.2079,
+       "delta_sigma": 60.9,
+       "peak_excursion": 157.6002,
+       "peak_tick": 39,
+       "delay": 19,
+       "settling_time": "> 40",
+       "t90": 31,
+       "overshoot": 0.085,
+       "overshoot_sigma": 5.2,
+       "k_lin": 0.0122,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 320,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      1.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 20,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 34.7368,
+       "post": 33.9971,
+       "delta": -0.7397,
+       "delta_sigma": -2.99,
+       "peak_excursion": 1.303,
+       "peak_tick": 0,
+       "delay": 0,
+       "settling_time": "> 20",
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "inventory_supplier": {
+       "pre": 327.1595,
+       "post": 329.8202,
+       "delta": 2.6607,
+       "delta_sigma": 1.09,
+       "peak_excursion": 4.7397,
+       "peak_tick": 13,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "inventory_retail": {
+       "pre": 476.7517,
+       "post": 533.0475,
+       "delta": 56.2958,
+       "delta_sigma": 23.61,
+       "peak_excursion": 58.0138,
+       "peak_tick": 19,
+       "delay": null,
+       "settling_time": "> 20",
+       "t90": 16,
+       "overshoot": 0.031,
+       "overshoot_sigma": 0.72,
+       "k_lin": 0.0155,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 340,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 33.9971,
+       "post": 17.246,
+       "delta": -16.751,
+       "delta_sigma": -67.81,
+       "peak_excursion": -16.8251,
+       "peak_tick": 13,
+       "delay": 0,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.004,
+       "overshoot_sigma": 0.3,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_supplier": {
+       "pre": 329.8202,
+       "post": 346.4594,
+       "delta": 16.6392,
+       "delta_sigma": 6.79,
+       "peak_excursion": 21.5992,
+       "peak_tick": 5,
+       "delay": 2,
+       "settling_time": 1.0,
+       "t90": 3,
+       "overshoot": 0.298,
+       "overshoot_sigma": 2.02,
+       "k_lin": 0.1293,
+       "ringing_crossings": 1
+      },
+      "inventory_retail": {
+       "pre": 538.0896,
+       "post": 265.2166,
+       "delta": -272.873,
+       "delta_sigma": -114.44,
+       "peak_excursion": -283.7816,
+       "peak_tick": 39,
+       "delay": 0,
+       "settling_time": "> 40",
+       "t90": 26,
+       "overshoot": 0.04,
+       "overshoot_sigma": 4.57,
+       "k_lin": 0.0689,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 380,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 17.246,
+       "post": 34.946,
+       "delta": 17.7,
+       "delta_sigma": 71.66,
+       "peak_excursion": 20.502,
+       "peak_tick": 0,
+       "delay": 0,
+       "settling_time": 5.0,
+       "t90": 0,
+       "overshoot": 0.158,
+       "overshoot_sigma": 11.34,
+       "k_lin": null,
+       "ringing_crossings": 2
+      },
+      "inventory_supplier": {
+       "pre": 346.4594,
+       "post": 333.1858,
+       "delta": -13.2736,
+       "delta_sigma": -5.41,
+       "peak_excursion": -18.5783,
+       "peak_tick": 4,
+       "delay": 2,
+       "settling_time": 0.0,
+       "t90": 3,
+       "overshoot": 0.4,
+       "overshoot_sigma": 2.16,
+       "k_lin": 0.284,
+       "ringing_crossings": 1
+      },
+      "inventory_retail": {
+       "pre": 251.2843,
+       "post": 456.3589,
+       "delta": 205.0746,
+       "delta_sigma": 86.01,
+       "peak_excursion": 217.5024,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 23,
+       "overshoot": 0.061,
+       "overshoot_sigma": 5.21,
+       "k_lin": 0.003,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 410,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 60,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 34.946,
+       "post": 22.4852,
+       "delta": -12.4608,
+       "delta_sigma": -50.45,
+       "peak_excursion": 17.2363,
+       "peak_tick": 36,
+       "delay": 5,
+       "settling_time": 44.0,
+       "t90": 42,
+       "overshoot": 0.022,
+       "overshoot_sigma": 1.09,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_supplier": {
+       "pre": 333.1858,
+       "post": 339.7673,
+       "delta": 6.5815,
+       "delta_sigma": 2.68,
+       "peak_excursion": -27.926,
+       "peak_tick": 23,
+       "delay": 10,
+       "settling_time": "> 60",
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "inventory_retail": {
+       "pre": 474.7038,
+       "post": 844.5509,
+       "delta": 369.8471,
+       "delta_sigma": 155.11,
+       "peak_excursion": 435.8482,
+       "peak_tick": 40,
+       "delay": 13,
+       "settling_time": "> 60",
+       "t90": 34,
+       "overshoot": 0.178,
+       "overshoot_sigma": 27.68,
+       "k_lin": 0.0544,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 470,
+     "from_u": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "shipments",
+      "inventory_supplier"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 22.5014,
+       "post": 29.2758,
+       "delta": 6.7744,
+       "delta_sigma": 27.42,
+       "peak_excursion": 8.5043,
+       "peak_tick": 8,
+       "delay": 5,
+       "settling_time": 17.0,
+       "t90": 6,
+       "overshoot": 0.255,
+       "overshoot_sigma": 7.0,
+       "k_lin": 0.043,
+       "ringing_crossings": 1
+      },
+      "inventory_supplier": {
+       "pre": 337.4535,
+       "post": 273.9655,
+       "delta": -63.4881,
+       "delta_sigma": -25.89,
+       "peak_excursion": -78.75,
+       "peak_tick": 29,
+       "delay": 7,
+       "settling_time": "> 30",
+       "t90": 26,
+       "overshoot": 0.24,
+       "overshoot_sigma": 6.22,
+       "k_lin": null,
+       "ringing_crossings": 1
+      },
+      "inventory_retail": {
+       "pre": 844.5509,
+       "post": 711.5817,
+       "delta": -132.9692,
+       "delta_sigma": -55.77,
+       "peak_excursion": -141.3366,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 23,
+       "overshoot": 0.063,
+       "overshoot_sigma": 3.51,
+       "k_lin": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 500,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "hold": 35,
+     "pre_unsettled": [
+      "shipments",
+      "inventory_supplier",
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 28.9954,
+       "post": 43.8681,
+       "delta": 14.8727,
+       "delta_sigma": 60.21,
+       "peak_excursion": 14.9714,
+       "peak_tick": 6,
+       "delay": 0,
+       "settling_time": 8.0,
+       "t90": 6,
+       "overshoot": 0.007,
+       "overshoot_sigma": 0.4,
+       "k_lin": 0.3324,
+       "ringing_crossings": 0
+      },
+      "inventory_supplier": {
+       "pre": 250.77,
+       "post": 325.2275,
+       "delta": 74.4575,
+       "delta_sigma": 30.36,
+       "peak_excursion": 78.3784,
+       "peak_tick": 34,
+       "delay": 6,
+       "settling_time": "> 35",
+       "t90": 27,
+       "overshoot": 0.053,
+       "overshoot_sigma": 1.6,
+       "k_lin": 0.034,
+       "ringing_crossings": 0
+      },
+      "inventory_retail": {
+       "pre": 698.6904,
+       "post": 960.394,
+       "delta": 261.7036,
+       "delta_sigma": 109.75,
+       "peak_excursion": 281.9378,
+       "peak_tick": 34,
+       "delay": 1,
+       "settling_time": "> 35",
+       "t90": 28,
+       "overshoot": 0.077,
+       "overshoot_sigma": 8.49,
+       "k_lin": 0.0044,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 535,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 25,
+     "pre_unsettled": [
+      "inventory_supplier",
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 43.8681,
+       "post": 34.7462,
+       "delta": -9.1219,
+       "delta_sigma": -36.93,
+       "peak_excursion": -10.4546,
+       "peak_tick": 24,
+       "delay": 0,
+       "settling_time": "> 25",
+       "t90": 0,
+       "overshoot": 0.146,
+       "overshoot_sigma": 5.4,
+       "k_lin": null,
+       "ringing_crossings": 14
+      },
+      "inventory_supplier": {
+       "pre": 328.9838,
+       "post": 328.9204,
+       "delta": -0.0634,
+       "delta_sigma": -0.03,
+       "peak_excursion": 7.9928,
+       "peak_tick": 4,
+       "delay": 11,
+       "settling_time": 7.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "inventory_retail": {
+       "pre": 988.0896,
+       "post": 972.6204,
+       "delta": -15.4692,
+       "delta_sigma": -6.49,
+       "peak_excursion": -17.0255,
+       "peak_tick": 24,
+       "delay": 0,
+       "settling_time": 12.0,
+       "t90": 16,
+       "overshoot": 0.101,
+       "overshoot_sigma": 0.65,
+       "k_lin": 0.0122,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 560,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      1.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [],
+     "obs": {
+      "shipments": {
+       "pre": 34.7462,
+       "post": 27.9701,
+       "delta": -6.776,
+       "delta_sigma": -27.43,
+       "peak_excursion": -8.5112,
+       "peak_tick": 21,
+       "delay": 0,
+       "settling_time": "> 40",
+       "t90": 21,
+       "overshoot": 0.256,
+       "overshoot_sigma": 7.02,
+       "k_lin": 0.0212,
+       "ringing_crossings": 2
+      },
+      "inventory_supplier": {
+       "pre": 328.9204,
+       "post": 334.0912,
+       "delta": 5.1708,
+       "delta_sigma": 2.11,
+       "peak_excursion": 15.1914,
+       "peak_tick": 15,
+       "delay": 9,
+       "settling_time": 20.0,
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "inventory_retail": {
+       "pre": 972.6204,
+       "post": 838.4157,
+       "delta": -134.2048,
+       "delta_sigma": -56.28,
+       "peak_excursion": -158.6343,
+       "peak_tick": 39,
+       "delay": 9,
+       "settling_time": "> 40",
+       "t90": 33,
+       "overshoot": 0.182,
+       "overshoot_sigma": 10.25,
+       "k_lin": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 600,
+     "from_u": [
+      1.0,
+      -0.0,
+      1.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 25,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 27.9701,
+       "post": 32.6171,
+       "delta": 4.647,
+       "delta_sigma": 18.81,
+       "peak_excursion": 6.0001,
+       "peak_tick": 15,
+       "delay": 0,
+       "settling_time": 18.0,
+       "t90": 9,
+       "overshoot": 0.291,
+       "overshoot_sigma": 5.48,
+       "k_lin": 0.1514,
+       "ringing_crossings": 1
+      },
+      "inventory_supplier": {
+       "pre": 334.0912,
+       "post": 330.0458,
+       "delta": -4.0454,
+       "delta_sigma": -1.65,
+       "peak_excursion": -7.1052,
+       "peak_tick": 11,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "inventory_retail": {
+       "pre": 806.9895,
+       "post": 754.7404,
+       "delta": -52.2491,
+       "delta_sigma": -21.91,
+       "peak_excursion": -54.799,
+       "peak_tick": 24,
+       "delay": 7,
+       "settling_time": 14.0,
+       "t90": 9,
+       "overshoot": 0.049,
+       "overshoot_sigma": 1.07,
+       "k_lin": null,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 625,
+     "from_u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "hold": 45,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 32.6171,
+       "post": 19.2874,
+       "delta": -13.3297,
+       "delta_sigma": -53.96,
+       "peak_excursion": -15.4269,
+       "peak_tick": 0,
+       "delay": 0,
+       "settling_time": 28.0,
+       "t90": 0,
+       "overshoot": 0.157,
+       "overshoot_sigma": 8.49,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_supplier": {
+       "pre": 330.0458,
+       "post": 342.1736,
+       "delta": 12.1278,
+       "delta_sigma": 4.95,
+       "peak_excursion": 17.8311,
+       "peak_tick": 25,
+       "delay": 2,
+       "settling_time": 16.0,
+       "t90": 3,
+       "overshoot": 0.47,
+       "overshoot_sigma": 2.33,
+       "k_lin": 0.0196,
+       "ringing_crossings": 1
+      },
+      "inventory_retail": {
+       "pre": 750.8412,
+       "post": 303.9627,
+       "delta": -446.8785,
+       "delta_sigma": -187.41,
+       "peak_excursion": -478.4374,
+       "peak_tick": 44,
+       "delay": 0,
+       "settling_time": "> 45",
+       "t90": 34,
+       "overshoot": 0.071,
+       "overshoot_sigma": 13.24,
+       "k_lin": 0.029,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 670,
+     "from_u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "to_u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 80,
+     "pre_unsettled": [
+      "inventory_retail"
+     ],
+     "obs": {
+      "shipments": {
+       "pre": 19.2874,
+       "post": 0.2903,
+       "delta": -18.9971,
+       "delta_sigma": -76.91,
+       "peak_excursion": 33.9011,
+       "peak_tick": 30,
+       "delay": 0,
+       "settling_time": "> 80",
+       "t90": 60,
+       "overshoot": 0.012,
+       "overshoot_sigma": 0.96,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_supplier": {
+       "pre": 342.1736,
+       "post": 361.8026,
+       "delta": 19.629,
+       "delta_sigma": 8.0,
+       "peak_excursion": 20.394,
+       "peak_tick": 79,
+       "delay": 0,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.039,
+       "overshoot_sigma": 0.31,
+       "k_lin": null,
+       "ringing_crossings": 0
+      },
+      "inventory_retail": {
+       "pre": 264.1019,
+       "post": 36.3265,
+       "delta": -227.7754,
+       "delta_sigma": -95.53,
+       "peak_excursion": 294.3555,
+       "peak_tick": 33,
+       "delay": 0,
+       "settling_time": "> 80",
+       "t90": 66,
+       "overshoot": 0.159,
+       "overshoot_sigma": 15.23,
+       "k_lin": null,
+       "ringing_crossings": 1
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [
+    {
+     "on_tick": 40,
+     "off_tick": 160,
+     "obs": {
+      "shipments": {
+       "delta_on": 34.8123,
+       "delta_off": -34.2801,
+       "delay_on": 3,
+       "delay_off": 0,
+       "settle_on": "> 120",
+       "settle_off": "> 80",
+       "return_to_baseline_sigma": 2.15
+      },
+      "inventory_supplier": {
+       "delta_on": -51.951,
+       "delta_off": 10.4181,
+       "delay_on": 0,
+       "delay_off": 6,
+       "settle_on": "> 120",
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": -0.11
+      },
+      "inventory_retail": {
+       "delta_on": 519.0919,
+       "delta_off": -62.9806,
+       "delay_on": 3,
+       "delay_off": 17,
+       "settle_on": "> 120",
+       "settle_off": "> 80",
+       "return_to_baseline_sigma": 209.77
+      }
+     }
+    },
+    {
+     "on_tick": 160,
+     "off_tick": 240,
+     "obs": {
+      "shipments": {
+       "delta_on": -34.2801,
+       "delta_off": 34.2878,
+       "delay_on": 0,
+       "delay_off": 4,
+       "settle_on": "> 80",
+       "settle_off": "> 40",
+       "return_to_baseline_sigma": 0.03
+      },
+      "inventory_supplier": {
+       "delta_on": 10.4181,
+       "delta_off": -361.1155,
+       "delay_on": 6,
+       "delay_off": 0,
+       "settle_on": 0.0,
+       "settle_off": 21.0,
+       "return_to_baseline_sigma": -143.02
+      },
+      "inventory_retail": {
+       "delta_on": -62.9806,
+       "delta_off": -61.8982,
+       "delay_on": 17,
+       "delay_off": 4,
+       "settle_on": "> 80",
+       "settle_off": "> 40",
+       "return_to_baseline_sigma": -113.01
+      }
+     }
+    },
+    {
+     "on_tick": 280,
+     "off_tick": 320,
+     "obs": {
+      "shipments": {
+       "delta_on": -0.0846,
+       "delta_off": -0.7397,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 40",
+       "settle_off": "> 20",
+       "return_to_baseline_sigma": -3.34
+      },
+      "inventory_supplier": {
+       "delta_on": 327.1581,
+       "delta_off": 2.6607,
+       "delay_on": 7,
+       "delay_off": null,
+       "settle_on": 25.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": 134.5
+      },
+      "inventory_retail": {
+       "delta_on": 145.2079,
+       "delta_off": 56.2958,
+       "delay_on": 19,
+       "delay_off": null,
+       "settle_on": "> 40",
+       "settle_off": "> 20",
+       "return_to_baseline_sigma": 91.16,
+       "k_ratio_lin": 0.787,
+       "symmetric_lin": true
+      }
+     }
+    },
+    {
+     "on_tick": 340,
+     "off_tick": 380,
+     "obs": {
+      "shipments": {
+       "delta_on": -16.751,
+       "delta_off": 17.7,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 0.0,
+       "settle_off": 5.0,
+       "return_to_baseline_sigma": 3.84
+      },
+      "inventory_supplier": {
+       "delta_on": 16.6392,
+       "delta_off": -13.2736,
+       "delay_on": 2,
+       "delay_off": 2,
+       "settle_on": 1.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": 1.37,
+       "k_ratio_lin": 0.455,
+       "symmetric_lin": false
+      },
+      "inventory_retail": {
+       "delta_on": -272.873,
+       "delta_off": 205.0746,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 40",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -34.28,
+       "k_ratio_lin": 22.967,
+       "symmetric_lin": false
+      }
+     }
+    },
+    {
+     "on_tick": 410,
+     "off_tick": 470,
+     "obs": {
+      "shipments": {
+       "delta_on": -12.4608,
+       "delta_off": 6.7744,
+       "delay_on": 5,
+       "delay_off": 5,
+       "settle_on": 44.0,
+       "settle_off": 17.0,
+       "return_to_baseline_sigma": -22.95
+      },
+      "inventory_supplier": {
+       "delta_on": 6.5815,
+       "delta_off": -63.4881,
+       "delay_on": 10,
+       "delay_off": 7,
+       "settle_on": "> 60",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -24.15
+      },
+      "inventory_retail": {
+       "delta_on": 369.8471,
+       "delta_off": -132.9692,
+       "delay_on": 13,
+       "delay_off": 0,
+       "settle_on": "> 60",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": 99.34
+      }
+     }
+    },
+    {
+     "on_tick": 500,
+     "off_tick": 535,
+     "obs": {
+      "shipments": {
+       "delta_on": 14.8727,
+       "delta_off": -9.1219,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": 8.0,
+       "settle_off": "> 25",
+       "return_to_baseline_sigma": 23.28
+      },
+      "inventory_supplier": {
+       "delta_on": 74.4575,
+       "delta_off": -0.0634,
+       "delay_on": 6,
+       "delay_off": 11,
+       "settle_on": "> 35",
+       "settle_off": 7.0,
+       "return_to_baseline_sigma": 31.87
+      },
+      "inventory_retail": {
+       "delta_on": 261.7036,
+       "delta_off": -15.4692,
+       "delay_on": 1,
+       "delay_off": 0,
+       "settle_on": "> 35",
+       "settle_off": 12.0,
+       "return_to_baseline_sigma": 114.88,
+       "k_ratio_lin": 0.361,
+       "symmetric_lin": false
+      }
+     }
+    },
+    {
+     "on_tick": 560,
+     "off_tick": 600,
+     "obs": {
+      "shipments": {
+       "delta_on": -6.776,
+       "delta_off": 4.647,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 40",
+       "settle_off": 18.0,
+       "return_to_baseline_sigma": -8.62,
+       "k_ratio_lin": 0.14,
+       "symmetric_lin": false
+      },
+      "inventory_supplier": {
+       "delta_on": 5.1708,
+       "delta_off": -4.0454,
+       "delay_on": 9,
+       "delay_off": null,
+       "settle_on": 20.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": 0.46
+      },
+      "inventory_retail": {
+       "delta_on": -134.2048,
+       "delta_off": -52.2491,
+       "delay_on": 9,
+       "delay_off": 7,
+       "settle_on": "> 40",
+       "settle_off": 14.0,
+       "return_to_baseline_sigma": -91.38
+      }
+     }
+    }
+   ],
+   "returns": [
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 160,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "shipments": 2.15,
+      "inventory_supplier": -0.11,
+      "inventory_retail": 209.77
+     }
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 240,
+     "vs_tick": 40,
+     "diff_sigma": {
+      "shipments": 0.03,
+      "inventory_supplier": -126.19,
+      "inventory_retail": -94.53
+     }
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 320,
+     "vs_tick": 40,
+     "diff_sigma": {
+      "shipments": -3.31,
+      "inventory_supplier": 8.32,
+      "inventory_retail": 5.85
+     }
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 380,
+     "vs_tick": 40,
+     "diff_sigma": {
+      "shipments": 0.54,
+      "inventory_supplier": 9.69,
+      "inventory_retail": -26.31
+     }
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 470,
+     "vs_tick": 40,
+     "diff_sigma": {
+      "shipments": -22.42,
+      "inventory_supplier": -14.46,
+      "inventory_retail": 80.73
+     }
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 535,
+     "vs_tick": 40,
+     "diff_sigma": {
+      "shipments": -0.27,
+      "inventory_supplier": 7.95,
+      "inventory_retail": 190.2
+     }
+    },
+    {
+     "u": [
+      1.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 600,
+     "vs_tick": 40,
+     "diff_sigma": {
+      "shipments": -8.89,
+      "inventory_supplier": 8.41,
+      "inventory_retail": 98.83
+     }
+    },
+    {
+     "u": [
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 670,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "shipments": 1.17,
+      "inventory_supplier": 0.17,
+      "inventory_retail": 15.23
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "shipments",
+     "feature": "level",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.759,
+     "corr_lag0": 0.759
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "diff",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.759,
+     "corr_lag0": 0.759
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "fall",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.666,
+     "corr_lag0": -0.651
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "rise",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.638,
+     "corr_lag0": 0.638
+    },
+    {
+     "source": "shipments",
+     "feature": "level",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": 0.553,
+     "corr_lag0": 0.391
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "level",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.537,
+     "corr_lag0": 0.391
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "absdiff",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.513,
+     "corr_lag0": -0.048
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "level",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.499,
+     "corr_lag0": 0.352
+    },
+    {
+     "source": "shipments",
+     "feature": "level",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.47,
+     "corr_lag0": 0.196
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "level",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.457,
+     "corr_lag0": 0.352
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "diff",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": -9,
+     "best_corr": 0.424,
+     "corr_lag0": 0.196
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "fall",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.415,
+     "corr_lag0": -0.121
+    },
+    {
+     "source": "shipments",
+     "feature": "fall",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": 0.4,
+     "corr_lag0": 0.025
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "rise",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": -0.398,
+     "corr_lag0": 0.126
+    },
+    {
+     "source": "shipments",
+     "feature": "rise",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": 0.397,
+     "corr_lag0": 0.252
+    },
+    {
+     "source": "shipments",
+     "feature": "diff",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": 0.384,
+     "corr_lag0": 0.143
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "diff",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": 0.384,
+     "corr_lag0": 0.143
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "fall",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.369,
+     "corr_lag0": 0.328
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "level",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": -0.333,
+     "corr_lag0": -0.245
+    },
+    {
+     "source": "shipments",
+     "feature": "level",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.319,
+     "corr_lag0": -0.245
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "level",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": -0.313,
+     "corr_lag0": -0.28
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "diff",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.313,
+     "corr_lag0": -0.28
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "fall",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.306,
+     "corr_lag0": -0.118
+    },
+    {
+     "source": "shipments",
+     "feature": "absdiff",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": 0.287,
+     "corr_lag0": 0.226
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "absdiff",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": -0.274,
+     "corr_lag0": 0.001
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "fall",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": 0.249,
+     "corr_lag0": 0.2
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "fall",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": -0.239,
+     "corr_lag0": -0.236
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "diff",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.238,
+     "corr_lag0": 0.122
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "fall",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.238,
+     "corr_lag0": -0.109
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "rise",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": -7,
+     "best_corr": 0.231,
+     "corr_lag0": 0.186
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "absdiff",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.226,
+     "corr_lag0": -0.216
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "absdiff",
+     "target": "shipments",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.224,
+     "corr_lag0": 0.021
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "absdiff",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": -3,
+     "best_corr": 0.221,
+     "corr_lag0": 0.157
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "diff",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": -9,
+     "best_corr": 0.221,
+     "corr_lag0": 0.122
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "absdiff",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.215,
+     "corr_lag0": 0.189
+    },
+    {
+     "source": "shipments",
+     "feature": "diff",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.195,
+     "corr_lag0": -0.158
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "diff",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.195,
+     "corr_lag0": -0.158
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "rise",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.195,
+     "corr_lag0": 0.187
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "absdiff",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": 9,
+     "best_corr": 0.193,
+     "corr_lag0": 0.108
+    },
+    {
+     "source": "shipments",
+     "feature": "fall",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": 0.189,
+     "corr_lag0": 0.188
+    },
+    {
+     "source": "shipments",
+     "feature": "diff",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.182,
+     "corr_lag0": -0.174
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "diff",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": 9,
+     "best_corr": 0.182,
+     "corr_lag0": 0.16
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "level",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.182,
+     "corr_lag0": -0.174
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "level",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": -9,
+     "best_corr": 0.182,
+     "corr_lag0": 0.16
+    },
+    {
+     "source": "shipments",
+     "feature": "rise",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.18,
+     "corr_lag0": -0.112
+    },
+    {
+     "source": "shipments",
+     "feature": "fall",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.174,
+     "corr_lag0": 0.138
+    },
+    {
+     "source": "shipments",
+     "feature": "absdiff",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.173,
+     "corr_lag0": 0.022
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "rise",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 7,
+     "best_corr": 0.172,
+     "corr_lag0": 0.098
+    },
+    {
+     "source": "shipments",
+     "feature": "diff",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": -0.168,
+     "corr_lag0": -0.095
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "fall",
+     "target": "inventory_retail",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.167,
+     "corr_lag0": -0.019
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "rise",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": -0.163,
+     "corr_lag0": -0.142
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "level",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.162,
+     "corr_lag0": -0.095
+    },
+    {
+     "source": "shipments",
+     "feature": "fall",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.146,
+     "corr_lag0": 0.063
+    },
+    {
+     "source": "shipments",
+     "feature": "rise",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": 10,
+     "best_corr": -0.137,
+     "corr_lag0": -0.088
+    },
+    {
+     "source": "shipments",
+     "feature": "rise",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": -9,
+     "best_corr": -0.112,
+     "corr_lag0": -0.086
+    },
+    {
+     "source": "shipments",
+     "feature": "absdiff",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": 10,
+     "best_corr": 0.108,
+     "corr_lag0": 0.084
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "rise",
+     "target": "shipments",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": -0.09,
+     "corr_lag0": -0.019
+    },
+    {
+     "source": "inventory_retail",
+     "feature": "absdiff",
+     "target": "inventory_supplier",
+     "target_feature": "diff",
+     "best_lag": 14,
+     "best_corr": -0.08,
+     "corr_lag0": -0.017
+    },
+    {
+     "source": "inventory_supplier",
+     "feature": "rise",
+     "target": "inventory_retail",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.062,
+     "corr_lag0": -0.024
+    },
+    {
+     "source": "shipments",
+     "feature": "absdiff",
+     "target": "inventory_supplier",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.055,
+     "corr_lag0": -0.02
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "inventory_retail",
+     "target": "shipments",
+     "r2_controls_only": 0.5643,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.821,
+     "r2_gain": 0.2568,
+     "coef_rise_sigma": 15.564,
+     "coef_fall_sigma": -2.827
+    },
+    {
+     "source": "shipments",
+     "target": "inventory_retail",
+     "r2_controls_only": 0.6611,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.8032,
+     "r2_gain": 0.142,
+     "coef_rise_sigma": 10.519,
+     "coef_fall_sigma": 46.167
+    },
+    {
+     "source": "shipments",
+     "target": "inventory_supplier",
+     "r2_controls_only": 0.4985,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.6305,
+     "r2_gain": 0.132,
+     "coef_rise_sigma": -26.479,
+     "coef_fall_sigma": 24.647
+    },
+    {
+     "source": "inventory_supplier",
+     "target": "shipments",
+     "r2_controls_only": 0.5643,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.6367,
+     "r2_gain": 0.0724,
+     "coef_rise_sigma": 20.23,
+     "coef_fall_sigma": 44.666
+    },
+    {
+     "source": "inventory_supplier",
+     "target": "inventory_retail",
+     "r2_controls_only": 0.6611,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.7044,
+     "r2_gain": 0.0433,
+     "coef_rise_sigma": 36.661,
+     "coef_fall_sigma": -53.995
+    },
+    {
+     "source": "inventory_retail",
+     "target": "inventory_supplier",
+     "r2_controls_only": 0.4985,
+     "best_rate": 0.2,
+     "r2_with_memories": 0.5375,
+     "r2_gain": 0.039,
+     "coef_rise_sigma": -2.677,
+     "coef_fall_sigma": 5.224
+    }
+   ],
+   "plot": "data\\supply_chain\\R1_r0_battery.png"
+  }
+ ]
+}

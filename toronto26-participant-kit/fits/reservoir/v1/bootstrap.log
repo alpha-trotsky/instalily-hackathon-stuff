@@ -1,0 +1,13 @@
+m13_all 0 selected m13_all {'m12_all': 2880.3, 'm13_all': 2625.8, 'm23_all': 11406.9}
+m23_all 0 selected m13_all {'m12_all': 11833.9, 'm13_all': 11486.3, 'm23_all': 12125.6}
+m12_all 0 selected m13_all {'m12_all': 2827.0, 'm13_all': 2816.7, 'm23_all': 11431.3}
+m13_all 1 selected m13_all {'m12_all': 3015.6, 'm13_all': 2718.7, 'm23_all': 11079.6}
+m12_all 1 selected m12_all {'m12_all': 2886.6, 'm13_all': 2888.7, 'm23_all': 11468.4}
+m23_all 1 selected m13_all {'m12_all': 10602.1, 'm13_all': 10315.2, 'm23_all': 11403.6}
+
+confusion (rows: truth, columns: selected)
+                           m12_all    m13_all    m23_all
+               m12_all           1          1          0
+               m13_all           0          2          0
+               m23_all           0          2          0
+{"margins": {"m12_all": [2.09445738363911], "m13_all": [254.46497287571947, 296.8867148326449], "m23_all": []}, "row_accuracy": {"m12_all": 0.5, "m13_all": 1.0, "m23_all": 0.0}, "real_costs": {"m12_all": 3002.0205873666964, "m13_all": 2724.3000656466807, "m23_all": 11231.79747890959}, "real_winner": "m13_all", "real_margin": 277.72052172001577, "min_bootstrap_margin_winner": 254.46497287571947}

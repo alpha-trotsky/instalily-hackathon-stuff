@@ -1,0 +1,124 @@
+{
+ "results": [
+  {
+   "truth": "m13_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 2880.3013004199624,
+    "m13_all": 2625.836327544243,
+    "m23_all": 11406.884168315493
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 11833.866525334646,
+    "m13_all": 11486.273203130399,
+    "m23_all": 12125.576617666839
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 0,
+   "costs": {
+    "m12_all": 2827.034973737884,
+    "m13_all": 2816.67410505848,
+    "m23_all": 11431.26905983566
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m13_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 3015.6106096305075,
+    "m13_all": 2718.7238947978626,
+    "m23_all": 11079.571825921917
+   },
+   "selected": "m13_all"
+  },
+  {
+   "truth": "m12_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 2886.5799825324843,
+    "m13_all": 2888.6744399161234,
+    "m23_all": 11468.378215832829
+   },
+   "selected": "m12_all"
+  },
+  {
+   "truth": "m23_all",
+   "draw": 1,
+   "costs": {
+    "m12_all": 10602.094392013762,
+    "m13_all": 10315.200859560417,
+    "m23_all": 11403.559413682413
+   },
+   "selected": "m13_all"
+  }
+ ],
+ "summary": {
+  "confusion": {
+   "m12_all": {
+    "m12_all": 1,
+    "m13_all": 1,
+    "m23_all": 0
+   },
+   "m13_all": {
+    "m12_all": 0,
+    "m13_all": 2,
+    "m23_all": 0
+   },
+   "m23_all": {
+    "m12_all": 0,
+    "m13_all": 2,
+    "m23_all": 0
+   }
+  },
+  "margins": {
+   "m12_all": [
+    2.09445738363911
+   ],
+   "m13_all": [
+    254.46497287571947,
+    296.8867148326449
+   ],
+   "m23_all": []
+  },
+  "row_accuracy": {
+   "m12_all": 0.5,
+   "m13_all": 1.0,
+   "m23_all": 0.0
+  },
+  "real_costs": {
+   "m12_all": 3002.0205873666964,
+   "m13_all": 2724.3000656466807,
+   "m23_all": 11231.79747890959
+  },
+  "real_winner": "m13_all",
+  "real_margin": 277.72052172001577,
+  "min_bootstrap_margin_winner": 254.46497287571947
+ },
+ "settings": {
+  "fits": [
+   "fits/reservoir/v1/m12_all.json",
+   "fits/reservoir/v1/m13_all.json",
+   "fits/reservoir/v1/m23_all.json"
+  ],
+  "data": null,
+  "model": null,
+  "units": null,
+  "noise": null,
+  "draws": 2,
+  "block": 50,
+  "skip": 20,
+  "restarts": 1,
+  "workers": 2,
+  "warm": true,
+  "out": "fits\\reservoir\\v1\\bootstrap.json"
+ }
+}
