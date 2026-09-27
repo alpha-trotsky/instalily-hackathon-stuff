@@ -149,6 +149,16 @@ def simulate(p, initial, actions):
         mech = g2s * S + g2f * Fg
         occ = max(0.0, 1.0 - (E[0] + E[1]) / Emax)
         served = [0.0, 0.0]; exits = [0.0, 0.0]
+        # junction capacities first; admissions into the shared exit stage never exceed its free space
+        # (stability: without this cap > Emax gives a period-2 exit-occupancy oscillation)
+        caps = [0.0, 0.0]
+        for r in (0, 1):
+            full = min((Ql[r] + pce * Qh[r]) / qmax[r], 1.0)
+            caps[r] = _ex(c[r] + wg[r] * math.log(green[r] / 0.5) + wc[r] * uc - mech - sp[r] * full
+                          - g3c * F[r] - g3x * F[1 - r]) * max(1.0 - wl[r] * lane, 0.02) * occ
+        space = max(Emax - E[0] - E[1], 0.0)
+        tot = caps[0] + caps[1]
+        cscale = space / tot if tot > space and tot > 1e-12 else 1.0
         for r in (0, 1):
             rl, rh = pl[r][head], ph[r][head]
             pl[r][head] = arr[r] * (1 - h); ph[r][head] = arr[r] * h
@@ -161,7 +171,7 @@ def simulate(p, initial, actions):
             full = min((Ql[r] + pce * Qh[r]) / qmax[r], 1.0)
             cap = _ex(c[r] + wg[r] * math.log(green[r] / 0.5) + wc[r] * uc - mech - sp[r] * full
                       - g3c * F[r] - g3x * F[1 - r])
-            cap *= max(1.0 - wl[r] * lane, 0.02) * occ
+            cap *= max(1.0 - wl[r] * lane, 0.02) * occ * cscale
             hp = pce * Qh[r]
             den = wH * hp + Ql[r]
             sh_share = wH * hp / den if den > 1e-12 else 0.0

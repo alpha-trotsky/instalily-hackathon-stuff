@@ -1,0 +1,56 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 70.28837180137634,
+ "ranges": {
+  "flow_a": [
+   0.0,
+   3109.9575300270844
+  ],
+  "flow_b": [
+   0.0,
+   2250.0
+  ],
+  "speed_a": [
+   0.0,
+   2456.5075648579273
+  ],
+  "speed_b": [
+   0.0,
+   2456.8828435363343
+  ]
+ },
+ "min_seen": {
+  "flow_a": 0.0,
+  "flow_b": 0.0,
+  "speed_a": 4.534096276340652,
+  "speed_b": 5.816819772366679
+ },
+ "max_seen": {
+  "flow_a": 12.210891026509529,
+  "flow_b": 10.468257550144939,
+  "speed_a": 52.27561470637838,
+  "speed_b": 50.428857868470836
+ },
+ "worst_alternation": 1.0,
+ "failures": [
+  {
+   "schedule": 0,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_a sawtooth alternation 1.00 amp 0.11"
+   ]
+  },
+  {
+   "schedule": 120,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 1.00 amp 0.11"
+   ]
+  }
+ ],
+ "n_failures": 2,
+ "pass": false
+}

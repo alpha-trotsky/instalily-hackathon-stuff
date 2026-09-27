@@ -1,0 +1,3 @@
+powell 0 cost 27349.6 nfev 2000 94s
+powell 1 cost 26866.3 nfev 2000 189s
+cost 26832.0 start 30301.5 score all 0.546 {'data/traffic/R1.json': 0.5761, 'data/traffic/R2.json': 0.5074, 'data/traffic/R3.json': 0.4911} 308s

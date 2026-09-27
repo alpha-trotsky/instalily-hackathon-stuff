@@ -482,3 +482,118 @@ m2+m3's best R1 cost (with an absurd wr) does not transfer. m1+m2 (≈ m2 alone)
 6. Candidates for the 50-step reserve: extend a recovery after elective load to see whether the residual 34.5 ever
    drains (B19); or run a 40-tick overtime block at staffing 20 with a backlog and compare it with R1 ticks 240–251 to
    size fatigue.
+
+## 10. Phase C modeler (2026-09-27, 12:41–13:15)
+
+Files: `KIT/fits/hospital_queue/`: `refit2.py` (the reviewer's refit driver generalized: diff_step 1e-2/1e-3 rounds,
+perturbed starts, any data list), `eval_c.py` (per-window errors in score-σ units, plots `R1_*.png`, `R2c_*.png`),
+fits `v1_*` to `v5_*`, `bootstrap_v2.json/.log`, `stability_final.json`, `crossrun_v4_m12.json`, `final_m12.json`,
+`safe_m12.json` (the reviewer's m12_all_b; packaged first as an insurance v1, then replaced). The v0 model is kept as
+`greybox/hospital_queue_model_v0.py`.
+
+### Reserve probe (G4): spent 50, CAP reached
+
+Free `--budget` check: 750 remaining. `data/hospital_queue/R2.json` was copied to `R2c.json` and continued at the
+recovery action for 50 ticks (500–549). The continue call worked (the run had not expired). Result: queue **34.5 ± 0.2
+flat for all 50 ticks** (so at least 100 ticks since the last quantum at 451), discharges 11.49, wait 0. The residual of
+11.5 patients (one tick of arrivals above the 23 baseline) is **permanent on this timescale**: no further quantum, no
+decay. All later fits use R1 + R2c (1,300 ticks).
+
+### Review responses
+
+| Gap | Response |
+|---|---|
+| G1 wf | **Fixed.** `FIXED = (A0, kmu, nsv, wf)` in the model, and the `wf` SPEC value is 0, so follow-up has no capacity effect in any fit. A0 = 11.5, kmu = 0.65 and nsv = 2 are fixed. |
+| G2 elective discharges | **Tested, not captured.** Two structural tries. (a) `qe·phi`, elective bed occupancy counted in queue (decouples the ceiling from throughput): qe fitted → 0 on all data (v3). (b) `ww`, an elective-mix factor on the wait estimate (the low D was partly forced by the wait level): on R1 alone it opens a much better basin (cost 7,081 → 5,784, we 1.3 → 0.17, qe 57, ww 1.2), but on R1+R2c the same basin is worse (16,093 vs 14,583), and the best all-data fit has ww −0.26 and qe 0. E/L discharges remain 8–13σ off (R1 310–530, R2 110–290). It probably needs per-class capacity (electives with separate treatment work and lower priority); not done in time. |
+| G3 tandem / handover on reassignment | **Not captured.** k2d → 0 in every fit (v1–v5). R2 290–350 is still 4–5σ on wait, 2.5–2.8σ on queue and 5–8σ on discharges. The blocked-chair reserve (Cb ≫ Ca: Cb 82 vs Ca 18) is in the fit, but the 15–20-tick crash on return is not reproduced. |
+| G4 residual 34.5 | **Fixed** with a base state Lq, driven by the elective mix phi and counted in queue only: `Lq += aqu·max(gq·phi − Lq, 0) − aqd·Lq`. aqd fitted → 0 (permanent, matching R2c). R2c 455–550 queue error 0.8–1.0σ → **0.1σ**. The quantised drop 49.5 → 34.5 is smoothed, not modeled. Driving it by the backlog (Z) was tried first and fitted off (gq → 0): in R1 the staffing-5 backlog drained to exactly 23.0, so the residual belongs to electives. |
+| G5 deterioration | **Fixed (as congestion work).** `Z += az·(W/(W+Kz) − Z)`, work per patient `1 + we·phi + wd·Z`. The fit pins az at 1 (instant, no age memory): work rises with the waiting count, so the aged-vs-fresh distinction collapses to "more waiting → more work". Cost 20,192 (reviewer m12, R1+R2) → 15,224 (v1 m12, R1+R2c including 50 extra ticks). Staffing-5 wait error 5.7σ → 0.6σ. With it, g1 did **not** go to 0 on all data (0.24, see G8). |
+| G6 reset transient | **Improved through G5** (the fresh reset queue has Z ≈ 0, so light work): R1 0–60 queue 1.1σ → 0.4σ, R2 0–30 1.6σ → 0.6–0.8σ. Discharges in the first ticks are still 3–6σ off (bursty 2-tick pipeline). No separate fast-drain stage was added. |
+| G7 wait under overload / kd pinned | **Partly fixed**, through G5 (60–240 wait 5.7σ → 0.6σ). kd is still pinned at 1 (Dm = current D; the filter is unused). |
+| G8 fatigue small | g1 is 0.24 on all data, but a1u is pinned at 1: fatigue appears instantly with overtime and decays at 0.035/tick (about 29 ticks). So m1 acts as "overtime gain lower than wo, plus a ~30-tick after-penalty". g1 is bounded by its sigmoid (< 1), and the capacity factor stays ≥ 0.76. On R1 alone g1 → 0. |
+| G9 tooling | Used `refit2.py` (diff_step rounds) instead of `fit.py`. The bootstrap still uses `fit.py`'s optimizer (warm start). |
+| G10 extremes | The stability gate covers the full bounds (staffing 1, urgent 0, diagnostic 0.1/0.8): pass. |
+
+### Final model structure (`greybox/hospital_queue_model.py`, v1)
+
+The v0 tandem fluid queue, plus congestion work Z (G5) and a permanent elective long-stay Lq (G4). qe and ww were
+tested and fitted off. wf is fixed at 0. Mechanisms: m1 fatigue; m2 handover (staff increases; the k2d reassignment
+term fits to 0); m3 returns. All rates are sigmoids, gains are capped, and states are clipped (Lq ≤ 500, H ≤ 40,
+W ≤ Wmax).
+
+### Cross-run test (§6.3.1): fit on R1 only, score R2c (σ = 0.1×std after tick 20 of R1+R2c)
+
+| Fit on R1 (model version) | R2c score |
+|---|---:|
+| persistence | 0.312 |
+| base, no mechanism (v2) | 0.520 |
+| m1+m2 (v2) | 0.514 |
+| m1+m3 (v2) | 0.244 (wr 47: absurd) |
+| m2+m3 (v2) | 0.246 (wr 126: absurd) |
+| **m1+m2 (final structure, v4)** | **0.541** |
+| base, no mechanism (final structure, v5) | 0.540 |
+
+### All-data refits (R1 + R2c, linear, noise 1/3/1, soft-l1 cost)
+
+| Fit | Cost | Notes |
+|---|---:|---|
+| base (v2) | 15,658 | |
+| m2 (v2) | 15,563 | |
+| m1+m2 (v2) | 14,928 | g1 0.22 (a1u pinned at 1), g2 0.41, a2 0.078 |
+| m1+m3 (v2) | 14,608 | g3 0.06, Pc 6.9 (below the recovery discharges of 11.5, so "returns" occur with follow-up 1 too), wr 2.4 |
+| m2+m3 (v2) | 14,913 | Lq fitted off; m3 used as a mix lag |
+| **m1+m2 (final, v4)** | **14,583** | adds ww −0.26; train score R1 0.503 / R2c 0.609 |
+
+### Bootstrap (warm, 2 draws per pair, v2 fits, `bootstrap_v2.json`)
+
+| truth \ selected | m12 | m13 | m23 |
+|---|---:|---:|---:|
+| m12 | 1 | 1 | 0 |
+| m13 | 0 | 2 | 0 |
+| m23 | 0 | 1 | 1 |
+
+Margins: the m12-true win was by 257, the m13-true wins by 620 and 1,159, and the m23-true win by 78. When m12 is true,
+m13 still won one draw by about 500. On the real data (v2), m13 beats m12 by 320 and m23 by 305. That is inside the
+range where m13 wins even though m12 is true. **m13 is over-selected (it is a flexible lag/mix term), so the cost does
+not identify the pair.**
+
+### Decision (§6.3.4)
+
+**m1 + m2, moderate confidence.** The bootstrap leaves it unresolved; the decision rests on the direct probes.
+
+- **M3 is excluded by three direct nulls:** follow-up 0 at recovery for 80 ticks (R2 30–110, discharges
+  11.49 ± 0.015); follow-up 0 after a discharge burst (P9c); and follow-up 0 on E (R1 500–530). The m3 fits reach
+  their cost only through Pc < 11.5, which gives returns even with the program on and contradicts the brief's "can
+  prevent delayed returns". On R1 they also need absurd wr (47, 126). Both m3 pairs fail the cross-run test (0.24 vs
+  persistence 0.31).
+- **M2:** the slow-restore asymmetry (B5, B17) is the clearest signature. g2 is about 0.31–0.49 in every fit.
+- **M1 is weak and partly structural.** a1u is pinned at 1, which counts as missing structure. Its inclusion rests on
+  "exactly two" plus the M3 nulls. Its effect is bounded (capacity factor ≥ 0.76).
+- **Fallback:** the relaxation-only base (no mechanism) scores within 0.001 of m1+m2 in the cross-run test. m1+m2 is
+  kept because its all-data cost is about 1,000 lower and it passes all gates.
+
+### Gates (§7)
+
+- **Local score** (fit on R1 → R2c): 0.541 vs persistence 0.312. **Pass.**
+- **Stability** (200 schedules including 8 × 40,000 steps, full bounds, `stability_final.json`): **pass**, 0 failures.
+  Maximum values seen: wait 621, queue 415, discharges 42.6.
+- **Contract** (from the extracted ZIP): **pass**, 4.2 s wall, every malformed-input case ok, credential scan clean.
+
+## Final model and hand-off (Phase C)
+
+- **Shipped:** m1+m2 on model v1 (`greybox/hospital_queue_model.py`), with params
+  `KIT/fits/hospital_queue/final_m12.json` (= `v4_m12_all.json`). The folder is `KIT/models/hospital_queue/`
+  (predict.py, hospital_queue_model.py, params.json), and the ZIP is **`KIT/submission-hospital_queue-v1.zip`**. The
+  package check passed. Confidence in the pair is moderate.
+- **Scores:** cross-run (fit on R1 → R2c) 0.541 vs persistence 0.312. Train score R1 0.503 / R2c 0.609, against the
+  reviewer's fit at 0.480 / 0.562 on the same windows.
+- **Steps:** 1,300 of CAP 1,300 spent (the 50-step reserve went on the R2c continuation); 700 remain on the gateway.
+- **Top 3 open issues:**
+  1. **G2 elective discharges** are 8–13σ too low under electives (E and L). This is the largest remaining error and
+     needs per-class capacity and priority. The R1-only `ww`/`qe` basin (cost −19 %) hints at the structure but does
+     not survive R2.
+  2. **Lq extrapolation.** The long-stay residual is permanent (aqd = 0) and grows toward gq·phi ≈ 88 patients under a
+     sustained elective hold (aqu 0.0005/tick), but only about 11.5 was ever observed. A 4,000-step elective hold would
+     carry a large permanent queue offset. This is untested.
+  3. **G3 diagnostic-allocation switch dynamics** (the 15–20-tick crash on returning to 0.4; k2d → 0), and M1 with a1u
+     pinned at 1 (the fatigue structure is not identified).
