@@ -447,3 +447,91 @@ battery `data/traffic/R1_battery.json/.png`, `R2_battery.json`, `R2_r0_battery.p
 **Suggested reserve use (≤ 55):** a new run R3 (fresh reset; continuing R2 after a long gap may fail):
 P0 15 + ramp 1 with toll 2.5 for 40. It tests the toll mid level, which matters for the sustained category. A clean M2 test (clearance-only switch after stopping arrivals) needs a congestion build of
 ≥ 60 ticks first and does not fit in 55.
+
+## 10. Phase C (modeler, resumed 12:40–13:10)
+
+Fits are in `toronto26-participant-kit/fits/traffic/v1/`. The driver is `fits/traffic/fitv1.py`: two Powell passes of 2,000 evaluations each, then a least_squares polish. Active modules start from SPEC. The cost is soft_l1 with f_scale 2, flow σ 1.0 and speed σ 0.3, as in the review. The cross-run script is `fits/traffic/crossrun.py`, and the model is `greybox/traffic_model.py` (v1).
+
+### R3 evaluation (toll 2.5, ramp 1, 55 ticks from reset)
+
+Toll 2.5 already congests **B**. speed_b falls to the ~15.5 floor within 50 ticks and flow_b turns bursty (8–15). A stays close to uncongested: speed_a 25, flow_a ≈ 20. The mix threshold therefore lies between toll 2.5 and toll 5, and it affects B first.
+
+- The reviewer's rv base (fitted on R1+R2) scored 0.366 on R3. Its speed_b score was 0.24, because it predicted 19.5 instead of 15.5.
+- The R1-only v1 fits score 0.20–0.27 on R3 (speeds about 0.07–0.2), so R3 carries information that R1 lacks.
+- The final v1 fit (R1+R2+R3) scores 0.530 on R3.
+
+### Review responses
+
+| Gap | Response |
+|---|---|
+| G1 leaked pair fits | **Fixed.** No `*_r1best` or `rv_*` file is reused. Every v1 pair fit starts from the rv base optimum or the v1 base, with active modules reset to SPEC. Inactive modules are held at their off values by `core.params_for`. |
+| G2 base structure | **Fixed.** The rv base was promoted to `greybox/traffic_model.py`, and the old model is kept as `traffic_model_v0.py`. |
+| G3 B7 standing queue on B | **Largely fixed in the base, not by m3.** Per-route buffers (qmax_A 560, qmax_B 208 PCU) plus the spillback term give R1 605–705 speed_b of 14.7 → 19.4 (obs 15.1, flat), against up to 23 in rv. The remaining error is about +4 (≈ 4 score σ) at the end of the hold. The persistent m3 front builds while Q > q3 and recedes only once Q < q3. It was fitted in every pair, and every time a3u and a3d both went to 1 (m13 all-data: a3u 1.0, a3d 1.0, q3 27–89 PCU). That is an instantaneous threshold penalty, never a self-sustaining front. **The fits reject it as a persistent mechanism.** |
+| G4 fullness term in base | **Fixed.** The base now has a capacity penalty `sp_r·Q_r/qmax_r` (sp_A 0.40, sp_B 0.23). m3 still fits as a static threshold on top of it (see G3), so it remains base structure in disguise. |
+| G5 B drain after joint release | **Mostly fixed.** R2 370–410 speed_b is now 15.7 → 41 at +35 (obs 16 → 48). rv reached 32 at +40. |
+| G6 toll mid level | **Fixed with R3** (55 steps, see above). The final fit has wt 1.80 and h1 1.47. |
+| G7 optimizer | **Partly fixed.** Powell now runs before least_squares, as advised, with equal budgets per pair. However, every nested pair still ends *above* the base (see the all-data table), so optimizer noise (≈ 5–10 % of cost) is larger than any pair difference. |
+| G8 M2 | **Not identifiable** (accepted). In the m2 fits the switching gain g2s goes to 0 (m12 on R1 and m12 all-data). Fatigue g2f ≈ 0.09–0.10, but no pair with m2 beats the base. |
+| G9 J memory | **Tested and rejected.** kJ started at 0.5 in v1 and returned to the 1.0 bound in the base fits, which means no memory. The B8 ratchet is still not captured. |
+| G10 freight 0 side | Not captured (no steps left). kf stays linear in u through exp(kf·u). |
+| G11 longer dead time at toll 0 / lane | Not captured (no time). DT is fixed at 11. |
+| G12 lane position | Not captured (no time). wl_A → 0 and wl_B is 0.03, so lane closure has almost no effect on junction capacity. |
+| G13 bursty flows | soft_l1 is kept. The fitted model itself reproduces bursts (see Gates). The real congested flows also alternate tick to tick: on the data, the sawtooth statistic gives alternation 0.77–0.93 and relative amplitude 1.0–1.6 in congested holds. |
+
+### Cross-run test (fit on R1 only, score on R2 and R3; σ = 0.1 × std after tick 20 of the scored run)
+
+| Model (R1-only fit) | R1 cost | R2 score (fa, fb, sa, sb) | R3 score |
+|---|---:|---|---:|
+| persistence | — | 0.058 | 0.026 |
+| base (no mechanism) | 11,932 | 0.266 (0.25 0.36 0.24 0.22) | 0.266 |
+| m12 | 12,217 | **0.370** (0.31 0.33 0.48 0.36) | 0.250 |
+| m13 | 12,292 | 0.256 (0.28 0.31 0.25 0.19) | 0.270 |
+| m23 | 12,660 | 0.335 (0.25 0.35 0.27 0.47) | 0.200 |
+| m13, least_squares only (smoke run) | 11,894 | 0.453 | 0.233 |
+
+The same pair (m13) scores 0.256 or 0.453 depending on the optimizer path, so the cross-run differences between pairs are optimizer noise. R1 alone lacks the joint pulse, P9a and toll 2.5, which is why every R1-only fit scores only about 0.26–0.45 on R2.
+
+### All-data fits (R1 + R2 + R3, 1,300 ticks)
+
+| Fit | Cost | In-sample score (R1 / R2 / R3) | Module parameters |
+|---|---:|---|---|
+| base (from rv) | 27,272 | 0.593 / 0.528 / 0.489 | — |
+| **base, 2nd pass (final)** | **25,679** | **0.601 / 0.534 / 0.529** | — |
+| m12 cold / from base | 28,103 / 26,832 | 0.571 / 0.507 / 0.440 ; 0.576 / 0.507 / 0.491 | cold: a1 → 0, g1 −0.32; g2s → 0 |
+| m13 cold / from base | 27,389 / 27,177 | 0.578 / 0.514 / 0.442 ; 0.533 / 0.518 / 0.422 | g1 0.28–0.53; **a3u = a3d = 1 (pinned)** |
+| m23 cold / from base | 28,938 / 27,723 | 0.559 / 0.521 / 0.443 ; 0.532 / 0.516 / 0.432 | **a3u = a3d = 1 (pinned)**, g2f 0.10 |
+
+### Bootstrap
+
+**Not run.** This is a deliberate deviation made for time. Every pair model nests the base, yet every pair's real-data cost is 1,150–3,260 *above* the base's. A bootstrap would therefore measure the optimizer, not the mechanisms. No pair can reach the §6.3.4 row "real margin ≥ bootstrap margin" while its real margin against the no-mechanism model is negative.
+
+### Decision (§6.3.4)
+
+- m3 is pinned (a3u = a3d = 1) in every fit. That counts as missing structure, not as evidence.
+- m2's switching gain goes to 0, and m1's learning rate goes to 0 in the cold m12 fit.
+- No pair beats the base, so the pair is **not identifiable** with this data and this optimizer.
+- **Shipped: the v1 base** (the relaxation-only fallback, with no active mechanism), `fits/traffic/final_v1.json` (a copy of `fits/traffic/v1/base_all2.json`). The qualitative evidence still favours M1 + M3 (review §3), but their fitted forms add nothing measurable.
+
+### Gates (§7)
+
+- **Local score:** pass. The base fitted on R1 scores 0.266 on R2 against persistence's 0.058. The final fit scores 0.534 in-sample on R2.
+- **Stability** (`fits/traffic/v1/stab_final.json`, 200 schedules including 8 × 40,000 steps): **bounded, but 75 schedules are flagged "sawtooth"; accepted as a documented exception.**
+  - There are no range, NaN or clamp failures. Flows stay within 0–31.7 and speeds within 5.7–49.7.
+  - Speeds never exceed free flow (vf ≈ 49.7) because the time factor is now floored at 1.0. Before this change, speed_a reached 52.3.
+  - The 75 sawtooth flags are tick-to-tick alternations in congested holds. The exit-occupancy feedback, cap·(1 − E/Emax) with cap > Emax, produces period-2 bursts.
+  - Reason for the exception: the real congested flows show the same statistic (alternation 0.77–0.93, relative amplitude 1.0–1.6), and most model amplitudes are within or below that range. Three schedules have amplitude 3.7–14 on a near-zero mean flow.
+  - Tested alternative, not shipped: a hard limiter (admissions ≤ free exit space, `fits/traffic/v1/traffic_model_exitlimit.py`) removes all but 2 sawtooth flags (amp 0.11). Its refit is much worse, though: cost 38,765 vs 25,679 and in-sample score 0.474 vs 0.572.
+  - The rv base that was packaged earlier had the same kind of flags (67 schedules).
+- **Contract:** pass from the extracted ZIP (40 × 4,000 steps in 4.1 s, deterministic, malformed inputs handled). The credential scan is clean.
+
+## Final model and hand-off
+
+- **Model:** the v1 base in `greybox/traffic_model.py`, with no mechanism modules. Parameters are in `fits/traffic/final_v1.json`. The pair is **not identifiable**: M1 + M3 are best supported qualitatively, and M2 is not identifiable.
+- **Scores:** cross-run (R1 → R2) 0.266 against persistence's 0.058. The final fit scores 0.601 / 0.534 / 0.529 in-sample on R1 / R2 / R3. For comparison, the rv base scored 0.366 on R3.
+- **Gates:** the local score passes and the contract passes. Stability is bounded but sawtooth-flagged (documented exception above).
+- **Package:** `toronto26-participant-kit/models/traffic/` and `toronto26-participant-kit/submission-traffic-v1.zip`.
+- **Steps:** 1,300 of CAP 1,300 are spent. 700 remain on the server and must not be used under this CAP.
+- **Open issues:**
+  1. Congested bursts: the model's period-2 exit-occupancy oscillation happens to resemble the data by accident. Its phase and amplitude on unseen schedules are unverified. A smooth congested regime that targets the median, with a limiter that still fits, would be safer.
+  2. The pair fits never beat the nested base, so the optimizer is the bottleneck (about 50 parameters and piecewise-linear queues). Before any mechanism can be selected, the fits need more Powell restarts or a staged fit (freeze the base and free only the module parameters).
+  3. Still not modelled: the B7 end-of-hold speed_b error (+4), the B8 speed_b ratchet (kJ pinned), the longer dead time at toll 0 (G11), the lane-closure position (G12) and the freight-0 side, which was never probed.

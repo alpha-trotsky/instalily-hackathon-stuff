@@ -14,8 +14,8 @@ Phase C changes:
   * G3/G4: m3 rewritten as a persistent front: F_r builds (a3u) while the queue on r exceeds q3 PCU and recedes
     (a3d) only once the queue is below q3. F_r cuts its own capacity (g3c), the other route's (g3x) and its speed
     (g3v). With a3d small this makes a self-sustaining standing queue (bistable) possible.
-  * Stability: all speed delay gains are 'pos' (physical sign), the time factor is floored at 1.0, so a speed
-    never exceeds vf (free flow) and never goes below vf/60.
+  * Stability: all speed delay gains are 'pos' (physical sign), the time factor is floored at 0.95, so a speed
+    never exceeds 1.05*vf (the gaining-green bonus, B16) and never goes below vf/60.
 """
 import math
 import numpy as np
@@ -149,6 +149,16 @@ def simulate(p, initial, actions):
         mech = g2s * S + g2f * Fg
         occ = max(0.0, 1.0 - (E[0] + E[1]) / Emax)
         served = [0.0, 0.0]; exits = [0.0, 0.0]
+        # junction capacities first; admissions into the shared exit stage never exceed its free space
+        # (stability: without this cap > Emax gives a period-2 exit-occupancy oscillation)
+        caps = [0.0, 0.0]
+        for r in (0, 1):
+            full = min((Ql[r] + pce * Qh[r]) / qmax[r], 1.0)
+            caps[r] = _ex(c[r] + wg[r] * math.log(green[r] / 0.5) + wc[r] * uc - mech - sp[r] * full
+                          - g3c * F[r] - g3x * F[1 - r]) * max(1.0 - wl[r] * lane, 0.02) * occ
+        space = max(Emax - E[0] - E[1], 0.0)
+        tot = caps[0] + caps[1]
+        cscale = space / tot if tot > space and tot > 1e-12 else 1.0
         for r in (0, 1):
             rl, rh = pl[r][head], ph[r][head]
             pl[r][head] = arr[r] * (1 - h); ph[r][head] = arr[r] * h
@@ -161,7 +171,7 @@ def simulate(p, initial, actions):
             full = min((Ql[r] + pce * Qh[r]) / qmax[r], 1.0)
             cap = _ex(c[r] + wg[r] * math.log(green[r] / 0.5) + wc[r] * uc - mech - sp[r] * full
                       - g3c * F[r] - g3x * F[1 - r])
-            cap *= max(1.0 - wl[r] * lane, 0.02) * occ
+            cap *= max(1.0 - wl[r] * lane, 0.02) * occ * cscale
             hp = pce * Qh[r]
             den = wH * hp + Ql[r]
             sh_share = wH * hp / den if den > 1e-12 else 0.0
@@ -186,7 +196,7 @@ def simulate(p, initial, actions):
             tf = (1.0 + al[r] * (max(ntot, 0.0) / 100.0) ** pa + sg[r] * (0.5 / green[r] - 1.0)
                   + be[r] * min(Qp_r, 2000.0) / 100.0 + bx * E[r] / 10.0 + vh[r] * hn + bj[r] * J[r] / 10.0
                   + g3v * F[r])
-            V = vf[r] / min(max(tf, 1.0), 60.0)
+            V = vf[r] / min(max(tf, 0.95), 60.0)
             v[r] += kv * (V - v[r])
             v[r] = min(max(v[r], 0.5), 80.0)
         L += a1 * (g1 * math.tanh((v[0] - v[1]) / 10.0) - L)
