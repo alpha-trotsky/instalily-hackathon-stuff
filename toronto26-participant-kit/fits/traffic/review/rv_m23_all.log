@@ -1,4 +1,1 @@
-diff_step 0.05 horizon 300 cost 9362.9 nfev 10 3s
-diff_step 0.02 horizon None cost 35205.0 nfev 14 4s
-diff_step 0.005 horizon None cost 35205.0 nfev 14 6s
-cost 35205.0 score all 0.5688 R1 0.5965 R2 0.5275 [0.565, 0.508, 0.63, 0.572]
+powell 0 cost 29190.9 nfev 3000 55s

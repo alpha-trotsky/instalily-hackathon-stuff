@@ -193,6 +193,17 @@ Pairs:
 | 06:45 | R1 | 600–624 (D, mix back 0.5) | 25 | 1375 |
 | 06:45 | R1 | 625–669 (**all-controls pulse**, full reference pulse action) | 45 | 1330 |
 | 06:45 | R1 | 670–749 (full recovery). **R1 complete: 750 steps** | 80 | 1250 |
+| 06:58 | R2 (fresh reset) | 0–29 (P0 recovery) + 30–79 (D + production 1.5, P9c part 1) | 80 | 1170 |
+| 06:58 | R2 | 80–129 (D + production 0.5, P9c part 2) | 50 | 1120 |
+| 06:58 | R2 | 130–179 (P7: D + maintenance 0) | 50 | 1070 |
+| 06:58 | R2 | 180–229 (P7 cont.) | 50 | 1020 |
+| 06:59 | R2 | 230–279 (P7 cont.) | 50 | 970 |
+| 06:59 | R2 | 280–329 (P7 cont.; 200-tick hold complete, settled) | 50 | 920 |
+| 06:59 | R2 | 330–354 (P9a maintenance pause: D, maintenance 1) + 355–389 (D + maintenance 0) | 60 | 860 |
+| 06:59 | R2 | 390–414 (P9a idle pause: D, maintenance 0, production 0) + 415–449 (D + maintenance 0) | 60 | 800 |
+| 07:00 | R2 | 450–474 (D + maintenance 0, ext., instead of P2 q = 20 and final recovery) + 475–499 (P2: orders 40, rest recovery). **R2 complete: 500 steps** | 50 | 750 |
+
+Total spent 1,250 of CAP 1,300; **50 reserve left** for Phase C.
 
 ## 6. Run 1 observations and behaviour catalogue v1 (`data/supply_chain/R1.json`, 750 ticks)
 
@@ -359,7 +370,7 @@ structure (framework lesson 9). The m1 − m2 − m3 evidence has to come from R
 
 ## 9. Run 2 design (§4.4)
 
-Candidates simulated through m12, m13, m23 (`scratchpad` script `sc_rank.py`, recorded here), ranked by the
+Candidates simulated through m12, m13, m23 (`fits/supply_chain/rank_probes.py m12_r1 m13_r1 m23_r1`, run from the kit folder), ranked by the
 smallest pairwise disagreement (mean |Δ|/score σ over the probe; a probe must separate every pair):
 
 | Candidate | Steps | min pair | per 100 steps | m12/m13 | m12/m23 | m13/m23 |
@@ -402,6 +413,117 @@ included for budget: P9b (rush before/after dispatch; low ranking, R1 already ha
 an 80-tick gap), all-pulse repeat (in R1). The idle pause keeps orders on, so it also gives a production-0
 drawdown.
 
+**Change during Run 2:** the last 50 steps were used for 25 more ticks of D + maintenance 0 (to time how long the
+post-idle-pause state lasts, which is the real P9a comparison) and 25 ticks of P2 at orders 40. The planned
+orders-20 block and the final 10-tick recovery were dropped (both ranked low; release was seen twice in R1).
+
+## 10. Run 2 observations and behaviour catalogue v2 (`data/supply_chain/R2.json`, 500 ticks)
+
+Initial reading: shipments 33.0, supplier 88.9, retail 99.0. Plots: `data/supply_chain/R2_r0_battery.png` (run),
+`fits/supply_chain/r1fits_on_R2.png` (R1 fits predicting R2). Battery JSON `data/supply_chain/R2_battery.json`.
+
+| Setting (ticks) | shipments | supplier | retail |
+|---|---:|---:|---|
+| recovery P0 (26–29) | 0 | 362 (cap, filled at 11.7/tick) | 0 |
+| D + production 1.5 (72–79) | 34.8 (38.7/30.8 cycle) | ~324 | +5/tick |
+| D + production 0.5 (110–129) | **36.1 (no cycle)** | falling (−12 then −3/tick) | +5/tick |
+| D + maintenance 0, first 45 ticks (135–176) | 43.8 | refill +7/tick → 323 | +11/tick |
+| D + maintenance 0, ticks 177–217 | ~41 (32/50 cycle) | ~320 | +7/tick |
+| **D + maintenance 0, settled (218–329)** | **37.2** | **324.5** | **1,180 flat** (sales = shipments) |
+| maintenance pause (335–354) | ~33 (irregular) | ~329 | −4/tick |
+| D + m0 after maintenance pause (355–376 / 377–389) | ~41 (swing) / 37.3 | ~321 | +3 / 0 |
+| idle pause, production 0 (393–414) | 37.2 (16 ticks), then 21.6 | back to cap 362 | ~+1 |
+| D + m0 after idle pause (416–418 / 419–440 / 441–466 / 467–474) | 0–3 / 31.7 / ~42 (35/49 cycle) / 37.3 | falls to 99, then refills +10/tick | −5, then +7 |
+| orders 40, rest recovery (475–499) | ~31.5 (25.2/38–40 cycle) | falling −6/tick | −5/tick |
+
+Behaviours added or updated (catalogue v2):
+
+- **B2 (updated) Reset transient reproducible:** second reset, fill at 11.7/tick, cap reached at tick 26; retail
+  drained in 4 ticks (99 → 72 → 44 → 16 → 0: 27.5/tick). Shipments 0 from tick 0 despite a reading of 33.
+- **B3 (updated) Production effort under orders.** D + production 1.5 from recovery: the supplier drain is much
+  slower than at effort 1 (never reaches 0; minimum 21 at tick 60) and then refills at **+36/tick** to the plateau.
+  D + production 0.5: plateau held 15 ticks, then −12/tick, slowing to −3/tick after ~10 ticks (supply catching up
+  while the hold continues; M3-like adaptation, or the drain of an upstream buffer). Effort 0.5 **removes the
+  period-2 cycle** at once and gives a steady 36.1 (drive-service sharing: effort loads the drive shared with
+  receiving).
+- **B14 Idle pause stops dispatch.** With production 0 and orders on, the supplier goes **up** to its cap within 3
+  ticks (dispatch stops; the primary line also carries dispatch), shipments continue from the in-transit backlog
+  for 16 ticks, then 21.6. On restart shipments fall to **0 for 3 ticks**, then 31.7 for 22 ticks, and the
+  supplier drains to 99 before refilling. The v0 model gets this badly wrong (predicts dispatch continuing and
+  the supplier at 0). Status: **not captured** (base: dispatch must depend on production effort).
+- **B15 Throughput degradation under sustained no-maintenance operation (M2 or M1 candidate).** Fresh from
+  maintenance 1: 43.8 for 45 ticks, then a 32/50 cycle (mean ~41) for 40 ticks, then a sudden drop to a steady
+  37.2 from tick 218 (≈ 88 ticks after maintenance stopped), stable for 110 ticks (P7, settled). After a 25-tick
+  maintenance pause the elevated state (~41) returns for **22 ticks**; after a 25-tick idle pause it returns for
+  **26 ticks** (after a 22-tick restart phase at 31.7). So both pauses restore throughput for a similar time. This
+  fits heat that cools in any pause (M2 heat) or a congestion/rework state that drains whenever load drops (M1)
+  better than wear that only maintenance repairs. A wear-only M2 would predict no restoration after the idle
+  pause. Status: open → m2 (heat) vs m1: needs the modeler's pair fits on R1 + R2.
+- **B16 Retail self-limits.** Under D + maintenance 0 retail stops rising at ≈ 1,180 with sales = shipments
+  = 37.2 (R1: flat at ≈ 975 with shipments 34.7). So the sales rate rises with the retail level until it matches
+  arrivals: retail has a **shipment-dependent equilibrium level**, not an unbounded integral. Important for
+  4,000-step forecasts. Status: base (sales must increase with R; v0 uses a slow average of shipments instead).
+- **B7 (updated) Period-2 cycle** appears at D with maintenance 1 and effort ≥ 1, in the post-pause elevated
+  states with maintenance 0, and at orders 40 (25.2/38–40); absent at effort 0.5, receiving 0.35, and in the
+  settled maintenance-0 state. Forecast target: its mean.
+- **B17 P2 orders 40:** shipments cycle 25.2/38–40 (mean ≈ 31.5) with the supplier draining at 6/tick; the order
+  level matters even above the service rate (dispatch ≤ q). 25 ticks only: not settled.
+
+**Separating probes and P9s actually run (and what they showed):**
+
+| Probe | Run / ticks | Result |
+|---|---|---|
+| P9a maintenance vs idle pause (mix fixed 0.5) | R2 330–474 | both pauses restore the elevated throughput for 22–26 ticks; the immediate response differs (idle: 3 ticks of 0, then 22 ticks at 31.7). Favors heat (M2) or congestion (M1) over pure wear |
+| P9b rush before vs after dispatch | R1 410 ("after" only) | **not run as a comparison** (low ranking); only the "after" arm exists |
+| P9c equal orders, opposite production sequences | R1 240–340 (1.0 → 1.5 → 1.0) vs R2 30–130 (1.5 → 0.5) | not exactly equal sequences; the drain with effort 1.5 first is much slower and the refill much faster; effort 0.5 second gives a slowing drain. Evaluate with the fitted pairs |
+| P5 gap test | R1 order pulses 40 and 240 (80-tick gap) | second drawdown half as steep after 3 ticks (B4): supply remembers the earlier order period (M3) |
+| P7 long hold ≥ 200 | R2 130–329 (D + maintenance 0) | settles after ~88 ticks at 37.2 / 324.5 / 1,180; no further drift over 110 ticks |
+| P2 orders mid level | R2 475–499 (q 40) | 31.5 mean, supplier draining; short |
+| P3 joint top-2 | R1 (D + receiving 0.35; D + production 1.5), R1 all-controls pulse | orders × receiving = 17.2 (receiving-limited) |
+| All-controls pulse and release | R1 625–749 | B13 |
+| Other side of recovery | production 0.5 and 0 (R2); mix < 0.5 **not tested** | effort 0.5 removes the cycle; effort 0 stops dispatch |
+
+**Cross-run check (fit on R1, predict R2; score σ = 0.1×std over R1+R2):**
+
+| Model | R2 score | shipments | supplier | retail |
+|---|---:|---:|---:|---:|
+| persistence | 0.137 | 0.237 | 0.084 | 0.088 |
+| base v0 | 0.353 | 0.351 | 0.430 | 0.278 |
+| m1+m2 | **0.388** | 0.295 | 0.434 | 0.434 |
+| m1+m3 | 0.372 | 0.296 | 0.435 | 0.386 |
+| m2+m3 | 0.365 | 0.434 | 0.454 | 0.207 |
+
+The differences between pairs are small compared with the base-structure misfit (B14 idle pause, B3 supply under
+orders, B16 retail level); see `fits/supply_chain/r1fits_on_R2.png`.
+
 ## Status / hand-off to reviewer
 
-(Filled in at the end of Phase A.)
+**Files**
+- Plan (this file); data `toronto26-participant-kit/data/supply_chain/R1.json` (750 ticks),
+  `R2.json` (500 ticks); battery plots/JSON `data/supply_chain/R{1,2}_r0_battery.png`, `R{1,2}_battery.json`.
+- Model v0 `toronto26-participant-kit/greybox/supply_chain_model.py`; fits in `fits/supply_chain/`
+  (`base_r1c.json` converged base; `m12_r1.json`, `m13_r1.json`, `m23_r1.json` R1-only pair fits; `chain.sh`
+  chained-fit helper; plots `base_r1c.png`, `r1fits_on_R2.png`).
+
+**Budget:** 1,250 spent (R1 750, R2 500), 750 remaining on the gateway, **50 reserve** before the 1,300 cap.
+
+**Open issues (reviewer, look here first)**
+1. **Base structure is the main error, not the mechanisms.** The v0 base misses: dispatch depending on production
+   effort (B14: idle pause stops dispatch and refills the supplier), supply under orders far above the no-order
+   fill rate (B3/B5: +36/tick refill at effort 1.5), the retail equilibrium (B16: sales rise with retail stock),
+   the 25-vs-35 shipment phase at the start of each order period (B6), and the rush response (B9). Pair
+   comparisons on top of this base are not trustworthy yet (tip 6).
+2. **Mechanism evidence:** M3 from B4 (second order pulse drains half as fast after an 80-tick gap) and B3 (drain
+   slows during effort 0.5); M1 or M2-heat from B15 (throughput drops after ~88 ticks without maintenance and is
+   restored equally by maintenance and idle pauses). Pure wear (repaired only by maintenance) looks unlikely.
+   The R1 pair fits pin parameters (m2 rate → 0 in m1+m2; m3 fade → 0 in m2+m3; m1 acts only through a negative
+   rework term), so they are not evidence yet.
+3. **Not run:** P9b (rush before vs after dispatch) as a comparison; mix below 0.5 (other side of recovery);
+   orders below the service rate (q ≈ 20); a long recovery after heavy load is short (≤ 80 ticks) but recovery
+   levels are trivial (cap / 0 / 0).
+4. **Period-2 cycle (B7)** and bursts after orders stop (B8, B13) are real but not smooth; the forecast should
+   target their mean. The cycle appears and disappears with effort, maintenance and receiving.
+5. **Fitting:** the piecewise model makes least_squares stop early; restarts need a small perturbation
+   (0.02–0.03). Chained passes (`fits/supply_chain/chain.sh`) converge the base to cost 5814.6 on R1.
+6. The 50-step reserve is best spent on P9b (rush switched on together with orders vs 20 ticks after), or on
+   orders ≈ 20 (below the service rate).
