@@ -360,4 +360,10 @@ The script is `greybox/bootstrap_market.py` and the results are in `fits/market/
 
 **Submission v1:** `submission-market-v1.zip` contains `market/{predict.py, market_model.py, params.json}` and uses the full-600 m12+withdraw fit. The contract check passes: 40×4,000 steps are finite and take about 2 s, run from the extracted ZIP.
 
+**Public checkpoint (2026-09-26):** `submission-market-v1.zip` scored **0.6838** publicly, against a local held-out estimate of 0.934.
+
+- **σ sensitivity:** the local score depends heavily on the stand-in σ. Scaling the std stand-in by 0.1–0.2 turns the same held-out errors into 0.65–0.77 (price 0.60, volume 0.55, depth 0.80 at 0.1×), which brackets the public score. The organizer σ is therefore probably about 5–10× smaller than each observable's std.
+- **Going forward:** evaluate locally with σ = 0.1×std, not std.
+- **Distribution shift is not excluded:** joint controls, intermediate levels and long holds are all still untested.
+
 **Open gaps:** only levels 0 and max have been tested, so the effect at intermediate control levels (whether the response is linear) is unknown. Joint controls are untested. We don't know whether the equilibrium of about 93 depends on the initial reading, since there has been only one reset.
