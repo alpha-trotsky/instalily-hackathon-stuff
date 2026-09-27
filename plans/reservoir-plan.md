@@ -377,3 +377,104 @@ material) is favoured because nothing irrigation-specific was seen, but the M3 e
      M1 equilibrium with the stability gate (200-tick data only reached ≈ 385).
   5. Period precision (B2) over 4,000 ticks; fit P jointly on R1+R2.
   6. Pair fits on R1+R2 are not done yet (quick R1 fits stopped at nfev ≤ 234; refit with more evaluations).
+
+## 13. Phase C spend log (reserve probe for G1, reviewer-named)
+
+| Local time | Run | Ticks (0-based obs idx) | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-27 06:35 | R3 (fresh reset) | 0–24, reference pulse from tick 0 (budget read before: 1,050) | 25 | 1,025 |
+| 2026-09-27 06:36 | R3 (`--continue`) | 25–49, reference pulse (budget read before: 1,025) | 25 | 1,000 |
+
+Spend summary: R1 550 + R2 400 + R3 50 = **1,000 of CAP 1,000**. The gateway shows 1,000 remaining, none of it
+available to this job.
+
+**R3 result** (`data/reservoir/R3.json`, initial reading level 403.7, inflow 8.06, outflow 5.56, quality 0.921):
+- **Groundwater reset transient exists.** Inflow − season = **+2.33, 1.67, 1.29, 1.03, 0.71, 0.65, 0.44 …** (decays at
+  ≈ 0.25/tick). It is ≈ 0 over ticks 12–35 while the level sat at 403–411, then grows from +0.2 to +0.44 as the level
+  fell from 406 to 358 (ticks 36–49). With R1 (level 515 → +0.68, +0.40) and R2 (601 → 0), the reset excess is
+  ≈ 0.015·(560 − V0), so the groundwater head starts at a **fixed reference ≈ 560, not at the reading**. This matches none of
+  the reviewer's three outcomes exactly: it looks like a fixed head for the first ticks, then gives no persistent
+  excess at a low level after a reset (the R2 persistence needs time spent high).
+- Outflow = C(V) ≈ 12.4–12.6 at V ≈ 405, falling to 12.0 at 358. This confirms the capacity law from reset, with no fouling.
+- Quality: 0.921 → 0.95 in 3 ticks, **overshoots to 0.96–0.97 at ticks 5–20** under the anoxic deep pulse, then
+  declines slowly to ≈ 0.952 by tick 49 (slower than the reviewer's predicted 0.94).
+
+## 14. Review responses (Phase C)
+
+Model v1: `greybox/reservoir_model.py` (v0 kept as `greybox/reservoir_model_v0.py`). Fits and logs:
+`fits/reservoir/v1/`. Residual diagnostics: `fits/reservoir/v1/diag.py <fit> [block]`.
+
+| Gap | Answer |
+|---|---|
+| G1 groundwater | **Partly fixed.** R3 was spent on it (above). m1 is reshaped into two parts. (1) A fast bank head hf starts at a fixed reset head H0, relaxes at rate af1 and leaks at rate b1 to deep groundwater. Its signed exchange gf1·(hf − V) adds to inflow when positive and to loss when negative. (2) The slow thresholded aquifer head hs starts at the initial level. All-data m13 fit: af1 0.037, gf1 0.71, H0 443, b1 0.0026. hs is almost frozen (a1 0.0006, th1 −59), so it acts as a regional head ≈ V0 + 59. Inflow residuals on R1 and R2 are now within ±0.05 per 20 ticks (v0: −0.2 to −0.4). Two misses remain: R2's cut-off when the level rises is still slow (−0.21 at 280–299), and the R3 tick-1 transient is under-fitted (+0.31 over ticks 0–19). a1 near 0 is a pinned parameter, so the long-run persistence of the excess is not identified (the model's sustained-pulse excess is ≈ +0.1 at level 265). |
+| G2 season | **Fixed.** c_in 11.2801, A_s 2.2527 and P 67.7547 are fixed, and A_c, B_s, B_c = 0 (`FIXED`). The R3 residual over ticks 12–35 is ≈ 0, which confirms it. |
+| G3 history-dependent recovery | **Fixed (structure a).** m3 now has asymmetric pool rates: the pool builds at a3 = 0.015 without aeration and fades at a3d = 0.077 with it. A remobilized column pool Cm is fed when aeration is on while deep (kr·Dm·ud·(1−ua)), decays slowly at dC and lowers quality by gC·Cm. Fit: gC 0.54, kr 0.0017, dC 0.0005 (nearly permanent). R1 410–450 errors fell from +0.010–0.013 (v0) to ≤ 0.002. R2 290–330 is still +0.005. Structure (b) (flush/refill) was not tried for lack of time. |
+| G4 M2 quality branch | **Tested.** The M2 inflow return is fixed at 0 (g2, th2 in `FIXED`), and m12 was fitted with g2q only (g2q 0.009, a2 0.049). On all data, m12 costs 3,002 against 2,724 for m13. |
+| G5 fit quality | **Fixed.** G2 was applied and fouling dropped (af = 0 fixed) before refitting. Each pair got 2 restarts (perturbation 0.1) with max_nfev 800, and every fit stopped on tolerance (nfev 90–160). No curriculum was used, because it did worse on market. |
+| G6 noisy-target ceiling | Acknowledged. The scores below are raw (σ = 0.1·std). Raw quality scores are near the reviewer's ceiling of 0.29. |
+| G7 quality reset transient | **Not captured specially.** The fit uses kq 0.22 and the z term. R3 shows a +0.01 overshoot above the pulse target at ticks 5–20 that the model misses (quality residual +0.002–0.005 on R3). |
+| G8 untested inputs | Not probed (no budget left). Interpolation is linear in u. |
+| G9 R1 ticks 1–2 inflow | **Explained and captured** by the fixed reset head H0 (same mechanism as R3). |
+| G10 long recovery drift | Kept the plateau with no time trend. The recovery equilibrium is 0.940. |
+| G11 knife edge | **Checked** (`fits/reservoir/v1/sweep.py`, 4,000 ticks from V0 = 400 and 600). Settled levels: release 8 → 941, 9 → 937, 10 → 923, 10.5 → 563–635, 11 → 283–291, 12 → 265, pulse → 264–266. The response is monotone and bounded with no oscillation. The steep 10–11 transition is expected, since there C(V) ≈ inflow. |
+
+## 15. Model selection record (Phase C)
+
+Costs are soft-L1 on noise-scaled residuals (σ: level 4.4, inflow 0.075, outflow 0.05, quality 0.0055).
+
+| Pair | R1-only cost | R1 → R2 score (σ = 0.1·std): mean = level / inflow / outflow / quality | All-data (R1+R2+R3) cost |
+|---|---:|---|---:|
+| **m1+m3** | 1,385 | **0.533** = 0.525 / 0.607 / 0.790 / 0.211 | **2,724** |
+| m1+m2 | 1,409 | 0.524 = 0.486 / 0.635 / 0.767 / 0.208 | 3,002 |
+| m2+m3 | 3,277 | 0.379 = 0.226 / 0.565 / 0.582 / 0.142 | 11,232 |
+| relaxation only (base) | 3,308 | 0.396 = 0.226 / 0.565 / 0.582 / 0.212 | 11,549 |
+| persistence | — | 0.083 | — |
+
+Note: v0's quick R1 fits scored 0.578 on R2 (level 0.78, quality 0.08). Fitted on R1 alone, v1 extrapolates the level
+worse (0.53) but quality better (0.21). R1 has no long drain, so the new m1 terms are unconstrained there. The
+all-data fit is the one that ships.
+
+**Bootstrap** (`fits/reservoir/v1/bootstrap.json`: 2 draws per pair, `--warm`, 1 restart):
+
+| truth \ selected | m12 | m13 | m23 |
+|---|---:|---:|---:|
+| m12 | 1 | 1 | 0 |
+| m13 | 0 | 2 | 0 |
+| m23 | 0 | 2 | 0 |
+
+The real winner is m13, with a margin of 278 over m12. The smallest bootstrap margin for m13 is 254 (the m12-truth
+margin is 2). m23 does not win even on its own synthetic data (its fit is poor, at 4× the others' cost), so that row
+reflects the optimizer, not evidence about M1.
+
+**Decision.**
+- M1 (groundwater): **accepted**. Every model without M1 loses by ≥ 8,000 in cost and ≥ 0.14 in cross-run score.
+- M2 vs M3: **unresolved**. The diagonal is weak: the m12-truth row splits 1/1. The real margin is at least the
+  smallest bootstrap margin, but there were only 2 draws.
+- Ship **m1+m3**. It has the best cost and the best cross-run score, and M3 is the natural home of the G3
+  remobilization term.
+- Parameters pinned or near a limit: a1 ≈ 0.0006 (slow head frozen), dC ≈ 0.0005 and kr ≈ 0.002. Fouling af = 0 by
+  design.
+
+## 16. Final model and hand-off
+
+- **Model:** `greybox/reservoir_model.py` v1, pair **m1+m3** fitted on R1+R2+R3. Params are in
+  `fits/reservoir/v1/final.json` (= `m13_all.json`; cost 2,724, train score 0.696). Confidence: M1 accepted, M3 over
+  M2 unresolved.
+- **Scores (σ = 0.1·std):** cross-run R1 → R2 0.533, against 0.083 for persistence.
+- **Gates:**
+  - Local score: pass (0.533 > 0.083).
+  - Stability: pass. 200 schedules including 8 × 40,000 steps, 0 failures, level 244–941, quality 0.80–0.96
+    (`fits/reservoir/v1/stability.log`).
+  - Contract: pass (40 episodes in 5.4 s, malformed inputs handled).
+  - Credential scan: clean.
+- **Submission:** `toronto26-participant-kit/models/reservoir/` and
+  `toronto26-participant-kit/submission-reservoir-v1.zip` (6.3 kB), built and re-verified by `package.py`.
+- **Steps:** 1,000 of CAP 1,000 spent (R3 used the 50-step reserve). The gateway's remaining 1,000 is not for this job.
+- **Open issues:**
+  1. Long-run groundwater excess at a sustained low level (G1). The slow head is frozen at V0 + 59 (a1 → 0), so
+     sustained-pulse inflow is ≈ 11.37 (excess ≈ 0.1), where R2 suggests an excess of 0.25–0.55. That is up to ≈ 2σ
+     of inflow error in sustained-pulse episodes.
+  2. Quality: R3's reset overshoot (0.96–0.97 under the pulse, G7) and R2's post-anoxia recovery (+0.005) are still
+     missed. Quality σ is 0.001, so these cost much of the quality score.
+  3. M2 vs M3 is unresolved (2 bootstrap draws). Fitted on R1 alone, the cross-run level score fell from 0.78 (v0) to
+     0.53, so the new m1 terms depend on R2 and R3 to be identified.

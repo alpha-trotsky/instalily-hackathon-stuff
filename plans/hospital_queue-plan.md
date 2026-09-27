@@ -158,11 +158,191 @@ Pairs:
 
 | Local time | Run | Ticks (0-based obs idx) | Steps | Remaining after |
 |---|---|---|---:|---:|
-| 2026-09-27 (start) | — | — | 0 | 2,000 |
+| 2026-09-27 ~06:25 (start) | — | — | 0 | 2,000 |
+| ~06:26 | R1 | 0–39 (P0 recovery) | 40 | 1960 |
+| ~06:27 | R1 | 40–59 (P0 ext; wait still decaying) | 20 | 1940 |
+| ~06:28 | R1 | 60–99 (P1 staffing 5 on) | 40 | 1900 |
+| ~06:29 | R1 | 100–124 (staffing 5, ext) | 25 | 1875 |
+| ~06:30 | R1 | 125–149 (staffing 5, ext) | 25 | 1850 |
+| ~06:31 | R1 | 150–174 (staffing 5, ext; not settled, τ > 115) | 25 | 1825 |
+| ~06:32 | R1 | 175–214 (staffing back 20 = recovery) | 40 | 1785 |
+| ~06:33 | R1 | 215–239 (recovery ext; backlog draining 1.7/tick) | 25 | 1760 |
+| ~06:34 | R1 | 240–279 (P1 overtime 1 on, during the backlog) | 40 | 1720 |
+| ~06:35 | R1 | 280–309 (overtime off = recovery) | 30 | 1690 |
+| ~06:36 | R1 | 310–349 (P1 elective 20 on → loaded base "E") | 40 | 1650 |
+| ~06:37 | R1 | 350–379 (E + diagnostic 0.75; P9b-lite at fixed staffing) | 30 | 1620 |
+| ~06:38 | R1 | 380–409 (E, diagnostic back 0.4) | 30 | 1590 |
+| ~06:39 | R1 | 410–439 (E + overtime 1) | 30 | 1560 |
+| ~06:40 | R1 | 440–469 (E, overtime off) | 30 | 1530 |
+| ~06:41 | R1 | 470–499 (E + urgent 1) | 30 | 1500 |
+| ~06:42 | R1 | 500–529 (E, urgent back 0.6, follow-up 0) | 30 | 1470 |
+| ~06:43 | R1 | 530–579 (**all-controls pulse**: staffing 5, elective 20, diag 0.75, urgent 1, overtime 1, follow-up 0) | 50 | 1420 |
+| ~06:44 | R1 | 580–639 (release to full recovery) | 60 | 1360 |
+| ~06:45 | R1 | 640–684 (recovery ext) | 45 | 1315 |
+| ~06:46 | R1 | 685–729 (recovery ext) | 45 | 1270 |
+| ~06:46 | R1 | 730–749 (recovery ext; 170-tick recovery hold). **R1 complete: 750 steps** | 20 | 1250 |
 
-## 6. Run 1 observations and behaviour catalogue v1
+## 6. Run 1 observations and behaviour catalogue v1 (`data/hospital_queue/R1.json`, 750 ticks)
 
-(filled in during Run 1)
+Initial reading wait 3.92, queue 39.2, discharges 13.4. Plot `data/hospital_queue/R1_r0_battery.png`, battery JSON
+`data/hospital_queue/R1_battery.json`. "E" = loaded base: recovery action except elective_scheduling = 20.
+
+**Design change made during Run 1:** at the recovery action the hospital is **under-loaded** (queue 23 = patients in
+service, nobody waiting, discharges = arrivals 11.5), so overtime, diagnostic allocation, urgent priority and
+follow-up cannot show a capacity effect there. Overtime was first tested during the backlog left by the staffing cut;
+diagnostic allocation, a second overtime pulse, urgent priority and follow-up were tested on the loaded base E, where
+discharges equal capacity. Every control got an on-step P1; the off-steps of urgent and follow-up are inside the
+all-controls release.
+
+Settled / end-of-hold levels (means over the window):
+
+| Setting (ticks) | wait_time | queue | discharges | settled? |
+|---|---:|---:|---:|---|
+| recovery P0 (20–59) | → 0 (0.01) | 23.0 | 11.49 | yes |
+| staffing 5 (150–174) | 94.5 (rising 0.4/tick) | 274 (rising 0.3/tick) | 2.63 | **no** (τ > 115) |
+| recovery with backlog (215–239) | 30 (falling) | 200 (draining 1.7/tick) | 11.4 | no |
+| recovery + overtime 1, backlog (240–251) | falling | drains 165 → 23 in 12 ticks | **22–31** | — |
+| recovery after overtime (254–309) | → 0, k ≈ 0.12 | 23.0 | 11.50 | yes |
+| E (330–349) | 25.9 (rising) | 271 → 278 | 9.7 | queue ~yes |
+| E + diagnostic 0.75 (360–379) | 46.9 (rising) | **321** | **4.9** | queue yes |
+| E, diagnostic back 0.4 (395–409) | 50.7 → 48.6 | 314 (not back to ~280) | 8.8 | yes |
+| E + overtime 1 (415–439) | 36 → 31.7 | 303.5 | **13.8** | yes |
+| E, overtime off (450–469) | 39.7 → 42 | 313.8 | 8.9 | yes |
+| E + urgent 1 (480–499) | 44.2 (flat; trend stopped) | 313.1 | 8.9 | yes |
+| E + follow-up 0 (505–529) | 45.0 | 313.5 | 8.8 | yes |
+| all-controls pulse (560–579) | 105 (rising 0.6/tick) | 327 | **2.0** | queue yes |
+| recovery after pulse, end (735–749) | 5.6 (falling 0.02/tick) | **99** (draining 0.1–0.2/tick) | 11.08 | **no** |
+
+Noise: in smooth under-loaded holds σ(queue) ≈ 0.17, σ(discharges) ≈ 0.06, σ(wait) ≈ 0.005 (level-dependent);
+in overloaded holds discharges are **bursty** (quanta 0–18 per tick, σ ≈ 2) and queue σ ≈ 2. Score σ (0.1 × std after
+tick 20): wait ≈ 3.4, queue ≈ 11, discharges ≈ 0.45.
+
+### Behaviours (catalogue v1)
+
+- **B1 Reset start-up transient.** Discharges are 0 for 2 ticks, then burst (19, 8, 15, 27) while the initial queue
+  (39 + arrivals) flows through; queue peaks at 61 (tick 1), then settles at 23.0 by tick 9. Wait decays
+  geometrically (factor ≈ 0.885/tick) from the reading toward 0. Evidence: ticks 0–20. Explanation: base ("services
+  start empty"; the initial count is all waiting). Status: modeled by base (W0 = reading, empty stages).
+- **B2 Under-loaded recovery equilibrium.** queue 23.0 = in-service count, discharges 11.49 = arrival rate, wait → 0.
+  Identical after the overtime-drained backlog (ticks 254–309). Little's law: in-service time ≈ 2 ticks. Status:
+  modeled by base (A0, nsv).
+- **B3 wait_time is a lagged estimate.** With nobody waiting it decays with k ≈ 0.115–0.12/tick (ticks 0–60 and
+  252–310); under load it tracks ≈ (queue − 23)/discharges with a lag (staffing 5: (274−23)/2.6 ≈ 96 vs 94.5; all
+  pulse (327−23)/2.0 ≈ 150 vs 105 still rising). Status: modeled by base (v EMA of W/Dm).
+- **B4 Staffing sets capacity ∝ staff.** Staffing 5: discharges fall to 2.6 at once (0 on the switch tick, no lag) ≈
+  5/20 of 11.5; queue climbs 10/tick, then slows (abandonment / overflow) and is still rising at 0.3/tick after 115
+  ticks (274–280). Status: modeled by base (kmu·s); the slow creep is open (not settled).
+- **B5 Slow capacity restoration after staffing returns (M2 candidate).** Staffing 5 → 20 (tick 175): discharges
+  ~8 for 10 ticks, 9–10 up to tick 195, ≈ 11.4 from ~tick 205 (≈ 25–30 ticks to full); the same after the
+  all-controls release (tick 580): 4.8, 6.2, 8.5, 8.0, 9.7, … reaching ≈ 11 after ~50 ticks. The cut (20 → 5) was
+  immediate. On/off asymmetry in capacity = the M2 orientation signature. Alternatives: deteriorated (heavier) backlog
+  patients (case mix), or refilling of the bed stage. Status: open → m2 (vs base mix).
+- **B6 Recovery capacity only just exceeds demand.** With a backlog at staffing 20, discharges ≈ 11.4 ≈ the arrival
+  rate, so the backlog drains mainly through patients leaving (≈ 1.7/tick at ~180 waiting, ≈ 1 %/tick) — a 270-patient
+  backlog needs > 150 ticks. Status: modeled by base (kmu, theta) — to verify.
+- **B7 Overtime nearly doubles capacity at recovery, +50 % under electives.** Recovery + backlog: 11.4 → 22–31
+  (immediate, no lag), draining 142 patients in 12 ticks. On E: 8.8 → 13.8. No visible fade over 30–40 ticks and no
+  undershoot after release (E: 8.9 after vs 8.8 before). **No fatigue signature yet** (70 overtime ticks total).
+  Status: modeled by base (wo); M1 unresolved (needs a long overtime hold on a loaded base, P9a).
+- **B8 Electives flood the hospital.** Elective 20: queue 23 → 270 within 11 ticks (≈ +20–25/tick), then a
+  plateau that creeps up (271 → 278 in 20 ticks); discharges fall 11.5 → 9.7 (heavier/different elective work).
+  Status: base (Ae, Wmax overflow, we mix).
+- **B9 Diagnostic allocation 0.75 starves treatment.** On E: discharges 9.7 → 4.9 within ~3 ticks, queue +44
+  (271 → 321: assessed patients holding chairs, B-blocking). Back to 0.4: discharges recover only to 8.8 (not 9.7)
+  and queue stays 314 (no return to ~280). Possible handover dip (M2, P9b) or blocking/mix memory. Status: open.
+- **B10 Urgent priority 1 has a small effect:** wait trend flattens (44.2, +2 vs the prior trend), queue and
+  discharges unchanged. Status: base (wu) — low priority.
+- **B11 Follow-up 0 has no immediate effect** on E (discharges 8.8 → 8.8): the staff it frees are negligible, or
+  capacity is not the binding limit in the saturated state. Status: open (M3 needs P9c).
+- **B12 Queue ceiling depends on the configuration:** 270–280 (staffing 5 or E), 314–327 (after diagnostic 0.75 /
+  all-pulse). Overflow referral caps the waiting room; the extra ~45 are patients holding chairs/beds. Status: base
+  (Wmax + Ca/Cb).
+- **B13 Persistent residual backlog after the all-controls release (hysteresis, possibly M3).** 150 ticks after
+  release the queue sits at **≈ 99** (not 23), draining only 0.1–0.2/tick; discharges 11.08 (below the P0 11.49) with
+  an exact period-2 alternation (10.65/11.5, later 10.95/11.2); wait ≈ 5.5 slowly falling. Around tick 722–729 two
+  bursts (14.5, 18.4, 14.5) dropped the queue 120 → 100. Candidate explanations: returning patients after the
+  80-tick follow-up-0 period (M3; but then inflow should exceed 11.5, and discharges are lower); a lower-priority class
+  (electives) stuck behind routine arrivals with very slow abandonment; fatigue after overtime (M1) keeping capacity
+  just at demand. **This matters most for 4,000-step scoring** (the recovery level). Status: open — top priority for
+  Run 2.
+- **B14 Discharge quantization.** Overloaded discharges come in bursts (0, 3.4, 8, 18 …); the score compares with
+  the noiseless process, so a smooth model is the right target. Status: note for the modeler.
+
+Correlations (battery): wait lags queue by ~8 ticks (0.78); discharges anti-correlated with wait at lag 10–15.
+
+Important cross-check for B5/B6: at the **reset** (ticks 2–9) the hospital at staffing 20 discharged 16.3/tick on
+average (bursts to 27) while clearing the initial queue, but after the staffing cut it managed only ≈ 11.4/tick with a
+backlog for 60+ ticks (ticks 205–239). Same controls, both with patients waiting → a slow hidden state lowers capacity
+after the overload (orientation M2, heavier deteriorated case mix, or returns M3).
+
+## 7. Model v0 and Run-1 pair fits
+
+`greybox/hospital_queue_model.py` (written from the theses before fitting): tandem fluid queue — arrivals A0 +
+Ae·elective (+ returns) → waiting W (overflow cap Wmax, leaving rate θ) → assessment chairs (cap Ca, rate ∝ staff ×
+diag) → assessed patients hold their chair until a bed is free (Bk) → treatment beds (cap Cb, rate ∝ staff × (1 −
+diag)) → discharges. Capacity = kmu·s_eff·(1 + wo·ot)(1 − g1·F)(1 − wf·fu)/(1 + we·φ), φ = elective share (slow mix
+state). queue = W + Xa + Bk + Xt + nsv·D; wait = EMA of W / EMA(D) × exp(wu(up − 0.6)). Soft minimum (width 0.5) at
+every capacity limit. Reset: W = queue reading, services empty. Mechanisms: m1 fatigue F (EMA of overtime, asym
+rates) × capacity; m2 handover H (staff increases + k2d × reassigned staff on diag changes, fading a2) subtracts from
+effective staff; m3 returns (g3 × discharges above the follow-up program's capacity fu·Pc, 2-stage lag a3) add arrivals
+and heavier mix (wr). Fixed: kmu = 0.65 (redundant with ca, ct), A0 = 11.5, nsv = 2 (visible P0 constants, tip 2).
+
+Quick R1 fits (3 restarts, init = base fit + SPEC mechanism defaults, so gains don't start at 0), linear units,
+residual σ wait 1 / queue 3 / discharges 1, `fits/hospital_queue/*_r1.json`:
+
+| Modules | Cost | Train score (0.1×std) | Notes |
+|---|---:|---:|---|
+| base (urg) | 9,399 | 0.495 | persistence 0.152 |
+| m1 | 10,177 | 0.475 | worse than base → optimizer failure (g1 0.13) |
+| m2 | 8,115 | 0.525 | g2 0.55, a2 0.034 (τ ≈ 30 ticks): the slow capacity restoration B5 |
+| m3 | 9,382 | 0.497 | Pc 107 (program capacity ≫ discharges) → nearly off |
+| **m1+m2** | 8,115 | 0.525 | g1 0.004 (fatigue off) — same as m2 alone |
+| m1+m3 | 9,446 | 0.493 | g3 0.40, wr −3.1 (returns *lighten* mix: unphysical) |
+| m2+m3 | **6,758** | **0.551** | wr −1,869 (absurd, pinned) — m3 used as a mix hack; not evidence for M3 |
+
+Reading: M2 (handover) is the only module that captures a clear behaviour (B5). Fatigue is not seen in R1 (overtime
+only on short holds). M3's improvement comes from an absurd parameter (lesson 9) → structure missing (probably the
+case-mix / deterioration of waiting patients, B13). The optimizer is fragile (restart costs differ by 5×), so these
+are for probe ranking only.
+
+## 8. Run 2 design (§4.4)
+
+Candidate probes simulated through the three R1 pair fits after a 30-tick P0 (`rank.py` in scratch; mean |pair
+difference| / score σ, per observable then averaged):
+
+| Candidate | Steps | m12–m13 | m12–m23 | m13–m23 | min |
+|---|---:|---:|---:|---:|---:|
+| C7 E30 + OT 30, then recovery with follow-up 0 80 (P9c) | 140 | 3.38 | 2.56 | 3.52 | **2.56** |
+| C5 E40 + recovery 120 (B13 residual) | 160 | 2.47 | 2.92 | 2.26 | **2.26** |
+| C7b same as C7 with follow-up 1 | 140 | 1.98 | 2.70 | 2.25 | 1.98 |
+| C8 staffing 5 60 + recovery 80 | 140 | 1.46 | 0.23 | 1.66 | 0.23 |
+| C6 E30 + staffing 10 30 + back 40 | 100 | 0.97 | 0.92 | 0.99 | 0.92 |
+| C3b E30 + OT spaced 4×(10/10) (P9a) | 110 | 0.79 | 1.05 | 1.05 | 0.79 |
+| C3a E30 + OT block 40/off 40 (P9a) | 110 | 0.76 | 0.91 | 1.23 | 0.76 |
+| C4 E30 + diag 0.1 30 + back 30 (P9b) | 90 | 0.74 | 1.16 | 0.74 | 0.74 |
+| C1 follow-up 0 at recovery 60 + back 20 | 80 | 2.61 | 0.45 | 2.82 | 0.45 |
+| C9 E30 + diag 0.55 30 + back 30 | 90 | 0.50 | 1.01 | 0.63 | 0.50 |
+| C3c staffing 12.5 60 + OT block | 140 | 2.04 | 0.31 | 1.87 | 0.31 |
+| C2 staffing 12.5 60 (P2) | 60 | 0.88 | 0.10 | 0.98 | 0.10 |
+
+**Chosen Run 2 (500 steps, fresh reset):**
+
+| # | Segment | Steps | Purpose |
+|---|---|---:|---|
+| 1 | P0 recovery | 30 | reset transient at a new initial reading |
+| 2 | recovery + follow-up 0 | 60 | **direct M3 A/B** (tip 13): at under-load discharges = arrivals, so returns show as discharges > 11.49 and queue > 23 (σ 0.06 / 0.17); no M3 → nothing changes (C1) |
+| 3 | recovery | 20 | follow-up back on |
+| 4 | L = staffing 12.5 + elective 20 | 30 | loaded base; P2 for staffing (u = 0.5) and P3 (staffing + elective jointly) |
+| 5 | L + overtime spaced 4 × (10 on / 10 off) | 80 | **P9a** spaced half (40 overtime ticks) |
+| 6 | L + overtime block 40 on, then 30 off | 70 | **P9a** block half (40 overtime ticks), fatigue undershoot after release |
+| 7 | L + diagnostic 0.1 30, back 0.4 30 | 60 | **P9b** at fixed staffing, the untested side of a non-bound recovery value |
+| 8 | recovery + overtime 1 | 15 | drains the backlog → **discharge burst**; also staffing 12.5 → 20 restore (M2) |
+| 9 | recovery + follow-up 0 | 90 | **P9c** (compare R1 ticks 252–309: the same burst followed by follow-up 1 → flat 11.50) and B13 (residual backlog?) |
+| 10 | recovery (follow-up 1) | 45 | returns stop? final recovery level |
+
+Coverage after Run 2: P0 ×2, P1 all six, P2 staffing (0.5), P3 staffing+elective and the all-controls pulse, P9a/b/c,
+P5 via spaced overtime, long recovery 170 (R1). Not covered: step vs ramp (P4), order swap (P6), a ≥ 200-tick P7 at a
+single constant setting (R1 staffing 5 115 ticks, E-base 220 ticks with sub-settings).
 
 ## Status / hand-off to reviewer
 

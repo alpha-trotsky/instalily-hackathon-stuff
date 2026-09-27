@@ -1,0 +1,17 @@
+model greybox/supply_chain_model.py modules ['m1', 'm3'] episodes 1 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 5348.0 nfev 86 (17s)
+  restart 1: cost 5992.3 nfev 27 (5s)
+cost 5348.0 (18s) | train score 0.5461 (persistence 0.1090)
+saved fits\supply_chain\m13_r1.json
+model greybox/supply_chain_model.py modules ['m1', 'm3'] episodes 1 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 5348.0 nfev 29 (1s)
+  restart 1: cost 5587.4 nfev 44 (7s)
+cost 5348.0 (8s) | train score 0.5461 (persistence 0.1090)
+saved fits\supply_chain\m13_r1_t.json
+best 5347.961671191275
+model greybox/supply_chain_model.py modules ['m1', 'm3'] episodes 1 units ['linear', 'linear', 'linear'] sigma [1.5, 10.0, 25.0]
+  restart 0: cost 5348.0 nfev 29 (1s)
+  restart 1: cost 5346.3 nfev 33 (6s)
+cost 5346.3 (7s) | train score 0.5465 (persistence 0.1090)
+saved fits\supply_chain\m13_r1_t.json
+best 5346.272416388172

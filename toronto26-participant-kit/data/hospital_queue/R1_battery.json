@@ -1,0 +1,2742 @@
+{
+ "data": "data/hospital_queue/R1.json",
+ "system": "hospital_queue",
+ "recovery": {
+  "diagnostic_allocation": 0.4,
+  "elective_scheduling": 0.0,
+  "followup_capacity": 1.0,
+  "overtime": 0.0,
+  "staffing": 20.0,
+  "urgent_priority": 0.6
+ },
+ "pulse": {
+  "diagnostic_allocation": 0.75,
+  "elective_scheduling": 20.0,
+  "followup_capacity": 0.0,
+  "overtime": 1.0,
+  "staffing": 5.0,
+  "urgent_priority": 1.0
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 750,
+   "controls": [
+    "staffing",
+    "elective_scheduling",
+    "diagnostic_allocation",
+    "urgent_priority",
+    "overtime",
+    "followup_capacity"
+   ],
+   "observables": [
+    "wait_time",
+    "queue",
+    "discharges"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-27T06:41:42"
+    },
+    {
+     "start_tick": 40,
+     "started_at": "2026-09-27T06:42:11"
+    },
+    {
+     "start_tick": 60,
+     "started_at": "2026-09-27T06:42:20"
+    },
+    {
+     "start_tick": 100,
+     "started_at": "2026-09-27T06:42:32"
+    },
+    {
+     "start_tick": 125,
+     "started_at": "2026-09-27T06:42:43"
+    },
+    {
+     "start_tick": 150,
+     "started_at": "2026-09-27T06:43:01"
+    },
+    {
+     "start_tick": 175,
+     "started_at": "2026-09-27T06:43:12"
+    },
+    {
+     "start_tick": 215,
+     "started_at": "2026-09-27T06:43:31"
+    },
+    {
+     "start_tick": 240,
+     "started_at": "2026-09-27T06:43:58"
+    },
+    {
+     "start_tick": 280,
+     "started_at": "2026-09-27T06:44:22"
+    },
+    {
+     "start_tick": 310,
+     "started_at": "2026-09-27T06:44:35"
+    },
+    {
+     "start_tick": 350,
+     "started_at": "2026-09-27T06:44:52"
+    },
+    {
+     "start_tick": 380,
+     "started_at": "2026-09-27T06:45:03"
+    },
+    {
+     "start_tick": 410,
+     "started_at": "2026-09-27T06:45:16"
+    },
+    {
+     "start_tick": 440,
+     "started_at": "2026-09-27T06:45:28"
+    },
+    {
+     "start_tick": 470,
+     "started_at": "2026-09-27T06:45:46"
+    },
+    {
+     "start_tick": 500,
+     "started_at": "2026-09-27T06:45:56"
+    },
+    {
+     "start_tick": 530,
+     "started_at": "2026-09-27T06:46:08"
+    },
+    {
+     "start_tick": 580,
+     "started_at": "2026-09-27T06:46:20"
+    },
+    {
+     "start_tick": 640,
+     "started_at": "2026-09-27T06:46:33"
+    },
+    {
+     "start_tick": 685,
+     "started_at": "2026-09-27T06:46:47"
+    },
+    {
+     "start_tick": 730,
+     "started_at": "2026-09-27T06:47:04"
+    }
+   ],
+   "noise": {
+    "wait_time": {
+     "sigma": 0.17014403440595288,
+     "per_hold": [
+      [
+       0.3339,
+       0.0043
+      ],
+      [
+       60.1255,
+       0.2728
+      ],
+      [
+       45.5536,
+       0.1861
+      ],
+      [
+       5.8135,
+       0.026
+      ],
+      [
+       0.0729,
+       0.0037
+      ],
+      [
+       18.932,
+       0.1079
+      ],
+      [
+       44.8499,
+       0.1932
+      ],
+      [
+       52.2859,
+       0.2546
+      ],
+      [
+       35.9101,
+       0.1542
+      ],
+      [
+       38.7488,
+       0.1432
+      ],
+      [
+       44.0872,
+       0.2903
+      ],
+      [
+       44.9452,
+       0.2266
+      ],
+      [
+       94.2639,
+       0.757
+      ],
+      [
+       32.3427,
+       0.1069
+      ]
+     ],
+     "loglog_slope": 0.7178104249647971,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.004702840558837179
+    },
+    "queue": {
+     "sigma": 2.2276593771920106,
+     "per_hold": [
+      [
+       23.8056,
+       0.1666
+      ],
+      [
+       239.2439,
+       1.5985
+      ],
+      [
+       229.7293,
+       2.8074
+      ],
+      [
+       33.0834,
+       0.1741
+      ],
+      [
+       23.0056,
+       0.0719
+      ],
+      [
+       260.6156,
+       2.401
+      ],
+      [
+       321.2427,
+       2.7723
+      ],
+      [
+       314.2825,
+       2.1114
+      ],
+      [
+       303.5205,
+       2.1912
+      ],
+      [
+       313.6606,
+       3.2639
+      ],
+      [
+       313.0228,
+       2.3812
+      ],
+      [
+       313.4763,
+       2.7323
+      ],
+      [
+       327.359,
+       2.2641
+      ],
+      [
+       197.046,
+       1.3944
+      ]
+     ],
+     "loglog_slope": 1.2127059322368352,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.007147926000001513
+    },
+    "discharges": {
+     "sigma": 2.0308153789103085,
+     "per_hold": [
+      [
+       12.0532,
+       0.0641
+      ],
+      [
+       2.6551,
+       1.777
+      ],
+      [
+       10.6327,
+       3.0101
+      ],
+      [
+       14.3587,
+       0.0683
+      ],
+      [
+       11.4874,
+       0.0628
+      ],
+      [
+       9.7888,
+       3.9026
+      ],
+      [
+       4.7182,
+       6.1566
+      ],
+      [
+       8.7656,
+       1.5477
+      ],
+      [
+       13.7691,
+       1.769
+      ],
+      [
+       8.7969,
+       4.0687
+      ],
+      [
+       8.8882,
+       2.9059
+      ],
+      [
+       8.7622,
+       2.167
+      ],
+      [
+       1.8642,
+       2.3849
+      ],
+      [
+       10.8993,
+       1.8946
+      ]
+     ],
+     "loglog_slope": -1.0617821271761392,
+     "scales_with_level": "constant",
+     "sigma_rel": 0.2652053006751822
+    }
+   },
+   "reset_transient": {
+    "wait_time": {
+     "initial": 3.9229,
+     "first_obs": 3.701,
+     "jump_first3": -0.6311,
+     "end_level": 0.0107,
+     "total_change": -3.9122,
+     "change_sigma": -23.0,
+     "settling_time": 21.0,
+     "t90": 20,
+     "monotone": true
+    },
+    "queue": {
+     "initial": 39.2222,
+     "first_obs": 49.5851,
+     "jump_first3": 15.7633,
+     "end_level": 22.9837,
+     "total_change": -16.2385,
+     "change_sigma": -7.3,
+     "settling_time": 10.0,
+     "t90": 10,
+     "monotone": false
+    },
+    "discharges": {
+     "initial": 13.4237,
+     "first_obs": 0.0,
+     "jump_first3": -7.0863,
+     "end_level": 11.509,
+     "total_change": -1.9147,
+     "change_sigma": -0.9,
+     "settling_time": 7.0,
+     "t90": 0,
+     "monotone": false
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 60,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 0.0107,
+      "queue": 22.9837,
+      "discharges": 11.509
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "21",
+      "queue": "10",
+      "discharges": "7"
+     },
+     "drift_sigma": {
+      "wait_time": 0.02,
+      "queue": 0.03,
+      "discharges": 0.03
+     }
+    },
+    {
+     "start": 60,
+     "end": 175,
+     "kind": "hold",
+     "u": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 93.9287,
+      "queue": 273.6362,
+      "discharges": 2.583
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 115",
+      "queue": "> 115",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 75.47,
+      "queue": 9.73,
+      "discharges": 0.16
+     }
+    },
+    {
+     "start": 175,
+     "end": 240,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 29.1757,
+      "queue": 189.867,
+      "discharges": 11.3782
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 65",
+      "queue": "> 65",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 58.55,
+      "queue": 26.43,
+      "discharges": 0.25
+     }
+    },
+    {
+     "start": 240,
+     "end": 280,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 0.7638,
+      "queue": 22.9881,
+      "discharges": 11.5185
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 40",
+      "queue": "14",
+      "discharges": "15"
+     },
+     "drift_sigma": {
+      "wait_time": 2.64,
+      "queue": 0.0,
+      "discharges": 0.01
+     }
+    },
+    {
+     "start": 280,
+     "end": 310,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 0.0185,
+      "queue": 22.9775,
+      "discharges": 11.4726
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "0",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 0.1,
+      "queue": 0.04,
+      "discharges": 0.02
+     }
+    },
+    {
+     "start": 310,
+     "end": 350,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 29.227,
+      "queue": 273.5639,
+      "discharges": 9.5873
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 40",
+      "queue": "27",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 47.81,
+      "queue": 4.26,
+      "discharges": 0.26
+     }
+    },
+    {
+     "start": 350,
+     "end": 380,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 51.9047,
+      "queue": 320.8674,
+      "discharges": 4.5632
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "8",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 65.48,
+      "queue": 0.07,
+      "discharges": 0.09
+     }
+    },
+    {
+     "start": 380,
+     "end": 410,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 49.2925,
+      "queue": 314.1313,
+      "discharges": 8.7506
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "3",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 29.48,
+      "queue": 0.19,
+      "discharges": 1.02e-06
+     }
+    },
+    {
+     "start": 410,
+     "end": 440,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 32.2553,
+      "queue": 304.0159,
+      "discharges": 13.7487
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 8.92,
+      "queue": 0.16,
+      "discharges": 0.2
+     }
+    },
+    {
+     "start": 440,
+     "end": 470,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 41.4714,
+      "queue": 313.3974,
+      "discharges": 8.7768
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 30",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 14.33,
+      "queue": 1.19,
+      "discharges": 0.12
+     }
+    },
+    {
+     "start": 470,
+     "end": 500,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 44.5848,
+      "queue": 313.3679,
+      "discharges": 8.9956
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "21",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 6.04,
+      "queue": 0.49,
+      "discharges": 0.11
+     }
+    },
+    {
+     "start": 500,
+     "end": 530,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "level": {
+      "wait_time": 44.8139,
+      "queue": 313.7146,
+      "discharges": 8.9887
+     },
+     "settled": {
+      "wait_time": true,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "0",
+      "queue": "0",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 1.78,
+      "queue": 0.67,
+      "discharges": 0.03
+     }
+    },
+    {
+     "start": 530,
+     "end": 580,
+     "kind": "hold",
+     "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "level": {
+      "wait_time": 106.82,
+      "queue": 327.2971,
+      "discharges": 1.7755
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": true,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 50",
+      "queue": "2",
+      "discharges": "0"
+     },
+     "drift_sigma": {
+      "wait_time": 87.0,
+      "queue": 0.21,
+      "discharges": 0.06
+     }
+    },
+    {
+     "start": 580,
+     "end": 750,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "wait_time": 6.5186,
+      "queue": 107.8052,
+      "discharges": 11.4184
+     },
+     "settled": {
+      "wait_time": false,
+      "queue": false,
+      "discharges": true
+     },
+     "settling_time": {
+      "wait_time": "> 170",
+      "queue": "> 170",
+      "discharges": "10"
+     },
+     "drift_sigma": {
+      "wait_time": 36.55,
+      "queue": 16.18,
+      "discharges": 0.29
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 60,
+       "wait_time": 0.0107,
+       "queue": 22.9837,
+       "discharges": 11.509
+      },
+      {
+       "start": 175,
+       "end": 240,
+       "wait_time": 29.1757,
+       "queue": 189.867,
+       "discharges": 11.3782
+      },
+      {
+       "start": 280,
+       "end": 310,
+       "wait_time": 0.0185,
+       "queue": 22.9775,
+       "discharges": 11.4726
+      },
+      {
+       "start": 580,
+       "end": 750,
+       "wait_time": 6.5186,
+       "queue": 107.8052,
+       "discharges": 11.4184
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 60,
+       "end": 175,
+       "wait_time": 93.9287,
+       "queue": 273.6362,
+       "discharges": 2.583
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 240,
+       "end": 280,
+       "wait_time": 0.7638,
+       "queue": 22.9881,
+       "discharges": 11.5185
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 310,
+       "end": 350,
+       "wait_time": 29.227,
+       "queue": 273.5639,
+       "discharges": 9.5873
+      },
+      {
+       "start": 380,
+       "end": 410,
+       "wait_time": 49.2925,
+       "queue": 314.1313,
+       "discharges": 8.7506
+      },
+      {
+       "start": 440,
+       "end": 470,
+       "wait_time": 41.4714,
+       "queue": 313.3974,
+       "discharges": 8.7768
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 350,
+       "end": 380,
+       "wait_time": 51.9047,
+       "queue": 320.8674,
+       "discharges": 4.5632
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 410,
+       "end": 440,
+       "wait_time": 32.2553,
+       "queue": 304.0159,
+       "discharges": 13.7487
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 470,
+       "end": 500,
+       "wait_time": 44.5848,
+       "queue": 313.3679,
+       "discharges": 8.9956
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 500,
+       "end": 530,
+       "wait_time": 44.8139,
+       "queue": 313.7146,
+       "discharges": 8.9887
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 530,
+       "end": 580,
+       "wait_time": 106.82,
+       "queue": 327.2971,
+       "discharges": 1.7755
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 60,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 115,
+     "pre_unsettled": [],
+     "obs": {
+      "wait_time": {
+       "pre": 0.0107,
+       "post": 93.9287,
+       "delta": 93.918,
+       "delta_sigma": 551.99,
+       "peak_excursion": 97.6797,
+       "peak_tick": 113,
+       "delay": 0,
+       "settling_time": "> 115",
+       "t90": 80,
+       "overshoot": 0.04,
+       "overshoot_sigma": 22.11,
+       "k_lin": 0.0104,
+       "k_log": 0.0397,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 22.9837,
+       "post": 273.6362,
+       "delta": 250.6525,
+       "delta_sigma": 112.52,
+       "peak_excursion": 256.5445,
+       "peak_tick": 114,
+       "delay": 0,
+       "settling_time": "> 115",
+       "t90": 44,
+       "overshoot": 0.024,
+       "overshoot_sigma": 2.64,
+       "k_lin": 0.0544,
+       "k_log": 0.0873,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 11.509,
+       "post": 2.583,
+       "delta": -8.926,
+       "delta_sigma": -4.4,
+       "peak_excursion": -10.3,
+       "peak_tick": 29,
+       "delay": 6,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.154,
+       "overshoot_sigma": 0.68,
+       "k_lin": 0.5766,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 175,
+     "from_u": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 65,
+     "pre_unsettled": [
+      "wait_time",
+      "queue"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 98.837,
+       "post": 29.1757,
+       "delta": -69.6613,
+       "delta_sigma": -409.43,
+       "peak_excursion": -72.1753,
+       "peak_tick": 64,
+       "delay": 0,
+       "settling_time": "> 65",
+       "t90": 42,
+       "overshoot": 0.036,
+       "overshoot_sigma": 14.78,
+       "k_lin": 0.0397,
+       "k_log": 0.0167,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 278.9586,
+       "post": 189.867,
+       "delta": -89.0916,
+       "delta_sigma": -39.99,
+       "peak_excursion": -99.0542,
+       "peak_tick": 64,
+       "delay": 8,
+       "settling_time": "> 65",
+       "t90": 52,
+       "overshoot": 0.112,
+       "overshoot_sigma": 4.47,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 2.583,
+       "post": 11.3782,
+       "delta": 8.7952,
+       "delta_sigma": 4.33,
+       "peak_excursion": 9.1376,
+       "peak_tick": 58,
+       "delay": 27,
+       "settling_time": 0.0,
+       "t90": 22,
+       "overshoot": 0.039,
+       "overshoot_sigma": 0.17,
+       "k_lin": null,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 240,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [
+      "wait_time",
+      "queue"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 26.123,
+       "post": 0.7638,
+       "delta": -25.3592,
+       "delta_sigma": -149.05,
+       "peak_excursion": -25.6393,
+       "peak_tick": 39,
+       "delay": 3,
+       "settling_time": "> 40",
+       "t90": 22,
+       "overshoot": 0.011,
+       "overshoot_sigma": 1.65,
+       "k_lin": 0.0944,
+       "k_log": null,
+       "ringing_crossings": 0
+      },
+      "queue": {
+       "pre": 177.7146,
+       "post": 22.9881,
+       "delta": -154.7265,
+       "delta_sigma": -69.46,
+       "peak_excursion": -154.7896,
+       "peak_tick": 33,
+       "delay": 0,
+       "settling_time": 14.0,
+       "t90": 11,
+       "overshoot": 0.000408,
+       "overshoot_sigma": 0.03,
+       "k_lin": 0.1514,
+       "k_log": 0.1196,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 11.3782,
+       "post": 11.5185,
+       "delta": 0.1403,
+       "delta_sigma": 0.07,
+       "peak_excursion": 15.0241,
+       "peak_tick": 9,
+       "delay": 0,
+       "settling_time": 15.0,
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      }
+     }
+    },
+    {
+     "tick": 280,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 0.3699,
+       "post": 0.0185,
+       "delta": -0.3514,
+       "delta_sigma": -2.07,
+       "peak_excursion": -0.3586,
+       "peak_tick": 29,
+       "delay": 8,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "queue": {
+       "pre": 22.9881,
+       "post": 22.9775,
+       "delta": -0.0106,
+       "delta_sigma": -0.0,
+       "peak_excursion": 0.149,
+       "peak_tick": 1,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "discharges": {
+       "pre": 11.5185,
+       "post": 11.4726,
+       "delta": -0.0459,
+       "delta_sigma": -0.02,
+       "peak_excursion": -0.0813,
+       "peak_tick": 5,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 310,
+     "from_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 40,
+     "pre_unsettled": [],
+     "obs": {
+      "wait_time": {
+       "pre": 0.0185,
+       "post": 29.227,
+       "delta": 29.2085,
+       "delta_sigma": 171.67,
+       "peak_excursion": 30.9334,
+       "peak_tick": 39,
+       "delay": 2,
+       "settling_time": "> 40",
+       "t90": 30,
+       "overshoot": 0.059,
+       "overshoot_sigma": 10.14,
+       "k_lin": 0.0212,
+       "k_log": 0.1196,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 22.9775,
+       "post": 273.5639,
+       "delta": 250.5864,
+       "delta_sigma": 112.49,
+       "peak_excursion": 253.4487,
+       "peak_tick": 39,
+       "delay": 0,
+       "settling_time": 27.0,
+       "t90": 10,
+       "overshoot": 0.011,
+       "overshoot_sigma": 1.28,
+       "k_lin": 0.1917,
+       "k_log": 0.2625,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 11.4726,
+       "post": 9.5873,
+       "delta": -1.8853,
+       "delta_sigma": -0.93,
+       "peak_excursion": -6.1743,
+       "peak_tick": 5,
+       "delay": 2,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 350,
+     "from_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time",
+      "queue"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 31.5146,
+       "post": 51.9047,
+       "delta": 20.3901,
+       "delta_sigma": 119.84,
+       "peak_excursion": 21.5758,
+       "peak_tick": 29,
+       "delay": 4,
+       "settling_time": "> 30",
+       "t90": 24,
+       "overshoot": 0.058,
+       "overshoot_sigma": 6.97,
+       "k_lin": 0.0076,
+       "k_log": 0.0248,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 276.7158,
+       "post": 320.8674,
+       "delta": 44.1515,
+       "delta_sigma": 19.82,
+       "peak_excursion": 46.2066,
+       "peak_tick": 27,
+       "delay": 2,
+       "settling_time": 8.0,
+       "t90": 7,
+       "overshoot": 0.047,
+       "overshoot_sigma": 0.92,
+       "k_lin": 0.4554,
+       "k_log": 0.4554,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 9.5873,
+       "post": 4.5632,
+       "delta": -5.0241,
+       "delta_sigma": -2.47,
+       "peak_excursion": -5.7133,
+       "peak_tick": 7,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 380,
+     "from_u": [
+      -0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 53.8097,
+       "post": 49.2925,
+       "delta": -4.5173,
+       "delta_sigma": -26.55,
+       "peak_excursion": -5.089,
+       "peak_tick": 29,
+       "delay": 3,
+       "settling_time": "> 30",
+       "t90": 25,
+       "overshoot": 0.127,
+       "overshoot_sigma": 3.36,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 320.8674,
+       "post": 314.1313,
+       "delta": -6.7361,
+       "delta_sigma": -3.02,
+       "peak_excursion": -7.9102,
+       "peak_tick": 19,
+       "delay": 12,
+       "settling_time": 3.0,
+       "t90": 11,
+       "overshoot": 0.174,
+       "overshoot_sigma": 0.53,
+       "k_lin": 0.1514,
+       "k_log": 0.1514,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 4.5632,
+       "post": 8.7506,
+       "delta": 4.1874,
+       "delta_sigma": 2.06,
+       "peak_excursion": 4.8655,
+       "peak_tick": 19,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 410,
+     "from_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 48.582,
+       "post": 32.2553,
+       "delta": -16.3268,
+       "delta_sigma": -95.96,
+       "peak_excursion": -16.694,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 20,
+       "overshoot": 0.022,
+       "overshoot_sigma": 2.16,
+       "k_lin": 0.0544,
+       "k_log": 0.043,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 314.1313,
+       "post": 304.0159,
+       "delta": -10.1154,
+       "delta_sigma": -4.54,
+       "peak_excursion": -12.2198,
+       "peak_tick": 9,
+       "delay": 0,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.208,
+       "overshoot_sigma": 0.94,
+       "k_lin": 0.2074,
+       "k_log": 0.2074,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 8.7506,
+       "post": 13.7487,
+       "delta": 4.9982,
+       "delta_sigma": 2.46,
+       "peak_excursion": 6.6219,
+       "peak_tick": 1,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 440,
+     "from_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 31.6335,
+       "post": 41.4714,
+       "delta": 9.8379,
+       "delta_sigma": 57.82,
+       "peak_excursion": 10.2493,
+       "peak_tick": 29,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 22,
+       "overshoot": 0.042,
+       "overshoot_sigma": 2.42,
+       "k_lin": 0.029,
+       "k_log": 0.0367,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 304.0159,
+       "post": 313.3974,
+       "delta": 9.3815,
+       "delta_sigma": 4.21,
+       "peak_excursion": 11.6483,
+       "peak_tick": 16,
+       "delay": 2,
+       "settling_time": 0.0,
+       "t90": 3,
+       "overshoot": 0.242,
+       "overshoot_sigma": 1.02,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 13.7487,
+       "post": 8.7768,
+       "delta": -4.9719,
+       "delta_sigma": -2.45,
+       "peak_excursion": -6.6595,
+       "peak_tick": 4,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 470,
+     "from_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 42.1639,
+       "post": 44.5848,
+       "delta": 2.421,
+       "delta_sigma": 14.23,
+       "peak_excursion": 2.5992,
+       "peak_tick": 27,
+       "delay": 7,
+       "settling_time": 21.0,
+       "t90": 20,
+       "overshoot": 0.074,
+       "overshoot_sigma": 1.05,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 0
+      },
+      "queue": {
+       "pre": 313.3974,
+       "post": 313.3679,
+       "delta": -0.0295,
+       "delta_sigma": -0.01,
+       "peak_excursion": -0.9827,
+       "peak_tick": 10,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "discharges": {
+       "pre": 8.7768,
+       "post": 8.9956,
+       "delta": 0.2188,
+       "delta_sigma": 0.11,
+       "peak_excursion": 0.4522,
+       "peak_tick": 28,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 500,
+     "from_u": [
+      -0.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 44.9375,
+       "post": 44.8139,
+       "delta": -0.1236,
+       "delta_sigma": -0.73,
+       "peak_excursion": -0.2326,
+       "peak_tick": 29,
+       "delay": 5,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "queue": {
+       "pre": 313.3679,
+       "post": 313.7146,
+       "delta": 0.3467,
+       "delta_sigma": 0.16,
+       "peak_excursion": -1.5559,
+       "peak_tick": 22,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "discharges": {
+       "pre": 8.9956,
+       "post": 8.9887,
+       "delta": -0.0069,
+       "delta_sigma": -0.0,
+       "peak_excursion": -0.6419,
+       "peak_tick": 1,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      }
+     }
+    },
+    {
+     "tick": 530,
+     "from_u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "to_u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "hold": 50,
+     "pre_unsettled": [],
+     "obs": {
+      "wait_time": {
+       "pre": 44.8139,
+       "post": 106.82,
+       "delta": 62.0061,
+       "delta_sigma": 364.43,
+       "peak_excursion": 64.386,
+       "peak_tick": 49,
+       "delay": 0,
+       "settling_time": "> 50",
+       "t90": 33,
+       "overshoot": 0.038,
+       "overshoot_sigma": 13.99,
+       "k_lin": 0.0544,
+       "k_log": 0.0746,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 313.7146,
+       "post": 327.2971,
+       "delta": 13.5824,
+       "delta_sigma": 6.1,
+       "peak_excursion": 15.021,
+       "peak_tick": 10,
+       "delay": 0,
+       "settling_time": 2.0,
+       "t90": 7,
+       "overshoot": 0.106,
+       "overshoot_sigma": 0.65,
+       "k_lin": 0.2427,
+       "k_log": 0.2427,
+       "ringing_crossings": 0
+      },
+      "discharges": {
+       "pre": 8.9887,
+       "post": 1.7755,
+       "delta": -7.2133,
+       "delta_sigma": -3.55,
+       "peak_excursion": -7.6042,
+       "peak_tick": 41,
+       "delay": 27,
+       "settling_time": 0.0,
+       "t90": 0,
+       "overshoot": 0.054,
+       "overshoot_sigma": 0.19,
+       "k_lin": 0.5766,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 580,
+     "from_u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 170,
+     "pre_unsettled": [
+      "wait_time"
+     ],
+     "obs": {
+      "wait_time": {
+       "pre": 109.7476,
+       "post": 6.5186,
+       "delta": -103.229,
+       "delta_sigma": -606.72,
+       "peak_excursion": -104.327,
+       "peak_tick": 169,
+       "delay": 0,
+       "settling_time": "> 170",
+       "t90": 117,
+       "overshoot": 0.011,
+       "overshoot_sigma": 6.45,
+       "k_lin": 0.0167,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "queue": {
+       "pre": 327.2971,
+       "post": 107.8052,
+       "delta": -219.4918,
+       "delta_sigma": -98.53,
+       "peak_excursion": -229.0389,
+       "peak_tick": 168,
+       "delay": 4,
+       "settling_time": "> 170",
+       "t90": 120,
+       "overshoot": 0.043,
+       "overshoot_sigma": 4.29,
+       "k_lin": 0.0044,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "discharges": {
+       "pre": 1.7755,
+       "post": 11.4184,
+       "delta": 9.643,
+       "delta_sigma": 4.75,
+       "peak_excursion": 12.1732,
+       "peak_tick": 119,
+       "delay": 10,
+       "settling_time": 10.0,
+       "t90": 45,
+       "overshoot": 0.262,
+       "overshoot_sigma": 1.25,
+       "k_lin": 0.0367,
+       "ringing_crossings": 0
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [
+    {
+     "on_tick": 60,
+     "off_tick": 175,
+     "obs": {
+      "wait_time": {
+       "delta_on": 93.918,
+       "delta_off": -69.6613,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 115",
+       "settle_off": "> 65",
+       "return_to_baseline_sigma": 171.41,
+       "k_ratio_lin": 0.262,
+       "symmetric_lin": false,
+       "k_ratio_log": 2.377,
+       "symmetric_log": false
+      },
+      "queue": {
+       "delta_on": 250.6525,
+       "delta_off": -89.0916,
+       "delay_on": 0,
+       "delay_off": 8,
+       "settle_on": "> 115",
+       "settle_off": "> 65",
+       "return_to_baseline_sigma": 74.91
+      },
+      "discharges": {
+       "delta_on": -8.926,
+       "delta_off": 8.7952,
+       "delay_on": 6,
+       "delay_off": 27,
+       "settle_on": 0.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": -0.06
+      }
+     }
+    },
+    {
+     "on_tick": 240,
+     "off_tick": 280,
+     "obs": {
+      "wait_time": {
+       "delta_on": -25.3592,
+       "delta_off": -0.3514,
+       "delay_on": 3,
+       "delay_off": 8,
+       "settle_on": "> 40",
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": -153.43
+      },
+      "queue": {
+       "delta_on": -154.7265,
+       "delta_off": -0.0106,
+       "delay_on": 0,
+       "delay_off": null,
+       "settle_on": 14.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": -69.46
+      },
+      "discharges": {
+       "delta_on": 0.1403,
+       "delta_off": -0.0459,
+       "delay_on": 0,
+       "delay_off": null,
+       "settle_on": 15.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": 0.05
+      }
+     }
+    },
+    {
+     "on_tick": 350,
+     "off_tick": 380,
+     "obs": {
+      "wait_time": {
+       "delta_on": 20.3901,
+       "delta_off": -4.5173,
+       "delay_on": 4,
+       "delay_off": 3,
+       "settle_on": "> 30",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": 104.49
+      },
+      "queue": {
+       "delta_on": 44.1515,
+       "delta_off": -6.7361,
+       "delay_on": 2,
+       "delay_off": 12,
+       "settle_on": 8.0,
+       "settle_off": 3.0,
+       "return_to_baseline_sigma": 16.8,
+       "k_ratio_lin": 3.008,
+       "symmetric_lin": false,
+       "k_ratio_log": 3.008,
+       "symmetric_log": false
+      },
+      "discharges": {
+       "delta_on": -5.0241,
+       "delta_off": 4.1874,
+       "delay_on": null,
+       "delay_off": null,
+       "settle_on": 0.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": -0.41
+      }
+     }
+    },
+    {
+     "on_tick": 410,
+     "off_tick": 440,
+     "obs": {
+      "wait_time": {
+       "delta_on": -16.3268,
+       "delta_off": 9.8379,
+       "delay_on": 0,
+       "delay_off": 0,
+       "settle_on": "> 30",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -41.79,
+       "k_ratio_lin": 1.876,
+       "symmetric_lin": false,
+       "k_ratio_log": 1.172,
+       "symmetric_log": true
+      },
+      "queue": {
+       "delta_on": -10.1154,
+       "delta_off": 9.3815,
+       "delay_on": 0,
+       "delay_off": 2,
+       "settle_on": 0.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": -0.33
+      },
+      "discharges": {
+       "delta_on": 4.9982,
+       "delta_off": -4.9719,
+       "delay_on": null,
+       "delay_off": null,
+       "settle_on": 0.0,
+       "settle_off": 0.0,
+       "return_to_baseline_sigma": 0.01
+      }
+     }
+    }
+   ],
+   "returns": [
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 175,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "wait_time": 171.41,
+      "queue": 74.91,
+      "discharges": -0.06
+     }
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 280,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "wait_time": 0.05,
+      "queue": -0.0,
+      "discharges": -0.02
+     }
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 380,
+     "vs_tick": 310,
+     "diff_sigma": {
+      "wait_time": 117.93,
+      "queue": 18.21,
+      "discharges": -0.41
+     }
+    },
+    {
+     "u": [
+      -0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 440,
+     "vs_tick": 310,
+     "diff_sigma": {
+      "wait_time": 71.96,
+      "queue": 17.88,
+      "discharges": -0.4
+     }
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 580,
+     "vs_tick": 0,
+     "diff_sigma": {
+      "wait_time": 38.25,
+      "queue": 38.08,
+      "discharges": -0.04
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": 0.777,
+     "corr_lag0": 0.764
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 8,
+     "best_corr": 0.777,
+     "corr_lag0": 0.764
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.682,
+     "corr_lag0": -0.534
+    },
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.651,
+     "corr_lag0": -0.534
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.557,
+     "corr_lag0": -0.546
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.531,
+     "corr_lag0": -0.518
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.531,
+     "corr_lag0": -0.518
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": 0.524,
+     "corr_lag0": 0.513
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.49,
+     "corr_lag0": -0.396
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.477,
+     "corr_lag0": -0.396
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": 0.433,
+     "corr_lag0": 0.378
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": 0.433,
+     "corr_lag0": 0.378
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.412,
+     "corr_lag0": -0.394
+    },
+    {
+     "source": "discharges",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.412,
+     "corr_lag0": -0.394
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.409,
+     "corr_lag0": 0.285
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 2,
+     "best_corr": -0.394,
+     "corr_lag0": -0.385
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.36,
+     "corr_lag0": 0.291
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": 0.349,
+     "corr_lag0": 0.349
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.343,
+     "corr_lag0": -0.337
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 13,
+     "best_corr": 0.333,
+     "corr_lag0": 0.238
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.332,
+     "corr_lag0": 0.296
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.304,
+     "corr_lag0": -0.245
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.275,
+     "corr_lag0": -0.219
+    },
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.259,
+     "corr_lag0": -0.142
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.257,
+     "corr_lag0": 0.124
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": -0.25,
+     "corr_lag0": -0.244
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.241,
+     "corr_lag0": 0.222
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.238,
+     "corr_lag0": -0.078
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.231,
+     "corr_lag0": -0.16
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": -0.231,
+     "corr_lag0": -0.16
+    },
+    {
+     "source": "queue",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.228,
+     "corr_lag0": -0.142
+    },
+    {
+     "source": "queue",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": 0.223,
+     "corr_lag0": 0.161
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.22,
+     "corr_lag0": 0.124
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": -0.205,
+     "corr_lag0": -0.184
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.199,
+     "corr_lag0": 0.102
+    },
+    {
+     "source": "wait_time",
+     "feature": "fall",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -9,
+     "best_corr": 0.183,
+     "corr_lag0": 0.084
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": 0.176,
+     "corr_lag0": -0.025
+    },
+    {
+     "source": "wait_time",
+     "feature": "diff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.174,
+     "corr_lag0": -0.09
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": -0.174,
+     "corr_lag0": -0.09
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.173,
+     "corr_lag0": 0.013
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.172,
+     "corr_lag0": 0.165
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.158,
+     "corr_lag0": -0.026
+    },
+    {
+     "source": "queue",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.154,
+     "corr_lag0": -0.103
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": -0.139,
+     "corr_lag0": -0.084
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": 0.135,
+     "corr_lag0": 0.059
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": 0.117,
+     "corr_lag0": 0.106
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": 0.113,
+     "corr_lag0": 0.11
+    },
+    {
+     "source": "wait_time",
+     "feature": "rise",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": -0.112,
+     "corr_lag0": -0.065
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.112,
+     "corr_lag0": -0.107
+    },
+    {
+     "source": "wait_time",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.103,
+     "corr_lag0": 0.098
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.103,
+     "corr_lag0": 0.098
+    },
+    {
+     "source": "queue",
+     "feature": "level",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": 0.097,
+     "corr_lag0": 0.088
+    },
+    {
+     "source": "discharges",
+     "feature": "diff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.097,
+     "corr_lag0": 0.088
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.088,
+     "corr_lag0": -0.017
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": 0.078,
+     "corr_lag0": 0.06
+    },
+    {
+     "source": "wait_time",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.074,
+     "corr_lag0": 0.012
+    },
+    {
+     "source": "discharges",
+     "feature": "absdiff",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.071,
+     "corr_lag0": -0.053
+    },
+    {
+     "source": "queue",
+     "feature": "absdiff",
+     "target": "discharges",
+     "target_feature": "diff",
+     "best_lag": 11,
+     "best_corr": -0.068,
+     "corr_lag0": -0.008
+    },
+    {
+     "source": "discharges",
+     "feature": "rise",
+     "target": "wait_time",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.051,
+     "corr_lag0": 0.045
+    },
+    {
+     "source": "discharges",
+     "feature": "fall",
+     "target": "queue",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.051,
+     "corr_lag0": -0.032
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "wait_time",
+     "target": "queue",
+     "r2_controls_only": 0.8322,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9672,
+     "r2_gain": 0.135,
+     "coef_rise_sigma": -2.432,
+     "coef_fall_sigma": 19.952
+    },
+    {
+     "source": "discharges",
+     "target": "queue",
+     "r2_controls_only": 0.8322,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.8971,
+     "r2_gain": 0.0649,
+     "coef_rise_sigma": 636.334,
+     "coef_fall_sigma": -323.348
+    },
+    {
+     "source": "queue",
+     "target": "discharges",
+     "r2_controls_only": 0.7158,
+     "best_rate": 0.3,
+     "r2_with_memories": 0.7663,
+     "r2_gain": 0.0505,
+     "coef_rise_sigma": -0.294,
+     "coef_fall_sigma": 0.865
+    },
+    {
+     "source": "queue",
+     "target": "wait_time",
+     "r2_controls_only": 0.9105,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.9473,
+     "r2_gain": 0.0368,
+     "coef_rise_sigma": -88.11,
+     "coef_fall_sigma": 73.428
+    },
+    {
+     "source": "discharges",
+     "target": "wait_time",
+     "r2_controls_only": 0.9105,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.935,
+     "r2_gain": 0.0245,
+     "coef_rise_sigma": 1660.587,
+     "coef_fall_sigma": -1124.21
+    },
+    {
+     "source": "wait_time",
+     "target": "discharges",
+     "r2_controls_only": 0.7158,
+     "best_rate": 0.1,
+     "r2_with_memories": 0.7167,
+     "r2_gain": 0.000949,
+     "coef_rise_sigma": -0.003,
+     "coef_fall_sigma": -0.054
+    }
+   ],
+   "plot": "data\\hospital_queue\\R1_r0_battery.png"
+  }
+ ]
+}

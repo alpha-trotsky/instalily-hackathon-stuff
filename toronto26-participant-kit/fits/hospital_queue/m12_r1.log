@@ -1,0 +1,6 @@
+model greybox/hospital_queue_model.py modules ['m1', 'm2', 'urg'] episodes 1 units ['linear', 'linear', 'linear'] sigma [1.0, 3.0, 1.0]
+  restart 0: cost 9602.2 nfev 8 (1s)
+  restart 1: cost 8115.1 nfev 27 (2s)
+  restart 2: cost 26925.4 nfev 21 (2s)
+cost 8115.1 (3s) | train score 0.5253 (persistence 0.1521)
+saved fits\hospital_queue\m12_r1.json
