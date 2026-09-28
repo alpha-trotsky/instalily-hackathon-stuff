@@ -535,3 +535,13 @@ The same pair (m13) scores 0.256 or 0.453 depending on the optimizer path, so th
   1. Congested bursts: the model's period-2 exit-occupancy oscillation happens to resemble the data by accident. Its phase and amplitude on unseen schedules are unverified. A smooth congested regime that targets the median, with a limiter that still fits, would be safer.
   2. The pair fits never beat the nested base, so the optimizer is the bottleneck (about 50 parameters and piecewise-linear queues). Before any mechanism can be selected, the fits need more Powell restarts or a staged fit (freeze the base and free only the module parameters).
   3. Still not modelled: the B7 end-of-hold speed_b error (+4), the B8 speed_b ratchet (kJ pinned), the longer dead time at toll 0 (G11), the lane-closure position (G12) and the freight-0 side, which was never probed.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | TR1 (fresh reset) | `data/traffic/R4.json` | 400 | 300 |
+| 2026-09-28 14:44–14:55 UTC | TR2 (fresh reset) | `data/traffic/R5.json` | 200 | 100 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/traffic_*.json`. Server budget confirmed after the runs.

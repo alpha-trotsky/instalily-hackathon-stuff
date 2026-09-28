@@ -509,3 +509,13 @@ below). No mechanism parameter is pinned.
   3. **Mid-level reserve and price > 1.5 are unobserved** (G4, G7); M3's selection rests on elimination, not a
      positive signature. If a later public score disagrees, m1-only (`v1/m1_all.json`) is the drop-in alternative.
 - **Tooling bug for the orchestrator:** `core.params_for` lets `--init` params re-enable inactive modules (§12.2).
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | PG1 (fresh reset) | `data/power_grid/R3.json` | 380 | 620 |
+| 2026-09-28 14:44–14:55 UTC | PG2 (fresh reset) | `data/power_grid/R4.json` | 510 | 110 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/power_grid_*.json`. Server budget confirmed after the runs.

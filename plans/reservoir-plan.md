@@ -478,3 +478,13 @@ reflects the optimizer, not evidence about M1.
      missed. Quality σ is 0.001, so these cost much of the quality score.
   3. M2 vs M3 is unresolved (2 bootstrap draws). Fitted on R1 alone, the cross-run level score fell from 0.78 (v0) to
      0.53, so the new m1 terms depend on R2 and R3 to be identified.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | RS1 (fresh reset) | `data/reservoir/R4.json` | 450 | 550 |
+| 2026-09-28 14:44–14:55 UTC | RS2 (fresh reset) | `data/reservoir/R5.json` | 450 | 100 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/reservoir_*.json`. Server budget confirmed after the runs.

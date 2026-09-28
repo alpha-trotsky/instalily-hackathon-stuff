@@ -545,3 +545,13 @@ warm-started, 1 restart, block 50, skip 20):
   3. **M1 against M3 is only moderately resolved.** m23 truth is misclassified 2/5 times. The fitted M1
      (departure-driven, fast) was not directly probed. If the public score is weak, the fallback candidate is
      m23_all (8,723), which has near-identical long-run levels.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | SC1 (fresh reset) | `data/social_contagion/R4.json` | 560 | 440 |
+| 2026-09-28 14:44–14:55 UTC | SC2 (fresh reset) | `data/social_contagion/R5.json` | 320 | 120 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/social_contagion_*.json`. Server budget confirmed after the runs.

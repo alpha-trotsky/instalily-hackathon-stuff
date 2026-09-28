@@ -491,3 +491,13 @@ not as the thesis' positive priming.
      455 ticks; sustained-scoring episodes rest on it.
   3. Reset win transient (0.05 vs 0.147) and untested control ranges (bid in (0, 1.5), cap < 20 or 20–100 at high
      bid).
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | AD1 (fresh reset) | `data/ad_auction/R3.json` | 500 | 500 |
+| 2026-09-28 14:44–14:55 UTC | AD2 (fresh reset) | `data/ad_auction/R4.json` | 300 | 200 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/ad_auction_*.json`. Server budget confirmed after the runs.

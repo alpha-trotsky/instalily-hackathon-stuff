@@ -367,3 +367,13 @@ The script is `greybox/bootstrap_market.py` and the results are in `fits/market/
 - **Distribution shift is not excluded:** joint controls, intermediate levels and long holds are all still untested.
 
 **Open gaps:** only levels 0 and max have been tested, so the effect at intermediate control levels (whether the response is linear) is unknown. Joint controls are untested. We don't know whether the equilibrium of about 93 depends on the initial reading, since there has been only one reset.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | MK1 (fresh reset) | `data/market/B.json` | 600 | 800 |
+| 2026-09-28 14:44–14:55 UTC | MK2 (fresh reset) | `data/market/C.json` | 600 | 200 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/market_*.json`. Server budget confirmed after the runs.

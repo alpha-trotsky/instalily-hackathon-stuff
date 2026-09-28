@@ -474,3 +474,14 @@ so that comparison is weak evidence; the base's joint cost is 2.3× m13's.
      reset, 55 steps) is still the best use of the reserve, followed by a refit.
   3. Controls in the first-wave growth phase and all-three composition were never observed (G6), and the ticks 1–3
      overshoot (G9) remains; vaccination/M2 is not identifiable.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | EP1 (fresh reset) | `data/epidemic/R3.json` | 400 | 655 |
+| 2026-09-28 14:44–14:55 UTC | EP2 (fresh reset) | `data/epidemic/R4.json` | 300 | 355 |
+| 2026-09-28 14:44–14:55 UTC | EP3 (fresh reset) | `data/epidemic/R5.json` | 200 | 155 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/epidemic_*.json`. Server budget confirmed after the runs.

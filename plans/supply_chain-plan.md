@@ -589,3 +589,13 @@ contract).
 2. Release burst to ≈ 50 (G4) and idle-pause restart / effort-0 supplier refill (G7) not captured.
 3. Mechanism pair unresolved: no module reproduces B15 or B4; a threshold heat state (G8) and a withdrawal-rate
    commitment (G9) are the next candidates.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | SU1 (fresh reset) | `data/supply_chain/R4.json` | 400 | 300 |
+| 2026-09-28 14:44–14:55 UTC | SU2 (fresh reset) | `data/supply_chain/R5.json` | 200 | 100 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/supply_chain_*.json`. Server budget confirmed after the runs.

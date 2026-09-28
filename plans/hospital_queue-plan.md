@@ -597,3 +597,13 @@ not identify the pair.**
      carry a large permanent queue offset. This is untested.
   3. **G3 diagnostic-allocation switch dynamics** (the 15–20-tick crash on returning to 0.4; k2d → 0), and M1 with a1u
      pinned at 1 (the fatigue structure is not identified).
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | HQ1 (fresh reset) | `data/hospital_queue/R3.json` | 250 | 450 |
+| 2026-09-28 14:44–14:55 UTC | HQ2 (fresh reset) | `data/hospital_queue/R4.json` | 350 | 100 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/hospital_queue_*.json`. Server budget confirmed after the runs.

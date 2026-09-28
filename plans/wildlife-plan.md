@@ -512,3 +512,13 @@ nursery} is the active pair. Every fit leaves settlement competition unused.
      (rms 0.16 in log units). The regrowth bump under hunting is under-fitted.
   3. The pair choice is "unresolved": the real margin is half the bootstrap margins, and every fit is a warm chain
      with a single restart. More restarts could change the costs.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | WL1 (fresh reset) | `data/wildlife/R3.json` | 500 | 500 |
+| 2026-09-28 14:44–14:55 UTC | WL2 (fresh reset) | `data/wildlife/R4.json` | 350 | 150 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/wildlife_*.json`. Server budget confirmed after the runs.
