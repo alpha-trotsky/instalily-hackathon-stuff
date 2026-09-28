@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start hospital_queue HQ1 -> R3 (250 steps)
+hospital_queue: spending 250 steps, 700 remaining before this run
+Saved 250 observations to data/hospital_queue/R3.json (run length 250); 450 steps remain
+2026-09-28T14:44:44Z done hospital_queue HQ1
+2026-09-28T14:44:44Z start hospital_queue HQ2 -> R4 (350 steps)
+hospital_queue: spending 350 steps, 450 remaining before this run
+Saved 350 observations to data/hospital_queue/R4.json (run length 350); 100 steps remain
+2026-09-28T14:45:29Z done hospital_queue HQ2
+{"system_id": "hospital_queue", "remaining": 100.0, "simulator_steps_remaining": 100}

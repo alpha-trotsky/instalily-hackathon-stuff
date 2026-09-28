@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start social_contagion SC1 -> R4 (560 steps)
+social_contagion: spending 560 steps, 1000 remaining before this run
+Saved 560 observations to data/social_contagion/R4.json (run length 560); 440 steps remain
+2026-09-28T14:45:27Z done social_contagion SC1
+2026-09-28T14:45:27Z start social_contagion SC2 -> R5 (320 steps)
+social_contagion: spending 320 steps, 440 remaining before this run
+Saved 320 observations to data/social_contagion/R5.json (run length 320); 120 steps remain
+2026-09-28T14:46:01Z done social_contagion SC2
+{"system_id": "social_contagion", "remaining": 120.0, "simulator_steps_remaining": 120}

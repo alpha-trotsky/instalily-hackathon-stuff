@@ -1,0 +1,9 @@
+2026-09-28T14:44:13Z start supply_chain SU1 -> R4 (400 steps)
+supply_chain: spending 400 steps, 700 remaining before this run
+Saved 400 observations to data/supply_chain/R4.json (run length 400); 300 steps remain
+2026-09-28T14:45:04Z done supply_chain SU1
+2026-09-28T14:45:04Z start supply_chain SU2 -> R5 (200 steps)
+supply_chain: spending 200 steps, 300 remaining before this run
+Saved 200 observations to data/supply_chain/R5.json (run length 200); 100 steps remain
+2026-09-28T14:45:28Z done supply_chain SU2
+{"system_id": "supply_chain", "remaining": 100.0, "simulator_steps_remaining": 100}

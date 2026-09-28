@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start traffic TR1 -> R4 (400 steps)
+traffic: spending 400 steps, 700 remaining before this run
+Saved 400 observations to data/traffic/R4.json (run length 400); 300 steps remain
+2026-09-28T14:45:04Z done traffic TR1
+2026-09-28T14:45:04Z start traffic TR2 -> R5 (200 steps)
+traffic: spending 200 steps, 300 remaining before this run
+Saved 200 observations to data/traffic/R5.json (run length 200); 100 steps remain
+2026-09-28T14:45:28Z done traffic TR2
+{"system_id": "traffic", "remaining": 100.0, "simulator_steps_remaining": 100}

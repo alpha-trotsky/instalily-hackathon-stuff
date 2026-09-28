@@ -1,0 +1,13 @@
+2026-09-28T14:44:12Z start epidemic EP1 -> R3 (400 steps)
+epidemic: spending 400 steps, 1055 remaining before this run
+Saved 400 observations to data/epidemic/R3.json (run length 400); 655 steps remain
+2026-09-28T14:45:02Z done epidemic EP1
+2026-09-28T14:45:02Z start epidemic EP2 -> R4 (300 steps)
+epidemic: spending 300 steps, 655 remaining before this run
+Saved 300 observations to data/epidemic/R4.json (run length 300); 355 steps remain
+2026-09-28T14:45:37Z done epidemic EP2
+2026-09-28T14:45:37Z start epidemic EP3 -> R5 (200 steps)
+epidemic: spending 200 steps, 355 remaining before this run
+Saved 200 observations to data/epidemic/R5.json (run length 200); 155 steps remain
+2026-09-28T14:46:00Z done epidemic EP3
+{"system_id": "epidemic", "remaining": 155.0, "simulator_steps_remaining": 155}

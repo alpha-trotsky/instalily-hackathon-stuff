@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start power_grid PG1 -> R3 (380 steps)
+power_grid: spending 380 steps, 1000 remaining before this run
+Saved 380 observations to data/power_grid/R3.json (run length 380); 620 steps remain
+2026-09-28T14:45:03Z done power_grid PG1
+2026-09-28T14:45:03Z start power_grid PG2 -> R4 (510 steps)
+power_grid: spending 510 steps, 620 remaining before this run
+Saved 510 observations to data/power_grid/R4.json (run length 510); 110 steps remain
+2026-09-28T14:46:06Z done power_grid PG2
+{"system_id": "power_grid", "remaining": 110.0, "simulator_steps_remaining": 110}

@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start ad_auction AD1 -> R3 (500 steps)
+ad_auction: spending 500 steps, 1000 remaining before this run
+Saved 500 observations to data/ad_auction/R3.json (run length 500); 500 steps remain
+2026-09-28T14:45:15Z done ad_auction AD1
+2026-09-28T14:45:15Z start ad_auction AD2 -> R4 (300 steps)
+ad_auction: spending 300 steps, 500 remaining before this run
+Saved 300 observations to data/ad_auction/R4.json (run length 300); 200 steps remain
+2026-09-28T14:45:49Z done ad_auction AD2
+{"system_id": "ad_auction", "remaining": 200.0, "simulator_steps_remaining": 200}
