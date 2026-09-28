@@ -9,7 +9,8 @@ sets = [x for x in sys.argv[3].split(',') if x]
 m = trfit.load(sys.argv[1], sets)
 p0 = json.load(open(sys.argv[2]))['params']
 eps = trfit.episodes(m, trfit.ALL); sig = trfit.heldout_sigma(m)
-ns = np.array([m.NOISE[n] for n in eps[0]['names']])
+import os
+ns = sig if os.environ.get('SCORESIG') else np.array([m.NOISE[n] for n in eps[0]['names']])
 for ov in sys.argv[4:]:
     p = dict(p0)
     for kv in [x for x in ov.split(',') if x]:
