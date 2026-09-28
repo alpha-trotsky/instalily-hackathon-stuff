@@ -1,26 +1,25 @@
-"""Social contagion gray-box model v1 (Phase C; v0 is kept in fits/social_contagion/social_contagion_model_v0.py).
+"""Social contagion gray-box model v2 (round 2; v1 is greybox/social_contagion_model.py, left untouched).
 
-Changes from v0 (review G1-G3, G7, G8): bounded ('box') parameters everywhere, finite pools, one audience per
-community (the v0 type split was not identified), the capacity-limited onboarding queue replaced by a first-order
-onboarding stage (kap/om/qa were pinned), a separate 3-stage lag on the bridge-introduction path (G3), a bounded
-direct incentive recruitment per community (G7), the reset transient as an explicit initial "expectant" share that
-leaves through a ramping hazard (G8; E starts at 0), and a core of K_c members that M2 disappointment never
-touches (G2; owned by m2).
+Changes from v1 (plans/social_contagion-round2-diagnosis.md, items 1-4):
+  * m2 is a *promise ratchet* instead of a linear-gap hazard (B24, B25, B21, B32, H2). The non-core members carry a
+    promise level P (normalized incentive). When the offer falls below P, a share min(g2 (P - ui), 1) of the
+    non-core members becomes at-risk at once and P drops to ui; at-risk members Z leave at a FIXED rate kz. When the
+    offer rises, P follows it at rate a2. So the magnitude of a cut is linear in the cut (2 -> 1 loses half) while
+    the exit rate does not depend on the gap, and a floor after a u.7 pulse is shallower than after a full one.
+  * m1 is off by default (the fitted departure-driven credibility suppressed the rise from a controlled reset, B18).
+    It is kept as a module so m12 can still be tested.
+  * Optional base modules, each kept only if it improves held-out scores:
+      bc: bridge cost to local outreach, sl = us (1 - b)^mb   (B35 / diagnosis item 3a; off: mb = 1)
+      ds: seeding dose saturation, sl -> sl / (1 + kap sl)      (B26; off: kap = 0)
 
 Controls (normalized): us = seeding/9, ui = incentive/2, ub = bridge/0.6; b = clip(0.6 ub, 0, 1).
-Local effort sl = us (1 - b) through ND lag stages (a_d); bridge effort sb = us b through NB lag stages (a_b).
-
-Per community c (o = other community):
-  members  Mt_c = M_c + X_c  (X_c = initial expectant members, psi_c of the reading at reset)
+Per community c: members Mt_c = M_c + X_c + Z_c.
   force    f_c = beta_c Mt_c/N_c + sig_c sl + tau_c sb Mt_o/N_o + g3 R Mt_o/N_o (m3) + eps
-  interest new_c = h((f_c + iota_c ui) cred) S_c,  S_c = max(N_c - Mt_c - Q_c - D_c, 0),  h(x) = 1 - exp(-x)
-  onboard  on_c = kon Q_c
-  churn    M_c -> D_c at h(dr exp(-gret ui));  X_c -> D_c at h(kr L), L <- L + ar (1 - L), L(0) = 0
-  m2       disappointment h(g2 max(E - ui, 0)) max(M_c - K_c, 0) -> D_c;  E <- E + a2 (ui - E), E(0) = 0
+  interest new_c = h((f_c + iota_c ui) cred) S_c,  S_c = max(N_c - Mt_c - Q_c - D_c, 0)
+  onboard  on_c = kon Q_c;  churn M_c -> D_c at h(dr exp(-gret ui));  X_c -> D_c at h(kr L)
+  m2       if ui < P: Z_c += min(g2 (P - ui), 1) max(M_c - K_c, 0), P = ui;  else P += a2 (ui - P);  Z_c -> D_c at kz
   reconsider D_c -> S at rho
-  m1       Cm <- Cm + a1 (departures / members * 10 - Cm); cred = exp(-g1 Cm)
-  m3       R <- R + a3u sb (1 - R) - a3d R;  R(0) = 0
-Output adopters_c = M_c + X_c.
+Output adopters_c = M_c + X_c + Z_c.
 """
 import math
 import numpy as np
@@ -33,10 +32,9 @@ UNITS = {'adopters_a': 'log', 'adopters_b': 'log'}
 NOISE = {'adopters_a': 0.01, 'adopters_b': 0.01}   # residual scale (true noise 0.25%; misfit dominates)
 CLAMP = {'adopters_a': [0.1, 5000.0], 'adopters_b': [0.1, 5000.0]}
 ND = 2          # local outreach lag stages
-NB = 3          # bridge-introduction lag stages (G3)
+NB = 3          # bridge-introduction lag stages
 FIXED = ()
 
-# name: (initial natural value, (lo, hi)) -- every parameter is a box through a sigmoid
 SPEC = {
     'NA': (400.0, (80.0, 3000.0)), 'NB': (300.0, (60.0, 3000.0)),
     'betaA': (0.03, (0.0, 2.0)), 'betaB': (0.03, (0.0, 2.0)),
@@ -45,19 +43,24 @@ SPEC = {
     'iotaA': (0.003, (0.0, 0.1)), 'iotaB': (0.005, (0.0, 0.1)),
     'eps': (1e-4, (0.0, 0.01)),
     'a_d': (0.35, (0.02, 1.0)), 'a_b': (0.25, (0.02, 1.0)), 'kon': (0.3, (0.01, 1.0)),
-    'dr': (0.02, (0.0, 0.3)), 'gret': (1.0, (0.0, 8.0)), 'rho': (0.03, (0.0, 0.5)),
+    'dr': (0.02, (0.0, 0.3)), 'gret': (0.5, (0.0, 8.0)), 'rho': (0.03, (0.0, 0.5)),
     'psiA': (0.25, (0.0, 0.8)), 'psiB': (0.25, (0.0, 0.8)), 'kr': (0.2, (0.0, 1.0)), 'ar': (0.3, (0.01, 1.0)),
-    # m1 credibility
+    # m1 credibility (v1 form)
     'a1': (0.05, (0.001, 1.0)), 'g1': (1.0, (0.0, 20.0)),
-    # m2 incentive expectations (+ core that is never disappointed)
-    'a2': (0.03, (0.001, 1.0)), 'g2': (0.1, (0.0, 1.0)), 'KA': (43.0, (0.0, 200.0)), 'KB': (31.0, (0.0, 200.0)),
+    # m2 promise ratchet (+ core never at risk)
+    'a2': (0.05, (0.001, 1.0)), 'g2': (1.0, (0.0, 2.0)), 'kz': (0.09, (0.005, 0.5)),
+    'KA': (43.0, (0.0, 200.0)), 'KB': (31.0, (0.0, 200.0)),
     # m3 cross-community ties
     'a3u': (0.01, (0.0005, 1.0)), 'a3d': (0.005, (0.0002, 0.5)), 'g3': (0.05, (0.0, 3.0)),
+    # bc bridge cost to local outreach; ds seeding dose saturation
+    'mb': (1.0, (0.25, 6.0)), 'kap': (0.0, (0.0, 5.0)),
 }
 MODULES = {
     'm1': (['a1', 'g1'], {'g1': 0.0}),
-    'm2': (['a2', 'g2', 'KA', 'KB'], {'g2': 0.0}),
+    'm2': (['a2', 'g2', 'kz', 'KA', 'KB'], {'g2': 0.0}),
     'm3': (['a3u', 'a3d', 'g3'], {'g3': 0.0}),
+    'bc': (['mb'], {'mb': 1.0}),
+    'ds': (['kap'], {'kap': 0.0}),
 }
 
 
@@ -128,7 +131,11 @@ def simulate(p, initial, actions):
     U = np.nan_to_num(np.asarray(actions, dtype=float).reshape(T, 3))
     us, ui, ub = np.clip(U[:, 0], 0, 2), np.clip(U[:, 1], 0, 1), np.clip(U[:, 2], 0, 2)
     b = np.clip(0.6 * ub, 0.0, 1.0)
-    sl = _lag(us * (1.0 - b), p['a_d'], ND).tolist()
+    mb, kap = p.get('mb', 1.0), p.get('kap', 0.0)
+    loc = us * (1.0 - b) ** mb
+    if kap > 0:
+        loc = loc / (1.0 + kap * loc)
+    sl = _lag(loc, p['a_d'], ND).tolist()
     sb = _lag(us * b, p['a_b'], NB).tolist()
     ui = ui.tolist()
     N = (p['NA'], p['NB'])
@@ -137,27 +144,38 @@ def simulate(p, initial, actions):
     kon, dr, gret, rho = p['kon'], p['dr'], p['gret'], p['rho']
     kr, ar = p['kr'], p['ar']
     a1, g1 = p['a1'], p['g1']
-    a2, g2, K = p['a2'], p['g2'], (p['KA'], p['KB'])
+    a2, g2, kz, K = p['a2'], p['g2'], p['kz'], (p['KA'], p['KB'])
     a3u, a3d, g3 = p['a3u'], p['a3d'], p['g3']
 
     r0 = (_init(initial, 'adopters_a', 50.0), _init(initial, 'adopters_b', 37.0))
     psi = (p['psiA'], p['psiB'])
     M = [r0[0] * (1 - psi[0]), r0[1] * (1 - psi[1])]
     X = [r0[0] * psi[0], r0[1] * psi[1]]
+    Z = [0.0, 0.0]
     Q = [0.0, 0.0]
     D = [0.0, 0.0]
-    L, Cm, E, R = 0.0, 0.0, 0.0, 0.0
+    L, Cm, P, R = 0.0, 0.0, 0.0, 0.0
     out = np.empty((T, 2))
     for t in range(T):
         uit, slt, sbt = ui[t], sl[t], sb[t]
+        # m2 ratchet: a cut below the promise moves a share of the non-core members to at-risk at once
+        if g2 > 0 and uit < P:
+            share = min(g2 * (P - uit), 1.0)
+            for c in range(2):
+                if M[c] > K[c]:
+                    mv = share * (M[c] - K[c])
+                    M[c] -= mv
+                    Z[c] += mv
+            P = uit
+        else:
+            P += a2 * (uit - P)
         cred = math.exp(-g1 * Cm) if g1 > 0 else 1.0
         L += ar * (1.0 - L)
         hx = _h(kr * L)
         hc = _h(dr * math.exp(-gret * uit))
-        hd = _h(g2 * (E - uit)) if (g2 > 0 and E > uit) else 0.0
-        Mt = (M[0] + X[0], M[1] + X[1])
+        Mt = (M[0] + X[0] + Z[0], M[1] + X[1] + Z[1])
         dep_tot = 0.0
-        newM, newX = [0.0, 0.0], [0.0, 0.0]
+        newM, newX, newZ = [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]
         for c in range(2):
             fo = Mt[1 - c] / N[1 - c]
             f = beta[c] * Mt[c] / N[c] + sig[c] * slt + tau[c] * sbt * fo + g3 * R * fo + eps
@@ -166,19 +184,19 @@ def simulate(p, initial, actions):
             on = kon * Q[c]
             xl = hx * X[c]
             ch = hc * M[c]
-            ds = hd * (M[c] - K[c]) if M[c] > K[c] else 0.0
+            zl = kz * Z[c]
             rc = rho * D[c]
             Q[c] = max(Q[c] + new - on, 0.0)
-            newM[c] = min(max(M[c] + on - ch - ds, 0.0), 1e5)
+            newM[c] = min(max(M[c] + on - ch, 0.0), 1e5)
             newX[c] = max(X[c] - xl, 0.0)
-            D[c] = min(max(D[c] + xl + ch + ds - rc, 0.0), 1e5)
-            dep_tot += xl + ch + ds
+            newZ[c] = max(Z[c] - zl, 0.0)
+            D[c] = min(max(D[c] + xl + ch + zl - rc, 0.0), 1e5)
+            dep_tot += xl + ch + zl
         if g1 > 0:
             Cm += a1 * (10.0 * dep_tot / max(Mt[0] + Mt[1], 1.0) - Cm)
-        E += a2 * (uit - E)
         if g3 > 0:
             R += a3u * sbt * (1.0 - R) - a3d * R
-        M, X = newM, newX
-        out[t, 0] = M[0] + X[0]
-        out[t, 1] = M[1] + X[1]
+        M, X, Z = newM, newX, newZ
+        out[t, 0] = M[0] + X[0] + Z[0]
+        out[t, 1] = M[1] + X[1] + Z[1]
     return np.clip(out, 0.1, 5000.0)
