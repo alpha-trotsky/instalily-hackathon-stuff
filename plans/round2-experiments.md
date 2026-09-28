@@ -636,3 +636,53 @@ python run_schedule.py --system social_contagion --output data/social_contagion/
 | traffic | TR1 → R4, TR2 → R5 | 400 + 200 |
 
 The reserves (100–200 per system) are held for a confirmation run after refits (round 3), each proposed separately.
+
+## 8. How round 2 follows the overnight framework (`plans/overnight-framework.md`)
+
+### 8.1 Where round 2 keeps the framework
+
+| Framework rule | In round 2 |
+|---|---|
+| §0 Every spend through `run_schedule.py`, budget read first, logged in `plans/<system>-plan.md` | Same. The approval is per system; the overnight pre-authorization is used up. |
+| §4.1 Every mechanism probe is a comparison of two schedules | Each decision rule compares two segments: P5 is gap 300 vs gap 20, P6 is harvest before vs after protection, P2 is incentive 1 vs 0. |
+| §4.3 Adaptive holds | Planned segment lengths are **minimums**. Each segment runs as its own `--continue` call, then goes through `greybox.common.settle`. An unsettled hold is extended in chunks of 20, paid from that system's reserve. |
+| §6.1 Catalogue update | Round-2 behaviours are added to each plan as B-IDs, with status. |
+| §6.2 Independent review | A reviewer pass happens before any model change is shipped. |
+| §6.3 Cross-run test | Old-data fits predict the round-2 runs **before refitting**. That is the true held-out score for the new regimes. |
+| §6.3 Bootstrap and decision table | Unchanged. The bootstrap runs only where round 2 was designed to separate mechanisms: social, wildlife, power_grid, market, epidemic. |
+| §7 Gates | Every new model runs all four gates and is packaged as `submission-<system>-v2.zip`. |
+| §8 Records | Report and status files are updated; snapshots are committed after each system. |
+| §2 Lesson 5 | Pairs only. The all-three model is still never trusted. |
+| §2 Lesson 9 | Pinned parameters mean missing structure. This drives the free fixes in §3. |
+
+### 8.2 Probe mapping (framework §4.1 IDs)
+
+| Run | Probes |
+|---|---|
+| SC1 | P0' (from reset under control), P2 (u.7), P7 (300-tick recovery), P5 (gap 300 vs 20) |
+| SC2 | P2 (seeding 4.5, incentive 1), P6/P9 (incentive after recruitment vs R1's before), P1 (partial off) |
+| EP1 | P3 (all three at .85), P7 (250 ticks), P1 (release) |
+| EP2 | P1 (vaccination on/off, 200-tick hold), P7 |
+| EP3 | P8/P9 (closure vs masking at similar case counts), P3 (closure + mask .7) |
+| WL1 | P3 at .85, 1 and .7; P5 (gap 120 vs 30) |
+| WL2 | P2 (hunt 5, habitat .37, corridor .7), P3 (pairs), P6/P9 (harvest before vs after protection) |
+| PG1 | P2 ladders (price 2.0 and .45; reserve 40/80/120; interconnector .5), P3 (reserve × interconnector) |
+| PG2 | P3 at .7, 1 and .85; P7 (200-tick dispatch, the M2 separator); P5 (recovery 60 vs 30) |
+| HQ1 | P2 (electives 5 and 10, staffing 15), P3 (staffing × electives), P1 (electives off) |
+| HQ2 | P3 at .7 and 1, P5, P7 (150-tick recovery tail) |
+| MK1 | P3 (joint 1 and .7), P5 (gap 150 vs 50) |
+| MK2 | P2 (rate .05, tax .025), P6 (order swap vs run A) |
+| AD1 | P3 at .7 (P7 250 ticks), 1 and .85; P5 |
+| AD2 | P2 ladders (bid 3.25 / 2 / .75; cap 50 and 30) |
+| RS1 | P3 at .7 (P7 250 ticks), P7 (200-tick recovery) |
+| RS2 | P2 (release 10.5; aeration .3 and .15; depth .5) |
+| SU1 | P3 at .7, 1 and .85, P5 |
+| SU2 | P2 ladder (receiving 1.0 / .7 / .5; maintenance .3) |
+| TR1 | P3 at .7, 1 and .85, P5 |
+| TR2 | P2 singles in a congested background (freight 0, signal .3, lane .3, clearance .5) |
+
+### 8.3 Deliberate deviations
+
+1. **No P0 recovery lead-in.** Framework lesson 1 is already satisfied: the reset transient is measured and identical on every reset in every system. Scoring applies controls from tick 0, so round 2 starts under control. That tests the untested case (g) and saves 40–120 steps per run.
+2. **Probes chosen by coverage, not by pair disagreement (§4.4).** Pairs share one base model, so their disagreement is blind to base-model errors (§1.3). Disagreement is used only to rank within the coverage set.
+3. **Settle-extension comes from the reserve, not the run cap.** Each system's total is fixed at approval. Any overrun needs a new approval.
