@@ -1,0 +1,37 @@
+[
+ {
+  "steps": 150,
+  "action": {
+   "interest_rate": 0.1,
+   "transaction_tax": 0.05
+  }
+ },
+ {
+  "steps": 150,
+  "action": {
+   "interest_rate": 0.0,
+   "transaction_tax": 0.0
+  }
+ },
+ {
+  "steps": 125,
+  "action": {
+   "interest_rate": 0.07,
+   "transaction_tax": 0.035
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "interest_rate": 0.0,
+   "transaction_tax": 0.0
+  }
+ },
+ {
+  "steps": 125,
+  "action": {
+   "interest_rate": 0.1,
+   "transaction_tax": 0.05
+  }
+ }
+]

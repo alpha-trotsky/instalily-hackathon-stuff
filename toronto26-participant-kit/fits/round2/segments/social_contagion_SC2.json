@@ -1,0 +1,42 @@
+[
+ {
+  "steps": 80,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 4.5
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 2.0,
+   "seeding": 4.5
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 1.0,
+   "seeding": 4.5
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 4.5
+  }
+ },
+ {
+  "steps": 80,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 0.0
+  }
+ }
+]

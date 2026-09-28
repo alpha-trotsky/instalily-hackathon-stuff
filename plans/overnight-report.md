@@ -4,7 +4,7 @@ This is the single entry point for a fresh session. It consolidates the overnigh
 
 ## 1. Current state
 
-- **Public leaderboard: 0.71 average across the ten systems** (reported by the user after uploading). Per-system public scores are not recorded here yet. Ask for them and add them to the table in §2. Top competitors are around 0.8.
+- **Public leaderboard: 0.7465 average across the ten systems** (per-system scores in §2, reported 2026-09-28; the earlier "0.71" predates them). Top competitors are around 0.8. Round 2 is planned in `plans/round2-experiments.md`.
 - **Uploaded:** `toronto26-participant-kit/submission-overnight-all.zip`, which holds all ten folders at the ZIP root (nine new models plus market v1). Per-system ZIPs `submission-<system>-v1.zip` are in the same folder.
 - **Submission folders:** `toronto26-participant-kit/models/<system>/` (`predict.py`, a copy of the model module, `params.json`). `params.json` stores the full natural-unit parameter dict and its `source_fit`.
 - **Budget:** each system has its own 2,000 steps for the whole event; budgets are not shared. The overnight caps (1,000 or 1,300 per system) are used up. **Remaining per system:**
@@ -25,15 +25,15 @@ This is the single entry point for a fresh session. It consolidates the overnigh
 
 | System | Shipped model (`greybox/<system>_model.py`) | Source fit | Confidence | R1→R2 | Persistence | Public |
 |---|---|---|---|---:|---:|---:|
-| epidemic | 3 age groups; m1 behaviour fatigue + m3 postponed gatherings; bed cap 155.2 fixed; importation floor | `fits/epidemic/final.json` | unresolved | 0.344 (in-sample 0.75/0.73) | 0.168 | ? |
-| wildlife | 2 regions food→prey→predator with transit pipeline; mA food renewal + mB nursery; linear two-state predators; harvest refuge | `fits/wildlife/final.json` | unresolved | 0.417 | 0.066 | ? |
-| ad_auction | audience rings + budget pacing + fulfillment queue; M2 exposure fatigue + M3 broad priming (τ₃ fixed at 200, multiplier bounded to [0.2, 1.8]) | `fits/ad_auction/final.json` | accepted, with pinned params | 0.391 | 0.107 | ? |
-| social_contagion | 2 communities, never-disappointed core (42/29), bridge lag of about 50 ticks; M1 credibility (drops while members leave) + M2 expectations | `fits/social_contagion/v1/final.json` | medium | 0.255 | 0.223 | ? |
-| power_grid | M1 synchronised cooling (load ringing), reserve multiplies share, governor; m1+m3 | `fits/power_grid/v1/m13_all.json` | moderate (M2 ruled out) | 0.439 | 0.175 | ? |
-| reservoir | stock with spill cap of about 940; seasonal inflow `11.2801 + 2.2527·sin(2πt/67.7547)`; groundwater fast bank head (reset value about 560) + slow head; remobilised quality pool; M1+M3 | `fits/reservoir/v1/final.json` | M1 high, M3 unresolved | 0.533 | 0.083 | ? |
-| traffic | revised two-route base (heavy-share capacity, multiplicative controls, saturating speed, 1/green signal delay, per-route buffers, speed ≤ free flow); no mechanisms | `fits/traffic/final_v1.json` | not identifiable | 0.266 (R3: 0.530) | 0.058 | ? |
-| supply_chain | bounded pipeline: 3-tick path up to about 30/tick, overflow to a 21-tick path, 22% rework loop on a 10-tick cycle, mix through a 19-tick lag; no mechanisms | `fits/supply_chain/v1/base_all2.json` | not identifiable | 0.464 | 0.137 | ? |
-| hospital_queue | queue/service with handover ramp, deterioration (work rises with number waiting), permanent long-stay pool; `wf` = 0; m1 fatigue + m2 handover | `fits/hospital_queue/final_m12.json` | moderate | 0.541 | 0.312 | ? |
+| epidemic | 3 age groups; m1 behaviour fatigue + m3 postponed gatherings; bed cap 155.2 fixed; importation floor | `fits/epidemic/final.json` | unresolved | 0.344 (in-sample 0.75/0.73) | 0.168 | 0.7201 |
+| wildlife | 2 regions food→prey→predator with transit pipeline; mA food renewal + mB nursery; linear two-state predators; harvest refuge | `fits/wildlife/final.json` | unresolved | 0.417 | 0.066 | 0.6611 |
+| ad_auction | audience rings + budget pacing + fulfillment queue; M2 exposure fatigue + M3 broad priming (τ₃ fixed at 200, multiplier bounded to [0.2, 1.8]) | `fits/ad_auction/final.json` | accepted, with pinned params | 0.391 | 0.107 | 0.8786 |
+| social_contagion | 2 communities, never-disappointed core (42/29), bridge lag of about 50 ticks; M1 credibility (drops while members leave) + M2 expectations | `fits/social_contagion/v1/final.json` | medium | 0.255 | 0.223 | 0.6271 |
+| power_grid | M1 synchronised cooling (load ringing), reserve multiplies share, governor; m1+m3 | `fits/power_grid/v1/m13_all.json` | moderate (M2 ruled out) | 0.439 | 0.175 | 0.7418 |
+| reservoir | stock with spill cap of about 940; seasonal inflow `11.2801 + 2.2527·sin(2πt/67.7547)`; groundwater fast bank head (reset value about 560) + slow head; remobilised quality pool; M1+M3 | `fits/reservoir/v1/final.json` | M1 high, M3 unresolved | 0.533 | 0.083 | 0.8521 |
+| traffic | revised two-route base (heavy-share capacity, multiplicative controls, saturating speed, 1/green signal delay, per-route buffers, speed ≤ free flow); no mechanisms | `fits/traffic/final_v1.json` | not identifiable | 0.266 (R3: 0.530) | 0.058 | 0.8335 |
+| supply_chain | bounded pipeline: 3-tick path up to about 30/tick, overflow to a 21-tick path, 22% rework loop on a 10-tick cycle, mix through a 19-tick lag; no mechanisms | `fits/supply_chain/v1/base_all2.json` | not identifiable | 0.464 | 0.137 | 0.8447 |
+| hospital_queue | queue/service with handover ramp, deterioration (work rises with number waiting), permanent long-stay pool; `wf` = 0; m1 fatigue + m2 handover | `fits/hospital_queue/final_m12.json` | moderate | 0.541 | 0.312 | 0.6721 |
 | market | M1+M2 (v1), unchanged | `models/market/params.json` | — | — | — | 0.6838 |
 
 ## 3. Key findings per system (what the data showed)

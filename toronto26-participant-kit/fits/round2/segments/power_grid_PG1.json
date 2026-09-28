@@ -1,0 +1,83 @@
+[
+ {
+  "steps": 70,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 2.0,
+   "reserve_dispatch": 0.0
+  }
+ },
+ {
+  "steps": 70,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 0.45,
+   "reserve_dispatch": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 0.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 40.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 80.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 120.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 0.5,
+   "price_signal": 1.5,
+   "reserve_dispatch": 80.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 0.5,
+   "price_signal": 1.5,
+   "reserve_dispatch": 0.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 0.0
+  }
+ }
+]

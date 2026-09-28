@@ -1,0 +1,66 @@
+[
+ {
+  "steps": 100,
+  "action": {
+   "bridge_outreach": 0.42,
+   "incentive": 1.4,
+   "seeding": 6.3
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 0.0
+  }
+ },
+ {
+  "steps": 100,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 0.0
+  }
+ },
+ {
+  "steps": 150,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "bridge_outreach": 0.51,
+   "incentive": 1.7,
+   "seeding": 7.65
+  }
+ },
+ {
+  "steps": 20,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "bridge_outreach": 0.51,
+   "incentive": 1.7,
+   "seeding": 7.65
+  }
+ },
+ {
+  "steps": 20,
+  "action": {
+   "bridge_outreach": 0.0,
+   "incentive": 0.0,
+   "seeding": 0.0
+  }
+ }
+]

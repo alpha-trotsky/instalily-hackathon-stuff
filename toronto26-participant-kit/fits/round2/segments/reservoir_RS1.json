@@ -1,0 +1,38 @@
+[
+ {
+  "steps": 100,
+  "action": {
+   "aeration": 0.3,
+   "irrigation_allocation": 5.6,
+   "release_rate": 9.0,
+   "withdrawal_depth": 0.7
+  }
+ },
+ {
+  "steps": 150,
+  "action": {
+   "aeration": 0.3,
+   "irrigation_allocation": 5.6,
+   "release_rate": 9.0,
+   "withdrawal_depth": 0.7
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "aeration": 1.0,
+   "irrigation_allocation": 0.0,
+   "release_rate": 2.0,
+   "withdrawal_depth": 0.0
+  }
+ },
+ {
+  "steps": 150,
+  "action": {
+   "aeration": 1.0,
+   "irrigation_allocation": 0.0,
+   "release_rate": 2.0,
+   "withdrawal_depth": 0.0
+  }
+ }
+]

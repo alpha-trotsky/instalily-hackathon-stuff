@@ -1,0 +1,17 @@
+== social_contagion  obs=['adopters_a', 'adopters_b']  sigma(0.1std)= [6.142, 3.459]
+-- SC1 (560 steps)
+  [   0-  99] P1 u.7 from reset              dis= 0.47s | m12_all:192,122 | m23_all:192,120 | m2_all:191,120
+  [ 100- 149] rec +50 (crash)                dis= 0.54s | m12_all:54.3,39.4 | m23_all:59.4,45.3 | m2_all:59.7,45.6
+  [ 150- 249] rec +150                       dis= 0.90s | m12_all:61.6,57.2 | m23_all:71.4,64.6 | m2_all:69.1,63.4
+  [ 250- 399] rec +300 (tail)                dis= 1.61s | m12_all:83.2,79.1 | m23_all:98.6,87.2 | m2_all:92.4,85.5
+  [ 400- 459] P2 u.85 after 300 gap          dis= 0.84s | m12_all:184,115 | m23_all:186,116 | m2_all:184,116
+  [ 460- 479] gap 20                         dis= 0.25s | m12_all:93.6,61.4 | m23_all:95.7,63 | m2_all:96.5,63.7
+  [ 480- 539] P3 u.85 after 20 gap           dis= 1.20s | m12_all:174,112 | m23_all:172,109 | m2_all:172,110
+  [ 540- 559] rec 20                         dis= 0.35s | m12_all:88.5,59.1 | m23_all:88.6,59.2 | m2_all:89,59.7
+-- SC2 (320 steps)
+  [   0-  79] seeding 4.5 alone              dis= 0.53s | m12_all:185,90.7 | m23_all:187,88.9 | m2_all:185,88.7
+  [  80- 139] +incentive 2                   dis= 0.25s | m12_all:194,110 | m23_all:196,111 | m2_all:194,110
+  [ 140- 189] incentive 1 (partial cut)      dis= 1.33s | m12_all:109,59.6 | m23_all:129,70.5 | m2_all:129,71.2
+  [ 190- 239] incentive 0                    dis= 1.81s | m12_all:83.3,41.8 | m23_all:105,52.6 | m2_all:103,52.3
+  [ 240- 319] seeding 0 (recovery)           dis= 1.91s | m12_all:79.9,52.1 | m23_all:91.6,64.9 | m2_all:89.1,63.6
+   social_contagion total steps: 880

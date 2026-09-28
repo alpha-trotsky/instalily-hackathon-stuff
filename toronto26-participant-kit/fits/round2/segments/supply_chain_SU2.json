@@ -1,0 +1,46 @@
+[
+ {
+  "steps": 50,
+  "action": {
+   "lead_time_buy": 1.0,
+   "maintenance": 1.0,
+   "order_quantity": 80.0,
+   "product_mix": 0.5,
+   "production_effort": 1.0,
+   "receiving_effort": 1.0
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "lead_time_buy": 1.0,
+   "maintenance": 1.0,
+   "order_quantity": 80.0,
+   "product_mix": 0.5,
+   "production_effort": 1.0,
+   "receiving_effort": 0.7
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "lead_time_buy": 1.0,
+   "maintenance": 1.0,
+   "order_quantity": 80.0,
+   "product_mix": 0.5,
+   "production_effort": 1.0,
+   "receiving_effort": 0.5
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "lead_time_buy": 1.0,
+   "maintenance": 0.3,
+   "order_quantity": 80.0,
+   "product_mix": 0.5,
+   "production_effort": 1.0,
+   "receiving_effort": 0.5
+  }
+ }
+]
