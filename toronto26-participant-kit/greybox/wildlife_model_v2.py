@@ -76,6 +76,7 @@ MODULES = {
     'mA': (FOOD, {'F0': -1.0}),                      # F0 < 0 flags "food off" (logistic births)
     'mB': (['a_m2', 'iRm', 'J0'], {'a_m2': -1.0, 'iRm': 0.0}),   # a_m2 < 0 flags "no pipeline"
     'mC': (['cS', 'cSY'], {'cS': 0.0, 'cSY': 0.0}),
+    'hmort': (['hM'], {'hM': 0.0}),   # P5, round-2 variant v2b (not in the shipped v2: failed held-out)
 }
 
 

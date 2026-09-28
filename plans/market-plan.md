@@ -377,3 +377,66 @@ The script is `greybox/bootstrap_market.py` and the results are in `fits/market/
 | 2026-09-28 14:44–14:55 UTC | MK2 (fresh reset) | `data/market/C.json` | 600 | 200 |
 
 Segment files: `toronto26-participant-kit/fits/round2/segments/market_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2) (2026-09-28)
+
+Modeler pass per `plans/agent-prompts/round2-modeler.md`. No steps spent, nothing uploaded or committed. Module `toronto26-participant-kit/greybox/market_model_v2.py` (v1 copy plus switchable modules; with only m1,m2,withdraw active it reproduces v1 to 1e-14). Scripts, fits, logs and plots: `toronto26-participant-kit/fits/market/round2/v2/` (`run.py` fits a variant on a fold and scores held-out runs with σ = 0.1×std after tick 20 of A+B+C = 0.865 / 0.0354 / 2.37, identical to `fits/round2/heldout.py`; `plot.py`; `probe.py`).
+
+**Diagnosis items addressed (structural changes, all bounded):**
+
+| Module | Change | Diagnosis item | Final value |
+|---|---|---|---|
+| conv | rate enters as r^p_r in the price target and M1 lock | B18 (convex rate map) | p_r = 1.30 |
+| gate | M1 release k_out·exp(−g_τ·τ): settlement needs trading | B15 (price hysteresis under tax), fix 1 | g_τ = 4.42 (release ×0.11 at τ=0.5, ×0.012 at τ=1) |
+| dmap | depth tax factor 1/(1+w_dh·τ) replaces 1+w_dτ·τ | B17 | w_dh = 1.156 (diagnosis: 1.19) |
+| m2mult | M2 capacity loss multiplicative on tax-reduced depth, floored at 0.05 | B20, fix 6 | flag |
+| inv | reset inventory I (=1 at reset, unwinds at k_I·(1−τ)); capital K∈(0,1]: dK = b_K(1−K) − a_K·r·I·K; K scales depth, slows price discovery k_p·K^n_K, forced selling a_K·r·I raises volume | B11, B12, B13, B16 (joint from reset), fix 3 | a_K 0.041, b_K 0.026, k_I 0.069, n_K 4.0 (pinned at bound), b_I 15.6 |
+| jx | price target −w_x·r⁴·τ | B21 (joint after recovery 66.6) | w_x = 0.136 |
+| vjx | slow volume decline under r·τ | B16 (joint volume decay) | a_sv 0.013, w_sv 0.088 |
+| vfl | volume ×(1 + b_fl·4τ(1−τ)·max(F−r,0)) | B16 (tax-0.5 plateau 2.08) | b_fl 0.63 |
+
+**Held-out and in-sample scores** (mean of price / volume / depth per run; σ as above):
+
+| Test | Runs scored | v1 (shipped) | v1 structure refit | v2 |
+|---|---|---|---|---|
+| (A) transfer: fit A | B | .232/.202/.337 = 0.257 | same as v1 (refit reproduces cost 6826.7) | .229/.182/.469 = 0.293 |
+| | C | .363/.246/.577 = 0.395 | same as v1 | .355/.261/.687 = 0.434 |
+| | **mean** | **0.326** | 0.326 | **0.364** |
+| (B) fit A+B | C | 0.395 | .352/.278/.326 = 0.319 | .286/.231/.668 = 0.395 |
+| (B) fit A+C | B | 0.257 | .261/.221/.355 = 0.279 | .266/.160/.484 = 0.303 |
+| | **mean** | **0.326** | 0.299 | **0.349** |
+| (C) fit A+B+C (in-sample) | A | .635/.567/.889 = 0.697 | .488/.420/.683 = 0.530 | .554/.509/.762 = 0.608 |
+| | B | 0.257 | .295/.269/.431 = 0.332 | .405/.346/.622 = 0.458 |
+| | C | 0.395 | .505/.268/.590 = 0.454 | .576/.474/.755 = 0.602 |
+| | mean | 0.450 | 0.439 | **0.556** |
+
+(A)-fold v2 values for the new modules are prior-driven (A cannot identify them; SPEC starting values were informed by the diagnosis, which saw B and C), so the transfer gain is partly prior, not evidence. The (B) folds are weak tests: each new run holds unique regimes (B: joint from reset; C: half rate, tax after rate, tax 0.5), so a fold cannot learn what only the held-out run shows (A+B→C misses convexity and the gate; A+C→B misses the reset drain). Depth gains are robust across every test; price/volume gains are mostly in-sample.
+
+**Decision:** ship v2 (`full` variant, final fit `fits/market/round2/v2/full_ABC_s3.json`, cost 75416, two restarts agree to 1 unit). It beats v1 under (A) (+0.038) and (B) (+0.023) and the v1-structure refit everywhere. The v1-structure refit is worse than v1 on held-out runs, so the structure, not new data, is what helps. **In-sample on A drops 0.09 vs v1 (0.697 → 0.608)**, above the 0.03 threshold: investigated — the v1 structure refit on all data drops A even more (0.530), so the loss is the price of fitting three regimes jointly, concentrated in A's reset price transient (ticks 10–60, model falls too early) and A's volume bumps. Accepted because v1's A fit does not transfer (0.26–0.40 on B, C). Per-module ablations were not run (each fit takes 8–18 min on the shared machine); in the first final fit vjx and vfl went to ~0 and returned in the refined fit, so their value is unproven.
+
+**Gates:** stability (200 × 4,000 + 8 × 40,000 random schedules) pass, 0 failures, ranges price 65–113, volume 1.6–77 (reset burst), depth 16–121. Contract on `models/market` pass (40 × 4,000 in 1.1 s, deterministic, all malformed-input cases ok). `ALLOW_MARKET_PACKAGE=1 python3 -m greybox.common.package ... --version v2` wrote `models/market/` (predict.py, market_model_v2.py, params.json) and `submission-market-v2.zip` (market/ at root), package check passed. Heldout.py on the package: A 0.608, B 0.458, C 0.602. v1 remains in `fits/round2/v1_models/market/` and `submission-market-v1.zip`.
+
+**Design choices and predictions** (`probe.py`, initial 100/100/100; price/volume/depth):
+
+| Hold | t=600 | t=4000 |
+|---|---|---|
+| recovery (0,0) | 93.1 / 1.77 / 90.1 | same |
+| rate 0.7 | 80.3 / 1.77 / 90.1 | same |
+| tax 0.7 | 93.8 / 1.77 / 49.8 | same |
+| joint 0.7 (from reset or after recovery) | 79.0 / 1.70 / 49.8 | same |
+| rate 1 | 73.5 / 1.77 / 90.1 | same |
+| tax 1 | 94.0 / 1.77 / 41.8 | same |
+| joint 1 after recovery | 64.8 / 1.62 / 41.8 | same |
+| **joint 1 from reset** | 80.2 / 2.73 / 16.1 | **65.1 / 2.67 / 16.2** |
+| joint 0.85 from reset | 73.0 / 1.67 / 45.3 | 73.0 / 1.66 / 45.5 |
+
+Everything settles; no drift after ~600 ticks except joint 1 from reset, where tax exactly 1 stops inventory unwinding (1−τ = 0), so capital stays at b_K/(b_K+a_K) ≈ 0.39 forever: depth floors at 16, volume stays 2.7, and price creeps to 65 over ~2,000 ticks (k_p·K⁴). Any τ < 1 unwinds the reset inventory within a few hundred ticks.
+
+**Open issues**
+
+1. Joint-at-full-tax-from-reset is extrapolated from 150 ticks of one run: the drain floor (data still falling at 12, model floors at 16), whether it needs the rate, and whether the (1−τ) unwind is right at τ = 0.7–0.99 are all unknown. This is the largest risk for the sustained and joint categories.
+2. Pinned parameters: n_K = 4 (upper bound; the price block wants to be stronger than K⁴ allows — missing structure for B11), k_in = 1 and a_c = 1 (M2 memory collapsed to instantaneous).
+3. Unmodelled: B volume spikes under joint 0.7 (up to 3.0 near tick 440) and at 540–580; the C price overshoot to 95 after tax-off (M3-like); A reset price transient timing.
+4. No ablations; vjx/vfl/jx each rest on one or two segments.
+
+**Reserve recommendation (200 steps, not spent):** run the diagnosis §6 Run D, one fresh reset: ticks 0–99 (rate 0, tax 0.05), then `--continue` ticks 100–199 (rate 0.1, tax 0.05). Against v2: v2 predicts tax-only from reset gives depth ≈ 43 with no drain (the drain needs r·I) and normal price drift; adding the rate at tick 100 predicts only a small drain because I has unwound only while τ<1 — under tax 1 v2 keeps I = 1, so v2 predicts the full drain (depth to ~17) and a blocked price fall starting at tick 100. If the data drain at 0–99 without rate, the drain is tax × reset state (drop r from the drain); if depth keeps falling below 16 after tick 150 of rate+tax, lower the K floor (raise a_K/b_K). Either outcome refits only the `inv` module (5 params) on A+B+C+D.

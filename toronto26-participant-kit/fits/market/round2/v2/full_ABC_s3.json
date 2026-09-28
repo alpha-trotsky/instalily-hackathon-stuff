@@ -1,44 +1,6 @@
 {
- "system": "market",
- "model_file": "market_model_v2.py",
- "observables": [
-  "price",
-  "volume",
-  "depth"
- ],
- "bounds": {
-  "interest_rate": [
-   0.0,
-   0.1
-  ],
-  "transaction_tax": [
-   0.0,
-   0.05
-  ]
- },
- "recovery": {
-  "interest_rate": 0.0,
-  "transaction_tax": 0.0
- },
- "clamp": {
-  "price": [
-   0.0,
-   1101.2126445492709
-  ],
-  "volume": [
-   0.0,
-   1200.0
-  ],
-  "depth": [
-   0.0,
-   1200.0
-  ]
- },
- "fallback": {
-  "price": 89.05549748755979,
-  "volume": 1.9858158941027142,
-  "depth": 63.71947351061125
- },
+ "variant": "full",
+ "fold": "ABC",
  "modules": [
   "m1",
   "m2",
@@ -52,8 +14,30 @@
   "vjx",
   "vfl"
  ],
- "source_fit": "fits/market/round2/v2/full_ABC_s3.json",
- "built_at": "2026-09-28T15:53:35",
+ "cost": 75416.1933878884,
+ "restart_costs": [
+  75416.1933878884,
+  75417.04998526863
+ ],
+ "time_s": 725.1767661571503,
+ "train_scores": {
+  "A": [
+   0.5535,
+   0.5085,
+   0.7618
+  ],
+  "B": [
+   0.4049,
+   0.3456,
+   0.6217
+  ],
+  "C": [
+   0.576,
+   0.4741,
+   0.7548
+  ]
+ },
+ "heldout_scores": {},
  "params": {
   "a_z": 0.02029794337410083,
   "lam_p": -0.15747010856220722,
