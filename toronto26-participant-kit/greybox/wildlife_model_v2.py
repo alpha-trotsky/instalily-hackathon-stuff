@@ -8,6 +8,8 @@ Round-2 changes (each has an "off" value that recovers v1 behaviour, used for ab
   P2 the reserve Z relaxes faster when the target is depressed: kZ_eff = kZ (1 + kZp dep) (numerical response,
      B17: the reset tail falls faster under control). Linear in Z at a given prey path (keeps review R2). off kZp = 0.
   P3 concave habitat map: every habitat use sees s(uh) = uh (1 + ch)/(uh + ch) (B21). off: ch at its cap (~linear).
+  P5 habitat raises adult prey mortality directly: mX (1 + hM s(uh)) (B21: a fast, direct carrying-level effect;
+     renewal-only habitat was too weak and too slow). off hM = 0.
   P4 J0 cap raised to 60 (it was pinned at 30); fitted with the from-reset-under-control runs (B16).
 
 v1 docstring follows.
@@ -59,8 +61,8 @@ SPEC = {
     'kY': (0.05, 'unit'), 'kZ': (0.02, 'unit'), 'yb': (2.4, 'c20'), 'Xp': (15.0, 'c300'), 'eHY': (0.05, 'c5'),
     'Yref': (2.3, 'c20'), 'zf': (0.5, 'c3'),
     # round 2: predator target (P1), rate (P2), habitat concavity (P3)
-    'nP': (1.0, 'c4'), 'dP': (0.3, 'unit'), 'cY': (0.2, 'unit'), 'qC': (3.0, 'c20'), 'kZp': (1.0, 'c20'),
-    'ch': (1.0, 'c20'),
+    'nP': (1.0, 'c4'), 'dP': (0.3, 'unit'), 'cY': (0.2, 'unit'), 'qC': (3.0, 'c20'), 'kZp': (1.0, 'c100'),
+    'ch': (1.0, 'c20'), 'hM': (0.0, 'c3'),
     # corridor transit
     'mvX_N': (0.017, 'unit'), 'mvX_S': (0.047, 'unit'), 'mvY': (0.03, 'unit'), 'aT': (0.045, 'unit'),
     # mB nursery
@@ -155,6 +157,7 @@ def simulate(p, initial, actions):
     nH = 1.0 + p['nP']
     XpN = p['Xp'] ** nH
     dP, cY, qq, kZp, ch = p['dP'], p['cY'], 1.0 + p['qC'], p['kZp'], p['ch']
+    hM = p.get('hM', 0.0)
     X = [_init(initial, 'prey_north', 85.0, 0.1, 2000.0), _init(initial, 'prey_south', 85.0, 0.1, 2000.0)]
     Y = [_init(initial, 'predator_north', 11.0, 0.01, 500.0), _init(initial, 'predator_south', 11.0, 0.01, 500.0)]
     Yref, zf = p['Yref'], p['zf']
@@ -213,7 +216,7 @@ def simulate(p, initial, actions):
                 recruits = births
             depX = mvX[r] * uc * x
             depY = mvY * uc * y
-            nx = x + recruits - mX * x - pred - harv - depX + setX[r]
+            nx = x + recruits - mX * (1.0 + hM * uh) * x - pred - harv - depX + setX[r]
             ny = y + kY * (Z[r] - y) - depY + setY[r]
             Z[r] = min(max(Z[r] + kz * (ystar - Z[r]), 0.001), 500.0)
             newX[r] = min(max(nx, 0.01), 2000.0)

@@ -607,3 +607,86 @@ not identify the pair.**
 | 2026-09-28 14:44–14:55 UTC | HQ2 (fresh reset) | `data/hospital_queue/R4.json` | 350 | 100 |
 
 Segment files: `toronto26-participant-kit/fits/round2/segments/hospital_queue_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. **No steps spent** (100 reserve left). Files: `KIT/greybox/hospital_queue_model_v2.py`; fits, logs,
+plots and scripts in `KIT/fits/hospital_queue/round2/v2/` (`ev.py` scorer = `fits/round2/heldout.py` σ, `steady.py`
+long-run levels, `queue.sh`/`batch*.sh` fit drivers around `fits/hospital_queue/refit2.py`). Modules m1+m2+urg (the v1 pair).
+
+### Diagnosis items addressed and structural changes
+
+| Diagnosis item | Change in v2 | Outcome |
+|---|---|---|
+| 5.1 elective work penalty (B25, B24 compensation) | `we·phi` removed with phi, qe, ww and the phi-driven Lq. Electives are extra arrivals `Ae·e` into the shared line with routine work. | Fitted leaving θ 0.015/tick (v1 3.2 %, data 1.1–1.4 %); Ae 18.4 (diagnosis 17.6). Discharges held-out 0.19 → 0.29–0.32. |
+| 5.1 separate elective long-stay pool (B21/B22) | **Built and fitted, then dropped.** Finite pool (Pmax, LOS Le, served from spare treatment capacity at work ce, slow drain, crowding and ceiling on W+P). Every all-data fit collapsed it (Pmax 9–17, Le 0.4, ce at bound); with the pool switched off the all-data cost is lower (41,397 vs 41,745) and held-out scores equal or better. Archived: `v2/hospital_queue_model_v2pool.py`. | B21 (flat ~100 at electives 5) stays uncaptured: R3 0–50 queue is a ramp. |
+| 5.2 release ramp | m2 deficit `s_eff = s·(1 − g2·min(H/s, 1))`, H = decaying sum of staffing increases; k2d dropped (0 in every v1 fit). Slow phi penalty gone with 5.1. | Ramps match R3 200, R4 90/200 (plots `v2_c.png`). g2 0.12, a2 0.11 (τ ≈ 9). |
+| 5.3 wait as realized FIFO wait (B30) | Cohort queue of W; admissions take the oldest; leaving and overflow remove the newest (proportional leaving capped the head age and under-predicted wait ~2× in a first fit); target = gw·age·W/(W+1)·exp(wu(up−0.6)); EMA kw. wu bounded by tanh to ±1.5 (a free wu pinned at the +5 clip). | Largest gain: wait in-sample R3 0.36 → 0.71, R1 drains and ratios ~2 reproduced. |
+| 5.4 post-pulse plateau / B31 wait blow-up | Not modelled (per instruction). A saturating crowding variant (small Kz, `kz_*`) aimed at the plateau was worse (A 0.379, C cost 43,959). | v2 drains the tail to 23 (R1 end 70 vs 99). |
+| 5.5 reset dead time | Not done (transient). | |
+
+### Held-out scores (σ = 0.1 × std after tick 20 of all four runs; per-observable wait / queue / discharges, mean over the scored runs)
+
+| Test | Model | wait | queue | discharges | mean |
+|---|---|---:|---:|---:|---:|
+| (A) fit old → score R3+R4 | v1 (shipped = v1 structure fit on old) | 0.339 | 0.468 | 0.186 | **0.331** |
+| | v2 (`v2_a`, start = v1's old fit) | 0.327 | 0.505 | 0.314 | **0.382** |
+| (B) fit old + other new run → score left-out (both folds) | v1 shipped on the same runs | 0.339 | 0.468 | 0.186 | 0.331 |
+| | v1 structure refit (`v1r_b_*`) | 0.355 | 0.452 | 0.185 | **0.330** |
+| | v2 (`v2_b_*`, start v1's old fit) | 0.393 | 0.485 | 0.293 | **0.390** |
+| | v2 (`v2_b2_*`, start `v2_a`) | 0.376 | 0.504 | 0.322 | **0.401** |
+| (C) fit all → in-sample R1, R2c, R3, R4 | v1 shipped | 0.465 | 0.584 | 0.282 | 0.443 |
+| | v1 structure refit (`v1r_c`) | 0.497 | 0.598 | 0.282 | 0.458 |
+| | **v2 (`v2_c`, shipped)** | 0.581 | 0.585 | 0.383 | **0.516** |
+
+Per run (C, v2_c): R1 0.483, R2c 0.583, R3 0.523, R4 0.474 (v1: 0.503, 0.609, 0.293, 0.368). `heldout.py` on the packaged folder: R3 0.706/0.496/0.368, R4 0.420/0.691/0.313, mean 0.499 (in-sample for v2).
+
+Per fold: (A) v2 R3 0.411 / R4 0.353 (v1 0.293 / 0.368); (B) v2 R3 0.415–0.438 / R4 0.363–0.365 (v1 refit 0.307 / 0.353).
+
+Caveats: fits are start-dependent. Folds started from fits that had seen the scored run gave ~0.45 and are **not** reported as held-out. R4 under (A) is slightly below v1 (0.353 vs 0.368): old data alone do not pin the wait scale at joint pulses.
+
+### Decision
+
+**Ship v2 (no pool), params `fits/hospital_queue/round2/v2/v2_c.json` (all data).** It beats v1 and the v1 refit on held-out (A) +0.05 and (B) +0.06–0.07, and in-sample on all data +0.06–0.07. The old-run in-sample drop against v1 is −0.020 (R1) and −0.026 (R2c), within 0.03: the cause is the dropped Lq (R2c's 34.5 residual and R1's ~99 tail are no longer held; v2 drains to 23).
+
+### Gates
+
+- Stability (`v2/stability_v2_c.json`, 200 schedules incl. 8 × 40,000 steps): **pass**, 0 failures. Max queue 352, discharges 33. Wait reaches the 1,000 clamp only at extreme low capacity (staffing ≈ 1), where the FIFO turnover time W/admissions is legitimately huge.
+- Contract (`models/hospital_queue`): **pass**, 6.3 s wall for 40 × 4,000.
+- Package: `KIT/submission-hospital_queue-v2.zip`, package check passed (malformed-input cases ok, no bad imports).
+
+### Design choices and their predictions (v2_c, from reset)
+
+| Hold (4,000 ticks) | wait | queue | discharges | Long-run behaviour |
+|---|---:|---:|---:|---|
+| recovery | 0 | 23.0 | 11.5 | flat from ~tick 10 |
+| u = 0.7 (joint .7) | 89.5 | 324 | 5.0 | settled by ~tick 100, flat to 4,000 (no drift) |
+| u = 1 (joint 1) | 241 | 324 | 2.0 | wait rises to W/admissions × gw × urgent factor by ~tick 400, then flat |
+| electives 20 alone | 38 | 300 | 9.9 | flat |
+| staffing 12 | 64 | 297 | 5.9 | flat after ~400 |
+| u = 1 for 200, then recovery | 0 | 23.0 | 11.5 | drains fully within ~200 ticks; **no residual plateau** |
+
+Stability by construction: all rates are sigmoids, handover deficit ≤ g2·s, fatigue factor ≥ 1 − g1, wu bounded, W ≤ Wmax, cohort queue bounded by W, wait ≤ age ≤ t.
+
+### Open issues
+
+1. **Recovery tail after long overloads (B32, B31).** Data plateau at ~100 (R1, R4) with wait jumping to 169 in R4; v2 drains to 23 and wait to 0. This carries most weight in 4,000-tick recovery scenarios. The spare-capacity elective pool was the candidate structure but the fit rejected it.
+2. **Electives from reset (B21/B22):** the ~100 flat hold at electives 5 is not reproduced (queue ramps).
+3. **Discharges** remain the weakest observable (0.29–0.38): burst noise dominates, plus the reset dead time (B29) and the diagnostic-0.1 switch (G3).
+4. u = 1 long-hold wait (241) is an extrapolation of the FIFO/urgent terms; data only reach ~105 after 60 ticks.
+
+### Reserve recommendation (100 steps)
+
+Run the diagnosis §6 continuations as written, R4c first:
+
+```sh
+cd toronto26-participant-kit
+python3 run_schedule.py --budget hospital_queue                      # free; expect 100
+cp data/hospital_queue/R4.json data/hospital_queue/R4c.json
+cp data/hospital_queue/R3.json data/hospital_queue/R3c.json
+REC='{"staffing": 20.0, "elective_scheduling": 0.0, "diagnostic_allocation": 0.4, "urgent_priority": 0.6, "overtime": 0.0, "followup_capacity": 1.0}'
+python3 run_schedule.py --continue data/hospital_queue/R4c.json --confirm 50 --segments "[{\"steps\": 50, \"action\": $REC}]"
+python3 run_schedule.py --continue data/hospital_queue/R3c.json --confirm 50 --segments "[{\"steps\": 50, \"action\": $REC}]"
+```
+
+v2's predictions to test: **R4c at +50: queue 23, wait 0, discharges 11.5** (data at tick 349: 101 / 169 / 11.1). **R3c at +50: queue 131, wait 14, discharges 11.4** (data at 249: 204 / 32 / 11.1). If R4c holds ~100 with wait still high, the plateau is persistent: add a stranded long-stay state (filled by the backlog left at release, drained only by spare capacity) and refit; that decides open issue 1. If R3c shows the same stall around queue ≈ 150–100, the plateau is generic after any flood and is the top modelling priority; if R3c drains through, the plateau is pulse-specific (electives 20 / urgent 1 / overtime history). If a continuation is refused, do not spend.

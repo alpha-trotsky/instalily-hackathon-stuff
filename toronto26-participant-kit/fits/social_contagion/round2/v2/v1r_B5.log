@@ -1,0 +1,1 @@
+model greybox/social_contagion_model.py modules ['m1', 'm2'] episodes 4 units ['log', 'log'] sigma [0.01, 0.01]
