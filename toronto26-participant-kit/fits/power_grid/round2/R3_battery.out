@@ -1,0 +1,40 @@
+
+=== run 0: 380 ticks, controls ['price_signal', 'reserve_dispatch', 'charging_allowance', 'interconnector']
+noise sigma: load 0.09443 (rel 0.10%, proportional), frequency 0.01926 (rel 0.04%, undetermined (level range too small)), renewable_share 0.0003523 (rel 0.12%, constant)
+reset transient: load 108.8514->94.1708 settle > 70, frequency 50.1763->50.2277 settle > 70, renewable_share 0.3822->0.3444 settle > 70
+switch @70 u [-0.333, 0.0, -0.0, -0.0]->[0.7, 0.0, -0.0, -0.0] (hold 70):
+   load             d    20.618 ( 218.34 sig) delay    0 settle   > 70 k_lin   0.029 k_log  0.0314 overshoot 2.285 
+   frequency        d   -0.7068 ( -36.69 sig) delay    0 settle   > 70 k_lin  0.0314 k_log  0.0314 overshoot 1.341 
+   renewable_share  d   -0.0082 ( -23.38 sig) delay    0 settle   > 70 k_lin   0.029 k_log  0.0268 overshoot 0.464 
+switch @140 u [0.7, 0.0, -0.0, -0.0]->[-0.0, 0.0, -0.0, -0.0] (hold 60):
+   load             d   -1.2547 ( -13.29 sig) delay    0 settle   > 60 k_lin    None k_log    None overshoot 44.18 
+   frequency        d   -0.0803 (  -4.17 sig) delay    0 settle   > 60 k_lin    None k_log    None overshoot 1.303 
+   renewable_share  d     -0.01 ( -28.31 sig) delay    0 settle   > 60 k_lin    None k_log    None overshoot 0.562 
+switch @200 u [-0.0, 0.0, -0.0, -0.0]->[-0.0, 0.267, -0.0, -0.0] (hold 30):
+   load             d   -27.889 (-295.34 sig) delay    0 settle   > 30 k_lin  0.1293 k_log  0.1196 overshoot 0.059 
+   frequency        d    1.5545 (  80.71 sig) delay    0 settle   16.0 k_lin  0.9243 k_log  0.9243 overshoot 0.024 
+   renewable_share  d   -0.1258 (-357.17 sig) delay    0 settle   > 30 k_lin  0.3324 k_log  0.3324 overshoot 0.574 
+switch @230 u [-0.0, 0.267, -0.0, -0.0]->[-0.0, 0.533, -0.0, -0.0] (hold 30):
+   load             d   13.1796 ( 139.57 sig) delay    0 settle   > 30 k_lin  0.1917 k_log  0.1917 overshoot 0.073 
+   frequency        d    0.1358 (   7.05 sig) delay    0 settle   17.0 k_lin    None k_log    None overshoot 1.838 
+   renewable_share  d   -0.0982 (-278.62 sig) delay    0 settle   14.0 k_lin    None k_log    None overshoot 0.028 
+switch @260 u [-0.0, 0.533, -0.0, -0.0]->[-0.0, 0.8, -0.0, -0.0] (hold 30):
+   load             d    2.2738 (  24.08 sig) delay    0 settle   > 30 k_lin   0.043 k_log  0.0465 overshoot 0.019 
+   frequency        d    0.5291 (  27.47 sig) delay    0 settle   17.0 k_lin  0.8544 k_log  0.8544 overshoot 0.106 
+   renewable_share  d    -0.019 ( -54.03 sig) delay    0 settle    8.0 k_lin  0.1917 k_log  0.1917 overshoot   0.1 
+switch @290 u [-0.0, 0.8, -0.0, -0.0]->[-0.0, 0.533, -0.0, 0.625] (hold 30):
+   load             d   -5.2732 ( -55.84 sig) delay    1 settle   > 30 k_lin  0.1293 k_log  0.1293 overshoot 0.163 
+   frequency        d   -0.5708 ( -29.64 sig) delay    0 settle   17.0 k_lin    None k_log    None overshoot 0.345 
+   renewable_share  d   -0.0093 ( -26.27 sig) delay    0 settle   15.0 k_lin  0.4926 k_log  0.4554 overshoot 0.091 
+switch @320 u [-0.0, 0.533, -0.0, 0.625]->[-0.0, 0.0, -0.0, 0.625] (hold 30):
+   load             d    -2.406 ( -25.48 sig) delay    0 settle   22.0 k_lin  0.3596 k_log  0.3596 overshoot 0.271 
+   frequency        d   -1.5087 ( -78.33 sig) delay    0 settle   21.0 k_lin    None k_log    None overshoot 0.218 
+   renewable_share  d    0.2301 (  653.0 sig) delay    0 settle   > 30 k_lin  0.1514 k_log  0.1399 overshoot 0.256 
+switch @350 u [-0.0, 0.0, -0.0, 0.625]->[-0.0, 0.0, -0.0, -0.0] (hold 30):
+   load             d    0.9968 (  10.56 sig) delay    2 settle   > 30 k_lin    None k_log    None overshoot 0.215 
+   frequency        d    0.5252 (  27.27 sig) delay    0 settle   19.0 k_lin  0.5766 k_log  0.5766 overshoot 0.124 
+   renewable_share  d    0.0964 ( 273.62 sig) delay    0 settle   > 30 k_lin  0.4209 k_log  0.4209 overshoot 0.053 
+top correlations: load.diff->frequency.diff -0.701@1; frequency.diff->load.diff -0.701@-1; load.level->frequency.level -0.655@0; frequency.level->load.level -0.655@0; frequency.level->renewable_share.level -0.607@-1; renewable_share.level->frequency.level -0.607@1
+top memory regressions: frequency rise/fall -> load gain 0.2105 a=0.02; load rise/fall -> frequency gain 0.1261 a=0.02; renewable_share rise/fall -> load gain 0.011 a=0.05; frequency rise/fall -> renewable_share gain 0.0105 a=0.02
+
+saved fits/power_grid/round2/R3_battery.json

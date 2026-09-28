@@ -1,0 +1,5 @@
+v1       quality score raw/NR: R1 0.283/0.461  R2 0.286/0.411  R3 0.190/0.231  R4 0.142/0.121  R5 0.190/0.199
+A        quality score raw/NR: R1 0.250/0.318  R2 0.283/0.392  R3 0.174/0.214  R4 0.264/0.346  R5 0.291/0.379
+flush    quality score raw/NR: R1 0.275/0.414  R2 0.300/0.464  R3 0.202/0.189  R4 0.274/0.489  R5 0.287/0.368
+flush params: {'cq': np.float64(0.90115), 'kq': 0.21126, 'wqa': np.float64(0.00511), 'wqd': np.float64(0.00748), 'wqx': np.float64(-0.00288), 'wqr': np.float64(-0.00195), 'wqi': np.float64(-0.00313), 'a_z': 0.00149, 'lam_q': np.float64(0.05851), 'a3': 0.0189, 'a3d': 0.02574, 'g3': np.float64(0.00827), 'h3': np.float64(1.83661), 'kr': 4e-05, 'dC': 0.0, 'gC': np.float64(-6.24535), 'gam': np.float64(0.77657), 'kfl': 0.0}
+A params: {'cq': np.float64(0.86812), 'kq': 0.21564, 'wqa': np.float64(0.00077), 'wqd': np.float64(0.00187), 'wqx': np.float64(0.01294), 'wqr': np.float64(-0.00259), 'wqi': np.float64(-0.00472), 'a_z': 0.0006, 'lam_q': np.float64(0.0904), 'a3': 0.02037, 'a3d': 0.0446, 'g3': np.float64(0.01061), 'h3': np.float64(1.99056), 'kr': 1e-05, 'dC': 0.0, 'gC': np.float64(-50.84155)}

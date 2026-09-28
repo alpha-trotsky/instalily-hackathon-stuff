@@ -1,0 +1,1813 @@
+{
+ "data": "data/power_grid/R3.json",
+ "system": "power_grid",
+ "recovery": {
+  "charging_allowance": 1.0,
+  "interconnector": 1.0,
+  "price_signal": 1.5,
+  "reserve_dispatch": 0.0
+ },
+ "pulse": {
+  "charging_allowance": 0.0,
+  "interconnector": 0.2,
+  "price_signal": 0.0,
+  "reserve_dispatch": 150.0
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 380,
+   "controls": [
+    "price_signal",
+    "reserve_dispatch",
+    "charging_allowance",
+    "interconnector"
+   ],
+   "observables": [
+    "load",
+    "frequency",
+    "renewable_share"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-28T14:44:14"
+    }
+   ],
+   "noise": {
+    "load": {
+     "sigma": 0.0944305434647745,
+     "per_hold": [
+      [
+       79.9281,
+       0.072
+      ],
+      [
+       121.185,
+       0.1789
+      ],
+      [
+       90.3665,
+       0.1365
+      ],
+      [
+       87.2107,
+       0.0811
+      ],
+      [
+       98.1023,
+       0.0944
+      ],
+      [
+       100.1815,
+       0.1037
+      ],
+      [
+       95.6922,
+       0.0628
+      ],
+      [
+       93.4531,
+       0.0619
+      ],
+      [
+       93.7593,
+       0.1155
+      ]
+     ],
+     "loglog_slope": 1.9671100366626537,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.0009625725214068644
+    },
+    "frequency": {
+     "sigma": 0.01926138289400037,
+     "per_hold": [
+      [
+       50.6829,
+       0.016
+      ],
+      [
+       49.5033,
+       0.0175
+      ],
+      [
+       50.3194,
+       0.0205
+      ],
+      [
+       50.9621,
+       0.1335
+      ],
+      [
+       51.2178,
+       0.0241
+      ],
+      [
+       51.6875,
+       0.017
+      ],
+      [
+       51.0322,
+       0.0268
+      ],
+      [
+       49.4727,
+       0.007
+      ],
+      [
+       50.1465,
+       0.0193
+      ]
+     ],
+     "scales_with_level": "undetermined (level range too small)",
+     "sigma_rel": 0.0003841022458431657
+    },
+    "renewable_share": {
+     "sigma": 0.0003523032476906969,
+     "per_hold": [
+      [
+       0.3726,
+       0.000283
+      ],
+      [
+       0.346,
+       0.000358
+      ],
+      [
+       0.3659,
+       0.000303
+      ],
+      [
+       0.1644,
+       0.0868
+      ],
+      [
+       0.0968,
+       0.000373
+      ],
+      [
+       0.0736,
+       0.000384
+      ],
+      [
+       0.0641,
+       0.000235
+      ],
+      [
+       0.3025,
+       0.000349
+      ],
+      [
+       0.3932,
+       0.000352
+      ]
+     ],
+     "loglog_slope": -0.18925689252929712,
+     "scales_with_level": "constant",
+     "sigma_rel": 0.0011547512830680149
+    }
+   },
+   "reset_transient": {
+    "load": {
+     "initial": 108.8514,
+     "first_obs": 86.4618,
+     "jump_first3": -25.994,
+     "end_level": 94.1708,
+     "total_change": -14.6806,
+     "change_sigma": -155.5,
+     "settling_time": "> 70",
+     "t90": 0,
+     "monotone": false
+    },
+    "frequency": {
+     "initial": 50.1763,
+     "first_obs": 50.3834,
+     "jump_first3": 0.3724,
+     "end_level": 50.2277,
+     "total_change": 0.0514,
+     "change_sigma": 2.7,
+     "settling_time": "> 70",
+     "t90": 0,
+     "monotone": false
+    },
+    "renewable_share": {
+     "initial": 0.3822,
+     "first_obs": 0.3517,
+     "jump_first3": -0.0265,
+     "end_level": 0.3444,
+     "total_change": -0.0378,
+     "change_sigma": -107.2,
+     "settling_time": "> 70",
+     "t90": 45,
+     "monotone": false
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 70,
+     "kind": "hold",
+     "u": [
+      -0.333,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 94.1708,
+      "frequency": 50.2277,
+      "renewable_share": 0.3444
+     },
+     "settled": {
+      "load": true,
+      "frequency": true,
+      "renewable_share": true
+     },
+     "settling_time": {
+      "load": "> 70",
+      "frequency": "> 70",
+      "renewable_share": "> 70"
+     },
+     "drift_sigma": {
+      "load": 0.01,
+      "frequency": 0.0,
+      "renewable_share": 0.11
+     }
+    },
+    {
+     "start": 70,
+     "end": 140,
+     "kind": "hold",
+     "u": [
+      0.7,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 114.7887,
+      "frequency": 49.5209,
+      "renewable_share": 0.3362
+     },
+     "settled": {
+      "load": false,
+      "frequency": false,
+      "renewable_share": true
+     },
+     "settling_time": {
+      "load": "> 70",
+      "frequency": "> 70",
+      "renewable_share": "> 70"
+     },
+     "drift_sigma": {
+      "load": 344.16,
+      "frequency": 63.31,
+      "renewable_share": 0.99
+     }
+    },
+    {
+     "start": 140,
+     "end": 200,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 119.3157,
+      "frequency": 49.3106,
+      "renewable_share": 0.3262
+     },
+     "settled": {
+      "load": false,
+      "frequency": false,
+      "renewable_share": false
+     },
+     "settling_time": {
+      "load": "> 60",
+      "frequency": "> 60",
+      "renewable_share": "> 60"
+     },
+     "drift_sigma": {
+      "load": 12.12,
+      "frequency": 4.08,
+      "renewable_share": 143.52
+     }
+    },
+    {
+     "start": 200,
+     "end": 230,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.267,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 85.1729,
+      "frequency": 51.0076,
+      "renewable_share": 0.1909
+     },
+     "settled": {
+      "load": true,
+      "frequency": true,
+      "renewable_share": true
+     },
+     "settling_time": {
+      "load": "> 30",
+      "frequency": "16",
+      "renewable_share": "> 30"
+     },
+     "drift_sigma": {
+      "load": 16.73,
+      "frequency": 1.7,
+      "renewable_share": 107.5
+     }
+    },
+    {
+     "start": 230,
+     "end": 260,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.533,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 98.3525,
+      "frequency": 51.1435,
+      "renewable_share": 0.0928
+     },
+     "settled": {
+      "load": false,
+      "frequency": false,
+      "renewable_share": true
+     },
+     "settling_time": {
+      "load": "> 30",
+      "frequency": "17",
+      "renewable_share": "14"
+     },
+     "drift_sigma": {
+      "load": 14.93,
+      "frequency": 2.83,
+      "renewable_share": 0.29
+     }
+    },
+    {
+     "start": 260,
+     "end": 290,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.8,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 100.5641,
+      "frequency": 51.6587,
+      "renewable_share": 0.0737
+     },
+     "settled": {
+      "load": false,
+      "frequency": false,
+      "renewable_share": true
+     },
+     "settling_time": {
+      "load": "> 30",
+      "frequency": "17",
+      "renewable_share": "8"
+     },
+     "drift_sigma": {
+      "load": 10.14,
+      "frequency": 2.63,
+      "renewable_share": 0.11
+     }
+    },
+    {
+     "start": 290,
+     "end": 320,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.533,
+      -0.0,
+      0.625
+     ],
+     "level": {
+      "load": 95.2298,
+      "frequency": 51.0952,
+      "renewable_share": 0.0645
+     },
+     "settled": {
+      "load": false,
+      "frequency": true,
+      "renewable_share": false
+     },
+     "settling_time": {
+      "load": "> 30",
+      "frequency": "17",
+      "renewable_share": "15"
+     },
+     "drift_sigma": {
+      "load": 12.97,
+      "frequency": 0.01,
+      "renewable_share": 2.68
+     }
+    },
+    {
+     "start": 320,
+     "end": 350,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.625
+     ],
+     "level": {
+      "load": 93.7222,
+      "frequency": 49.5866,
+      "renewable_share": 0.2949
+     },
+     "settled": {
+      "load": false,
+      "frequency": true,
+      "renewable_share": false
+     },
+     "settling_time": {
+      "load": "22",
+      "frequency": "> 30",
+      "renewable_share": "> 30"
+     },
+     "drift_sigma": {
+      "load": 6.95,
+      "frequency": 1.89,
+      "renewable_share": 4.9
+     }
+    },
+    {
+     "start": 350,
+     "end": 380,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "level": {
+      "load": 94.8609,
+      "frequency": 50.1118,
+      "renewable_share": 0.3904
+     },
+     "settled": {
+      "load": false,
+      "frequency": false,
+      "renewable_share": false
+     },
+     "settling_time": {
+      "load": "> 30",
+      "frequency": "19",
+      "renewable_share": "> 30"
+     },
+     "drift_sigma": {
+      "load": 23.22,
+      "frequency": 3.54,
+      "renewable_share": 18.18
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      -0.333,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 70,
+       "load": 94.1708,
+       "frequency": 50.2277,
+       "renewable_share": 0.3444
+      }
+     ]
+    },
+    {
+     "u": [
+      0.7,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 70,
+       "end": 140,
+       "load": 114.7887,
+       "frequency": 49.5209,
+       "renewable_share": 0.3362
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 140,
+       "end": 200,
+       "load": 119.3157,
+       "frequency": 49.3106,
+       "renewable_share": 0.3262
+      },
+      {
+       "start": 350,
+       "end": 380,
+       "load": 94.8609,
+       "frequency": 50.1118,
+       "renewable_share": 0.3904
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.267,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 200,
+       "end": 230,
+       "load": 85.1729,
+       "frequency": 51.0076,
+       "renewable_share": 0.1909
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.533,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 230,
+       "end": 260,
+       "load": 98.3525,
+       "frequency": 51.1435,
+       "renewable_share": 0.0928
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.8,
+      -0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 260,
+       "end": 290,
+       "load": 100.5641,
+       "frequency": 51.6587,
+       "renewable_share": 0.0737
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.533,
+      -0.0,
+      0.625
+     ],
+     "holds": [
+      {
+       "start": 290,
+       "end": 320,
+       "load": 95.2298,
+       "frequency": 51.0952,
+       "renewable_share": 0.0645
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.625
+     ],
+     "holds": [
+      {
+       "start": 320,
+       "end": 350,
+       "load": 93.7222,
+       "frequency": 49.5866,
+       "renewable_share": 0.2949
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 70,
+     "from_u": [
+      -0.333,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      0.7,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 70,
+     "pre_unsettled": [],
+     "obs": {
+      "load": {
+       "pre": 94.1708,
+       "post": 114.7887,
+       "delta": 20.618,
+       "delta_sigma": 218.34,
+       "peak_excursion": 67.7398,
+       "peak_tick": 15,
+       "delay": 0,
+       "settling_time": "> 70",
+       "t90": 0,
+       "overshoot": 2.285,
+       "overshoot_sigma": 499.01,
+       "k_lin": 0.029,
+       "k_log": 0.0314,
+       "ringing_crossings": 2
+      },
+      "frequency": {
+       "pre": 50.2277,
+       "post": 49.5209,
+       "delta": -0.7068,
+       "delta_sigma": -36.69,
+       "peak_excursion": -1.6546,
+       "peak_tick": 16,
+       "delay": 0,
+       "settling_time": "> 70",
+       "t90": 1,
+       "overshoot": 1.341,
+       "overshoot_sigma": 49.21,
+       "k_lin": 0.0314,
+       "k_log": 0.0314,
+       "ringing_crossings": 3
+      },
+      "renewable_share": {
+       "pre": 0.3444,
+       "post": 0.3362,
+       "delta": -0.0082,
+       "delta_sigma": -23.38,
+       "peak_excursion": 0.0231,
+       "peak_tick": 0,
+       "delay": 0,
+       "settling_time": "> 70",
+       "t90": 52,
+       "overshoot": 0.464,
+       "overshoot_sigma": 10.85,
+       "k_lin": 0.029,
+       "k_log": 0.0268,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 140,
+     "from_u": [
+      0.7,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 60,
+     "pre_unsettled": [
+      "load",
+      "frequency"
+     ],
+     "obs": {
+      "load": {
+       "pre": 120.5704,
+       "post": 119.3157,
+       "delta": -1.2547,
+       "delta_sigma": -13.29,
+       "peak_excursion": -56.688,
+       "peak_tick": 17,
+       "delay": 0,
+       "settling_time": "> 60",
+       "t90": 0,
+       "overshoot": 44.18,
+       "overshoot_sigma": 587.03,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 2
+      },
+      "frequency": {
+       "pre": 49.3909,
+       "post": 49.3106,
+       "delta": -0.0803,
+       "delta_sigma": -4.17,
+       "peak_excursion": 1.7362,
+       "peak_tick": 18,
+       "delay": 0,
+       "settling_time": "> 60",
+       "t90": 46,
+       "overshoot": 1.303,
+       "overshoot_sigma": 5.43,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 2
+      },
+      "renewable_share": {
+       "pre": 0.3362,
+       "post": 0.3262,
+       "delta": -0.01,
+       "delta_sigma": -28.31,
+       "peak_excursion": 0.0559,
+       "peak_tick": 25,
+       "delay": 0,
+       "settling_time": "> 60",
+       "t90": 50,
+       "overshoot": 0.562,
+       "overshoot_sigma": 15.92,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 200,
+     "from_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.267,
+      -0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "load",
+      "frequency",
+      "renewable_share"
+     ],
+     "obs": {
+      "load": {
+       "pre": 113.062,
+       "post": 85.1729,
+       "delta": -27.889,
+       "delta_sigma": -295.34,
+       "peak_excursion": -29.5271,
+       "peak_tick": 21,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 13,
+       "overshoot": 0.059,
+       "overshoot_sigma": 17.35,
+       "k_lin": 0.1293,
+       "k_log": 0.1196,
+       "ringing_crossings": 2
+      },
+      "frequency": {
+       "pre": 49.4531,
+       "post": 51.0076,
+       "delta": 1.5545,
+       "delta_sigma": 80.71,
+       "peak_excursion": 1.5924,
+       "peak_tick": 22,
+       "delay": 0,
+       "settling_time": 16.0,
+       "t90": 3,
+       "overshoot": 0.024,
+       "overshoot_sigma": 1.97,
+       "k_lin": 0.9243,
+       "k_log": 0.9243,
+       "ringing_crossings": 0
+      },
+      "renewable_share": {
+       "pre": 0.3168,
+       "post": 0.1909,
+       "delta": -0.1258,
+       "delta_sigma": -357.17,
+       "peak_excursion": -0.1981,
+       "peak_tick": 10,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 4,
+       "overshoot": 0.574,
+       "overshoot_sigma": 205.08,
+       "k_lin": 0.3324,
+       "k_log": 0.3324,
+       "ringing_crossings": 3
+      }
+     }
+    },
+    {
+     "tick": 230,
+     "from_u": [
+      -0.0,
+      0.267,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.533,
+      -0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [],
+     "obs": {
+      "load": {
+       "pre": 85.1729,
+       "post": 98.3525,
+       "delta": 13.1796,
+       "delta_sigma": 139.57,
+       "peak_excursion": 14.1454,
+       "peak_tick": 18,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 9,
+       "overshoot": 0.073,
+       "overshoot_sigma": 10.23,
+       "k_lin": 0.1917,
+       "k_log": 0.1917,
+       "ringing_crossings": 1
+      },
+      "frequency": {
+       "pre": 51.0076,
+       "post": 51.1435,
+       "delta": 0.1358,
+       "delta_sigma": 7.05,
+       "peak_excursion": 0.3855,
+       "peak_tick": 4,
+       "delay": 0,
+       "settling_time": 17.0,
+       "t90": 0,
+       "overshoot": 1.838,
+       "overshoot_sigma": 12.96,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 0
+      },
+      "renewable_share": {
+       "pre": 0.1909,
+       "post": 0.0928,
+       "delta": -0.0982,
+       "delta_sigma": -278.62,
+       "peak_excursion": -0.1009,
+       "peak_tick": 3,
+       "delay": 0,
+       "settling_time": 14.0,
+       "t90": 0,
+       "overshoot": 0.028,
+       "overshoot_sigma": 7.88,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 2
+      }
+     }
+    },
+    {
+     "tick": 260,
+     "from_u": [
+      -0.0,
+      0.533,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.8,
+      -0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "load",
+      "frequency"
+     ],
+     "obs": {
+      "load": {
+       "pre": 98.2903,
+       "post": 100.5641,
+       "delta": 2.2738,
+       "delta_sigma": 24.08,
+       "peak_excursion": 2.3167,
+       "peak_tick": 24,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 21,
+       "overshoot": 0.019,
+       "overshoot_sigma": 0.45,
+       "k_lin": 0.043,
+       "k_log": 0.0465,
+       "ringing_crossings": 0
+      },
+      "frequency": {
+       "pre": 51.1297,
+       "post": 51.6587,
+       "delta": 0.5291,
+       "delta_sigma": 27.47,
+       "peak_excursion": 0.585,
+       "peak_tick": 7,
+       "delay": 0,
+       "settling_time": 17.0,
+       "t90": 3,
+       "overshoot": 0.106,
+       "overshoot_sigma": 2.9,
+       "k_lin": 0.8544,
+       "k_log": 0.8544,
+       "ringing_crossings": 1
+      },
+      "renewable_share": {
+       "pre": 0.0928,
+       "post": 0.0737,
+       "delta": -0.019,
+       "delta_sigma": -54.03,
+       "peak_excursion": -0.0209,
+       "peak_tick": 0,
+       "delay": 0,
+       "settling_time": 8.0,
+       "t90": 0,
+       "overshoot": 0.1,
+       "overshoot_sigma": 5.39,
+       "k_lin": 0.1917,
+       "k_log": 0.1917,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 290,
+     "from_u": [
+      -0.0,
+      0.8,
+      -0.0,
+      -0.0
+     ],
+     "to_u": [
+      -0.0,
+      0.533,
+      -0.0,
+      0.625
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "load",
+      "frequency"
+     ],
+     "obs": {
+      "load": {
+       "pre": 100.5029,
+       "post": 95.2298,
+       "delta": -5.2732,
+       "delta_sigma": -55.84,
+       "peak_excursion": -6.1348,
+       "peak_tick": 21,
+       "delay": 1,
+       "settling_time": "> 30",
+       "t90": 13,
+       "overshoot": 0.163,
+       "overshoot_sigma": 9.12,
+       "k_lin": 0.1293,
+       "k_log": 0.1293,
+       "ringing_crossings": 2
+      },
+      "frequency": {
+       "pre": 51.6661,
+       "post": 51.0952,
+       "delta": -0.5708,
+       "delta_sigma": -29.64,
+       "peak_excursion": -0.768,
+       "peak_tick": 5,
+       "delay": 0,
+       "settling_time": 17.0,
+       "t90": 0,
+       "overshoot": 0.345,
+       "overshoot_sigma": 10.24,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 0
+      },
+      "renewable_share": {
+       "pre": 0.0737,
+       "post": 0.0645,
+       "delta": -0.0093,
+       "delta_sigma": -26.27,
+       "peak_excursion": -0.0101,
+       "peak_tick": 10,
+       "delay": 0,
+       "settling_time": 15.0,
+       "t90": 0,
+       "overshoot": 0.091,
+       "overshoot_sigma": 2.38,
+       "k_lin": 0.4926,
+       "k_log": 0.4554,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 320,
+     "from_u": [
+      -0.0,
+      0.533,
+      -0.0,
+      0.625
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.625
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "load",
+      "renewable_share"
+     ],
+     "obs": {
+      "load": {
+       "pre": 96.1283,
+       "post": 93.7222,
+       "delta": -2.406,
+       "delta_sigma": -25.48,
+       "peak_excursion": -3.0568,
+       "peak_tick": 12,
+       "delay": 0,
+       "settling_time": 22.0,
+       "t90": 6,
+       "overshoot": 0.271,
+       "overshoot_sigma": 6.89,
+       "k_lin": 0.3596,
+       "k_log": 0.3596,
+       "ringing_crossings": 1
+      },
+      "frequency": {
+       "pre": 51.0952,
+       "post": 49.5866,
+       "delta": -1.5087,
+       "delta_sigma": -78.33,
+       "peak_excursion": -1.8378,
+       "peak_tick": 6,
+       "delay": 0,
+       "settling_time": 21.0,
+       "t90": 1,
+       "overshoot": 0.218,
+       "overshoot_sigma": 17.09,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "renewable_share": {
+       "pre": 0.0648,
+       "post": 0.2949,
+       "delta": 0.2301,
+       "delta_sigma": 653.0,
+       "peak_excursion": 0.2889,
+       "peak_tick": 0,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 0,
+       "overshoot": 0.256,
+       "overshoot_sigma": 167.05,
+       "k_lin": 0.1514,
+       "k_log": 0.1399,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 350,
+     "from_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.625
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "load",
+      "renewable_share"
+     ],
+     "obs": {
+      "load": {
+       "pre": 93.8641,
+       "post": 94.8609,
+       "delta": 0.9968,
+       "delta_sigma": 10.56,
+       "peak_excursion": 1.2107,
+       "peak_tick": 29,
+       "delay": 2,
+       "settling_time": "> 30",
+       "t90": 25,
+       "overshoot": 0.215,
+       "overshoot_sigma": 2.27,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "frequency": {
+       "pre": 49.5866,
+       "post": 50.1118,
+       "delta": 0.5252,
+       "delta_sigma": 27.27,
+       "peak_excursion": 0.5904,
+       "peak_tick": 9,
+       "delay": 0,
+       "settling_time": 19.0,
+       "t90": 4,
+       "overshoot": 0.124,
+       "overshoot_sigma": 3.38,
+       "k_lin": 0.5766,
+       "k_log": 0.5766,
+       "ringing_crossings": 1
+      },
+      "renewable_share": {
+       "pre": 0.294,
+       "post": 0.3904,
+       "delta": 0.0964,
+       "delta_sigma": 273.62,
+       "peak_excursion": 0.1016,
+       "peak_tick": 10,
+       "delay": 0,
+       "settling_time": "> 30",
+       "t90": 1,
+       "overshoot": 0.053,
+       "overshoot_sigma": 14.63,
+       "k_lin": 0.4209,
+       "k_log": 0.4209,
+       "ringing_crossings": 2
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [],
+   "returns": [
+    {
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      -0.0
+     ],
+     "tick": 350,
+     "vs_tick": 140,
+     "diff_sigma": {
+      "load": -258.97,
+      "frequency": 41.6,
+      "renewable_share": 182.23
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "load",
+     "feature": "diff",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.701,
+     "corr_lag0": -0.685
+    },
+    {
+     "source": "frequency",
+     "feature": "diff",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.701,
+     "corr_lag0": -0.685
+    },
+    {
+     "source": "load",
+     "feature": "level",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": -0.655,
+     "corr_lag0": -0.655
+    },
+    {
+     "source": "frequency",
+     "feature": "level",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": -0.655,
+     "corr_lag0": -0.655
+    },
+    {
+     "source": "frequency",
+     "feature": "level",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.607,
+     "corr_lag0": -0.6
+    },
+    {
+     "source": "renewable_share",
+     "feature": "level",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": -0.607,
+     "corr_lag0": -0.6
+    },
+    {
+     "source": "frequency",
+     "feature": "rise",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.572,
+     "corr_lag0": -0.561
+    },
+    {
+     "source": "load",
+     "feature": "fall",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.567,
+     "corr_lag0": -0.237
+    },
+    {
+     "source": "load",
+     "feature": "fall",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.563,
+     "corr_lag0": 0.549
+    },
+    {
+     "source": "frequency",
+     "feature": "fall",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": 0.536,
+     "corr_lag0": 0.522
+    },
+    {
+     "source": "load",
+     "feature": "rise",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.535,
+     "corr_lag0": -0.524
+    },
+    {
+     "source": "load",
+     "feature": "rise",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 12,
+     "best_corr": -0.491,
+     "corr_lag0": -0.155
+    },
+    {
+     "source": "frequency",
+     "feature": "rise",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.486,
+     "corr_lag0": 0.083
+    },
+    {
+     "source": "load",
+     "feature": "level",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 13,
+     "best_corr": 0.476,
+     "corr_lag0": -0.036
+    },
+    {
+     "source": "frequency",
+     "feature": "diff",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.453,
+     "corr_lag0": -0.036
+    },
+    {
+     "source": "frequency",
+     "feature": "level",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": 13,
+     "best_corr": 0.424,
+     "corr_lag0": 0.032
+    },
+    {
+     "source": "load",
+     "feature": "diff",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 13,
+     "best_corr": -0.423,
+     "corr_lag0": 0.032
+    },
+    {
+     "source": "frequency",
+     "feature": "fall",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": 0.396,
+     "corr_lag0": 0.349
+    },
+    {
+     "source": "load",
+     "feature": "absdiff",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.385,
+     "corr_lag0": 0.342
+    },
+    {
+     "source": "frequency",
+     "feature": "fall",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 11,
+     "best_corr": 0.381,
+     "corr_lag0": 0.123
+    },
+    {
+     "source": "frequency",
+     "feature": "diff",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.332,
+     "corr_lag0": -0.288
+    },
+    {
+     "source": "renewable_share",
+     "feature": "diff",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.332,
+     "corr_lag0": -0.288
+    },
+    {
+     "source": "load",
+     "feature": "absdiff",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 9,
+     "best_corr": -0.325,
+     "corr_lag0": -0.306
+    },
+    {
+     "source": "renewable_share",
+     "feature": "rise",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.324,
+     "corr_lag0": -0.294
+    },
+    {
+     "source": "load",
+     "feature": "rise",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -7,
+     "best_corr": 0.286,
+     "corr_lag0": 0.262
+    },
+    {
+     "source": "frequency",
+     "feature": "absdiff",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": 0.266,
+     "corr_lag0": 0.24
+    },
+    {
+     "source": "load",
+     "feature": "fall",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.196,
+     "corr_lag0": 0.161
+    },
+    {
+     "source": "renewable_share",
+     "feature": "absdiff",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 2,
+     "best_corr": -0.196,
+     "corr_lag0": -0.192
+    },
+    {
+     "source": "frequency",
+     "feature": "absdiff",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": 2,
+     "best_corr": 0.195,
+     "corr_lag0": 0.173
+    },
+    {
+     "source": "frequency",
+     "feature": "fall",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": 0.176,
+     "corr_lag0": 0.145
+    },
+    {
+     "source": "frequency",
+     "feature": "absdiff",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": 0.172,
+     "corr_lag0": 0.169
+    },
+    {
+     "source": "frequency",
+     "feature": "rise",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.155,
+     "corr_lag0": -0.084
+    },
+    {
+     "source": "renewable_share",
+     "feature": "fall",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": 0.154,
+     "corr_lag0": 0.101
+    },
+    {
+     "source": "frequency",
+     "feature": "absdiff",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.153,
+     "corr_lag0": 0.036
+    },
+    {
+     "source": "renewable_share",
+     "feature": "fall",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.14,
+     "corr_lag0": 0.06
+    },
+    {
+     "source": "renewable_share",
+     "feature": "level",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.134,
+     "corr_lag0": -0.003
+    },
+    {
+     "source": "frequency",
+     "feature": "level",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.125,
+     "corr_lag0": -0.019
+    },
+    {
+     "source": "renewable_share",
+     "feature": "diff",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 4,
+     "best_corr": -0.125,
+     "corr_lag0": -0.019
+    },
+    {
+     "source": "load",
+     "feature": "absdiff",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.117,
+     "corr_lag0": -0.051
+    },
+    {
+     "source": "renewable_share",
+     "feature": "absdiff",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 12,
+     "best_corr": -0.113,
+     "corr_lag0": -0.08
+    },
+    {
+     "source": "frequency",
+     "feature": "rise",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": 0.104,
+     "corr_lag0": 0.063
+    },
+    {
+     "source": "frequency",
+     "feature": "diff",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": -0.101,
+     "corr_lag0": -0.063
+    },
+    {
+     "source": "renewable_share",
+     "feature": "level",
+     "target": "frequency",
+     "target_feature": "diff",
+     "best_lag": -3,
+     "best_corr": -0.101,
+     "corr_lag0": -0.063
+    },
+    {
+     "source": "renewable_share",
+     "feature": "absdiff",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.1,
+     "corr_lag0": 0.05
+    },
+    {
+     "source": "load",
+     "feature": "absdiff",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": -0.097,
+     "corr_lag0": -0.074
+    },
+    {
+     "source": "load",
+     "feature": "level",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.096,
+     "corr_lag0": -0.003
+    },
+    {
+     "source": "load",
+     "feature": "diff",
+     "target": "renewable_share",
+     "target_feature": "level",
+     "best_lag": -5,
+     "best_corr": 0.095,
+     "corr_lag0": 0.087
+    },
+    {
+     "source": "renewable_share",
+     "feature": "level",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": 0.095,
+     "corr_lag0": 0.087
+    },
+    {
+     "source": "renewable_share",
+     "feature": "rise",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 8,
+     "best_corr": -0.095,
+     "corr_lag0": -0.072
+    },
+    {
+     "source": "renewable_share",
+     "feature": "rise",
+     "target": "frequency",
+     "target_feature": "level",
+     "best_lag": 4,
+     "best_corr": -0.093,
+     "corr_lag0": 0.017
+    },
+    {
+     "source": "load",
+     "feature": "rise",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": 9,
+     "best_corr": -0.079,
+     "corr_lag0": -0.062
+    },
+    {
+     "source": "renewable_share",
+     "feature": "fall",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.079,
+     "corr_lag0": -0.031
+    },
+    {
+     "source": "renewable_share",
+     "feature": "absdiff",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.077,
+     "corr_lag0": -0.051
+    },
+    {
+     "source": "renewable_share",
+     "feature": "rise",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.072,
+     "corr_lag0": -0.047
+    },
+    {
+     "source": "load",
+     "feature": "diff",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.06,
+     "corr_lag0": -0.027
+    },
+    {
+     "source": "renewable_share",
+     "feature": "diff",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": 0.057,
+     "corr_lag0": -0.027
+    },
+    {
+     "source": "load",
+     "feature": "level",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.053,
+     "corr_lag0": -0.04
+    },
+    {
+     "source": "load",
+     "feature": "fall",
+     "target": "renewable_share",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.053,
+     "corr_lag0": -0.028
+    },
+    {
+     "source": "renewable_share",
+     "feature": "diff",
+     "target": "load",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": -0.053,
+     "corr_lag0": -0.04
+    },
+    {
+     "source": "renewable_share",
+     "feature": "fall",
+     "target": "load",
+     "target_feature": "diff",
+     "best_lag": 14,
+     "best_corr": -0.046,
+     "corr_lag0": -0.018
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "frequency",
+     "target": "load",
+     "r2_controls_only": 0.7248,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9353,
+     "r2_gain": 0.2105,
+     "coef_rise_sigma": -219.846,
+     "coef_fall_sigma": 337.125
+    },
+    {
+     "source": "load",
+     "target": "frequency",
+     "r2_controls_only": 0.8277,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9539,
+     "r2_gain": 0.1261,
+     "coef_rise_sigma": -9.186,
+     "coef_fall_sigma": 4.244
+    },
+    {
+     "source": "renewable_share",
+     "target": "load",
+     "r2_controls_only": 0.7248,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.7358,
+     "r2_gain": 0.011,
+     "coef_rise_sigma": -7.174,
+     "coef_fall_sigma": 3.808
+    },
+    {
+     "source": "frequency",
+     "target": "renewable_share",
+     "r2_controls_only": 0.9293,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9398,
+     "r2_gain": 0.0105,
+     "coef_rise_sigma": -43.534,
+     "coef_fall_sigma": -71.605
+    },
+    {
+     "source": "renewable_share",
+     "target": "frequency",
+     "r2_controls_only": 0.8277,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.8355,
+     "r2_gain": 0.0077,
+     "coef_rise_sigma": 0.915,
+     "coef_fall_sigma": -1.303
+    },
+    {
+     "source": "load",
+     "target": "renewable_share",
+     "r2_controls_only": 0.9293,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9367,
+     "r2_gain": 0.0075,
+     "coef_rise_sigma": -3.941,
+     "coef_fall_sigma": -12.334
+    }
+   ],
+   "plot": "fits/power_grid/round2/R3_r0_battery.png"
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+half-change times (ticks) linear | log; on/off pairs
+  R4 u.7 on(0)/off(100) A: on 22 | 17   off 11 | 14  (on 39->165, off 160->66)
+  R4 u.7 on(0)/off(100) B: on 38 | 28   off 9 | 10  (on 30->102, off 99->51)
+  R4 P2 on400/off460 A: on 18 | 16   off 7 | 8  (on 89->183, off 176->87)
+  R4 P2 on400/off460 B: on 23 | 21   off 7 | 8  (on 73->119, off 114->57)
+  R4 P3 on480/off540 A: on 22 | 20   off 7 | 8  (on 86->164, off 158->77)
+  R4 P3 on480/off540 B: on 20 | 17   off 7 | 8  (on 57->106, off 102->49)
+  R5 inc2 on80/off->1 140 A: on 17 | 16   off 9 | 10  (on 198->257, off 249->144)
+  R5 inc2 on80/off->1 140 B: on 21 | 19   off 9 | 11  (on 100->147, off 143->75)
+baseline return: R4 pre-P2 (395-399) [89.1 73.3]  end gap20 (475-479) [92.4 59.4]  end run [81.6 51.5]
+R5 pre-incentive level (75-79) [196.9  98.7]  after inc back to 0 (230-239) [119.3  56.9]
+R5 A peak after seeding off at 251 134.3 B flat 67.4
+  corr dlogA(t) vs dlogB(t+-5) = 0.48
+  corr dlogA(t) vs dlogB(t+-2) = 0.58
+  corr dlogA(t) vs dlogB(t+0) = 0.55
+  corr dlogA(t) vs dlogB(t+2) = 0.63
+  corr dlogA(t) vs dlogB(t+5) = 0.55
+  corr dlogA(t) vs dlogB(t+10) = 0.36

@@ -26,3 +26,51 @@ score sigma [0.01516969 1.37956828 0.12110844]
  [400,425) [5.0, 100.0, 1.0]        data10 [ 0.551 55.496  4.949] v1 [ 0.532 55.384  4.785] err/sig [-1.3 -0.1 -1.4] | segmean data [ 0.528 65.367  4.084] v1 [ 0.523 65.444  4.143] | settled win_:Y(0.0,t15),spen:N(170.0,t> 25),conv:N(21.4,t> 25)
  [425,445) [1.5, 20.0, 0.1]         data10 [0.322 2.706 2.526] v1 [0.335 2.266 2.361] err/sig [ 0.9 -0.3 -1.4] | segmean data [0.336 2.525 3.525] v1 [0.335 2.164 3.521] | settled win_:Y(0.8,t> 20),spen:N(4.9,t14),conv:N(46.8,t> 20)
  [445,455) [1.5, 20.0, 0.55]        data10 [ 0.242 13.833  1.835] v1 [ 0.262 13.82   1.559] err/sig [ 1.3 -0.  -2.3] | segmean data [ 0.242 13.833  1.835] v1 [ 0.262 13.82   1.559]
+
+== R3 (500 ticks)  score per obs [0.724 0.498 0.46 ]  mean 0.560  lost-ticks [138.2 251.  270.1]
+ [  0, 50) u.7 (3.95/76/.7075)      data10 [ 0.482 26.534  5.8  ] v1 [ 0.494 33.445  5.384] err/sig [ 0.8  5.  -3.4] | segmean data [ 0.454 49.609  5.388] v1 [ 0.462 49.686  5.55 ] | settled win_:N(3.4,t33),spen:N(4.9,t> 50),conv:N(11.0,t> 50)
+ [ 50,250) [3.95, 76.0, 0.708]      data10 [ 0.499 28.293  4.248] v1 [ 0.497 30.229  4.372] err/sig [-0.1  1.4  1. ] | segmean data [ 0.496 28.532  4.342] v1 [ 0.497 30.421  4.487] | settled win_:Y(0.1,t43),spen:N(3.1,t121),conv:N(3.5,t123)
+ [250,350) rec                      data10 [ 0.262 12.594  3.002] v1 [ 0.265 12.815  2.877] err/sig [ 0.2  0.2 -1. ] | segmean data [ 0.263 11.567  2.922] v1 [ 0.266 12.113  2.887] | settled win_:Y(0.3,t5),spen:N(2.7,t52),conv:N(5.4,t74)
+ [350,400) u1 (5/100/.775)          data10 [ 0.56  37.481  5.372] v1 [ 0.557 37.17   4.915] err/sig [-0.2 -0.2 -3.8] | segmean data [ 0.545 46.951  5.15 ] v1 [ 0.551 43.726  4.85 ] | settled win_:N(2.1,t26),spen:N(8.1,t> 50),conv:Y(0.2,t35)
+ [400,425) rec                      data10 [ 0.263 10.396  3.008] v1 [ 0.267 11.251  2.631] err/sig [ 0.2  0.6 -3.1] | segmean data [0.268 9.291 3.859] v1 [ 0.267 10.482  3.371] | settled win_:Y(1.5,t5),spen:N(11.9,t> 25),conv:N(9.9,t> 25)
+ [425,500) u.85 (4.475/88/.741)     data10 [ 0.531 31.817  4.48 ] v1 [ 0.53  33.366  4.534] err/sig [-0.1  1.1  0.4] | segmean data [ 0.531 34.684  4.533] v1 [ 0.528 35.365  4.447] | settled win_:Y(0.5,t6),spen:Y(0.8,t35),conv:Y(0.9,t> 75)
+
+== R4 (300 ticks)  score per obs [0.597 0.528 0.336]  mean 0.487  lost-ticks [120.8 141.6 199.1]
+ [  0, 50) bid3.25 cap100           data10 [ 0.476 20.539  4.615] v1 [ 0.461 22.332  4.564] err/sig [-1.   1.3 -0.4] | segmean data [ 0.466 36.577  5.205] v1 [ 0.46  35.393  4.868] | settled win_:Y(1.5,t12),spen:Y(1.9,t> 50),conv:N(179.5,t> 50)
+ [ 50,100) bid2 cap100              data10 [ 0.338 14.818  3.29 ] v1 [ 0.333 15.416  3.354] err/sig [-0.4  0.4  0.5] | segmean data [ 0.339 14.191  3.421] v1 [ 0.333 15.006  3.505] | settled win_:Y(0.1,t0),spen:Y(0.1,t27),conv:Y(0.0,t26)
+ [100,150) bid.75 cap100            data10 [0.128 6.63  1.758] v1 [0.142 7.165 1.996] err/sig [1.  0.4 2. ] | segmean data [0.127 5.651 1.854] v1 [0.142 6.507 2.181] | settled win_:Y(0.3,t0),spen:N(5.0,t37),conv:N(20.0,t> 50)
+ [150,200) rec                      data10 [ 0.262 12.787  3.248] v1 [ 0.265 13.139  3.138] err/sig [ 0.2  0.3 -0.9] | segmean data [ 0.265 14.325  3.288] v1 [ 0.264 13.9    3.014] | settled win_:Y(1.6,t0),spen:Y(0.7,t> 50),conv:N(16.7,t> 50)
+ [200,250) bid5 cap50               data10 [ 0.594 23.844  4.136] v1 [ 0.583 26.329  4.573] err/sig [-0.8  1.8  3.6] | segmean data [ 0.595 27.673  4.512] v1 [ 0.581 28.948  4.529] | settled win_:Y(0.5,t0),spen:N(2.6,t> 50),conv:N(24.2,t> 50)
+ [250,300) bid5 cap30               data10 [ 0.59  24.04   3.794] v1 [ 0.574 25.767  4.423] err/sig [-1.1  1.3  5.2] | segmean data [ 0.59  23.881  3.859] v1 [ 0.574 25.78   4.444] | settled win_:Y(0.8,t0),spen:Y(2.0,t13),conv:Y(1.5,t23)
+
+== score-loss ranking (all runs), tick-units lost
+R3   [50,250) [3.95, 76.0, 0.708]       conversions  lost  119.8/200  first20  15.6  late mean  +0.99 sd  0.18  -> dynamics
+R2c  [160,360) [5.0, 100.0, 0.775]      conversions  lost  119.1/200  first20  11.3  late mean  +1.47 sd  0.49  -> level
+R2c  [160,360) [5.0, 100.0, 0.775]      spend        lost  116.0/200  first20  17.3  late mean  +1.42 sd  0.19  -> level
+R3   [50,250) [3.95, 76.0, 0.708]       spend        lost  111.1/200  first20  15.0  late mean  +1.30 sd  0.14  -> level
+R3   [50,250) [3.95, 76.0, 0.708]       win_rate     lost   51.7/200  first20   9.5  late mean  -0.19 sd  0.31  -> dynamics
+R2c  [160,360) [5.0, 100.0, 0.775]      win_rate     lost   46.5/200  first20   7.5  late mean  -0.11 sd  0.32  -> dynamics
+R1   [0,80) [1.5, 20.0, 0.55]           conversions  lost   45.1/ 80  first20  13.4  late mean  +1.72 sd  0.77  -> level
+R1   [145,210) [1.5, 20.0, 0.55]        conversions  lost   44.2/ 65  first20  16.8  late mean  -1.70 sd  0.87  -> level
+R4   [250,300) bid5 cap30               conversions  lost   41.4/ 50  first20  16.3  late mean  +5.13 sd  0.14  -> level
+R3   [425,500) u.85 (4.475/88/.741)     spend        lost   41.1/ 75  first20  10.8  late mean  +1.24 sd  0.17  -> level
+R1   [80,145) [5.0, 20.0, 0.55]         conversions  lost   39.8/ 65  first20  13.3  late mean  +2.47 sd  0.76  -> level
+R1   [0,80) [1.5, 20.0, 0.55]           win_rate     lost   38.1/ 80  first20  12.8  late mean  +0.81 sd  0.35  -> dynamics
+R4   [0,50) bid3.25 cap100              conversions  lost   36.1/ 50  first20  14.9  late mean  -4.71 sd  3.89  -> level
+R4   [100,150) bid.75 cap100            conversions  lost   35.8/ 50  first20  14.4  late mean  +2.43 sd  0.44  -> level
+R1   [280,355) [1.5, 20.0, 0.775]       conversions  lost   35.1/ 75  first20   9.7  late mean  -1.22 sd  0.20  -> level
+R3   [350,400) u1 (5/100/.775)          conversions  lost   34.0/ 50  first20  12.1  late mean  -2.98 sd  0.76  -> level
+R3   [0,50) u.7 (3.95/76/.7075)         spend        lost   33.9/ 50  first20  11.3  late mean  +4.00 sd  1.60  -> level
+R4   [200,250) bid5 cap50               conversions  lost   33.5/ 50  first20  14.1  late mean  +2.66 sd  0.94  -> level
+R4   [150,200) rec                      conversions  lost   32.9/ 50  first20  14.0  late mean  -1.75 sd  0.86  -> level
+R3   [0,50) u.7 (3.95/76/.7075)         conversions  lost   32.8/ 50  first20  11.5  late mean  -0.18 sd  3.35  -> dynamics
+R4   [0,50) bid3.25 cap100              spend        lost   32.8/ 50  first20  16.8  late mean  +1.26 sd  0.30  -> level
+R3   [250,350) rec                      conversions  lost   32.0/100  first20   6.7  late mean  -0.75 sd  0.21  -> dynamics
+R3   [425,500) u.85 (4.475/88/.741)     conversions  lost   31.5/ 75  first20  11.7  late mean  +0.19 sd  0.36  -> dynamics
+R1   [435,480) [1.5, 20.0, 0.55]        conversions  lost   29.4/ 45  first20   8.7  late mean  -5.10 sd  1.30  -> level
+R4   [200,250) bid5 cap50               spend        lost   29.3/ 50  first20  10.1  late mean  +1.80 sd  0.09  -> level
+R4   [250,300) bid5 cap30               spend        lost   28.9/ 50  first20  11.8  late mean  +1.30 sd  0.10  -> level
+R1   [280,355) [1.5, 20.0, 0.775]       win_rate     lost   28.4/ 75  first20   7.7  late mean  +0.73 sd  0.33  -> dynamics
+R3   [350,400) u1 (5/100/.775)          spend        lost   28.0/ 50  first20  16.2  late mean  -0.60 sd  0.42  -> dynamics
+R1   [355,405) [1.5, 20.0, 0.55]        conversions  lost   26.2/ 50  first20  15.3  late mean  -0.53 sd  0.64  -> dynamics
+R3   [250,350) rec                      spend        lost   25.6/100  first20   9.6  late mean  +0.20 sd  0.05  -> dynamics

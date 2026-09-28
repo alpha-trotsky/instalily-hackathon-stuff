@@ -1,0 +1,122 @@
+== settle (greybox.common.settle, per segment)
+R3 0 50 {'wait_time': (False, '> 50', 'linear', 17.5), 'queue': (False, '> 50', 'linear', 27.1), 'discharges': (True, '31', 'linear', 3.2)}
+R3 50 100 {'wait_time': (False, '> 50', 'exponential', 18.1), 'queue': (False, '> 50', 'linear', 10.5), 'discharges': (True, '10', 'linear', 0.8)}
+R3 100 150 {'wait_time': (False, '> 50', 'linear', 21.9), 'queue': (True, '26', 'exponential', 0.0), 'discharges': (True, '0', 'linear', 0.5)}
+R3 150 200 {'wait_time': (False, '> 50', 'linear', 9.2), 'queue': (False, '27', 'linear', 2.6), 'discharges': (True, '0', 'linear', 0.2)}
+R3 200 250 {'wait_time': (False, '> 50', 'linear', 38.6), 'queue': (False, '> 50', 'linear', 26.3), 'discharges': (True, '6', 'linear', 0.1)}
+R4 0 90 {'wait_time': (False, '> 90', 'exponential', 19.6), 'queue': (True, '20', 'linear', 0.8), 'discharges': (True, '1', 'linear', 0.3)}
+R4 90 140 {'wait_time': (False, '> 50', 'linear', 53.6), 'queue': (False, '> 50', 'linear', 23.1), 'discharges': (True, '9', 'linear', 1.1)}
+R4 140 200 {'wait_time': (False, '> 60', 'linear', 76.6), 'queue': (True, '12', 'linear', 0.2), 'discharges': (True, '0', 'linear', 0.3)}
+R4 200 275 {'wait_time': (False, '> 75', 'exponential', 41.2), 'queue': (False, '> 75', 'linear', 34.9), 'discharges': (True, '12', 'linear', 1.1)}
+R4 275 350 {'wait_time': (False, '> 75', 'exponential', 32.3), 'queue': (False, '> 75', 'linear', 9.6), 'discharges': (True, '0', 'linear', 0.3)}
+
+== release ramps: 5-tick means of discharges after staffing increases
+R1 5->20 (dS 15), after staffing-5 only       [ 8.   8.2  9.7  9.1 11.1  9.9 11.5 11.3 11.3 10.8 11.7 11.2]
+R1 all-pulse release (dS 15)                  [ 4.8  6.2  8.5  8.   9.7  8.4  9.2 10.  10.  10.7 10.6 11.1]
+/home/user/instalily-hackathon-stuff/toronto26-participant-kit/fits/hospital_queue/round2/battery2.py:26: RuntimeWarning: Mean of empty slice
+  m = [raw[r][t0 + 5 * i:t0 + 5 * i + 5, 2].mean() for i in range(12)]
+/usr/local/lib/python3.11/dist-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+R3 15->20 (dS 5), backlog                     [ 9.4 10.3 11.1 10.3 10.7 11.5 11.2 10.8 11.3 11.4  nan  nan]
+R4 joint .7 release (dS 10.5)                 [ 5.2  8.   8.3  9.1  8.7  9.6 10.6 10.7 10.8 11.5  2.6  2.2]
+R4 joint 1 release (dS 15)                    [ 4.7  6.6  8.7  8.5  9.8  8.3  9.6 10.1 10.1 11.3 11.4 10.8]
+
+== queue ramp from reset (first 15 ticks)
+R3 [ 66.  82.  99.  91. 107. 100.  96. 102. 110. 109. 100. 105. 103.  97.
+ 102.]
+R4 [ 82. 106. 131. 156. 180. 177. 201. 213. 220. 244. 257. 281. 295. 311.
+ 325.]
+
+== noise: MAD of 2nd differences /0.6745/sqrt(6), per segment (last 30 ticks)
+R3 0 50 [0.036 1.438 2.958] std disch 2.35
+R3 50 100 [0.197 2.46  0.751] std disch 1.04
+R3 100 150 [0.277 2.317 0.658] std disch 0.54
+R3 150 200 [0.269 1.049 0.417] std disch 0.87
+R3 200 250 [0.264 1.448 0.551] std disch 0.93
+R4 0 90 [0.355 2.198 0.903] std disch 1.01
+R4 90 140 [0.306 2.71  1.716] std disch 1.48
+R4 140 200 [0.903 1.844 2.824] std disch 2.11
+R4 200 275 [0.19  1.755 1.572] std disch 1.67
+R4 275 350 [1.109 0.895 0.067] std disch 1.56
+
+== wait vs (queue-23)/discharges (10-tick means at segment ends)
+R1 80 wait   10.0  (q-23)/D   72.8  ratio  0.14
+R1 100 wait   33.2  (q-23)/D   92.5  ratio  0.36
+R1 120 wait   65.8  (q-23)/D   84.4  ratio  0.78
+R1 140 wait   81.8  (q-23)/D   77.4  ratio  1.06
+R1 160 wait   91.8  (q-23)/D   89.7  ratio  1.02
+R1 180 wait   94.5  (q-23)/D   48.7  ratio  1.94
+R1 200 wait   56.5  (q-23)/D   23.5  ratio  2.41
+R1 220 wait   37.6  (q-23)/D   17.4  ratio  2.16
+R1 240 wait   27.9  (q-23)/D   14.3  ratio  1.96
+R1 320 wait    2.4  (q-23)/D   15.3  ratio  0.15
+R1 340 wait   22.5  (q-23)/D   25.0  ratio  0.90
+R1 360 wait   35.0  (q-23)/D   47.1  ratio  0.74
+R1 380 wait   50.8  (q-23)/D   68.9  ratio  0.74
+R1 400 wait   53.3  (q-23)/D   33.5  ratio  1.59
+R1 420 wait   43.6  (q-23)/D   19.5  ratio  2.23
+R1 440 wait   32.6  (q-23)/D   20.3  ratio  1.61
+R1 460 wait   38.1  (q-23)/D   31.6  ratio  1.21
+R1 480 wait   43.1  (q-23)/D   33.3  ratio  1.30
+R1 500 wait   44.6  (q-23)/D   32.8  ratio  1.36
+R1 520 wait   45.0  (q-23)/D   33.3  ratio  1.35
+R1 540 wait   64.1  (q-23)/D  174.6  ratio  0.37
+R1 560 wait   94.9  (q-23)/D  170.9  ratio  0.56
+R1 580 wait  107.3  (q-23)/D  161.5  ratio  0.66
+R1 600 wait   82.6  (q-23)/D   35.3  ratio  2.34
+R1 620 wait   54.8  (q-23)/D   28.5  ratio  1.93
+R1 640 wait   40.5  (q-23)/D   21.7  ratio  1.87
+R1 660 wait   31.9  (q-23)/D   16.2  ratio  1.96
+R1 680 wait   23.9  (q-23)/D   11.9  ratio  2.00
+R1 700 wait   17.5  (q-23)/D    9.7  ratio  1.81
+R1 720 wait    7.7  (q-23)/D    8.7  ratio  0.88
+R1 740 wait    5.9  (q-23)/D    7.0  ratio  0.84
+R2c 120 wait    2.7  (q-23)/D   27.0  ratio  0.10
+R2c 140 wait   27.7  (q-23)/D   34.2  ratio  0.81
+R2c 160 wait   38.8  (q-23)/D   42.8  ratio  0.91
+R2c 180 wait   44.2  (q-23)/D   43.9  ratio  1.01
+R2c 200 wait   47.5  (q-23)/D   50.3  ratio  0.94
+R2c 220 wait   49.5  (q-23)/D   55.8  ratio  0.89
+R2c 240 wait   45.9  (q-23)/D   31.0  ratio  1.48
+R2c 260 wait   42.8  (q-23)/D   29.7  ratio  1.44
+R2c 280 wait   53.8  (q-23)/D   52.6  ratio  1.02
+R2c 300 wait   63.8  (q-23)/D   48.6  ratio  1.31
+R2c 320 wait   63.0  (q-23)/D   20.1  ratio  3.13
+R2c 340 wait   36.1  (q-23)/D   70.4  ratio  0.51
+R2c 360 wait   43.8  (q-23)/D   17.8  ratio  2.45
+R2c 380 wait   19.9  (q-23)/D    3.9  ratio  5.07
+R2c 400 wait    2.2  (q-23)/D    2.3  ratio  0.95
+R2c 420 wait    0.2  (q-23)/D    2.3  ratio  0.09
+R3 20 wait    3.8  (q-23)/D    4.5  ratio  0.85
+R3 40 wait    4.6  (q-23)/D    6.7  ratio  0.68
+R3 60 wait   11.4  (q-23)/D   15.3  ratio  0.74
+R3 80 wait   25.0  (q-23)/D   22.9  ratio  1.09
+R3 100 wait   32.9  (q-23)/D   26.1  ratio  1.26
+R3 120 wait   42.6  (q-23)/D   38.4  ratio  1.11
+R3 140 wait   48.1  (q-23)/D   41.0  ratio  1.17
+R3 160 wait   51.9  (q-23)/D   41.0  ratio  1.26
+R3 180 wait   52.6  (q-23)/D   39.0  ratio  1.35
+R3 200 wait   50.9  (q-23)/D   38.1  ratio  1.34
+R3 220 wait   44.9  (q-23)/D   24.1  ratio  1.87
+R3 240 wait   37.0  (q-23)/D   19.2  ratio  1.93
+R4 20 wait   18.3  (q-23)/D   46.1  ratio  0.40
+R4 40 wait   42.2  (q-23)/D   56.5  ratio  0.75
+R4 60 wait   57.5  (q-23)/D   64.5  ratio  0.89
+R4 80 wait   65.6  (q-23)/D   64.4  ratio  1.02
+R4 100 wait   67.9  (q-23)/D   44.7  ratio  1.52
+R4 120 wait   54.1  (q-23)/D   30.3  ratio  1.79
+R4 140 wait   41.6  (q-23)/D   20.9  ratio  1.99
+R4 160 wait   66.3  (q-23)/D  126.7  ratio  0.52
+R4 180 wait   86.8  (q-23)/D  123.0  ratio  0.71
+R4 200 wait  101.3  (q-23)/D  144.2  ratio  0.70
+R4 220 wait   78.4  (q-23)/D   33.8  ratio  2.32
+R4 240 wait   53.3  (q-23)/D   27.5  ratio  1.94
+R4 260 wait   39.7  (q-23)/D   20.4  ratio  1.95
+R4 280 wait   31.0  (q-23)/D   14.2  ratio  2.19
+R4 300 wait   23.2  (q-23)/D   12.4  ratio  1.87
+R4 320 wait   91.8  (q-23)/D    8.3  ratio 11.01
+R4 340 wait  150.9  (q-23)/D    8.6  ratio 17.45
+
+== cross-correlation wait vs queue (lags) R3, R4
+R3 level corr queue->wait best lag 15 0.985
+R4 level corr queue->wait best lag 0 -0.215
