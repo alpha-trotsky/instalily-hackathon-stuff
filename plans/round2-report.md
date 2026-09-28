@@ -126,3 +126,22 @@ The user uploaded the alternative ZIP, `submission-round2-alt-market-v2.zip`, so
 
 - Every system that won on the held-out test also won on public. The held-out protocol predicts the direction of the public change.
 - The §3 argument for keeping market v1 was wrong: v2 gained +0.039. The run-A in-sample fit is not a proxy for the scorer.
+
+## 7. Public A/B: 50/50 blend of v1 and v2 (2026-09-28 evening)
+
+| System | v2 | Blend | Change |
+|---|---:|---:|---:|
+| ad_auction | 0.8912 | 0.8867 | −0.005 |
+| epidemic | 0.7604 | 0.7522 | −0.008 |
+| hospital_queue | 0.7241 | 0.7210 | −0.003 |
+| market | 0.7225 | 0.7089 | −0.014 |
+| power_grid | 0.7985 | 0.7744 | −0.024 |
+| reservoir | 0.8584 | 0.8576 | −0.001 |
+| social_contagion | 0.6780 | 0.6608 | −0.017 |
+| supply_chain | 0.8560 | 0.8523 | −0.004 |
+| traffic | 0.8442 | 0.8422 | −0.002 |
+| wildlife | 0.7535 | 0.7333 | −0.020 |
+
+**Result:** the blend loses in all ten systems, market included. v1 adds nothing, so v2 stays the base.
+
+**Consequence:** the blend is now the latest public upload, so tonight's daily sweep scores it (public standings only). **Nothing has been uploaded to the Final tab yet.** Slots reset at Toronto midnight.
