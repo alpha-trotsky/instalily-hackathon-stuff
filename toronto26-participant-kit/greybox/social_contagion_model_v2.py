@@ -11,10 +11,11 @@ Changes from v1 (plans/social_contagion-round2-diagnosis.md, items 1-4):
   * Optional base modules, each kept only if it improves held-out scores:
       bc: bridge cost to local outreach, sl = us (1 - b)^mb   (B35 / diagnosis item 3a; off: mb = 1)
       ds: seeding dose saturation, sl -> sl / (1 + kap sl)      (B26; off: kap = 0)
+      is: incentive multiplies local-outreach conversion, sig sl (1 + gis ui)   (B24; off: gis = 0)
 
 Controls (normalized): us = seeding/9, ui = incentive/2, ub = bridge/0.6; b = clip(0.6 ub, 0, 1).
 Per community c: members Mt_c = M_c + X_c + Z_c.
-  force    f_c = beta_c Mt_c/N_c + sig_c sl + tau_c sb Mt_o/N_o + g3 R Mt_o/N_o (m3) + eps
+  force    f_c = beta_c Mt_c/N_c + sig_c sl (1 + gis ui) + tau_c sb Mt_o/N_o + g3 R Mt_o/N_o (m3) + eps
   interest new_c = h((f_c + iota_c ui) cred) S_c,  S_c = max(N_c - Mt_c - Q_c - D_c, 0)
   onboard  on_c = kon Q_c;  churn M_c -> D_c at h(dr exp(-gret ui));  X_c -> D_c at h(kr L)
   m2       if ui < P: Z_c += min(g2 (P - ui), 1) max(M_c - K_c, 0), P = ui;  else P += a2 (ui - P);  Z_c -> D_c at kz
@@ -54,6 +55,8 @@ SPEC = {
     'a3u': (0.01, (0.0005, 1.0)), 'a3d': (0.005, (0.0002, 0.5)), 'g3': (0.05, (0.0, 3.0)),
     # bc bridge cost to local outreach; ds seeding dose saturation
     'mb': (1.0, (0.25, 6.0)), 'kap': (0.0, (0.0, 5.0)),
+    # is: incentive multiplies the seeding (local outreach) conversion
+    'gis': (0.5, (0.0, 5.0)),
 }
 MODULES = {
     'm1': (['a1', 'g1'], {'g1': 0.0}),
@@ -61,6 +64,7 @@ MODULES = {
     'm3': (['a3u', 'a3d', 'g3'], {'g3': 0.0}),
     'bc': (['mb'], {'mb': 1.0}),
     'ds': (['kap'], {'kap': 0.0}),
+    'is': (['gis'], {'gis': 0.0}),
 }
 
 
@@ -146,6 +150,7 @@ def simulate(p, initial, actions):
     a1, g1 = p['a1'], p['g1']
     a2, g2, kz, K = p['a2'], p['g2'], p['kz'], (p['KA'], p['KB'])
     a3u, a3d, g3 = p['a3u'], p['a3d'], p['g3']
+    gis = p.get('gis', 0.0)
 
     r0 = (_init(initial, 'adopters_a', 50.0), _init(initial, 'adopters_b', 37.0))
     psi = (p['psiA'], p['psiB'])
@@ -178,7 +183,7 @@ def simulate(p, initial, actions):
         newM, newX, newZ = [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]
         for c in range(2):
             fo = Mt[1 - c] / N[1 - c]
-            f = beta[c] * Mt[c] / N[c] + sig[c] * slt + tau[c] * sbt * fo + g3 * R * fo + eps
+            f = beta[c] * Mt[c] / N[c] + sig[c] * slt * (1.0 + gis * uit) + tau[c] * sbt * fo + g3 * R * fo + eps
             S = N[c] - Mt[c] - Q[c] - D[c]
             new = _h((f + iota[c] * uit) * cred) * S if S > 0 else 0.0
             on = kon * Q[c]

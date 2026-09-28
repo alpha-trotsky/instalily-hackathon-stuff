@@ -519,3 +519,108 @@ below). No mechanism parameter is pinned.
 | 2026-09-28 14:44–14:55 UTC | PG2 (fresh reset) | `data/power_grid/R4.json` | 510 | 110 |
 
 Segment files: `toronto26-participant-kit/fits/round2/segments/power_grid_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. **No simulator steps spent** (reserve 110 untouched). Paths under `toronto26-participant-kit/`.
+Module `greybox/power_grid_model_v2.py` (v1 left unchanged); fits, logs and scripts in `fits/power_grid/round2/`
+(`v2_fit.py` driver, `v2_seg.py` per-segment table, `v2_levels.py` long-run levels, `v2_freg.py` frequency regressions).
+Scores: σ = 0.1 × std after tick 20 of all power_grid data (identical to `fits/round2/heldout.py`; the packaged folder
+reproduces the (C) numbers through `heldout.py`). Fit residual σ = 0.25 × score σ (load 0.55, f 0.019, share 0.0038).
+
+### Diagnosis items addressed and structural changes
+
+| Diagnosis item | Change in v2 |
+|---|---|
+| §5.1 frequency (B23–B25, ≈ 500 tick-units) | Governor G and secondary loop Z **deleted**. f ← f + kf (f* − f), f* = f0 − bL (L−100) − bD (L − Lf) + br·Rs − (ax1·cx + ax2·cx²)(1 − kx·Rs/150), Rs = smooth-min(150 r, Rsat) (width 8), Lf a lagged load (kd). Clip 47.97–52.03 kept. |
+| §5.2 load ringing (B20) | Load soft-clipped (width 3) to [Lmin, Lmin + Lspan]. Resonator gain free (g1 3.8 → 8.2). Fit: floor Lmin = 65.7; the ceiling ran off to ∞ (unused: with the floor, peaks are reached by the larger gain). Cohort model **not** attempted. |
+| §5.3 price > 1.5 (B22) | Level terms use up for up ≥ 0 and rn·up for up < 0 (rn = 0.86). |
+| §5.4 share (B26, B28) | Renewable power P = smax(Pfree − kR·Rs, F0 (1 − F1 Rs/150)(1 − Fx cx)) when reserve is on; share = P/L × exp(wSB (B − D)) × m3; `1/(1 + wSr Rd)` and the governor term in share removed. Release memory B kept and refit. |
+| §5.5 reset (B19) | Fitted Lref0 removed; the initial-reading deviation is taken from the model's own price-0.8 equilibrium and fades at qi = 0.86. |
+| M2 | Removed from the module (three nulls, H3). Modules: m1, m3. |
+
+Final params (C, `v2_C_m13.json`): bL 0.0275 Hz/load unit, br 0.0153 Hz/reserve unit, Rsat 101, kf 0.75, ax1 0.50,
+ax2 0.43, **kx → 0 (pinned)**, bD −0.005, kR 0.61, F0 12.4, F1 0.62, Fx 0.16, g1 8.23, Lmin 65.7, g3 0.35, h3 0.18.
+
+### Held-out scores (load / frequency / share, mean)
+
+| Test | Model | R3 | R4 | mean |
+|---|---|---|---|---:|
+| **(A)** fit R1+R2c → R3, R4 | v1 (= v1 structure fit on old data) | .370 / .228 / .472 (.357) | .387 / .265 / .670 (.441) | 0.399 |
+| | **v2** (`v2_A_m13.json`) | .420 / .344 / .546 (.437) | .422 / .272 / .748 (.481) | **0.459** |
+| **(B)** leave one new run out | v1 shipped (never saw either) | .357 | .441 | 0.399 |
+| | v1 structure refit (`v1refit_B_noR*.json`) | .383 / .285 / .460 (.376) | .410 / .270 / .655 (.445) | 0.411 |
+| | **v2** (`v2_B_noR*.json`) | .437 / .258 / .562 (.419) | .461 / .278 / .704 (.481) | **0.450** |
+
+Both folds done. **(C) in-sample, fit on all four runs:**
+
+| Model | R1 | R2c | R3 | R4 | mean |
+|---|---|---|---|---|---:|
+| v1 shipped | .467 / .421 / .682 | .490 / .408 / .763 | .370 / .228 / .472 | .387 / .265 / .670 | 0.469 |
+| v1 refit (`v1refit_C_m13.json`) | .443 / .395 / .690 | .447 / .361 / .749 | .399 / .298 / .507 | .445 / .284 / .664 | 0.474 |
+| **v2 m1+m3** (`v2_C_m13.json`) | .465 / .435 / .666 | .475 / .398 / .776 | .460 / .387 / .606 | .478 / .346 / .751 | **0.520** |
+| v2 m1 only (`v2_C_m1.json`) | .466 / .435 / .615 | .475 / .397 / .788 | .461 / .387 / .576 | .478 / .346 / .742 | 0.514 |
+
+Old-data in-sample: v2 (C) 0.522 / 0.550 vs v1 0.523 / 0.554 (drop ≤ 0.004, within the 0.03 rule); v2 (A) 0.527 / 0.574.
+
+### Decision
+
+**Ship v2, m1+m3, fit on all data** (`fits/power_grid/round2/v2_C_m13.json`). It beats v1 by +0.06 under (A) and +0.05
+under (B) on every run, and beats the no-structure-change refit by +0.04 under (B), so the gain is structural, not data.
+The frequency channel gains most (R3 0.23 → 0.34–0.39). M3 still earns ≈ +0.006 in-sample (g3 = 0.35, not 0), so the
+pre-registered m1+m3 pair stays; m1-only (`v2_C_m1.json`) is the drop-in alternative. No bootstrap was run.
+
+### Gates
+
+- Stability (200 × 4,000 + 8 × 40,000 random schedules): **pass**, 0 failures; load 65.7–191, f 47.97–52.03 (clips),
+  share 0.031–0.50, worst alternation 0.08 (`fits/power_grid/round2/v2_stability.json`).
+- Contract (`models/power_grid`, 40 × 4,000): **pass**, 4.9 s; all malformed-input cases ok.
+- Package: `submission-power_grid-v2.zip` (6 KB), roots ok, credential scan clean, contract re-run from the extracted copy
+  passes. `models/power_grid/` now holds v2 (v1 copy stays in `fits/round2/v1_models/power_grid`).
+
+### Design choices and their predictions (4,000 ticks from reset, `v2_levels.py`; load / f / share)
+
+| Setting | v2 at t400 = t3990 | v1 |
+|---|---|---|
+| recovery | 94.8 / 50.23 / 0.366 | 94.6 / 50.15 / 0.366 |
+| joint u = 0.7 | 116.3 / **50.73** / 0.057 | 116.4 / 50.11 / 0.072 |
+| joint u = 1 | 125.6 / 50.25 / 0.050 | 125.7 / 50.32 / 0.046 |
+| price 0 alone | 125.6 / 49.39 / 0.345 | 125.7 / 49.55 / 0.335 |
+| reserve 150 alone | 94.8 / 51.77 / 0.076 | 94.6 / 51.70 / 0.075 |
+| interconnector 0.2 alone | 94.8 / 49.55 / 0.220 | 94.6 / 49.80 / 0.216 |
+| price 2 | 85.9 / 50.47 / 0.373 | 84.2 / 50.32 / 0.374 |
+
+Every hold settles within ≈ 400 ticks to a constant (the resonator decays; no drift, no limit cycle) and stays finite to
+40,000 ticks. Frequency keeps a steady droop offset (no restoration) that is linear in reserve up to ≈ 100 and saturates
+above. The joint-pulse frequencies from data are 50.83 (u .7), 50.47 (u .85), 50.11 (u 1): v2 gets u .7 and 1 within
+0.1–0.15 Hz.
+
+### Open issues
+
+1. **Load ringing shape** (B21, the #2 loss) is still a linear resonator plus a floor: period drift and the irregular
+   200-tick joint-1 ringing are missed (load score ≈ 0.46–0.48 everywhere). The 3–5 cohort thermostat model is next.
+2. **kx pinned at 0** (the reserve × interconnector interaction on frequency): the fit prefers a plain additive x effect,
+   and R3 "r80 + x .5" (−0.22 Hz) is fitted by Rsat and the x curve instead. Adding R4 to the fit worsens R3 frequency
+   (fold B: 0.26 vs 0.34 in A), so the x-under-reserve map (B25) is still confounded — this is what PG3 decides.
+3. Price 2 settles at 85.9 vs ≈ 90 in data (rn only 0.86); the recovery peaks after long pulses (R1 210–280, R3 140–200)
+   are ringing-phase errors of 10–14 load units.
+4. Share: r = 40 chatter not modelled (v2 0.125 vs data median 0.12, mean 0.19); share after pulses still ~2σ low.
+5. The optimizer stops early (nfev 16–93 from warm starts); restarts from perturbed points land in worse basins. A
+   Powell pre-pass was not tried.
+
+### Reserve-step recommendation (110 steps, not spent)
+
+Run the diagnosis PG3 schedule unchanged:
+
+```sh
+python run_schedule.py --system power_grid --output data/power_grid/R5.json --confirm 110 --segments '[
+ {"steps": 60, "action": {"price_signal": 0.0, "reserve_dispatch": 150, "charging_allowance": 1.0, "interconnector": 1.0}},
+ {"steps": 30, "action": {"price_signal": 0.0, "reserve_dispatch": 150, "charging_allowance": 1.0, "interconnector": 0.2}},
+ {"steps": 20, "action": {"price_signal": 1.5, "reserve_dispatch": 0,   "charging_allowance": 1.0, "interconnector": 1.0}}]'
+```
+
+v2 predictions (last 10): A 122.2 / **51.03** / 0.058; B 126.7 / 50.21 / 0.049; C trough 65.7, share peak 0.41.
+v1: A 120.0 / 50.66 / 0.077; B 128.8 / 50.25 / 0.045; C trough 61.7. Decision: if A's frequency is ≈ 51.0 ± 0.15, the
+additive reserve + load map holds and the joint deficit is an interconnector effect (keep kx = 0, fit ax on A − B). If it
+is 50.2–50.5, frequency saturates at high load (governor/output limit): add a load-dependent droop limit. A vs v1 is
+≈ 5σ apart either way. B vs R4 joint 1 (identical but charging) closes or reopens M2. C re-tests the 64–66 floor.

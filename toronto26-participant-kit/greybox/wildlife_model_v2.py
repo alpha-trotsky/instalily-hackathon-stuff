@@ -1,4 +1,16 @@
-"""Wildlife gray-box model v1 (Phase C, after plans/wildlife-review.md).
+"""Wildlife gray-box model v2 (round 2, after plans/wildlife-round2-diagnosis.md). v1 is greybox/wildlife_model.py.
+
+Round-2 changes (each has an "off" value that recovers v1 behaviour, used for ablations):
+  P1 predator target on a SHARED prey signal (mean prey of both regions, Hill n = 1 + nP, half-saturation Xp)
+     with a bounded maximum prey depression dP (review B17/B30), and a PERSISTENT corridor depression cY*uc
+     inside the target (B22); the two depressions compose as a q-norm (q = 1 + qC; large q = max-type, B23).
+     off: dP = 0 and cY = 0 -> constant target (then v1's local-prey Y* is not reproduced; v1 is kept separately).
+  P2 the reserve Z relaxes faster when the target is depressed: kZ_eff = kZ (1 + kZp dep) (numerical response,
+     B17: the reset tail falls faster under control). Linear in Z at a given prey path (keeps review R2). off kZp = 0.
+  P3 concave habitat map: every habitat use sees s(uh) = uh (1 + ch)/(uh + ch) (B21). off: ch at its cap (~linear).
+  P4 J0 cap raised to 60 (it was pinned at 30); fitted with the from-reset-under-control runs (B16).
+
+v1 docstring follows.
 
 The previous version is greybox/wildlife_model_v0.py (the fits in fits/wildlife/*_r1.json and *_all_quick.json
 refer to that version).
@@ -44,12 +56,15 @@ SPEC = {
     'eH_N': (0.02, 'c20'), 'eH_S': (0.05, 'c20'), 'g1': (0.19, 'unit'), 'g1f': (0.5, 'unit'),
     'aP': (0.02, 'c3'), 'Xq': (2.0, 'c300'),
     # predators (linear two-state)
-    'kY': (0.05, 'unit'), 'kZ': (0.02, 'unit'), 'yb': (2.4, 'c20'), 'Xp': (3.0, 'c300'), 'eHY': (0.05, 'c5'),
+    'kY': (0.05, 'unit'), 'kZ': (0.02, 'unit'), 'yb': (2.4, 'c20'), 'Xp': (15.0, 'c300'), 'eHY': (0.05, 'c5'),
     'Yref': (2.3, 'c20'), 'zf': (0.5, 'c3'),
+    # round 2: predator target (P1), rate (P2), habitat concavity (P3)
+    'nP': (1.0, 'c4'), 'dP': (0.3, 'unit'), 'cY': (0.2, 'unit'), 'qC': (3.0, 'c20'), 'kZp': (1.0, 'c20'),
+    'ch': (1.0, 'c20'),
     # corridor transit
     'mvX_N': (0.017, 'unit'), 'mvX_S': (0.047, 'unit'), 'mvY': (0.03, 'unit'), 'aT': (0.045, 'unit'),
     # mB nursery
-    'a_m2': (0.6, 'unit'), 'iRm': (0.04, 'c2'), 'J0': (3.0, 'c30'),         # a_m2 used as 0.15 + 0.85 a
+    'a_m2': (0.6, 'unit'), 'iRm': (0.04, 'c2'), 'J0': (3.0, 'c60'),         # a_m2 used as 0.15 + 0.85 a
     # mC settlement
     'cS': (0.3, 'c20'), 'cSY': (0.2, 'c20'),
 }
@@ -137,6 +152,9 @@ def simulate(p, initial, actions):
     a2 = 0.15 + 0.85 * p['a_m2'] if pipe_on else 1.0
     iRm, J0 = p['iRm'], p['J0']
     cS, cSY = p['cS'], p['cSY']
+    nH = 1.0 + p['nP']
+    XpN = p['Xp'] ** nH
+    dP, cY, qq, kZp, ch = p['dP'], p['cY'], 1.0 + p['qC'], p['kZp'], p['ch']
     X = [_init(initial, 'prey_north', 85.0, 0.1, 2000.0), _init(initial, 'prey_south', 85.0, 0.1, 2000.0)]
     Y = [_init(initial, 'predator_north', 11.0, 0.01, 500.0), _init(initial, 'predator_south', 11.0, 0.01, 500.0)]
     Yref, zf = p['Yref'], p['zf']
@@ -151,6 +169,14 @@ def simulate(p, initial, actions):
         uq = min(max(uq, 0.0), 1.2)
         uh = min(max(uh, 0.0), 1.2)
         uc = min(max(uc, 0.0), 1.0)
+        uh = uh * (1.0 + ch) / (uh + ch)          # P3 concave habitat map, s(0) = 0, s(1) = 1
+        # P1/P2 predator target on the shared prey signal, corridor depression, q-norm composition
+        pm = max(0.5 * (X[0] + X[1]), 0.0) ** nH
+        dpp = dP * XpN / (pm + XpN)
+        dcc = cY * uc
+        dep = min((dpp ** qq + dcc ** qq) ** (1.0 / qq), 0.95) if (dpp > 0.0 or dcc > 0.0) else 0.0
+        ystar = yb * (1.0 - dep) * (1.0 + eHY * uh)
+        kz = min(kZ * (1.0 + kZp * dep), 0.5)
         newX, newY = [0.0, 0.0], [0.0, 0.0]
         setX, setY = [0.0, 0.0], [0.0, 0.0]
         for r in (0, 1):
@@ -188,9 +214,8 @@ def simulate(p, initial, actions):
             depX = mvX[r] * uc * x
             depY = mvY * uc * y
             nx = x + recruits - mX * x - pred - harv - depX + setX[r]
-            ystar = yb * xe / (xe + Xp + 1e-9) * (1.0 + eHY * uh)
             ny = y + kY * (Z[r] - y) - depY + setY[r]
-            Z[r] = min(max(Z[r] + kZ * (ystar - Z[r]), 0.001), 500.0)
+            Z[r] = min(max(Z[r] + kz * (ystar - Z[r]), 0.001), 500.0)
             newX[r] = min(max(nx, 0.01), 2000.0)
             newY[r] = min(max(ny, 0.001), 500.0)
             if food_on:

@@ -1,0 +1,6 @@
+C2_pef: start cost 25296.3 free 33
+  pass 0 x_scale=1.0: cost 25296.3 nfev 12 (22s)
+  pass 0 x_scale=jac: cost 20889.1 nfev 62 (247s)
+  pass 1 x_scale=1.0: cost 20889.1 nfev 16 (250s)
+  pass 1 x_scale=jac: cost 20889.1 nfev 23 (259s)
+saved C2_pef cost 20889.1

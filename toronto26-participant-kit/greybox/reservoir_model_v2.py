@@ -3,8 +3,12 @@
 ROUND-2 CHANGES (plans/reservoir-round2-diagnosis.md):
   Q1 reset transient: z decays fast (a_z ~ 0.04) onto a free baseline cq (~0.950); overshoot amplitude
      lam_q * (1 + lz * D/12) grows with delivered outflow. No time-since-reset drift.
-  Q2 post-anoxia offset: pool Dm is removed by deep withdrawal flow  -kfl * ud * D/V * Dm; on aeration return the
-     pool moves into the column Cm at ANY depth (v1's ud gate dropped); Cm decays at dC >= 0.002 (bounded).
+  Q2 post-anoxia offset rebuilt as a flushed deposit pool Cm (replaces v1's G3 remobilization):
+       Cm <- Cm + ap * uae * (1 - Cm) - (kfl * ud * D/V + dC) * Cm     (builds under anoxia, removed by deep
+       withdrawal flow, slow decay dC >= 0.002); it is released into the outlet when the column is mixed:
+       quality target -= gC * Cm * (1 - uae)   (visible once aeration returns, at any depth).
+     The anoxia state Dm (slow build a3, fast fade a3d, -g3 Dm (1 + h3 ud)) is kept; g3, gC >= 0. The linear
+     direct aeration terms wqa, wqx are fixed at 0 (Dm's asymmetric rates already make the response convex).
   Q3 convex aeration: every "no aeration" term uses uae = ua**gam (gam in [1, 5]).
   W1 groundwater reset store: extra inflow gr * max(Hr - V0, 0) * rho**(t-1) (fast, reset only).
 
@@ -71,16 +75,16 @@ SPEC = {
     # m2 irrigated land
     'a2': (0.05, 'unit'), 'g2': (0.0, 'free'), 'th2': (0.3, 'unit'), 'g2q': (0.005, 'free'),
     # m3 deposited material
-    'a3': (0.03, 'unit'), 'a3d': (0.05, 'unit'), 'g3': (0.01, 'free'), 'h3': (0.5, 'free'),
-    'kr': (0.05, 'unit'), 'dC': (0.003, 'dC'), 'gC': (0.015, 'free'),
+    'a3': (0.03, 'unit'), 'a3d': (0.05, 'unit'), 'g3': (0.01, 'pos'), 'h3': (0.5, 'free'),
+    'kr': (0.0, 'unit'), 'dC': (0.003, 'dC'), 'gC': (0.015, 'pos'),
     # round 2
-    'gam': (3.0, 'gam'), 'lz': (0.0, 'free'), 'kfl': (0.5, 'pos'),
+    'ap': (0.02, 'unit'), 'gam': (3.0, 'gam'), 'lz': (0.0, 'free'), 'kfl': (0.5, 'pos'),
     'gr': (0.0149, 'pos'), 'Hr': (561.0, 'free'), 'rho': (0.65, 'unit'),
 }
 MODULES = {
     'm1': (['a1', 'g1', 'th1', 'g1s', 'af1', 'gf1', 'H0', 'b1'], {'g1': 0.0, 'g1s': 0.0, 'gf1': 0.0}),
     'm2': (['a2', 'g2', 'th2', 'g2q'], {'g2': 0.0, 'g2q': 0.0}),
-    'm3': (['a3', 'a3d', 'g3', 'h3', 'kr', 'dC', 'gC', 'kfl'], {'g3': 0.0, 'gC': 0.0}),
+    'm3': (['a3', 'a3d', 'g3', 'h3', 'ap', 'dC', 'gC', 'kfl'], {'g3': 0.0, 'gC': 0.0}),
     'reset': (['gr', 'Hr', 'rho'], {'gr': 0.0}),
     'conv': (['gam'], {'gam': 1.0}),
     'lz': (['lz'], {'lz': 0.0}),
@@ -88,7 +92,7 @@ MODULES = {
 }
 # G2 season fixed; fouling dropped (af = 0); spill instantaneous; M2 inflow return unsupported (G4: quality
 # branch only).
-FIXED = ('c_in', 'A_s', 'A_c', 'P', 'B_s', 'B_c', 'ks', 'af', 'gf', 'g2', 'th2')
+FIXED = ('c_in', 'A_s', 'A_c', 'P', 'B_s', 'B_c', 'ks', 'af', 'gf', 'g2', 'th2', 'kr', 'wqa', 'wqx')
 
 
 def _sigmoid(x):
@@ -172,7 +176,7 @@ def simulate(p, initial, actions):
     a3d = p.get('a3d', p['a3'])
     a2, g2, th2, g2q = p['a2'], p['g2'], p['th2'], p['g2q']
     a3, g3, h3 = p['a3'], p['g3'], p['h3']
-    kr, dC, gC = p.get('kr', 0.0), max(p.get('dC', 0.002), 0.002), p.get('gC', 0.0)
+    ap, dC, gC = p.get('ap', 0.0), max(p.get('dC', 0.002), 0.002), p.get('gC', 0.0)
     wqa, wqd, wqx, wqr, wqi = p['wqa'], p['wqd'], p['wqx'], p['wqr'], p['wqi']
     gam = min(max(float(p.get('gam', 1.0)), 1.0), 5.0)
     lz, kfl = p.get('lz', 0.0), p.get('kfl', 0.0)
@@ -214,7 +218,7 @@ def simulate(p, initial, actions):
         if g3:
             Tq -= g3 * Dm * (1.0 + h3 * ud)
         if gC:
-            Tq -= gC * Cm
+            Tq -= gC * Cm * (1.0 - uae)
         q = min(max(q + kq * (Tq - q), 0.0), 1.0)
         # memories (after outputs)
         Idel = Iq * (D / req) if req > 1e-9 else 0.0
@@ -222,9 +226,9 @@ def simulate(p, initial, actions):
         hf += af1 * (Vn - hf) - b1 * hf
         s1 += a2 * (Idel / 8.0 - s1)
         s2 += a2 * (s1 - s2)
-        Cm += kr * Dm * (1.0 - uae) * (1.0 - Cm) - dC * Cm
+        Cm += ap * uae * (1.0 - Cm) - (min(kfl * ud * D / max(V, 50.0), 0.5) + dC) * Cm
         Cm = min(max(Cm, 0.0), 1.0)
-        Dm += a3 * uae * (1.0 - Dm) - a3d * (1.0 - uae) * Dm - min(kfl * ud * D / max(V, 50.0), 0.5) * Dm
+        Dm += a3 * uae * (1.0 - Dm) - a3d * (1.0 - uae) * Dm
         Dm = min(max(Dm, 0.0), 1.0)
         f += af * (gf * ua - f)
         f = min(max(f, 0.0), 0.9)
