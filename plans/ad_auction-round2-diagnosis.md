@@ -182,10 +182,10 @@ Proposed run **R5 (fresh reset, 170 steps, plus 30 held for settle extension in 
 
 | Ticks | Steps | Action (bid, cap, breadth) | u | v1 prediction (last-10 win / spend / conv) | What each outcome decides |
 |---|---:|---|---|---|---|
-| 0–49 | 50 | 1.5, 100, 0.775 | (0, 1, 1) | t ≈ 20: 0.247 / 32.3 / 5.70; t = 50: 0.246 / 19.4 / 3.9 | Spend above 20 for more than 10 ticks, and a settled level 1.5σ or more above R1's cap-20 breadth run (17.7): cap × breadth interaction; the pool at broad breadth is bigger than modeled (ties in with B20). A conversions plateau near 5.4 would confirm B22's capacity at 0.775 from a rested start. |
-| 50–84 | 35 | recovery | — | 0.265 / 13.0 / 3.0 | Post-broad recovery (R category); breadth off-step under cap 100 history. |
-| 85–134 | 50 | 5, 20, 0.775 | (1, 0, 1) | 0.178–0.189 / 20.0 (capped) / 2.8–2.9 | If conversions are ≥ 3.5 (as with breadth 0.775 alone in R1): the throttle does not scale purchases proportionally, so the pacing/ring structure is wrong. If they are ≤ 2.9, v1's composition holds. Throttled win decides the pacing form at broad breadth. |
-| 135–169 | 35 | recovery | — | 0.267 / 14.0 → 13.1 / 3.0 | A win undershoot below 0.25 (as in R1 after the capped bid pulse): B9 is tied to *capped* pulses at any breadth, which keeps an M1-like or throttle-memory term alive. No undershoot: B9 is specific to breadth 0.55 or the R1 history, and can be dropped. |
+| 0–49 | 50 | 1.5, 100, 0.775 | (0, 1, 1) | t = 10–19: 0.247 / 32.3 / 5.70; t = 40–49: 0.246 / 20.1 / 4.16 | Spend above 20 for more than 10 ticks, and a settled level 1.5σ or more above R1's cap-20 breadth run (17.7): cap × breadth interaction; the pool at broad breadth is bigger than modeled (ties in with B20). A conversions plateau near 5.4 would confirm B22's capacity at 0.775 from a rested start. |
+| 50–84 | 35 | recovery | — | 0.264 / 13.2 / 3.08 | Post-broad recovery (R category); breadth off-step under cap 100 history. |
+| 85–134 | 50 | 5, 20, 0.775 | (1, 0, 1) | 0.187 / 20.0 (capped) / 2.89 | If conversions are ≥ 3.5 (as with breadth 0.775 alone in R1): the throttle does not scale purchases proportionally, so the pacing/ring structure is wrong. If they are ≤ 2.9, v1's composition holds. Throttled win decides the pacing form at broad breadth. |
+| 135–169 | 35 | recovery | — | 0.266 → 0.265 / 14.0 → 13.2 / 3.0 (no win undershoot; min 0.265) | A win undershoot below 0.25 (as in R1 after the capped bid pulse): B9 is tied to *capped* pulses at any breadth, which keeps an M1-like or throttle-memory term alive. No undershoot: B9 is specific to breadth 0.55 or the R1 history, and can be dropped. |
 
 Total: 170 steps, plus up to 30 for extensions (only if settle.py reports that the throttled segment or the cap-100 breadth segment has not settled). This spends the reserve fully.
 
