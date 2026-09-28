@@ -13,7 +13,7 @@ import heldout
 S = 'social_contagion'
 NAMES, SIG = heldout.sigma(S)
 CTX = json.load(open(f'docs/{S}.json'))['brief']['forecast_context']
-BOUNDS = {k: tuple(v) for k, v in CTX['interventions'].items()} if 'interventions' in CTX else {}
+BOUNDS = {k: tuple(v) for k, v in CTX['intervention_bounds'].items()}
 
 KEY = {'R4': [(90, 100, 'u.7'), (140, 150, 'crash'), (390, 400, 'tail'), (530, 540, 'P3')],
        'R5': [(70, 80, 's4.5'), (130, 140, 'inc2'), (180, 190, 'inc1'), (230, 240, 'inc0'), (310, 320, 'rec')],
