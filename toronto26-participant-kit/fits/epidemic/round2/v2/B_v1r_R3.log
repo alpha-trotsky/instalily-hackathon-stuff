@@ -1,0 +1,8 @@
+B_v1r_R3: start cost 28939.7 free 34
+  pass 0 x_scale=1.0: cost 21046.8 nfev 39 (136s)
+  pass 0 x_scale=jac: cost 21046.8 nfev 19 (147s)
+  pass 1 x_scale=1.0: cost 20874.4 nfev 35 (262s)
+  pass 1 x_scale=jac: cost 20874.4 nfev 25 (342s)
+  pass 2 x_scale=1.0: cost 20874.4 nfev 16 (350s)
+  pass 2 x_scale=jac: cost 20872.4 nfev 21 (386s)
+saved B_v1r_R3 cost 20872.4

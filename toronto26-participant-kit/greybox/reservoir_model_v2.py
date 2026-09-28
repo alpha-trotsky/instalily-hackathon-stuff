@@ -1,7 +1,7 @@
 """reservoir gray-box model v2 (round 2; v1 = greybox/reservoir_model.py, unchanged).
 
 ROUND-2 CHANGES (plans/reservoir-round2-diagnosis.md):
-  Q1 reset transient: z decays fast (a_z ~ 0.04) onto a free baseline cq (~0.950); overshoot amplitude
+  Q1 reset transient: z decays fast (a_z in [0.02, 0.2], no clock-like slow drift) onto a free baseline cq (~0.950); overshoot amplitude
      lam_q * (1 + lz * D/12) grows with delivered outflow. No time-since-reset drift.
   Q2 post-anoxia offset rebuilt as a flushed deposit pool Cm (replaces v1's G3 remobilization):
        Cm <- Cm + ap * uae * (1 - Cm) - (kfl * ud * D/V + dC) * Cm     (builds under anoxia, removed by deep
@@ -67,7 +67,7 @@ SPEC = {
     # quality
     'cq': (0.9475, 'free'), 'kq': (0.13, 'unit'), 'wqa': (-0.0085, 'free'), 'wqd': (0.0, 'free'),
     'wqx': (-0.005, 'free'), 'wqr': (0.0, 'free'), 'wqi': (0.0, 'free'),
-    'a_z': (0.2, 'unit'), 'lam_q': (-0.3, 'free'),
+    'a_z': (0.04, 'az'), 'lam_q': (-0.3, 'free'),
     # m1 groundwater: slow aquifer head
     'a1': (0.01, 'unit'), 'g1': (0.3, 'pos'), 'th1': (50.0, 'free'), 'g1s': (0.1, 'pos'),
     # m1 groundwater: fast bank head with a fixed reset head
@@ -111,6 +111,8 @@ def to_natural(name, raw):
         return _sigmoid(raw)
     if kind == 'gam':
         return 1.0 + 4.0 * _sigmoid(raw)
+    if kind == 'az':
+        return 0.02 + 0.18 * _sigmoid(raw)
     if kind == 'dC':
         return 0.002 + 0.2 * _sigmoid(raw)
     if kind == 'pos':
@@ -124,6 +126,8 @@ def to_raw(name, value):
         return _logit(value)
     if kind == 'gam':
         return _logit((value - 1.0) / 4.0)
+    if kind == 'az':
+        return _logit((value - 0.02) / 0.18)
     if kind == 'dC':
         return _logit((value - 0.002) / 0.2)
     if kind == 'pos':
@@ -232,7 +236,7 @@ def simulate(p, initial, actions):
         Dm = min(max(Dm, 0.0), 1.0)
         f += af * (gf * ua - f)
         f = min(max(f, 0.0), 0.9)
-        z *= (1.0 - a_z)
+        z *= (1.0 - min(max(a_z, 0.02), 0.2))
         V = Vn
         rows[i, 0] = V
         rows[i, 1] = inflow

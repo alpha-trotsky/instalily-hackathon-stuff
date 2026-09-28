@@ -29,6 +29,6 @@ sol = least_squares(res, x0, loss='soft_l1', f_scale=2, x_scale='jac', max_nfev=
 p = par(sol.x)
 json.dump({'params': p, 'cost': sol.cost, 'train': a.train, 'free': names}, open(a.out, 'w'), indent=1)
 sc = score(M, p, ['R1', 'R2', 'R3', 'R4', 'R5'])
-print(a.out, f'cost {sol.cost:.1f} nfev {sol.nfev}', ' '.join(f'{r}:{v[3]:.3f}' for r, v in sc.items()),
+print(a.out, f'cost {sol.cost:.1f} nfev {sol.nfev}', ' '.join(f'{r}:{v[3]:.3f}/{v[4]:.3f}' for r, v in sc.items()),
       '| new-q', round(np.mean([sc[r][3] for r in ('R4', 'R5')]), 3), 'old-q', round(np.mean([sc[r][3] for r in ('R1', 'R2', 'R3')]), 3))
 print({n: round(p[n], 5) for n in names})

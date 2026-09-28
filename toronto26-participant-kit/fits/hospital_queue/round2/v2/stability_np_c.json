@@ -1,0 +1,33 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 20.753658056259155,
+ "ranges": {
+  "wait_time": [
+   0.0,
+   8442.299160232044
+  ],
+  "queue": [
+   0.0,
+   16674.08780307449
+  ],
+  "discharges": [
+   0.0,
+   1582.455134027292
+  ]
+ },
+ "min_seen": {
+  "wait_time": 0.0,
+  "queue": 11.63403312316223,
+  "discharges": 0.0
+ },
+ "max_seen": {
+  "wait_time": 1000.0,
+  "queue": 350.89484822166173,
+  "discharges": 33.301132812398976
+ },
+ "worst_alternation": 0.4166666666666667,
+ "failures": [],
+ "n_failures": 0,
+ "pass": true
+}

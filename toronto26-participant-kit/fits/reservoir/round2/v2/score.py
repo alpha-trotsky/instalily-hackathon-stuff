@@ -18,13 +18,15 @@ def score(model, params, runs):
         o = np.array([[x[n] for n in names] for x in run['observations']])
         u = [model.normalize(a, BOUNDS) for a in run['actions']]
         p = np.clip(np.asarray(model.simulate(params, run['initial'], u)), CL[:, 0], CL[:, 1])
-        res[r] = (1 / (1 + np.abs(p - o) / SIG)).mean(0)
+        e = p - o; k = 21; em = np.convolve(e[:, 3], np.ones(k) / k, mode='same')
+        nr = (1 / (1 + np.abs(em) / SIG[3]))[k // 2: -(k // 2)].mean()
+        res[r] = np.append((1 / (1 + np.abs(e) / SIG)).mean(0), nr)
     return res
 
 if __name__ == '__main__':
     model = load(sys.argv[1]); fitd = json.load(open(sys.argv[2])); params = fitd.get('params', fitd)
     res = score(model, params, sys.argv[3:])
     for r, v in res.items():
-        print(f'{r}: ' + ' '.join(f'{x:.3f}' for x in v) + f'  mean {v.mean():.4f}')
+        print(f'{r}: ' + ' '.join(f'{x:.3f}' for x in v[:4]) + f'  mean {v[:4].mean():.4f}   qNR {v[4]:.3f}')
     allv = np.array(list(res.values()))
-    print('per-obs mean: ' + ' '.join(f'{x:.3f}' for x in allv.mean(0)) + f'  MEAN {allv.mean():.4f}')
+    print('per-obs mean: ' + ' '.join(f'{x:.3f}' for x in allv[:, :4].mean(0)) + f'  MEAN {allv[:, :4].mean():.4f}   qNR {allv[:, 4].mean():.3f}')

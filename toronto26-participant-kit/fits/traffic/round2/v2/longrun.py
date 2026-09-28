@@ -3,7 +3,7 @@ python fits/traffic/round2/v2/longrun.py MODEL PARAMS [LD=3]"""
 import sys, json
 import numpy as np
 sys.path.insert(0, '.'); sys.path.insert(0, 'fits/traffic/round2/v2')
-import fitv2
+import trfit as fitv2
 m = fitv2.load(sys.argv[1], sys.argv[3:])
 p = json.load(open(sys.argv[2]))['params']
 ini = {'flow_a': 0.0, 'flow_b': 0.0, 'speed_a': 36.3, 'speed_b': 36.6}

@@ -488,3 +488,99 @@ reflects the optimizer, not evidence about M1.
 | 2026-09-28 14:44–14:55 UTC | RS2 (fresh reset) | `data/reservoir/R5.json` | 450 | 100 |
 
 Segment files: `toronto26-participant-kit/fits/round2/segments/reservoir_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. No steps spent. Module `greybox/reservoir_model_v2.py` (v1 untouched); fits, logs and scripts in
+`toronto26-participant-kit/fits/reservoir/round2/v2/` (`score.py` = heldout.py-equivalent scorer, σ = 0.1·std of R1–R5
+after tick 20, plus a 21-tick noise-reduced quality score "qNR"; `segerr.py` per-segment errors; `steady.py` long holds).
+Final params: `fits/reservoir/round2/v2/final_v2.json` (= `C2.json`, modules m1, m3, reset, conv, lz).
+
+### Diagnosis items addressed and structural changes
+
+| Item | Change in v2 |
+|---|---|
+| 1 (B14/B15) time-since-reset drift | z decays at a_z bounded to [0.02, 0.2] (no clock-like drift; unbounded fits returned a_z = 0.003 on the B4 fold, i.e. the drift again, and v1 refit went to a_z → 0 with cq = −0.4). Overshoot amplitude lam_q·(1 + lz·D/12) grows with delivered outflow. Baseline cq free (fit 0.948). |
+| 2 (B17) post-anoxia offset | v1's G3 remobilization (aeration-on-while-deep feeds Cm) removed. New deposit pool Cm builds under anoxia (ap·uae), is **removed by deep withdrawal flow** kfl·ud·D/V and decays at dC ≥ 0.002; it shows at the outlet only when mixed: −gC·Cm·(1 − uae). g3, gC ≥ 0. |
+| 3 (B18) convex aeration | Every no-aeration term uses uae = ua^γ, γ ∈ [1, 5]. The linear direct terms wqa, wqx are fixed at 0 (the Dm state's slow-build/fast-fade asymmetry carries the on/off asymmetry B16). |
+| 5a (B19) reset groundwater | Fast reset store: extra inflow gr·max(Hr − V0, 0)·ρ^t (fit gr 0.021, Hr 515, ρ 0.74; diagnosis 0.0149, 561, 0.65). |
+| 5b, 6 (B20, B23) | Not changed structurally; left to the refit (H0 moved 443 → 359, gf1 0.71 → 0.59). |
+| 4 (B26, M2) | Not added (no joint-fit evidence; B21 argues against M2). Pair stays m1 + m3. |
+
+### Held-out scores (level / inflow / outflow / quality, mean of 4; qNR in brackets)
+
+| Test | Run | v1 (shipped) | v1 structure refit | v2 |
+|---|---|---|---|---|
+| (A) fit R1–R3 → score | R4 | 0.870/0.698/0.878/0.142 = **0.647** [0.115] | = v1 (v1 was fit on R1–R3) | 0.899/0.698/0.873/0.237 = **0.677** [0.356] |
+| | R5 | 0.812/0.757/0.851/0.190 = **0.652** [0.178] | = v1 | 0.821/0.760/0.853/0.188 = **0.656** [0.159] |
+| | mean | **0.650** | 0.650 | **0.666** |
+| (B) leave R4 out | R4 | 0.647 | 0.843/0.636/0.880/0.190 = 0.637 [0.197] | 0.865/0.648/0.892/0.238 = **0.661** [0.240] |
+| (B) leave R5 out | R5 | 0.652 | 0.804/0.754/0.864/0.238 = 0.665 [0.239] | 0.839/0.761/0.866/0.223 = **0.673** [0.234] |
+| | mean | 0.650 | 0.651 | **0.667** |
+| (C) fit R1–R5, in-sample | R4 / R5 | — | 0.671 / 0.697 (degenerate: cq −0.40, lam_q 1.36, a_z 3e-5) | 0.685 / 0.697 [0.415 / 0.381] |
+| | R1–R3 (old) | 0.681 | 0.662 | 0.682 |
+| | all five | 0.668 | 0.671 | **0.686** (per obs 0.892/0.711/0.877/0.263) |
+
+Raw quality scores are ceiling-bound (quality noise ≈ 5σ per tick); qNR shows the level-error improvement better:
+v1 on R4/R5 0.115/0.178 → v2 (C) 0.415/0.381. Per-segment quality errors (`segerr.py`) went from −20σ (R4
+recovery) and −7 to −9σ (R5 ladder) to within ±3.5σ on R4/R5, apart from the first 30 ticks after R5's aeration
+return (−7σ).
+
+A first v2 variant with unbounded a_z scored (A) 0.665 but (B, R4) only 0.649: without R4 the fit rebuilds the
+time drift. Bounding a_z fixed that; it is the chosen structure.
+
+### Decision
+
+Ship **v2 (C2 fit on R1–R5)**. It beats v1 on every held-out run under (A) and (B) (+0.016 mean each), the v1-structure
+refit is no better than v1 held-out and is degenerate (a clock-like z carrying a −1.3 offset), and the old-data
+in-sample score is unchanged (0.682 vs 0.681).
+
+### Gates
+
+- Stability: pass, 0 failures (`fits/reservoir/round2/v2/stability.log`; max quality 0.972, level ≤ 940).
+- Contract: pass (malformed inputs ok, no bad imports).
+- Package: `python3 -m greybox.common.package --system reservoir --model greybox/reservoir_model_v2.py --params
+  fits/reservoir/round2/v2/final_v2.json --version v2` → `models/reservoir/` and
+  `toronto26-participant-kit/submission-reservoir-v2.zip` (7.2 kB), verified. `heldout.py reservoir --files R1..R5`
+  on the packaged folder gives 0.6857. **Not uploaded.**
+
+### Design choices and their predictions (from level 515, quality 0.85; `steady.py`)
+
+| Hold (4,000 ticks) | level | inflow | outflow | quality t50 / t300 / t4000 |
+|---|---:|---:|---:|---|
+| recovery | 940 (spill) | season | season | 0.952 / 0.948 / **0.948** |
+| u = 0.7 (all controls) | 308 at t300 → 248 | 11.9 | 10.7 | 0.955 / 0.942 / **0.942** |
+| u = 1 | 308 → 248 | 11.9 | 10.7 | 0.946 / 0.925 / **0.924** |
+| u = 1 for 200, then recovery | 278 → 940 | | | 0.926 at t200, 0.945 at t260, 0.948 at t4000 |
+
+- Quality is flat after about t = 300 in every hold (no drift). v1 predicted 0.843 at t = 4000 under u = 0.7 (Cm
+  build-up); v2 predicts 0.942.
+- Long-run level at u ≥ 0.7 is 248 (slow drift from 308 at t300 via the frozen slow aquifer head, a1 ≈ 0.0006,
+  unchanged from v1).
+- The post-anoxia offset: Cm steady state under full anoxia ≈ 0.65, worth −0.027 once aerated, fading at 0.002/tick
+  (τ ≈ 500) unless flushed by deep withdrawal.
+
+### Open issues
+
+1. **γ is pinned at 5** in the all-data fit (the B5 fold, trained with R4, gives 3.0 as the diagnosis did). Pinned =
+   missing structure: probably a threshold in the aeration response rather than a power law.
+2. **Recovery baseline 0.948 vs 0.950 measured** (R4 recovery −3σ). R1's late dips (+5 to +11σ at R1 200–250,
+   360–410, 450–550) still pull cq down; h3 fit negative (deep withdrawal under anoxia less harmful), conflicting with
+   R1 360–410.
+3. **ap·gC trade-off**: ap is small and gC large on some folds (ap 1e-4, gC 1–2.4), i.e. the pool acts as a near-linear
+   dose integrator there; the final fit has ap 0.0038, gC 0.042 (bounded, stable). Deep-flow vs drawdown removal is
+   still confounded (R2 and R4).
+4. Quality recovery right after aeration returns is too slow (R5 390–420 −7σ).
+5. Water: sustained low-level excess shut-off (B20) and refill loss (B23) not restructured; inflow score 0.71.
+6. Fits used 1 restart (machine load ~40 on 4 CPUs); B folds used max 100 evaluations.
+
+### Reserve-step recommendation (100 steps; not spent)
+
+Run the diagnosis §6 pair unchanged — it decides issue 3, the one structural choice in v2 that rests on confounded data:
+**XD** fresh reset, ticks 0–29 release 12, irrigation 0, depth 1, aeration 0; ticks 30–49 recovery (release 2,
+irrigation 0, depth 0, aeration 1). **XS** the same with depth 0 in ticks 0–29. 50 + 50 = 100 steps. v2 predicts
+plateaus (ticks 38–49, from level 515) of XD 0.9469 and XS 0.9458: only 1σ apart, because a 30-tick pulse builds
+little Cm in the final fit. So the runs mainly test whether a short anoxic pulse leaves any offset below 0.950
+(R2's 30-tick pulse left −8σ; v2 predicts ≈ −3σ), and the depth contrast is a bonus. If XD ≈ XS ≈ 0.950 → replace depth-gated
+removal with removal ∝ D/V at any depth; if both ≈ 0.940 → removal by refill turnover; XD < XS → flip the depth sign.
+Side readings: two more reset-excess points (Hr, gr, ρ) and the overshoot under shallow vs deep pulses (lz).

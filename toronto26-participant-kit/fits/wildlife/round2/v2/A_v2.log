@@ -1,11 +1,8 @@
   restart 0: cost 28466.6 nfev 115 (153s)
-stage1 cost 28466.Process SpawnPoolWorker-2:
-Traceback (most recent call last):
-  File "/usr/lib/python3.11/multiprocessing/pool.py", line 131, in worker
-    put((job, i, result))
-  File "/usr/lib/python3.11/multiprocessing/queues.py", line 377, in put
-    self._writer.send_bytes(obj)
-  File "/usr/lib/python3.11/multiprocessing/connection.py", line 200, in send_bytes
+stage1 cost 28466.Pr  restart 0: cost 27388.0 nfev 204 (1122s)
+  restart 1: cost 27388.0 nfev 291 (1314s)
+cost 27388.0 train {'R1': [0.5192, 0.5474, 0.5721, 0.6169], 'R2c': [0.6691, 0.6426, 0.6823, 0.616]} (0.6082) test {'R3': [0.5482, 0.4483, 0.6131, 0.482], 'R4': [0.349, 0.5373, 0.418, 0.4053]} (0.4751) 1472s -> fits/wildlife/round2/v2/A_v2.json
+ 200, in send_bytes
     self._send_bytes(m[offset:offset + size])
   File "/usr/lib/python3.11/multiprocessing/connection.py", line 427, in _send_bytes
     self._send(header + buf)

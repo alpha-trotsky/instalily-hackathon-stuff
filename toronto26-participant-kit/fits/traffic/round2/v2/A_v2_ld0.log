@@ -1,2 +1,4 @@
 start cost 29242.8
-powell 0 cost 26878.9 nfev 2000 128s
+powell 0 cost 27036.0 nfev 1500 105s
+powell 1 cost 26790.6 nfev 1500 216s
+cost 26790.6 start 29242.8 {'R1': 0.553, 'R2': 0.51, 'R3': 0.5158, 'R4': 0.3898, 'R5': 0.4609} 235s

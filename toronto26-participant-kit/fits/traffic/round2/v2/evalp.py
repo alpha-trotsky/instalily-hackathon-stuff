@@ -2,7 +2,7 @@
 import sys, json, time
 import numpy as np
 sys.path.insert(0, '.'); sys.path.insert(0, 'fits/traffic/round2/v2')
-import fitv2
+import trfit as fitv2
 m = fitv2.load(sys.argv[1], sys.argv[3:])
 p = json.load(open(sys.argv[2]))['params']
 p = {k: p.get(k, v[0]) for k, v in m.SPEC.items()} | {k: v for k, v in p.items()}
