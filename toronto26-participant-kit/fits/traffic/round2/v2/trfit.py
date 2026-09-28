@@ -57,6 +57,8 @@ if __name__ == '__main__':
     ap.add_argument('--pw', type=int, default=4000); ap.add_argument('--reps', type=int, default=2)
     ap.add_argument('--lsq', type=int, default=150)
     ap.add_argument('--set', nargs='*'); ap.add_argument('--fix', nargs='*')
+    ap.add_argument('--scoresig', action='store_true', help='residuals in score sigma (heldout sigma) units')
+    ap.add_argument('--only', nargs='*', help='fit only these parameters (others held at --init)')
     a = ap.parse_args()
     m = load(a.model, a.set)
     init = {}
@@ -66,9 +68,13 @@ if __name__ == '__main__':
     fixed = []
     for kv in a.fix or []:
         k, v = kv.split('='); init[k] = float(v); fixed.append(k)
+    if a.only:
+        fixed += [n for n in m.SPEC if n not in a.only and n not in fixed]
     eps = episodes(m, a.data)
     names = eps[0]['names']
     units = [m.UNITS[n] for n in names]; sigma = [m.NOISE[n] for n in names]
+    if a.scoresig:
+        sigma = heldout_sigma(m).tolist()
     P = F.Problem(m, eps, set(), units, sigma, init=init, fixed=fixed)
     x = P.x0(); t0 = time.time()
 
@@ -92,7 +98,7 @@ if __name__ == '__main__':
     params = P.params(x)
     cost = _cost(x)
     sc = score_runs(m, params)
-    res = {'model': a.model, 'modules': [], 'set': a.set or [], 'fixed': fixed, 'cost': cost, 'start_cost': c0,
+    res = {'scoresig': a.scoresig, 'model': a.model, 'modules': [], 'set': a.set or [], 'fixed': fixed, 'cost': cost, 'start_cost': c0,
            'params': params, 'free': P.names, 'data': [f'data/traffic/{r}.json' for r in a.data],
            'train': a.data, 'scores': sc,
            'score_mean': {r: round(float(np.mean(v)), 4) for r, v in sc.items()}}
