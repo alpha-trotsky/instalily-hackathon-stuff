@@ -1,4 +1,14 @@
-"""Traffic grey-box model v1 (Phase C). The reviewer's revised base (fits/traffic/review/traffic_model_rv.py,
+"""Traffic grey-box model v2 (round 2; plans/traffic-round2-diagnosis.md section 5).
+Changes against v1 (greybox/traffic_model.py):
+  * Capacity knee (B25-B28): junction capacity = smin(kg * green_r, exp(c_r)) in PCU, a p-norm soft minimum
+    (P_CAP = 6) of a green-share limit (kg PCU per unit green, shared by both routes) and a fixed route cap,
+    replacing exp(c_r) * (green_r/0.5)^wg_r. Other factors (lane, crew, spillback, exit occupancy) unchanged.
+  * Speed load delay (B24, B29): the in-transit load term counts only pipeline cells at least LD ticks old
+    (vehicles that have just entered do not yet slow the reported speed), so speeds first relax toward free
+    flow after a reset.
+
+Original v1 docstring:
+Traffic grey-box model v1 (Phase C). The reviewer's revised base (fits/traffic/review/traffic_model_rv.py,
 plans/traffic-review.md G2) plus the Phase C changes. The pre-review model is kept as greybox/traffic_model_v0.py.
 
 Base (from rv):
@@ -30,12 +40,14 @@ UNITS = {'flow_a': 'linear', 'flow_b': 'linear', 'speed_a': 'linear', 'speed_b':
 NOISE = {'flow_a': 1.0, 'flow_b': 1.0, 'speed_a': 0.3, 'speed_b': 0.3}
 CLAMP = {'flow_a': [0.0, 200.0], 'flow_b': [0.0, 200.0], 'speed_a': [0.5, 80.0], 'speed_b': [0.5, 80.0]}
 DT = 11
+LD = 3      # speed load delay (ticks)
+P_CAP = 6.0  # p of the capacity soft minimum
 
 SPEC = {
     'd0': (24.0, 'pos'), 'wt': (1.47, 'free'), 'h0': (-2.46, 'free'), 'h1': (1.86, 'free'), 'pce': (3.0, 'pos'),
     'kf': (2.2, 'free'), 'b0': (0.0, 'free'), 'dv': (0.08, 'unit'), 'qd': (1.0, 'pos'),
     'qmax_A': (600.0, 'pos'), 'qmax_B': (300.0, 'pos'), 'sp_A': (0.2, 'pos'), 'sp_B': (0.2, 'pos'),
-    'c_A': (3.26, 'free'), 'c_B': (2.83, 'free'), 'wg_A': (0.58, 'free'), 'wg_B': (0.58, 'free'),
+    'c_A': (3.3, 'free'), 'c_B': (2.8, 'free'), 'kg': (75.0, 'pos'),
     'wl_A': (0.01, 'unit'), 'wl_B': (0.04, 'unit'), 'wc_A': (0.24, 'free'), 'wc_B': (0.18, 'free'),
     'e_A': (3.6, 'free'), 'e_B': (3.15, 'free'), 'ke': (0.63, 'free'), 'Emax': (16.6, 'pos'),
     'vf_A': (49.9, 'pos'), 'vf_B': (50.2, 'pos'), 'al_A': (0.56, 'pos'), 'al_B': (0.48, 'pos'), 'pa': (0.54, 'pos'),
@@ -108,7 +120,7 @@ def simulate(p, initial, actions):
     b0, dv, qd = g('b0'), g('dv'), g('qd')
     qmax = [min(max(g('qmax_A'), 1.0), 1e5), min(max(g('qmax_B'), 1.0), 1e5)]
     sp = [min(g('sp_A'), 20.0), min(g('sp_B'), 20.0)]
-    c = [g('c_A'), g('c_B')]; wg = [g('wg_A'), g('wg_B')]; wl = [g('wl_A'), g('wl_B')]; wc = [g('wc_A'), g('wc_B')]
+    c = [g('c_A'), g('c_B')]; kg = min(max(g('kg'), 1e-3), 1e4); wl = [g('wl_A'), g('wl_B')]; wc = [g('wc_A'), g('wc_B')]
     e = [g('e_A'), g('e_B')]; ke, Emax = g('ke'), min(max(g('Emax'), 1.0), 1e5)
     vf = [min(g('vf_A'), 75.0), min(g('vf_B'), 75.0)]; al = [g('al_A'), g('al_B')]; pa = min(g('pa'), 3.0)
     sg = [g('sg_A'), g('sg_B')]; be = [g('be_A'), g('be_B')]; bx = g('bx')
@@ -159,8 +171,10 @@ def simulate(p, initial, actions):
             acc = 1.0 if need <= space or need <= 0 else space / need
             Ql[r] += rl * acc; Qh[r] += rh * acc
             full = min((Ql[r] + pce * Qh[r]) / qmax[r], 1.0)
-            cap = _ex(c[r] + wg[r] * math.log(green[r] / 0.5) + wc[r] * uc - mech - sp[r] * full
-                      - g3c * F[r] - g3x * F[1 - r])
+            cmax = _ex(c[r])
+            xg = kg * green[r] / cmax
+            knee = xg / (1.0 + xg ** P_CAP) ** (1.0 / P_CAP) if xg < 1e6 else 1.0
+            cap = cmax * knee * _ex(wc[r] * uc - mech - sp[r] * full - g3c * F[r] - g3x * F[1 - r])
             cap *= max(1.0 - wl[r] * lane, 0.02) * occ
             hp = pce * Qh[r]
             den = wH * hp + Ql[r]
@@ -179,11 +193,15 @@ def simulate(p, initial, actions):
         for r in (0, 1):
             Qp_r = Ql[r] + pce * Qh[r]
             ntot = nl[r] + nh[r]
+            nload = ntot
+            for j in range(1, LD + 1):
+                k = (head - j) % DT
+                nload -= pl[r][k] + ph[r][k]
             hn = (nh[r] + Qh[r]) / (ntot + Ql[r] + Qh[r] + 1e-9)
             wait = Qp_r / max(served[r], 0.5)
             w = exits[r] / (exits[r] + 1.0)
             J[r] += kJ * w * (min(wait, 500.0) - J[r])
-            tf = (1.0 + al[r] * (max(ntot, 0.0) / 100.0) ** pa + sg[r] * (0.5 / green[r] - 1.0)
+            tf = (1.0 + al[r] * (max(nload, 0.0) / 100.0) ** pa + sg[r] * (0.5 / green[r] - 1.0)
                   + be[r] * min(Qp_r, 2000.0) / 100.0 + bx * E[r] / 10.0 + vh[r] * hn + bj[r] * J[r] / 10.0
                   + g3v * F[r])
             V = vf[r] / min(max(tf, 1.0), 60.0)

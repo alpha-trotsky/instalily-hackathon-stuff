@@ -1,73 +1,13 @@
 {
- "system": "traffic",
- "model_file": "traffic_model_v2.py",
- "observables": [
-  "flow_a",
-  "flow_b",
-  "speed_a",
-  "speed_b"
- ],
- "bounds": {
-  "signal_timing": [
-   0.1,
-   0.9
-  ],
-  "lane_closure": [
-   0.0,
-   0.75
-  ],
-  "toll": [
-   0.0,
-   5.0
-  ],
-  "ramp_metering": [
-   0.0,
-   1.0
-  ],
-  "freight_priority": [
-   0.0,
-   1.0
-  ],
-  "clearance_effort": [
-   0.0,
-   1.0
-  ]
- },
- "recovery": {
-  "clearance_effort": 1.0,
-  "freight_priority": 0.5,
-  "lane_closure": 0.0,
-  "ramp_metering": 0.0,
-  "signal_timing": 0.5,
-  "toll": 5.0
- },
- "clamp": {
-  "flow_a": [
-   0.0,
-   200.0
-  ],
-  "flow_b": [
-   0.0,
-   200.0
-  ],
-  "speed_a": [
-   0.5,
-   80.0
-  ],
-  "speed_b": [
-   0.5,
-   80.0
-  ]
- },
- "fallback": {
-  "flow_a": 11.439572628175416,
-  "flow_b": 11.723981607030304,
-  "speed_a": 18.163193530439102,
-  "speed_b": 17.373486874859573
- },
+ "scoresig": false,
+ "model": "greybox/traffic_model_v2.py",
  "modules": [],
- "source_fit": "fits/traffic/final_v2.json",
- "built_at": "2026-09-28T15:56:05",
+ "set": [
+  "LD=3"
+ ],
+ "fixed": [],
+ "cost": 43681.990431398954,
+ "start_cost": 44325.88346206078,
  "params": {
   "d0": 23.829183047200406,
   "wt": 1.769356950802226,
@@ -121,5 +61,100 @@
   "g3c": 0.0,
   "g3x": 0.0,
   "g3v": 0.0
+ },
+ "free": [
+  "d0",
+  "wt",
+  "h0",
+  "h1",
+  "pce",
+  "kf",
+  "b0",
+  "dv",
+  "qd",
+  "qmax_A",
+  "qmax_B",
+  "sp_A",
+  "sp_B",
+  "c_A",
+  "c_B",
+  "kg",
+  "wl_A",
+  "wl_B",
+  "wc_A",
+  "wc_B",
+  "e_A",
+  "e_B",
+  "ke",
+  "Emax",
+  "vf_A",
+  "vf_B",
+  "al_A",
+  "al_B",
+  "pa",
+  "sg_A",
+  "sg_B",
+  "be_A",
+  "be_B",
+  "bx",
+  "vh_A",
+  "vh_B",
+  "bj_A",
+  "bj_B",
+  "kJ",
+  "kv"
+ ],
+ "data": [
+  "data/traffic/R1.json",
+  "data/traffic/R2.json",
+  "data/traffic/R3.json",
+  "data/traffic/R4.json",
+  "data/traffic/R5.json"
+ ],
+ "train": [
+  "R1",
+  "R2",
+  "R3",
+  "R4",
+  "R5"
+ ],
+ "scores": {
+  "R1": [
+   0.4921,
+   0.4949,
+   0.6917,
+   0.5797
+  ],
+  "R2": [
+   0.4545,
+   0.3942,
+   0.5726,
+   0.5445
+  ],
+  "R3": [
+   0.5618,
+   0.3703,
+   0.7299,
+   0.6714
+  ],
+  "R4": [
+   0.3889,
+   0.3109,
+   0.4947,
+   0.5673
+  ],
+  "R5": [
+   0.2315,
+   0.2616,
+   0.6712,
+   0.7134
+  ]
+ },
+ "score_mean": {
+  "R1": 0.5646,
+  "R2": 0.4914,
+  "R3": 0.5834,
+  "R4": 0.4405,
+  "R5": 0.4694
  }
 }

@@ -545,3 +545,100 @@ The same pair (m13) scores 0.256 or 0.453 depending on the optimizer path, so th
 | 2026-09-28 14:44–14:55 UTC | TR2 (fresh reset) | `data/traffic/R5.json` | 200 | 100 |
 
 Segment files: `toronto26-participant-kit/fits/round2/segments/traffic_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. No simulator steps spent (100 reserve remain). Module `greybox/traffic_model_v2.py`; fits, driver and
+checks in `toronto26-participant-kit/fits/traffic/round2/v2/` (`trfit.py` = Powell ×2 + least_squares polish, the v1 fit
+protocol; `evalp.py`, `segs.py`, `probe.py`, `longrun.py`). Final params `fits/traffic/final_v2.json` (= `C_v2_ld3.json`).
+All scores use the `heldout.py` σ (0.1 × std after tick 20 of R1–R5); the packaged folder reproduces them through `heldout.py`.
+
+### Diagnosis items addressed and structural changes
+
+1. **Capacity knee (diagnosis change 1; B25–B28, B7).** Junction capacity is now `smin(kg·green_r, exp(c_r))` in PCU, a
+   p-norm soft minimum (p = 6, fixed) of a green-share limit with **one shared slope kg** and a fixed route cap, times the
+   unchanged crew, lane, spillback and exit-occupancy factors. It replaces `exp(c_r)·(green_r/0.5)^wg_r` (−2 params, +1).
+   Fitted: kg = 74.9 PCU per unit green, Cmax_A = 26.8 PCU, Cmax_B = 17.9 PCU (the diagnosis' 70–80 / 25–30 / 16–17).
+   kg sits at a sharp cost minimum (probe: kg 65/70/80/90 all raise the all-data cost by 2–9 %).
+2. **Speed load delay (change 2; B24, B29).** The in-transit load term counts only pipeline cells ≥ LD = 3 ticks old, so speeds
+   first relax toward free flow after reset; kv refits to 0.135 (v1 0.107). A fixed constant, no new parameter.
+3. B34 (drift), B35 (freight 0), B31 (B dead time), B36: **no change** (see open issues). No mechanisms (as v1).
+4. Tried and rejected: residuals in score-σ units instead of the module NOISE (`--scoresig`): held-out (B) 0.431 vs 0.438.
+
+### Held-out scores (per observable fa, fb, sa, sb; run mean)
+
+| Test | Model | R4 | R5 | Mean |
+|---|---|---|---|---:|
+| (A) fit R1–R3, score R4, R5 | v1 (= v1 structure on old data) | .363 .303 .363 .414 → **0.361** | .231 .271 .643 .665 → **0.452** | **0.407** |
+| | v2 knee only (LD 0) | .344 .315 .391 .509 → 0.390 | .232 .270 .619 .722 → 0.461 | 0.425 |
+| | **v2 (knee + LD 3)** | .347 .311 .465 .527 → **0.413** | .229 .263 .651 .650 → **0.448** | **0.430** |
+| (B) leave one new run out | v1 refit | .359 .304 .354 .427 → 0.361 | .242 .273 .566 .770 → 0.463 | 0.412 |
+| | v2 knee only (LD 0) | .352 .312 .459 .518 → 0.410 | .235 .266 .623 .746 → 0.468 | 0.439 |
+| | v2, score-σ residuals | .351 .321 .378 .551 → 0.400 | .231 .265 .649 .702 → 0.462 | 0.431 |
+| | **v2 (knee + LD 3)** | .346 .311 .473 .544 → **0.419** | .230 .261 .639 .698 → **0.457** | **0.438** |
+| (C) all data, in-sample | v1 shipped | 0.361 | 0.452 | R1–R3 0.599 / 0.531 / 0.526; 5-run mean 0.494 |
+| | v1 refit | .394 .306 .491 .504 → 0.424 | .233 .275 .647 .761 → 0.479 | R1–R3 0.585 / 0.502 / 0.533; mean 0.505 |
+| | **v2 (final)** | .389 .311 .495 .567 → **0.441** | .232 .262 .671 .713 → **0.469** | R1–R3 0.565 / 0.491 / 0.583; mean **0.510** |
+
+In-sample on old data (packaged folder, `heldout.py --files R1 R2 R3`):
+v2 0.547 vs v1 0.552 (−0.005, within the 0.03 rule); R1 alone drops 0.034 (flow_a at R1's toll-0 green-0.5 holds).
+
+### Decision
+
+**Ship v2 = knee + LD 3** (`final_v2.json`). The capacity knee earns its keep on both held-out tests (knee-only vs v1 / v1 refit:
+(A) +0.018, (B) +0.027). The load delay adds +0.005 on (A) and ties on (B) (−0.001; it wins R4 speed_a and speed_b,
+loses R5 speed_b), lowers the training cost in every fit (−2 to −4 %) and fixes the reset transient the diagnosis flagged
+in every episode, and it adds no parameter; kept. Whole-run held-out gain: +0.023 (A) vs v1; (B) +0.031 vs v1 and +0.026 vs v1 refit.
+
+### Gates
+
+- **Stability** (`fits/traffic/round2/v2/stab_v2.json`, 200 schedules incl. 8 × 40,000): bounded, finite, no range or clamp
+  failures (flows 0–26.2, speeds 5.6–49.5). **24 schedules flagged "sawtooth"** (v1: 75), the same congested exit-occupancy
+  period-2 bursts accepted as a documented exception for v1; amplitudes mostly 0.1–1.7 (max 2.8). Accepted on the same grounds.
+- **Contract** (`gates contract models/traffic`): pass. Package check from the extracted ZIP: pass (40 × 4,000 in 3.9 s,
+  malformed inputs ok, credential scan clean).
+- **Package:** `toronto26-participant-kit/models/traffic/` and `toronto26-participant-kit/submission-traffic-v2.zip`.
+
+### Design choices and their predictions (4,000-tick holds from reset, all controls at u; fa, fb, sa, sb)
+
+| Setting | t = 150 | t = 1,000 = t = 4,000 | v1 (t = 4,000) |
+|---|---|---|---|
+| recovery | 0, 0, 49.5, 48.8 | same | 0, 0, 49.7, 49.5 |
+| u = 0.5 | 10.7, 11.8, 30.1, 30.4 | same | 11.2, 11.6, 29.7, 30.3 |
+| u = 0.7 | 14.6, 12.4, **13.0**, 16.4 | 12.4, 12.4, **8.6**, 16.4 | 12.2, 15.7, 8.4, 17.6 |
+| u = 0.85 | 10.1, 12.4, 8.1, 15.9 | 10.0, 12.4, 8.1, 15.9 | 9.8, 14.8, 7.8, 16.7 |
+| u = 1 | 7.5, 12.3, 7.5, 15.3 | 7.4, 12.3, 7.4, 15.3 | 7.3, 13.5, 7.0, 15.7 |
+| u1 200 → recovery | +50: 0, 0, 45.7, 48.0; t 4,000: 49.4, 48.6 | | |
+
+- B's congested state is now invariant (flow_b 12.3–12.4, speed_b 15.3–16.4 at u ≥ 0.7), as B27 says.
+- At u = 0.7 the model reproduces the measured 150-tick state (speed_a 13.0 vs 12.3) and then keeps drifting (the A queue fills
+  its 570-PCU buffer slowly) to speed_a 8.6 by tick ~1,000. That is B34 as a plain queue dynamic, but the asymptote is an
+  extrapolation: the data's k ≈ 0.04 fit gave 11.9. Nothing in 4,000 ticks is unstable or clock-like; all holds are flat after ~1,000.
+
+### Open issues
+
+1. **A capacity at green 0.5 with a full queue (R5, R1 toll-0 holds): flow_a −4 to −5σ in-sample** (model 16.5 vs 20.3; freight 0
+   13.7 vs 18.9). The spillback penalty sp_A = 0.36 is needed by R1/R2 but caps R5; lowering it to 0.1 fixes R5 flow_a but costs
+   speeds elsewhere. Also R1's lane-1 hold raises flow_a to 24.7 (model 17). Likely a missing lane/section structure.
+2. u.7 long-run speed_a (8.6 vs a data-extrapolated 11.9): B34 settles the scored sustained u.7 level; unmeasured beyond 150 ticks.
+3. Drain after u1 (R4 280–310): flows −4.5σ (A) / −4.9σ (B) — discharge after a long pulse is faster than modelled.
+4. freight 0 effect (B35), B dead time (B31), lane/clearance (B36): not modelled. Flow bursts remain the dominant floor.
+5. Sawtooth flags (24) remain a documented exception.
+
+### Reserve steps (100) recommendation
+
+Run the diagnosis' **TR3** unchanged: fresh reset; S1 30 ticks of B (signal 0.5, lane 0, toll 1.5, ramp 1, freight 0.5,
+clearance 1); S2 35 ticks of B + signal 0.255; S3 35 ticks of B + signal 0.2025 (one `run_schedule.py` call per segment).
+Predictions, last-20-tick means (fa, fb, sa, sb):
+
+| Model | S1 (ticks 10–29) | S2 | S3 |
+|---|---|---|---|
+| **v2** | 18.4, 10.8, 26.1, 23.2 | **10.4**, 10.6, 9.8, 15.5 | **8.2**, 10.6, 7.8, 15.5 |
+| v1 | 19.0, 10.5, 25.5, 23.3 | 9.7, 13.3, 9.6, 16.3 | 8.4, 13.9, 7.5, 16.3 |
+| diagnosis H1 (green knee) / H2 (other controls) | | 14–15 / 17–19 | ≈ 11 / 17–19 |
+
+What it decides: v2 puts the green knee at the right place on the ray (u.7, u.85 fit), but in R5's background (crew at exits,
+full A queue) it predicts a much lower A capacity than H1. **flow_a ≥ 13 in S2** → open issue 1 is real (the spillback penalty
+is too strong away from the ray): refit with sp_A constrained by the new points, or make the penalty act only near a full buffer.
+**flow_a ≈ 10–11** → v2's capacity map holds and R5's high A flows come from the freight/lane segments. **flow_b outside
+11.5–13.5** → B is not invariant and Cmax_B needs a green term. The S1 replicate vs R5 ticks 0–29 also tests burst determinism.
