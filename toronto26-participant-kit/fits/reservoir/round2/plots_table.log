@@ -1,0 +1,65 @@
+== R1  T=550  score by obs: level=0.873 inflow=0.782 outflow=0.870 quality=0.283
+  [  0- 39] rel=2 irr=0 wit=0 aer=1                       obs    827.4    10.97    1.997   0.9509 | v1    831.4    10.95        2    0.954 | err/sig   +0.2   -0.1   +0.0   +3.0
+  [ 40- 59] rel=2 irr=0 wit=0 aer=1                       obs    933.6    9.318    4.479   0.9507 | v1    934.3    9.308    4.396    0.952 | err/sig   +0.0   -0.1   -0.2   +1.3
+  [ 60-109] rel=12 irr=0 wit=0 aer=1                      obs    885.5     10.5    11.97   0.9491 | v1      887    10.52       12   0.9479 | err/sig   +0.1   +0.1   +0.1   -1.2
+  [110-139] rel=2 irr=0 wit=0 aer=1                       obs    940.8    11.28    10.01   0.9484 | v1    941.1    11.28    9.997   0.9467 | err/sig   +0.0   -0.0   -0.0   -1.7
+  [140-199] rel=2 irr=8 wit=0 aer=1                       obs    907.1    9.832    10.02   0.9459 | v1    904.6    9.847       10   0.9462 | err/sig   -0.1   +0.1   -0.0   +0.3
+  [200-249] rel=2 irr=0 wit=0 aer=1                       obs    941.6    9.752    8.709   0.9408 | v1    941.1    9.759     8.63   0.9431 | err/sig   -0.0   +0.0   -0.2   +2.2
+  [250-299] rel=2 irr=0 wit=1 aer=1                       obs    943.1    12.95    11.73   0.9463 | v1    941.1    12.94    11.84   0.9464 | err/sig   -0.1   -0.0   +0.3   +0.1
+  [300-359] rel=2 irr=0 wit=0 aer=0                       obs    939.4    13.43     12.2   0.9322 | v1    941.1    13.45    12.35     0.93 | err/sig   +0.1   +0.1   +0.4   -2.2
+  [360-409] rel=2 irr=0 wit=1 aer=0                       obs    937.9    11.08    9.964   0.9185 | v1    941.1    11.07    9.971   0.9253 | err/sig   +0.1   -0.1   +0.0   +6.6
+  [410-449] rel=2 irr=0 wit=1 aer=1                       obs    940.7    10.29    9.247    0.937 | v1    941.1    10.29    9.194   0.9345 | err/sig   +0.0   -0.0   -0.1   -2.4
+  [450-469] rel=2 irr=0 wit=0 aer=1                       obs    942.4    9.692    8.662   0.9316 | v1    941.1    9.699      8.6   0.9317 | err/sig   -0.1   +0.0   -0.2   +0.1
+  [470-529] rel=12 irr=8 wit=0 aer=1                      obs    681.1    9.513    14.88   0.9332 | v1    682.7    9.504    14.87   0.9334 | err/sig   +0.1   -0.1   -0.0   +0.2
+  [530-549] rel=2 irr=0 wit=0 aer=1                       obs      778    11.97    1.991   0.9367 | v1    780.5    11.97        2    0.932 | err/sig   +0.1   -0.0   +0.0   -4.6
+== R2  T=400  score by obs: level=0.875 inflow=0.744 outflow=0.880 quality=0.286
+  [  0- 39] rel=2 irr=0 wit=0 aer=1                       obs    904.2    10.99    1.998    0.951 | v1    905.3    10.95        2    0.954 | err/sig   +0.0   -0.2   +0.0   +2.9
+  [ 40- 89] rel=12 irr=8 wit=1 aer=0                      obs    681.9    13.49    14.75    0.945 | v1    682.8    13.52    14.85   0.9445 | err/sig   +0.0   +0.2   +0.2   -0.5
+  [ 90-139] rel=12 irr=8 wit=1 aer=0                      obs    505.1    11.77    13.36   0.9284 | v1      500    11.81    13.39   0.9333 | err/sig   -0.2   +0.3   +0.1   +4.8
+  [140-189] rel=12 irr=8 wit=1 aer=0                      obs    423.1     9.62    12.65   0.9287 | v1    422.4    9.552    12.68   0.9274 | err/sig   -0.0   -0.4   +0.1   -1.2
+  [190-239] rel=12 irr=8 wit=1 aer=0                      obs      386    11.87     12.3   0.9273 | v1    389.4     11.9    12.31   0.9242 | err/sig   +0.1   +0.2   +0.0   -3.0
+  [240-279] rel=12 irr=0 wit=0 aer=1                      obs      318    12.61    11.58   0.9407 | v1    323.3    12.57    11.49   0.9401 | err/sig   +0.2   -0.3   -0.2   -0.6
+  [280-339] rel=2 irr=0 wit=0 aer=1                       obs      759    10.63    1.994   0.9461 | v1    755.7    10.63        2   0.9417 | err/sig   -0.1   +0.0   +0.0   -4.4
+  [340-369] rel=12 irr=8 wit=1 aer=0                      obs    700.3    12.63    15.04   0.9382 | v1    696.6    12.62    14.96   0.9418 | err/sig   -0.2   -0.1   -0.2   +3.6
+  [370-399] rel=2 irr=0 wit=0 aer=1                       obs    851.5    9.426    2.008   0.9437 | v1    847.4    9.425        2   0.9395 | err/sig   -0.2   -0.0   -0.0   -4.1
+== R3  T=50  score by obs: level=0.918 inflow=0.597 outflow=0.871 quality=0.190
+  [  0- 24] rel=12 irr=8 wit=1 aer=0                      obs    409.1    13.34     12.5   0.9608 | v1    407.3    13.41    12.48   0.9573 | err/sig   -0.1   +0.4   -0.1   -3.4
+  [ 25- 49] rel=12 irr=8 wit=1 aer=0                      obs    370.8    9.686    12.15   0.9534 | v1    370.7    9.528    12.13   0.9479 | err/sig   -0.0   -1.0   -0.0   -5.4
+== R4  T=450  score by obs: level=0.870 inflow=0.698 outflow=0.878 quality=0.142
+  [  0- 99] rel=9 irr=5.6 wit=0.7 aer=0.3                 obs    366.5    12.65    12.12   0.9481 | v1    370.6    12.63     12.1   0.9426 | err/sig   +0.2   -0.2   -0.1   -5.4
+  [100-249] rel=9 irr=5.6 wit=0.7 aer=0.3                 obs    296.3     10.1    11.36   0.9435 | v1    300.8    9.993    11.31   0.9281 | err/sig   +0.2   -0.7   -0.1  -15.1
+  [250-299] rel=2 irr=0 wit=0 aer=1                       obs    669.5    12.95    1.995   0.9521 | v1    664.6    12.94        2   0.9298 | err/sig   -0.2   -0.1   +0.0  -21.9
+  [300-449] rel=2 irr=0 wit=0 aer=1                       obs      941    10.29    9.206   0.9496 | v1    941.1    10.29    9.162   0.9296 | err/sig   +0.0   +0.0   -0.1  -19.6
+== R5  T=450  score by obs: level=0.812 inflow=0.757 outflow=0.851 quality=0.190
+  [  0-149] rel=10.5 irr=0 wit=0 aer=1                    obs    458.5    13.04    10.54   0.9488 | v1    443.6    13.05     10.5   0.9458 | err/sig   -0.6   +0.0   -0.1   -2.9
+  [150-229] rel=2 irr=0 wit=0 aer=0.3                     obs      942    13.17    11.47   0.9444 | v1    941.1     13.2     11.3   0.9375 | err/sig   -0.0   +0.2   -0.4   -6.7
+  [230-309] rel=2 irr=0 wit=0.5 aer=0.15                  obs    942.8    11.12       10   0.9352 | v1    941.1    11.16    10.01   0.9311 | err/sig   -0.1   +0.2   +0.0   -4.1
+  [310-389] rel=2 irr=0 wit=0.5 aer=0                     obs    943.3    9.274    8.255   0.9292 | v1    941.1    9.261    8.142   0.9214 | err/sig   -0.1   -0.1   -0.3   -7.6
+  [390-449] rel=2 irr=0 wit=0 aer=1                       obs    939.1    10.28     9.25   0.9375 | v1    941.1    10.29    9.177   0.9384 | err/sig   +0.1   +0.1   -0.2   +1.0
+
+== score-loss ranking (new runs)
+R4 [300-449] quality  lost= 142.4 (11.3%) first20%= 28.7 err2nd=-19.96σ sd= 5.61 rel=2 irr=0 wit=0 aer=1
+R4 [100-249] quality  lost= 121.9 ( 9.7%) first20%= 19.7 err2nd= -9.86σ sd= 5.82 rel=9 irr=5.6 wit=0.7 aer=0.3
+R5 [  0-149] quality  lost= 115.4 ( 9.2%) first20%= 20.2 err2nd= -5.39σ sd= 4.97 rel=10.5 irr=0 wit=0 aer=1
+R4 [  0- 99] quality  lost=  74.2 ( 5.9%) first20%= 15.6 err2nd= -3.70σ sd= 5.22 rel=9 irr=5.6 wit=0.7 aer=0.3
+R5 [310-389] quality  lost=  69.3 ( 5.5%) first20%= 13.7 err2nd= -9.31σ sd= 5.35 rel=2 irr=0 wit=0.5 aer=0
+R5 [150-229] quality  lost=  67.3 ( 5.3%) first20%= 11.7 err2nd= -8.49σ sd= 5.24 rel=2 irr=0 wit=0 aer=0.3
+R5 [230-309] quality  lost=  65.8 ( 5.2%) first20%= 13.4 err2nd= -7.59σ sd= 4.89 rel=2 irr=0 wit=0.5 aer=0.15
+R4 [100-249] inflow   lost=  55.4 ( 4.4%) first20%= 14.4 err2nd= -0.50σ sd= 0.64 rel=9 irr=5.6 wit=0.7 aer=0.3
+R4 [250-299] quality  lost=  47.4 ( 3.8%) first20%=  9.4 err2nd=-20.19σ sd= 5.70 rel=2 irr=0 wit=0 aer=1
+R5 [390-449] quality  lost=  46.9 ( 3.7%) first20%= 10.9 err2nd= -0.00σ sd= 6.15 rel=2 irr=0 wit=0 aer=1
+R5 [  0-149] inflow   lost=  44.3 ( 3.5%) first20%= 11.2 err2nd= -0.25σ sd= 0.58 rel=10.5 irr=0 wit=0 aer=1
+R4 [300-449] inflow   lost=  32.6 ( 2.6%) first20%=  6.2 err2nd= +0.12σ sd= 0.39 rel=2 irr=0 wit=0 aer=1
+R4 [  0- 99] inflow   lost=  31.3 ( 2.5%) first20%=  8.7 err2nd= -0.24σ sd= 0.46 rel=9 irr=5.6 wit=0.7 aer=0.3
+R5 [  0-149] level    lost=  30.1 ( 2.4%) first20%=  3.9 err2nd= -0.39σ sd= 0.20 rel=10.5 irr=0 wit=0 aer=1
+R5 [150-229] level    lost=  28.2 ( 2.2%) first20%=  5.4 err2nd= -0.57σ sd= 0.46 rel=2 irr=0 wit=0 aer=0.3
+R4 [300-449] level    lost=  24.0 ( 1.9%) first20%=  7.6 err2nd= -0.00σ sd= 0.18 rel=2 irr=0 wit=0 aer=1
+R4 [300-449] outflow  lost=  23.5 ( 1.9%) first20%=  0.6 err2nd= -0.03σ sd= 0.29 rel=2 irr=0 wit=0 aer=1
+R4 [100-249] level    lost=  19.6 ( 1.6%) first20%=  3.9 err2nd= +0.14σ sd= 0.09 rel=9 irr=5.6 wit=0.7 aer=0.3
+R4 [100-249] outflow  lost=  19.3 ( 1.5%) first20%=  3.5 err2nd= -0.15σ sd= 0.16 rel=9 irr=5.6 wit=0.7 aer=0.3
+R5 [230-309] outflow  lost=  18.4 ( 1.5%) first20%=  4.8 err2nd= +0.20σ sd= 0.21 rel=2 irr=0 wit=0.5 aer=0.15
+total lost (new) = 1261.1 of 3600 obs-ticks
+level lost 143.1
+inflow lost 245.2
+outflow lost 122.1
+quality lost 750.7
