@@ -1,4 +1,8 @@
-"""Epidemic gray-box model v2: three-age-group SEIRS (children / adults / elderly) with vaccination, a hospital
+"""Epidemic gray-box model (round-2 "v2" module; the docstring below describes the v1 base).
+Round-2 changes: doses weighted (1, 1, pe) over the non-infected of each group (only S takes effect);
+fatigue scales the mask effect by fmask_m1 (v1 = 1); optional bed-load clinic throttle kH (v1 = 0).
+
+Epidemic gray-box model v2: three-age-group SEIRS (children / adults / elderly) with vaccination, a hospital
 referral queue with a fixed bed capacity, an importation floor and three pluggable history mechanisms
 (m1 behaviour, m2 developing immunity, m3 postponed gatherings).
 
@@ -49,19 +53,22 @@ SPEC = {
     's0': (0.45, 'unit'), 'rI': (1.2, 'pos'), 'eps': (2e-5, 'pos'),
     # controls
     'wm': (0.3, 'unit'), 'wc': (0.05, 'unit'), 'a_c': (0.15, 'unit'), 'ev': (0.8, 'unit'), 'kappa': (0.5, 'pos'),
+    # v2: elderly-priority vaccination weight (v1 = 1), bed-load clinic throttle (v1 = 0)
+    'pe': (6.0, 'pos'), 'kH': (1e-6, 'pos'),
     # hospital
     'h': (0.05, 'pos'), 'sev0': (0.3, 'unit'), 'sev2': (3.0, 'pos'), 'a_h': (0.15, 'unit'), 'dis': (0.07, 'unit'),
     'Hcap': (155.2, 'pos'), 'qab': (0.02, 'unit'), 'fp': (0.05, 'unit'),
     # m1 behaviour (fatigue gF, lingering caution gL, risk response gR)
     'a_m1': (0.03, 'unit'), 'gF_m1': (0.2, 'unit'), 'gL_m1': (0.05, 'pos'), 'mix_m1': (0.5, 'unit'),
-    'gR_m1': (0.2, 'pos'), 'aR_m1': (0.05, 'unit'),
+    'gR_m1': (0.2, 'pos'), 'aR_m1': (0.05, 'unit'), 'fmask_m1': (0.5, 'unit'),
     # m2 developing immunity
     'a_m2': (0.1, 'unit'),
     # m3 postponed gatherings
     'ain_m3': (0.03, 'unit'), 'aout_m3': (0.1, 'unit'), 'g_m3': (0.2, 'pos'), 'mix_m3': (0.5, 'unit'),
 }
 MODULES = {
-    'm1': (['a_m1', 'gF_m1', 'gL_m1', 'mix_m1', 'gR_m1', 'aR_m1'], {'gF_m1': 0.0, 'gL_m1': 0.0, 'gR_m1': 0.0}),
+    'm1': (['a_m1', 'gF_m1', 'gL_m1', 'mix_m1', 'gR_m1', 'aR_m1', 'fmask_m1'], {'gF_m1': 0.0, 'gL_m1': 0.0, 'gR_m1': 0.0}),
+    'kH': (['kH'], {'kH': 0.0}),
     'm2': (['a_m2'], {'a_m2': 1.0}),
     'm3': (['ain_m3', 'aout_m3', 'g_m3', 'mix_m3'], {'g_m3': 0.0}),
 }
@@ -113,6 +120,8 @@ def simulate(p, initial, actions):
     qab = max(p['qab'], 0.005)
     a1, gF, gL, mix1 = p['a_m1'], p['gF_m1'], min(p['gL_m1'], 50.0), p['mix_m1']
     gR, aR = min(p['gR_m1'], 50.0), p['aR_m1']
+    fmask = p.get('fmask_m1', 1.0)
+    pe, kH = min(p.get('pe', 1.0), 200.0), min(p.get('kH', 0.0), 50.0)
     a2m = p['a_m2']
     ain, aout, g3, mix3 = p['ain_m3'], p['aout_m3'], min(p['g_m3'], 50.0), p['mix_m3']
     c0 = float(initial['daily_cases'])
@@ -141,7 +150,7 @@ def simulate(p, initial, actions):
         uc, um, uv = actions[t]
         cl += a_c * (uc - cl)
         fat = 1.0 - gF * F
-        ce, me = cl * fat, um * fat
+        ce, me = cl * fat, um * (1.0 - fmask * gF * F)
         G = (1.0 - wm * me) * (1.0 - wc * ce)
         if gL:
             G *= math.exp(-min(gL * F, 50.0))
@@ -158,9 +167,11 @@ def simulate(p, initial, actions):
         lam[0] = hb * ac0 + bs * max(1.0 - ce, 0.0) * G * I[0] / n0
         lam[1] = hb
         lam[2] = hb * a2
-        thr = 1.0 / (1.0 + kap * Q / Hcap)
-        nonI = S[0] + W[0] + R[0] + S[1] + W[1] + R[1] + S[2] + W[2] + R[2]
-        dose_rate = 0.003 * uv * ev * thr / nonI if nonI > 1e-12 else 0.0
+        thr = 1.0 / (1.0 + kap * Q / Hcap + kH * H / Hcap)
+        # doses are offered to the non-infected of each group with weight (1, 1, pe); only S takes effect
+        nonI0, nonI1, nonI2 = S[0] + W[0] + R[0], S[1] + W[1] + R[1], S[2] + W[2] + R[2]
+        wtot = nonI0 + nonI1 + pe * nonI2
+        dose_rate = 0.003 * uv * ev * thr / wtot if wtot > 1e-12 else 0.0
         onset_tot = 0.0
         sev_cases = 0.0
         for g in range(3):
@@ -171,7 +182,7 @@ def simulate(p, initial, actions):
             onset = sigE * E[g]
             rec = gam * I[g]
             wane = om * R[g]
-            doses = min(dose_rate * S[g], 0.9 * max(S[g] - newS, 0.0))
+            doses = min(dose_rate * (pe if g == 2 else 1.0) * S[g], 0.9 * max(S[g] - newS, 0.0))
             dev = a2m * W[g]
             S[g] = max(S[g] - newS - doses + wane, 0.0)
             W[g] = max(W[g] - newW + doses - dev, 0.0)
