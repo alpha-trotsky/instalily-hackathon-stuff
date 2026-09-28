@@ -102,3 +102,27 @@ Each schedule below was proposed by the diagnostician, sharpened by the modeler,
 | reservoir | The aeration exponent is pinned (a threshold?) |
 | ad_auction | High-bid spend still +0.8σ |
 | market | See §3 |
+
+
+## 6. Public results of the round-2 upload (reported by the user, 2026-09-28)
+
+The user uploaded the alternative ZIP, `submission-round2-alt-market-v2.zip`, so all ten systems are v2.
+
+| System | v1 public | v2 public | Change |
+|---|---:|---:|---:|
+| wildlife | 0.6611 | 0.7535 | +0.092 |
+| power_grid | 0.7418 | 0.7985 | +0.057 |
+| hospital_queue | 0.6721 | 0.7241 | +0.052 |
+| social_contagion | 0.6271 | 0.6780 | +0.051 |
+| epidemic | 0.7201 | 0.7604 | +0.040 |
+| market | 0.6838 | 0.7225 | +0.039 |
+| ad_auction | 0.8786 | 0.8912 | +0.013 |
+| supply_chain | 0.8447 | 0.8560 | +0.011 |
+| traffic | 0.8335 | 0.8442 | +0.011 |
+| reservoir | 0.8521 | 0.8584 | +0.006 |
+| **mean** | **0.7465** | **0.7887** | **+0.042** |
+
+**What this tells us:**
+
+- Every system that won on the held-out test also won on public. The held-out protocol predicts the direction of the public change.
+- The §3 argument for keeping market v1 was wrong: v2 gained +0.039. The run-A in-sample fit is not a proxy for the scorer.
