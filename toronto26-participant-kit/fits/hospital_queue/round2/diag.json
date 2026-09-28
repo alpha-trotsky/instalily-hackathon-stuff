@@ -1,0 +1,2064 @@
+{
+ "sigma": {
+  "wait_time": 3.1406,
+  "queue": 11.0562,
+  "discharges": 0.425
+ },
+ "runs": {
+  "R1": {
+   "initial": {
+    "wait_time": 3.9229032179285266,
+    "queue": 39.22218799272146,
+    "discharges": 13.42365465743951
+   },
+   "score": [
+    0.551,
+    0.673,
+    0.286
+   ],
+   "segments": [
+    {
+     "ticks": [
+      0,
+      60
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      0.01,
+      22.99,
+      11.51
+     ],
+     "pred_last10": [
+      0.62,
+      23.05,
+      11.5
+     ],
+     "err_sigma_last10": [
+      0.19,
+      0.01,
+      -0.03
+     ],
+     "mean_abs_err_sigma": [
+      0.39,
+      0.45,
+      3.43
+     ],
+     "mean_signed_err_sigma": [
+      0.39,
+      0.44,
+      0.76
+     ],
+     "loss_ticks": [
+      16.2,
+      11.0,
+      22.4
+     ]
+    },
+    {
+     "ticks": [
+      60,
+      175
+     ],
+     "action": "staff=5",
+     "obs_last10": [
+      97.01,
+      277.42,
+      2.67
+     ],
+     "pred_last10": [
+      94.87,
+      284.07,
+      2.07
+     ],
+     "err_sigma_last10": [
+      -0.68,
+      0.6,
+      -1.4
+     ],
+     "mean_abs_err_sigma": [
+      0.57,
+      1.34,
+      3.49
+     ],
+     "mean_signed_err_sigma": [
+      -0.34,
+      -0.85,
+      -0.89
+     ],
+     "loss_ticks": [
+      36.1,
+      51.3,
+      80.4
+     ]
+    },
+    {
+     "ticks": [
+      175,
+      240
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      27.92,
+      185.12,
+      11.36
+     ],
+     "pred_last10": [
+      22.78,
+      182.78,
+      10.5
+     ],
+     "err_sigma_last10": [
+      -1.64,
+      -0.21,
+      -2.04
+     ],
+     "mean_abs_err_sigma": [
+      0.71,
+      0.39,
+      3.87
+     ],
+     "mean_signed_err_sigma": [
+      -0.37,
+      -0.04,
+      -3.26
+     ],
+     "loss_ticks": [
+      23.8,
+      16.3,
+      41.7
+     ]
+    },
+    {
+     "ticks": [
+      240,
+      280
+     ],
+     "action": "overt=1",
+     "obs_last10": [
+      0.76,
+      22.99,
+      11.52
+     ],
+     "pred_last10": [
+      6.1,
+      23.02,
+      11.5
+     ],
+     "err_sigma_last10": [
+      1.7,
+      0.0,
+      -0.04
+     ],
+     "mean_abs_err_sigma": [
+      1.58,
+      0.22,
+      3.26
+     ],
+     "mean_signed_err_sigma": [
+      0.95,
+      0.18,
+      -0.46
+     ],
+     "loss_ticks": [
+      23.6,
+      4.3,
+      12.9
+     ]
+    },
+    {
+     "ticks": [
+      280,
+      310
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      0.02,
+      22.99,
+      11.48
+     ],
+     "pred_last10": [
+      2.12,
+      28.38,
+      12.11
+     ],
+     "err_sigma_last10": [
+      0.67,
+      0.49,
+      1.47
+     ],
+     "mean_abs_err_sigma": [
+      0.96,
+      0.52,
+      1.21
+     ],
+     "mean_signed_err_sigma": [
+      0.96,
+      0.51,
+      -0.05
+     ],
+     "loss_ticks": [
+      14.4,
+      9.8,
+      14.5
+     ]
+    },
+    {
+     "ticks": [
+      310,
+      350
+     ],
+     "action": "elect=20",
+     "obs_last10": [
+      29.23,
+      273.56,
+      9.59
+     ],
+     "pred_last10": [
+      24.66,
+      276.12,
+      4.56
+     ],
+     "err_sigma_last10": [
+      -1.45,
+      0.23,
+      -11.83
+     ],
+     "mean_abs_err_sigma": [
+      0.81,
+      0.53,
+      13.22
+     ],
+     "mean_signed_err_sigma": [
+      -0.65,
+      -0.29,
+      -9.97
+     ],
+     "loss_ticks": [
+      15.8,
+      11.9,
+      35.5
+     ]
+    },
+    {
+     "ticks": [
+      350,
+      380
+     ],
+     "action": "elect=20 diagn=0.75",
+     "obs_last10": [
+      50.8,
+      321.95,
+      4.34
+     ],
+     "pred_last10": [
+      64.91,
+      309.57,
+      1.88
+     ],
+     "err_sigma_last10": [
+      4.49,
+      -1.12,
+      -5.8
+     ],
+     "mean_abs_err_sigma": [
+      3.05,
+      1.03,
+      9.28
+     ],
+     "mean_signed_err_sigma": [
+      2.93,
+      -0.78,
+      -7.99
+     ],
+     "loss_ticks": [
+      20.8,
+      14.7,
+      24.1
+     ]
+    },
+    {
+     "ticks": [
+      380,
+      410
+     ],
+     "action": "elect=20",
+     "obs_last10": [
+      49.87,
+      314.22,
+      8.87
+     ],
+     "pred_last10": [
+      50.58,
+      310.84,
+      4.51
+     ],
+     "err_sigma_last10": [
+      0.23,
+      -0.31,
+      -10.24
+     ],
+     "mean_abs_err_sigma": [
+      1.25,
+      0.43,
+      9.11
+     ],
+     "mean_signed_err_sigma": [
+      1.25,
+      -0.43,
+      -8.75
+     ],
+     "loss_ticks": [
+      13.3,
+      8.3,
+      26.2
+     ]
+    },
+    {
+     "ticks": [
+      410,
+      440
+     ],
+     "action": "elect=20 overt=1",
+     "obs_last10": [
+      32.61,
+      303.6,
+      13.82
+     ],
+     "pred_last10": [
+      30.26,
+      312.09,
+      9.76
+     ],
+     "err_sigma_last10": [
+      -0.75,
+      0.77,
+      -9.57
+     ],
+     "mean_abs_err_sigma": [
+      0.37,
+      0.77,
+      9.97
+     ],
+     "mean_signed_err_sigma": [
+      -0.37,
+      0.77,
+      -9.96
+     ],
+     "loss_ticks": [
+      7.1,
+      12.8,
+      26.3
+     ]
+    },
+    {
+     "ticks": [
+      440,
+      470
+     ],
+     "action": "elect=20",
+     "obs_last10": [
+      41.17,
+      313.7,
+      8.57
+     ],
+     "pred_last10": [
+      37.79,
+      313.34,
+      4.08
+     ],
+     "err_sigma_last10": [
+      -1.08,
+      -0.03,
+      -10.57
+     ],
+     "mean_abs_err_sigma": [
+      0.87,
+      0.19,
+      12.08
+     ],
+     "mean_signed_err_sigma": [
+      -0.87,
+      -0.05,
+      -11.42
+     ],
+     "loss_ticks": [
+      13.8,
+      4.4,
+      25.8
+     ]
+    },
+    {
+     "ticks": [
+      470,
+      500
+     ],
+     "action": "elect=20 urgen=1",
+     "obs_last10": [
+      44.58,
+      313.39,
+      8.86
+     ],
+     "pred_last10": [
+      33.67,
+      314.55,
+      4.37
+     ],
+     "err_sigma_last10": [
+      -3.48,
+      0.11,
+      -10.56
+     ],
+     "mean_abs_err_sigma": [
+      2.72,
+      0.14,
+      10.73
+     ],
+     "mean_signed_err_sigma": [
+      -2.72,
+      0.09,
+      -10.73
+     ],
+     "loss_ticks": [
+      21.6,
+      3.5,
+      27.1
+     ]
+    },
+    {
+     "ticks": [
+      500,
+      530
+     ],
+     "action": "elect=20 follo=0",
+     "obs_last10": [
+      44.87,
+      313.21,
+      8.89
+     ],
+     "pred_last10": [
+      36.25,
+      315.75,
+      4.47
+     ],
+     "err_sigma_last10": [
+      -2.74,
+      0.23,
+      -10.39
+     ],
+     "mean_abs_err_sigma": [
+      3.09,
+      0.19,
+      10.12
+     ],
+     "mean_signed_err_sigma": [
+      -3.09,
+      0.15,
+      -10.12
+     ],
+     "loss_ticks": [
+      22.6,
+      4.4,
+      27.2
+     ]
+    },
+    {
+     "ticks": [
+      530,
+      580
+     ],
+     "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+     "obs_last10": [
+      107.28,
+      327.04,
+      1.88
+     ],
+     "pred_last10": [
+      110.0,
+      317.71,
+      1.02
+     ],
+     "err_sigma_last10": [
+      0.87,
+      -0.84,
+      -2.04
+     ],
+     "mean_abs_err_sigma": [
+      1.82,
+      0.9,
+      3.58
+     ],
+     "mean_signed_err_sigma": [
+      -1.42,
+      -0.9,
+      -1.92
+     ],
+     "loss_ticks": [
+      27.0,
+      23.2,
+      36.1
+     ]
+    },
+    {
+     "ticks": [
+      580,
+      750
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      5.53,
+      98.64,
+      11.08
+     ],
+     "pred_last10": [
+      2.52,
+      75.66,
+      13.44
+     ],
+     "err_sigma_last10": [
+      -0.96,
+      -2.08,
+      5.56
+     ],
+     "mean_abs_err_sigma": [
+      1.13,
+      0.97,
+      5.5
+     ],
+     "mean_signed_err_sigma": [
+      -0.76,
+      0.54,
+      -2.22
+     ],
+     "loss_ticks": [
+      80.6,
+      69.1,
+      135.2
+     ]
+    }
+   ]
+  },
+  "R2c": {
+   "initial": {
+    "wait_time": 2.609144104158554,
+    "queue": 36.57388643640711,
+    "discharges": 12.21411688364265
+   },
+   "score": [
+    0.63,
+    0.727,
+    0.471
+   ],
+   "segments": [
+    {
+     "ticks": [
+      0,
+      30
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      0.15,
+      22.97,
+      11.5
+     ],
+     "pred_last10": [
+      1.21,
+      23.15,
+      11.55
+     ],
+     "err_sigma_last10": [
+      0.34,
+      0.02,
+      0.1
+     ],
+     "mean_abs_err_sigma": [
+      0.33,
+      0.8,
+      6.51
+     ],
+     "mean_signed_err_sigma": [
+      0.33,
+      0.79,
+      1.56
+     ],
+     "loss_ticks": [
+      7.4,
+      9.9,
+      18.7
+     ]
+    },
+    {
+     "ticks": [
+      30,
+      110
+     ],
+     "action": "follo=0",
+     "obs_last10": [
+      0.0,
+      23.02,
+      11.49
+     ],
+     "pred_last10": [
+      0.07,
+      23.05,
+      11.5
+     ],
+     "err_sigma_last10": [
+      0.02,
+      0.0,
+      0.03
+     ],
+     "mean_abs_err_sigma": [
+      0.1,
+      0.01,
+      0.11
+     ],
+     "mean_signed_err_sigma": [
+      0.1,
+      0.01,
+      0.03
+     ],
+     "loss_ticks": [
+      7.2,
+      0.8,
+      7.3
+     ]
+    },
+    {
+     "ticks": [
+      110,
+      140
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      27.72,
+      268.55,
+      7.19
+     ],
+     "pred_last10": [
+      28.55,
+      251.47,
+      3.03
+     ],
+     "err_sigma_last10": [
+      0.26,
+      -1.54,
+      -9.78
+     ],
+     "mean_abs_err_sigma": [
+      0.53,
+      1.12,
+      8.89
+     ],
+     "mean_signed_err_sigma": [
+      0.49,
+      -0.26,
+      -4.23
+     ],
+     "loss_ticks": [
+      8.8,
+      13.7,
+      25.4
+     ]
+    },
+    {
+     "ticks": [
+      140,
+      150
+     ],
+     "action": "staff=12.5 elect=20 overt=1",
+     "obs_last10": [
+      33.75,
+      276.2,
+      10.34
+     ],
+     "pred_last10": [
+      32.11,
+      265.27,
+      6.3
+     ],
+     "err_sigma_last10": [
+      -0.52,
+      -0.99,
+      -9.51
+     ],
+     "mean_abs_err_sigma": [
+      0.52,
+      0.99,
+      9.57
+     ],
+     "mean_signed_err_sigma": [
+      -0.52,
+      -0.99,
+      -9.51
+     ],
+     "loss_ticks": [
+      3.2,
+      4.4,
+      8.3
+     ]
+    },
+    {
+     "ticks": [
+      150,
+      160
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      38.76,
+      283.07,
+      6.08
+     ],
+     "pred_last10": [
+      39.09,
+      271.74,
+      2.29
+     ],
+     "err_sigma_last10": [
+      0.11,
+      -1.02,
+      -8.92
+     ],
+     "mean_abs_err_sigma": [
+      0.42,
+      1.02,
+      8.98
+     ],
+     "mean_signed_err_sigma": [
+      0.11,
+      -1.02,
+      -8.92
+     ],
+     "loss_ticks": [
+      2.8,
+      5.0,
+      8.3
+     ]
+    },
+    {
+     "ticks": [
+      160,
+      170
+     ],
+     "action": "staff=12.5 elect=20 overt=1",
+     "obs_last10": [
+      41.06,
+      284.86,
+      9.82
+     ],
+     "pred_last10": [
+      41.52,
+      285.11,
+      6.14
+     ],
+     "err_sigma_last10": [
+      0.15,
+      0.02,
+      -8.66
+     ],
+     "mean_abs_err_sigma": [
+      0.3,
+      0.24,
+      8.75
+     ],
+     "mean_signed_err_sigma": [
+      0.15,
+      0.02,
+      -8.66
+     ],
+     "loss_ticks": [
+      2.1,
+      1.8,
+      8.2
+     ]
+    },
+    {
+     "ticks": [
+      170,
+      180
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      44.18,
+      295.15,
+      6.2
+     ],
+     "pred_last10": [
+      45.84,
+      291.51,
+      2.27
+     ],
+     "err_sigma_last10": [
+      0.53,
+      -0.33,
+      -9.25
+     ],
+     "mean_abs_err_sigma": [
+      0.56,
+      0.42,
+      12.47
+     ],
+     "mean_signed_err_sigma": [
+      0.53,
+      -0.33,
+      -9.25
+     ],
+     "loss_ticks": [
+      3.3,
+      2.8,
+      8.4
+     ]
+    },
+    {
+     "ticks": [
+      180,
+      190
+     ],
+     "action": "staff=12.5 elect=20 overt=1",
+     "obs_last10": [
+      44.94,
+      299.11,
+      9.63
+     ],
+     "pred_last10": [
+      46.33,
+      304.68,
+      6.11
+     ],
+     "err_sigma_last10": [
+      0.44,
+      0.5,
+      -8.29
+     ],
+     "mean_abs_err_sigma": [
+      0.44,
+      0.52,
+      8.29
+     ],
+     "mean_signed_err_sigma": [
+      0.44,
+      0.5,
+      -8.29
+     ],
+     "loss_ticks": [
+      2.7,
+      3.0,
+      8.7
+     ]
+    },
+    {
+     "ticks": [
+      190,
+      200
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      47.5,
+      305.58,
+      5.62
+     ],
+     "pred_last10": [
+      49.24,
+      309.81,
+      2.26
+     ],
+     "err_sigma_last10": [
+      0.56,
+      0.38,
+      -7.9
+     ],
+     "mean_abs_err_sigma": [
+      0.56,
+      0.39,
+      9.89
+     ],
+     "mean_signed_err_sigma": [
+      0.56,
+      0.38,
+      -7.9
+     ],
+     "loss_ticks": [
+      3.4,
+      2.5,
+      8.2
+     ]
+    },
+    {
+     "ticks": [
+      200,
+      210
+     ],
+     "action": "staff=12.5 elect=20 overt=1",
+     "obs_last10": [
+      47.85,
+      301.69,
+      9.61
+     ],
+     "pred_last10": [
+      48.73,
+      311.21,
+      6.1
+     ],
+     "err_sigma_last10": [
+      0.28,
+      0.86,
+      -8.26
+     ],
+     "mean_abs_err_sigma": [
+      0.38,
+      0.86,
+      10.02
+     ],
+     "mean_signed_err_sigma": [
+      0.28,
+      0.86,
+      -8.26
+     ],
+     "loss_ticks": [
+      2.5,
+      4.4,
+      8.3
+     ]
+    },
+    {
+     "ticks": [
+      210,
+      220
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      49.5,
+      307.98,
+      5.11
+     ],
+     "pred_last10": [
+      50.94,
+      310.88,
+      2.26
+     ],
+     "err_sigma_last10": [
+      0.46,
+      0.26,
+      -6.71
+     ],
+     "mean_abs_err_sigma": [
+      0.48,
+      0.27,
+      8.07
+     ],
+     "mean_signed_err_sigma": [
+      0.46,
+      0.26,
+      -6.71
+     ],
+     "loss_ticks": [
+      3.0,
+      1.8,
+      7.1
+     ]
+    },
+    {
+     "ticks": [
+      220,
+      260
+     ],
+     "action": "staff=12.5 elect=20 overt=1",
+     "obs_last10": [
+      42.84,
+      309.43,
+      9.66
+     ],
+     "pred_last10": [
+      35.63,
+      312.92,
+      6.1
+     ],
+     "err_sigma_last10": [
+      -2.3,
+      0.32,
+      -8.37
+     ],
+     "mean_abs_err_sigma": [
+      1.24,
+      0.29,
+      8.13
+     ],
+     "mean_signed_err_sigma": [
+      -1.12,
+      0.24,
+      -8.13
+     ],
+     "loss_ticks": [
+      19.5,
+      8.3,
+      35.1
+     ]
+    },
+    {
+     "ticks": [
+      260,
+      290
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      57.71,
+      312.24,
+      5.77
+     ],
+     "pred_last10": [
+      56.03,
+      314.15,
+      2.55
+     ],
+     "err_sigma_last10": [
+      -0.53,
+      0.17,
+      -7.57
+     ],
+     "mean_abs_err_sigma": [
+      1.08,
+      0.27,
+      8.15
+     ],
+     "mean_signed_err_sigma": [
+      -1.08,
+      -0.07,
+      -7.36
+     ],
+     "loss_ticks": [
+      14.6,
+      5.9,
+      25.1
+     ]
+    },
+    {
+     "ticks": [
+      290,
+      320
+     ],
+     "action": "staff=12.5 elect=20 diagn=0.1",
+     "obs_last10": [
+      62.95,
+      205.25,
+      9.07
+     ],
+     "pred_last10": [
+      48.76,
+      253.94,
+      3.92
+     ],
+     "err_sigma_last10": [
+      -4.52,
+      4.4,
+      -12.1
+     ],
+     "mean_abs_err_sigma": [
+      4.75,
+      2.63,
+      8.43
+     ],
+     "mean_signed_err_sigma": [
+      -4.75,
+      2.63,
+      -7.88
+     ],
+     "loss_ticks": [
+      23.7,
+      19.3,
+      25.9
+     ]
+    },
+    {
+     "ticks": [
+      320,
+      350
+     ],
+     "action": "staff=12.5 elect=20",
+     "obs_last10": [
+      45.14,
+      275.66,
+      5.57
+     ],
+     "pred_last10": [
+      56.36,
+      253.37,
+      2.79
+     ],
+     "err_sigma_last10": [
+      3.57,
+      -2.02,
+      -6.53
+     ],
+     "mean_abs_err_sigma": [
+      3.91,
+      3.03,
+      5.43
+     ],
+     "mean_signed_err_sigma": [
+      3.82,
+      1.55,
+      -3.13
+     ],
+     "loss_ticks": [
+      22.3,
+      20.2,
+      22.6
+     ]
+    },
+    {
+     "ticks": [
+      350,
+      380
+     ],
+     "action": "overt=1",
+     "obs_last10": [
+      19.88,
+      110.64,
+      22.34
+     ],
+     "pred_last10": [
+      27.34,
+      108.18,
+      22.32
+     ],
+     "err_sigma_last10": [
+      2.38,
+      -0.22,
+      -0.04
+     ],
+     "mean_abs_err_sigma": [
+      1.82,
+      0.79,
+      5.27
+     ],
+     "mean_signed_err_sigma": [
+      1.82,
+      -0.76,
+      -1.65
+     ],
+     "loss_ticks": [
+      18.7,
+      12.0,
+      22.6
+     ]
+    },
+    {
+     "ticks": [
+      380,
+      455
+     ],
+     "action": "follo=0",
+     "obs_last10": [
+      0.0,
+      36.12,
+      11.84
+     ],
+     "pred_last10": [
+      1.95,
+      32.85,
+      11.5
+     ],
+     "err_sigma_last10": [
+      0.62,
+      -0.3,
+      -0.79
+     ],
+     "mean_abs_err_sigma": [
+      2.12,
+      0.45,
+      1.97
+     ],
+     "mean_signed_err_sigma": [
+      2.12,
+      -0.22,
+      -0.67
+     ],
+     "loss_ticks": [
+      47.0,
+      21.4,
+      34.4
+     ]
+    },
+    {
+     "ticks": [
+      455,
+      550
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      0.0,
+      34.56,
+      11.51
+     ],
+     "pred_last10": [
+      0.07,
+      32.84,
+      11.5
+     ],
+     "err_sigma_last10": [
+      0.02,
+      -0.15,
+      -0.03
+     ],
+     "mean_abs_err_sigma": [
+      0.15,
+      0.15,
+      0.11
+     ],
+     "mean_signed_err_sigma": [
+      0.15,
+      -0.15,
+      -0.01
+     ],
+     "loss_ticks": [
+      11.3,
+      12.4,
+      8.7
+     ]
+    }
+   ]
+  },
+  "R3": {
+   "initial": {
+    "wait_time": 2.2269568096266323,
+    "queue": 50.787319708731694,
+    "discharges": 9.134697535456263
+   },
+   "score": [
+    0.362,
+    0.362,
+    0.156
+   ],
+   "segments": [
+    {
+     "ticks": [
+      0,
+      50
+     ],
+     "action": "elect=5",
+     "obs_last10": [
+      6.46,
+      142.62,
+      13.21
+     ],
+     "pred_last10": [
+      18.81,
+      304.86,
+      5.9
+     ],
+     "err_sigma_last10": [
+      3.93,
+      14.67,
+      -17.19
+     ],
+     "mean_abs_err_sigma": [
+      1.79,
+      9.06,
+      20.14
+     ],
+     "mean_signed_err_sigma": [
+      1.79,
+      8.98,
+      -16.23
+     ],
+     "loss_ticks": [
+      25.0,
+      39.9,
+      46.0
+     ]
+    },
+    {
+     "ticks": [
+      50,
+      100
+     ],
+     "action": "elect=10",
+     "obs_last10": [
+      32.86,
+      271.55,
+      9.53
+     ],
+     "pred_last10": [
+      31.95,
+      309.43,
+      5.12
+     ],
+     "err_sigma_last10": [
+      -0.29,
+      3.43,
+      -10.37
+     ],
+     "mean_abs_err_sigma": [
+      1.6,
+      5.52,
+      11.51
+     ],
+     "mean_signed_err_sigma": [
+      1.48,
+      5.52,
+      -11.51
+     ],
+     "loss_ticks": [
+      24.4,
+      41.5,
+      45.6
+     ]
+    },
+    {
+     "ticks": [
+      100,
+      150
+     ],
+     "action": "staff=15 elect=10",
+     "obs_last10": [
+      50.3,
+      317.0,
+      7.14
+     ],
+     "pred_last10": [
+      44.1,
+      311.0,
+      3.82
+     ],
+     "err_sigma_last10": [
+      -1.98,
+      -0.54,
+      -7.82
+     ],
+     "mean_abs_err_sigma": [
+      1.48,
+      0.88,
+      7.72
+     ],
+     "mean_signed_err_sigma": [
+      -1.48,
+      0.38,
+      -7.59
+     ],
+     "loss_ticks": [
+      29.4,
+      20.2,
+      43.3
+     ]
+    },
+    {
+     "ticks": [
+      150,
+      200
+     ],
+     "action": "staff=15",
+     "obs_last10": [
+      50.93,
+      313.26,
+      7.61
+     ],
+     "pred_last10": [
+      35.95,
+      288.57,
+      6.31
+     ],
+     "err_sigma_last10": [
+      -4.77,
+      -2.23,
+      -3.06
+     ],
+     "mean_abs_err_sigma": [
+      3.63,
+      1.2,
+      4.83
+     ],
+     "mean_signed_err_sigma": [
+      -3.63,
+      -1.2,
+      -4.58
+     ],
+     "loss_ticks": [
+      38.8,
+      25.1,
+      40.9
+     ]
+    },
+    {
+     "ticks": [
+      200,
+      250
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      33.2,
+      213.23,
+      11.35
+     ],
+     "pred_last10": [
+      17.65,
+      197.19,
+      10.24
+     ],
+     "err_sigma_last10": [
+      -4.95,
+      -1.45,
+      -2.62
+     ],
+     "mean_abs_err_sigma": [
+      5.15,
+      1.95,
+      4.07
+     ],
+     "mean_signed_err_sigma": [
+      -5.15,
+      -1.95,
+      -3.55
+     ],
+     "loss_ticks": [
+      41.9,
+      32.7,
+      35.2
+     ]
+    }
+   ]
+  },
+  "R4": {
+   "initial": {
+    "wait_time": 3.5901511409584193,
+    "queue": 56.77482532481651,
+    "discharges": 11.812199477829251
+   },
+   "score": [
+    0.315,
+    0.573,
+    0.215
+   ],
+   "segments": [
+    {
+     "ticks": [
+      0,
+      90
+     ],
+     "action": "staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3",
+     "obs_last10": [
+      68.25,
+      322.22,
+      4.65
+     ],
+     "pred_last10": [
+      52.92,
+      310.03,
+      2.57
+     ],
+     "err_sigma_last10": [
+      -4.88,
+      -1.1,
+      -4.9
+     ],
+     "mean_abs_err_sigma": [
+      2.75,
+      1.09,
+      7.51
+     ],
+     "mean_signed_err_sigma": [
+      -2.74,
+      -0.8,
+      -5.35
+     ],
+     "loss_ticks": [
+      59.0,
+      45.2,
+      72.7
+     ]
+    },
+    {
+     "ticks": [
+      90,
+      140
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      41.55,
+      256.98,
+      11.18
+     ],
+     "pred_last10": [
+      32.05,
+      259.47,
+      8.44
+     ],
+     "err_sigma_last10": [
+      -3.03,
+      0.22,
+      -6.44
+     ],
+     "mean_abs_err_sigma": [
+      3.87,
+      0.38,
+      6.33
+     ],
+     "mean_signed_err_sigma": [
+      -3.87,
+      -0.28,
+      -6.16
+     ],
+     "loss_ticks": [
+      39.5,
+      12.6,
+      39.1
+     ]
+    },
+    {
+     "ticks": [
+      140,
+      200
+     ],
+     "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+     "obs_last10": [
+      101.29,
+      326.65,
+      2.11
+     ],
+     "pred_last10": [
+      110.87,
+      312.38,
+      1.02
+     ],
+     "err_sigma_last10": [
+      3.05,
+      -1.29,
+      -2.55
+     ],
+     "mean_abs_err_sigma": [
+      2.21,
+      1.24,
+      5.0
+     ],
+     "mean_signed_err_sigma": [
+      0.7,
+      -1.05,
+      -2.59
+     ],
+     "loss_ticks": [
+      38.2,
+      32.2,
+      45.2
+     ]
+    },
+    {
+     "ticks": [
+      200,
+      350
+     ],
+     "action": "recovery",
+     "obs_last10": [
+      163.16,
+      106.42,
+      12.57
+     ],
+     "pred_last10": [
+      5.07,
+      108.36,
+      13.21
+     ],
+     "err_sigma_last10": [
+      -50.34,
+      0.18,
+      1.5
+     ],
+     "mean_abs_err_sigma": [
+      12.11,
+      0.91,
+      5.61
+     ],
+     "mean_signed_err_sigma": [
+      -11.04,
+      0.66,
+      -3.42
+     ],
+     "loss_ticks": [
+      102.9,
+      59.3,
+      117.8
+     ]
+    }
+   ]
+  }
+ },
+ "loss_ranking": [
+  {
+   "loss": 135.2,
+   "run": "R1",
+   "ticks": [
+    580,
+    750
+   ],
+   "obs": "discharges",
+   "action": "recovery",
+   "signed_sigma": -2.22,
+   "abs_sigma": 5.5
+  },
+  {
+   "loss": 117.8,
+   "run": "R4",
+   "ticks": [
+    200,
+    350
+   ],
+   "obs": "discharges",
+   "action": "recovery",
+   "signed_sigma": -3.42,
+   "abs_sigma": 5.61
+  },
+  {
+   "loss": 102.9,
+   "run": "R4",
+   "ticks": [
+    200,
+    350
+   ],
+   "obs": "wait_time",
+   "action": "recovery",
+   "signed_sigma": -11.04,
+   "abs_sigma": 12.11
+  },
+  {
+   "loss": 80.6,
+   "run": "R1",
+   "ticks": [
+    580,
+    750
+   ],
+   "obs": "wait_time",
+   "action": "recovery",
+   "signed_sigma": -0.76,
+   "abs_sigma": 1.13
+  },
+  {
+   "loss": 80.4,
+   "run": "R1",
+   "ticks": [
+    60,
+    175
+   ],
+   "obs": "discharges",
+   "action": "staff=5",
+   "signed_sigma": -0.89,
+   "abs_sigma": 3.49
+  },
+  {
+   "loss": 72.7,
+   "run": "R4",
+   "ticks": [
+    0,
+    90
+   ],
+   "obs": "discharges",
+   "action": "staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3",
+   "signed_sigma": -5.35,
+   "abs_sigma": 7.51
+  },
+  {
+   "loss": 69.1,
+   "run": "R1",
+   "ticks": [
+    580,
+    750
+   ],
+   "obs": "queue",
+   "action": "recovery",
+   "signed_sigma": 0.54,
+   "abs_sigma": 0.97
+  },
+  {
+   "loss": 59.3,
+   "run": "R4",
+   "ticks": [
+    200,
+    350
+   ],
+   "obs": "queue",
+   "action": "recovery",
+   "signed_sigma": 0.66,
+   "abs_sigma": 0.91
+  },
+  {
+   "loss": 59.0,
+   "run": "R4",
+   "ticks": [
+    0,
+    90
+   ],
+   "obs": "wait_time",
+   "action": "staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3",
+   "signed_sigma": -2.74,
+   "abs_sigma": 2.75
+  },
+  {
+   "loss": 51.3,
+   "run": "R1",
+   "ticks": [
+    60,
+    175
+   ],
+   "obs": "queue",
+   "action": "staff=5",
+   "signed_sigma": -0.85,
+   "abs_sigma": 1.34
+  },
+  {
+   "loss": 47.0,
+   "run": "R2c",
+   "ticks": [
+    380,
+    455
+   ],
+   "obs": "wait_time",
+   "action": "follo=0",
+   "signed_sigma": 2.12,
+   "abs_sigma": 2.12
+  },
+  {
+   "loss": 46.0,
+   "run": "R3",
+   "ticks": [
+    0,
+    50
+   ],
+   "obs": "discharges",
+   "action": "elect=5",
+   "signed_sigma": -16.23,
+   "abs_sigma": 20.14
+  },
+  {
+   "loss": 45.6,
+   "run": "R3",
+   "ticks": [
+    50,
+    100
+   ],
+   "obs": "discharges",
+   "action": "elect=10",
+   "signed_sigma": -11.51,
+   "abs_sigma": 11.51
+  },
+  {
+   "loss": 45.2,
+   "run": "R4",
+   "ticks": [
+    140,
+    200
+   ],
+   "obs": "discharges",
+   "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+   "signed_sigma": -2.59,
+   "abs_sigma": 5.0
+  },
+  {
+   "loss": 45.2,
+   "run": "R4",
+   "ticks": [
+    0,
+    90
+   ],
+   "obs": "queue",
+   "action": "staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3",
+   "signed_sigma": -0.8,
+   "abs_sigma": 1.09
+  },
+  {
+   "loss": 43.3,
+   "run": "R3",
+   "ticks": [
+    100,
+    150
+   ],
+   "obs": "discharges",
+   "action": "staff=15 elect=10",
+   "signed_sigma": -7.59,
+   "abs_sigma": 7.72
+  },
+  {
+   "loss": 41.9,
+   "run": "R3",
+   "ticks": [
+    200,
+    250
+   ],
+   "obs": "wait_time",
+   "action": "recovery",
+   "signed_sigma": -5.15,
+   "abs_sigma": 5.15
+  },
+  {
+   "loss": 41.7,
+   "run": "R1",
+   "ticks": [
+    175,
+    240
+   ],
+   "obs": "discharges",
+   "action": "recovery",
+   "signed_sigma": -3.26,
+   "abs_sigma": 3.87
+  },
+  {
+   "loss": 41.5,
+   "run": "R3",
+   "ticks": [
+    50,
+    100
+   ],
+   "obs": "queue",
+   "action": "elect=10",
+   "signed_sigma": 5.52,
+   "abs_sigma": 5.52
+  },
+  {
+   "loss": 40.9,
+   "run": "R3",
+   "ticks": [
+    150,
+    200
+   ],
+   "obs": "discharges",
+   "action": "staff=15",
+   "signed_sigma": -4.58,
+   "abs_sigma": 4.83
+  },
+  {
+   "loss": 39.9,
+   "run": "R3",
+   "ticks": [
+    0,
+    50
+   ],
+   "obs": "queue",
+   "action": "elect=5",
+   "signed_sigma": 8.98,
+   "abs_sigma": 9.06
+  },
+  {
+   "loss": 39.5,
+   "run": "R4",
+   "ticks": [
+    90,
+    140
+   ],
+   "obs": "wait_time",
+   "action": "recovery",
+   "signed_sigma": -3.87,
+   "abs_sigma": 3.87
+  },
+  {
+   "loss": 39.1,
+   "run": "R4",
+   "ticks": [
+    90,
+    140
+   ],
+   "obs": "discharges",
+   "action": "recovery",
+   "signed_sigma": -6.16,
+   "abs_sigma": 6.33
+  },
+  {
+   "loss": 38.8,
+   "run": "R3",
+   "ticks": [
+    150,
+    200
+   ],
+   "obs": "wait_time",
+   "action": "staff=15",
+   "signed_sigma": -3.63,
+   "abs_sigma": 3.63
+  },
+  {
+   "loss": 38.2,
+   "run": "R4",
+   "ticks": [
+    140,
+    200
+   ],
+   "obs": "wait_time",
+   "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+   "signed_sigma": 0.7,
+   "abs_sigma": 2.21
+  },
+  {
+   "loss": 36.1,
+   "run": "R1",
+   "ticks": [
+    530,
+    580
+   ],
+   "obs": "discharges",
+   "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+   "signed_sigma": -1.92,
+   "abs_sigma": 3.58
+  },
+  {
+   "loss": 36.1,
+   "run": "R1",
+   "ticks": [
+    60,
+    175
+   ],
+   "obs": "wait_time",
+   "action": "staff=5",
+   "signed_sigma": -0.34,
+   "abs_sigma": 0.57
+  },
+  {
+   "loss": 35.5,
+   "run": "R1",
+   "ticks": [
+    310,
+    350
+   ],
+   "obs": "discharges",
+   "action": "elect=20",
+   "signed_sigma": -9.97,
+   "abs_sigma": 13.22
+  },
+  {
+   "loss": 35.2,
+   "run": "R3",
+   "ticks": [
+    200,
+    250
+   ],
+   "obs": "discharges",
+   "action": "recovery",
+   "signed_sigma": -3.55,
+   "abs_sigma": 4.07
+  },
+  {
+   "loss": 35.1,
+   "run": "R2c",
+   "ticks": [
+    220,
+    260
+   ],
+   "obs": "discharges",
+   "action": "staff=12.5 elect=20 overt=1",
+   "signed_sigma": -8.13,
+   "abs_sigma": 8.13
+  },
+  {
+   "loss": 34.4,
+   "run": "R2c",
+   "ticks": [
+    380,
+    455
+   ],
+   "obs": "discharges",
+   "action": "follo=0",
+   "signed_sigma": -0.67,
+   "abs_sigma": 1.97
+  },
+  {
+   "loss": 32.7,
+   "run": "R3",
+   "ticks": [
+    200,
+    250
+   ],
+   "obs": "queue",
+   "action": "recovery",
+   "signed_sigma": -1.95,
+   "abs_sigma": 1.95
+  },
+  {
+   "loss": 32.2,
+   "run": "R4",
+   "ticks": [
+    140,
+    200
+   ],
+   "obs": "queue",
+   "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+   "signed_sigma": -1.05,
+   "abs_sigma": 1.24
+  },
+  {
+   "loss": 29.4,
+   "run": "R3",
+   "ticks": [
+    100,
+    150
+   ],
+   "obs": "wait_time",
+   "action": "staff=15 elect=10",
+   "signed_sigma": -1.48,
+   "abs_sigma": 1.48
+  },
+  {
+   "loss": 27.2,
+   "run": "R1",
+   "ticks": [
+    500,
+    530
+   ],
+   "obs": "discharges",
+   "action": "elect=20 follo=0",
+   "signed_sigma": -10.12,
+   "abs_sigma": 10.12
+  },
+  {
+   "loss": 27.1,
+   "run": "R1",
+   "ticks": [
+    470,
+    500
+   ],
+   "obs": "discharges",
+   "action": "elect=20 urgen=1",
+   "signed_sigma": -10.73,
+   "abs_sigma": 10.73
+  },
+  {
+   "loss": 27.0,
+   "run": "R1",
+   "ticks": [
+    530,
+    580
+   ],
+   "obs": "wait_time",
+   "action": "staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0",
+   "signed_sigma": -1.42,
+   "abs_sigma": 1.82
+  },
+  {
+   "loss": 26.3,
+   "run": "R1",
+   "ticks": [
+    410,
+    440
+   ],
+   "obs": "discharges",
+   "action": "elect=20 overt=1",
+   "signed_sigma": -9.96,
+   "abs_sigma": 9.97
+  },
+  {
+   "loss": 26.2,
+   "run": "R1",
+   "ticks": [
+    380,
+    410
+   ],
+   "obs": "discharges",
+   "action": "elect=20",
+   "signed_sigma": -8.75,
+   "abs_sigma": 9.11
+  },
+  {
+   "loss": 25.9,
+   "run": "R2c",
+   "ticks": [
+    290,
+    320
+   ],
+   "obs": "discharges",
+   "action": "staff=12.5 elect=20 diagn=0.1",
+   "signed_sigma": -7.88,
+   "abs_sigma": 8.43
+  }
+ ]
+}
