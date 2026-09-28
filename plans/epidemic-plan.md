@@ -485,3 +485,105 @@ so that comparison is weak evidence; the base's joint cost is 2.3× m13's.
 | 2026-09-28 14:44–14:55 UTC | EP3 (fresh reset) | `data/epidemic/R5.json` | 200 | 155 |
 
 Segment files: `toronto26-participant-kit/fits/round2/segments/epidemic_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. **0 steps spent** (155 reserve untouched). Module `greybox/epidemic_model_v2.py` (v1 module
+and `fits/round2/v1_models/` untouched); fits, logs and scripts in `toronto26-participant-kit/fits/epidemic/round2/v2/`
+(`fit2.py` multi-pass fitter, `ev.py` scorer, `diag.py` key-window errors, `steady.py` long-run levels, `results.txt`).
+Scores use σ = 0.1 × std after tick 20 of R1–R5 (8.41 cases, 4.31 beds), identical to `fits/round2/heldout.py`
+(checked: the packaged folder gives 0.7557 on R3–R5 with heldout.py, the same as `ev.py`).
+
+### Diagnosis items and structural changes
+
+| Diagnosis item | Change | Outcome |
+|---|---|---|
+| 1. B18/B19 vaccination acts on beds, not cases | **Elderly-priority doses** (new parameter `pe`): doses are offered to the non-infected of each group with weight (1, 1, pe); only the S share takes effect. v1 = pe 1. | Adopted. Every fit drives pe to the cap (≥ 200 inside `simulate`): doses go essentially **elderly-first**. The pin means "strict priority", not missing structure. |
+| 2. B20 mask fatigue | New `fmask_m1` ∈ (0, 1): fatigue scales the mask effect by fmask (v1 = 1; closure-only fatigue = 0). | **Rejected by the data.** Free fmask goes to 1.000 in every fit (C2_pef, C_pef). Fixed fmask = 0 loses held out: (A) 0.562 vs 0.629. Kept v1's form (fmask fixed at 1). With pe in and a refit, R3's release is −2.0σ (v1 −4.9σ) and R5 C+M.7 is +0.4/−0.1σ (v1 +1.9/+2.6σ), so most of the B20 signal was the vaccination and closure base, not the fatigue form. |
+| 3. Start from m12_all (closure moves child contacts home) | Warm start from `fits/epidemic/v2/m12_all.json`, modules m1+m2 (a_m2 stays at 1, so M2 is unused: effectively m1 alone, as in round 1). | Adopted. dsh stays pinned at 1 (see open issues). R5 closure first wave −7.5σ → −1.5σ; R3 all-.85 first wave −1.0 → +0.6σ. |
+| B19 remainder (vaccination too strong in the first wave) | Bed-load clinic throttle `thr = 1/(1 + κQ/Hcap + kH·H/Hcap)` ("hospital pressure reduces clinic availability"). | **Dropped**: the all-data refit put kH at 0.02 and did not lower the cost (20,945 vs 20,913). R4 first wave stays −3.2σ. |
+| Fitting | `fit2.py`: least_squares passes alternating x_scale = 1 and 'jac' (the stock fitter stops after 34–100 nfev). Log units, σ 0.01, soft_l1, as v1. A linear-units objective was tried once and was worse (0.700 vs 0.747 new, unconverged); not pursued. | — |
+
+### Held-out scores (cases / beds, per run; mean over runs and observables)
+
+| | (A) fit R1+R2 → R3–R5 | (B) leave-one-new-run-out | (C) fit all, in-sample R3–R5 | (C) in-sample R1+R2 |
+|---|---|---|---|---|
+| **v1** (shipped m13) | R3 .592/.533, R4 .556/.533, R5 .418/.557 → **0.531** (cases .522, beds .541) | same (v1 never saw R3–R5): **0.531** | 0.531 | 0.742 |
+| **v1 structure refit** (m13, from v1) | = v1 (v1 *is* this structure fitted on R1+R2) → 0.531 | R3 .521/.579, R4 .587/.562, R5 .394/.557 → **0.533** (cases .501, beds .566) | R3 .615/.688, R4 .678/.608, R5 .496/.643 → 0.621 | 0.701 |
+| **v2** (m12 + pe) | R3 .622/.542, R4 .693/.758, R5 .522/.637 → **0.629** (cases .612, beds .646) | R3 .638/.532, R4 .708/.658, R5 .468/.625 → **0.605** (cases .605, beds .605) | R3 .746/.700, R4 .790/.731, R5 .714/.853 → **0.755** | 0.701 |
+| v2 without mask fatigue (fmask 0) | R3 .647/.636, R4 .513/.761, R5 .315/.500 → 0.562 | not run | — | (A) fit: 0.674 |
+
+Fits: (A) `A_pe.json`, `A_pe_f0.json`; (B) `B_pe_R3/R4/R5.json`, `B_v1r_R3/R4/R5.json`; (C) `final_v2.json`
+(= `C2_pe.json`), `C_v1r.json`. Every (A)/(B) fit starts from an old-data-only fit (m12_all + pe 6, or v1), never from a
+fit that saw the held-out run.
+
+### Decision
+
+**Ship v2 = m12 + elderly-priority doses, fitted on all data (`fits/epidemic/round2/v2/final_v2.json`).**
+It beats v1 and the v1 refit on every held-out test: (A) 0.629 vs 0.531, (B) 0.605 vs 0.531/0.533, and on every
+single fold (R3 .585 vs .563/.550, R4 .683 vs .545/.574, R5 .547 vs .488/.476).
+
+The old-run in-sample score drops 0.742 → 0.701 (> 0.03), which I looked into:
+- It is caused by fitting the new runs, not by the structure. The v1 structure refit on the same data drops to the same 0.701, and v2 fitted on old data only scores 0.744 on them (≥ v1).
+- The loss sits in **closure-raised beds**: R1 225–315 −2.2/−1.4σ, R2 330–350 −2.3σ, R1 495–545 −1.4σ. v1 already had this at −1.6σ (diagnosis §4). It is an open issue.
+
+Expected public effect: v1 public 0.720 with held-out 0.53 on our hard runs; v2 held out 0.60–0.63.
+
+### Gates
+
+- Stability (`gates stability`, 200 schedules + 8 × 40,000 steps, R1–R5 initial ranges): **pass**, 0 failures. Cases 15.6–630, beds 13.1–155.2, worst alternation 0.03. Output: `fits/epidemic/round2/v2/stability_v2.json`.
+- Contract (`gates contract models/epidemic`): **pass**, 40 × 4,000 steps in 3.2 s, all malformed-input cases ok.
+- Package: `toronto26-participant-kit/submission-epidemic-v2.zip` (6.5 KB); folder `models/epidemic/` rebuilt (v1 remains in `fits/round2/v1_models/epidemic` and `submission-epidemic-v1.zip`). Roots ok, credential scan clean, extracted-copy contract pass.
+
+### Design choices and their predictions (final_v2, 4,000 ticks from reset at 150/45)
+
+| Setting | cases / beds (mean t3000–3999) | v1 |
+|---|---|---|
+| recovery | 104.6 / 79.7 | 107.4 / 79.5 |
+| mask .7 | 81.7 / 61.7 | 79.2 / 56.1 |
+| closure .7 | 101.5 / 79.3 | 102.2 / 81.9 |
+| vaccination .7 | 87.8 / 56.8 | 85.8 / 61.2 |
+| all .7 | 64.4 / 41.8 | 60.5 / 46.8 |
+| mask 1 | 72.5 / 54.4 | 64.7 / 44.9 |
+| closure 1 | 100.2 / 78.9 | 100.9 / 81.9 |
+| vaccination 1 | 83.4 / 51.2 | 77.1 / 54.1 |
+| all 1 | 55.1 / 33.9 | 42.2 / 32.7 |
+
+- Long run: every setting settles to a fixed point by tick 2,000, with no residual oscillation, and stays finite.
+- Closure has almost no long-run effect on cases: high-R0 SEIRS with fatigue, as in R2 (plateau 89) and R5 (rising floor).
+- Vaccination lowers beds per case (elderly-first): beds 51 vs 80 at the same order of cases.
+- Masks carry most of the sustained reduction, weakened about 20% by fatigue after long holds (gF 0.41, fatigue driver mix_m1 0.49 closure / 0.51 mask).
+
+### Open issues
+
+1. **Closure raises beds** in R1/R2 (under-predicted by 1.4–2.3σ over 30–90-tick holds). dsh is pinned at its bound of 1, which is missing structure. Next free step: let closure move more than 100% of child contacts home (dsh transform 'pos', cap ≈ 5), or give children's household contacts elderly-weighted mixing. Validate with (A)/(B) as above.
+2. **The fatigue driver is unidentified**: mix_m1 is 0.47–0.53 in the all-data and R3/R4-out fits, and 1.0 in the old-only and R5-out fits. It sets how much a long mask-only hold erodes the mask effect. The reserve run below decides it.
+3. **R4 first wave under vaccination** is still −3.2σ (data 460 vs model lower; B19 remainder). The bed-load throttle did not help, and M2 remains unused (a_m2 = 1).
+4. **R3 release wave** is −2.0σ at ticks 280–289 and +0.8/−1.8σ at 320–330, improved from −4.9σ.
+5. pe is pinned at its cap: this is effectively strict elderly-first allocation. A parameter-free "elderly first" rule would be cleaner, with the same predictions.
+
+### Reserve steps (155): recommendation
+
+Run the diagnosis' **R6** unchanged. It now targets open issue 2, the one unknown that changes sustained mask-only predictions.
+
+- **Schedule:** one fresh reset; mask_mandate 0.85 for 120 ticks (40 + 80, so `settle` can be checked after tick 40), then recovery for 35 ticks. Total 155 steps. The segment file `fits/round2/segments/epidemic_EP4.json` = `[{"steps":40,"action":M85},{"steps":80,"action":M85},{"steps":35,"action":REC}]` (M85 = mask .85, closure 0, vaccination 0).
+
+  ```sh
+  python run_schedule.py --budget epidemic      # expect 155
+  python run_schedule.py --system epidemic --output data/epidemic/R6.json --segments fits/round2/segments/epidemic_EP4.json --confirm 155
+  ```
+
+- **Predictions at initial 170/45** (fits that differ in the fatigue driver):
+
+  | Fit | mix_m1 | first peak | ticks 110–119 | 6-tick release log jump | ticks 145–154 |
+  |---|---|---|---|---|---|
+  | final_v2 | 0.49 | 272 @ 22 | 48 / 44 | +0.243 | 144 / 65 |
+  | B_pe_R4 | 0.53 | 271 @ 22 | 46 / 42 | +0.249 | 144 / 64 |
+  | A_pe | 1.00 | 270 @ 21 | 42 / 38 | +0.284 | 148 / 62 |
+  | B_pe_R5 | 1.00 | 269 @ 22 | 44 / 40 | +0.266 | 148 / 63 |
+
+- **What it decides:**
+  - Release jump ≥ +0.28 and a level of about 42: fatigue is closure-driven (mix → 1). Refit with mix_m1 fixed at 1.
+  - Jump ≤ +0.25 and a level of about 48: masks fatigue themselves. Keep mix free.
+  - It also gives the first mask-alone first wave from reset (all fits say about 270 @ 22). A miss of more than 2σ there would point at the mask transmission gain wm.
+- After the run, refit `final_v2` on R1–R6 with `fit2.py`, re-score (B) with R6 as an extra fold, and repackage as v3.

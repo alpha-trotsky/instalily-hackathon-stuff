@@ -1,2 +1,8 @@
 B_pe_R4: start cost 27430.4 free 32
   pass 0 x_scale=1.0: cost 18819.6 nfev 29 (29s)
+  pass 0 x_scale=jac: cost 17831.2 nfev 55 (77s)
+  pass 1 x_scale=1.0: cost 17781.8 nfev 21 (86s)
+  pass 1 x_scale=jac: cost 17778.9 nfev 13 (90s)
+  pass 2 x_scale=1.0: cost 17778.9 nfev 16 (91s)
+  pass 2 x_scale=jac: cost 17778.8 nfev 13 (93s)
+saved B_pe_R4 cost 17778.8
