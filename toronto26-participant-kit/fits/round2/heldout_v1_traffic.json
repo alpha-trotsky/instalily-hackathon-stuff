@@ -1,0 +1,41 @@
+{
+ "system": "traffic",
+ "model": "models/traffic",
+ "observables": [
+  "flow_a",
+  "flow_b",
+  "speed_a",
+  "speed_b"
+ ],
+ "runs": {
+  "R4": {
+   "model": [
+    0.363,
+    0.303,
+    0.363,
+    0.414
+   ],
+   "persistence": [
+    0.04,
+    0.039,
+    0.103,
+    0.088
+   ]
+  },
+  "R5": {
+   "model": [
+    0.231,
+    0.271,
+    0.643,
+    0.665
+   ],
+   "persistence": [
+    0.048,
+    0.022,
+    0.057,
+    0.069
+   ]
+  }
+ },
+ "mean_model": 0.4066
+}

@@ -1,0 +1,41 @@
+{
+ "system": "epidemic",
+ "model": "models/epidemic",
+ "observables": [
+  "daily_cases",
+  "hospital_load"
+ ],
+ "runs": {
+  "R3": {
+   "model": [
+    0.592,
+    0.533
+   ],
+   "persistence": [
+    0.081,
+    0.18
+   ]
+  },
+  "R4": {
+   "model": [
+    0.556,
+    0.533
+   ],
+   "persistence": [
+    0.313,
+    0.231
+   ]
+  },
+  "R5": {
+   "model": [
+    0.418,
+    0.557
+   ],
+   "persistence": [
+    0.139,
+    0.167
+   ]
+  }
+ },
+ "mean_model": 0.5315
+}

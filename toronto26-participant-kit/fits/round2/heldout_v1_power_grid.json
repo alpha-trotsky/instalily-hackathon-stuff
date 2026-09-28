@@ -1,0 +1,36 @@
+{
+ "system": "power_grid",
+ "model": "models/power_grid",
+ "observables": [
+  "load",
+  "frequency",
+  "renewable_share"
+ ],
+ "runs": {
+  "R3": {
+   "model": [
+    0.37,
+    0.228,
+    0.472
+   ],
+   "persistence": [
+    0.141,
+    0.184,
+    0.302
+   ]
+  },
+  "R4": {
+   "model": [
+    0.387,
+    0.265,
+    0.67
+   ],
+   "persistence": [
+    0.158,
+    0.204,
+    0.078
+   ]
+  }
+ },
+ "mean_model": 0.3987
+}
