@@ -1,0 +1,101 @@
+{
+ "system": "hospital_queue",
+ "model_file": "hospital_queue_model_v2.py",
+ "observables": [
+  "wait_time",
+  "queue",
+  "discharges"
+ ],
+ "bounds": {
+  "staffing": [
+   1.0,
+   20.0
+  ],
+  "elective_scheduling": [
+   0.0,
+   20.0
+  ],
+  "diagnostic_allocation": [
+   0.1,
+   0.8
+  ],
+  "urgent_priority": [
+   0.0,
+   1.0
+  ],
+  "overtime": [
+   0.0,
+   1.0
+  ],
+  "followup_capacity": [
+   0.0,
+   1.0
+  ]
+ },
+ "recovery": {
+  "diagnostic_allocation": 0.4,
+  "elective_scheduling": 0.0,
+  "followup_capacity": 1.0,
+  "overtime": 0.0,
+  "staffing": 20.0,
+  "urgent_priority": 0.6
+ },
+ "clamp": {
+  "wait_time": [
+   0.0,
+   1000.0
+  ],
+  "queue": [
+   0.0,
+   1000.0
+  ],
+  "discharges": [
+   0.0,
+   200.0
+  ]
+ },
+ "fallback": {
+  "wait_time": 36.5858432429074,
+  "queue": 252.4268630744449,
+  "discharges": 10.389024930865219
+ },
+ "modules": [
+  "m1",
+  "m2",
+  "urg"
+ ],
+ "source_fit": "fits/hospital_queue/round2/v2/v2_c.json",
+ "built_at": "2026-09-28T15:44:29",
+ "params": {
+  "A0": 11.5,
+  "Ae": 18.446812507329874,
+  "kmu": 0.65,
+  "wo": 1.6832574901288775,
+  "wf": 0.0,
+  "wd": 1.1226565727692603,
+  "az": 0.058584543754883735,
+  "Kz": 308.28793931247765,
+  "ca": 1.164344750285346,
+  "ct": 1.2372457372988817,
+  "Ca": 19.247500568823124,
+  "Cb": 33.39115807101468,
+  "Wmax": 271.09960161317537,
+  "theta": 0.015004397451543324,
+  "nsv": 2.0,
+  "kw": 0.7022483168684436,
+  "gw": 1.4228681218876138,
+  "wu": 0.5575359573733092,
+  "a1u": 1.0,
+  "a1d": 0.03858890079259201,
+  "g1": 0.3278050150670726,
+  "a2": 0.11031188608575347,
+  "g2": 0.08072428245206524,
+  "g3": 0.0,
+  "a3": 0.05,
+  "Pc": 12.0,
+  "Pmax": 1e-09,
+  "Le": 0.4324408155877326,
+  "ce": 354.85833407603633,
+  "the": 8.75651076269652e-27
+ }
+}
