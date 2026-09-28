@@ -1,0 +1,6 @@
+B_pe_R5: start cost 25045.7 free 32
+  pass 0 x_scale=1.0: cost 15897.2 nfev 76 (243s)
+  pass 0 x_scale=jac: cost 15897.2 nfev 22 (263s)
+  pass 1 x_scale=1.0: cost 15888.5 nfev 26 (293s)
+  pass 1 x_scale=jac: cost 15870.9 nfev 25 (331s)
+saved B_pe_R5 cost 15870.9

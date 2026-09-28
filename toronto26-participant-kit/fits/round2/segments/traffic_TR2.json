@@ -1,0 +1,57 @@
+[
+ {
+  "steps": 50,
+  "action": {
+   "clearance_effort": 1.0,
+   "freight_priority": 0.5,
+   "lane_closure": 0.0,
+   "ramp_metering": 1.0,
+   "signal_timing": 0.5,
+   "toll": 1.5
+  }
+ },
+ {
+  "steps": 40,
+  "action": {
+   "clearance_effort": 1.0,
+   "freight_priority": 0.0,
+   "lane_closure": 0.0,
+   "ramp_metering": 1.0,
+   "signal_timing": 0.5,
+   "toll": 1.5
+  }
+ },
+ {
+  "steps": 40,
+  "action": {
+   "clearance_effort": 1.0,
+   "freight_priority": 0.5,
+   "lane_closure": 0.0,
+   "ramp_metering": 1.0,
+   "signal_timing": 0.3,
+   "toll": 1.5
+  }
+ },
+ {
+  "steps": 40,
+  "action": {
+   "clearance_effort": 1.0,
+   "freight_priority": 0.5,
+   "lane_closure": 0.3,
+   "ramp_metering": 1.0,
+   "signal_timing": 0.5,
+   "toll": 1.5
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "clearance_effort": 0.5,
+   "freight_priority": 0.5,
+   "lane_closure": 0.0,
+   "ramp_metering": 1.0,
+   "signal_timing": 0.5,
+   "toll": 1.5
+  }
+ }
+]

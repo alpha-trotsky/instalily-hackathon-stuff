@@ -1,0 +1,30 @@
+
+=== run 0: 510 ticks, controls ['price_signal', 'reserve_dispatch', 'charging_allowance', 'interconnector']
+noise sigma: load 0.1092 (rel 0.11%, proportional), frequency 0.0175 (rel 0.03%, undetermined (level range too small)), renewable_share 0.0003342 (rel 0.31%, constant)
+reset transient: load 109.6514->119.5969 settle > 100, frequency 49.9351->50.8619 settle > 100, renewable_share 0.2358->0.06 settle 61.0
+switch @100 u [0.7, 0.7, 0.7, 0.7]->[-0.0, 0.0, -0.0, -0.0] (hold 60):
+   load             d  -19.0607 (-174.61 sig) delay    0 settle   > 60 k_lin    None k_log    None overshoot  1.93 
+   frequency        d   -0.9563 ( -54.65 sig) delay    0 settle   > 60 k_lin    None k_log    None overshoot 0.137 
+   renewable_share  d      0.33 ( 987.26 sig) delay    0 settle   > 60 k_lin  0.1196 k_log  0.1196 overshoot 0.231 
+switch @160 u [-0.0, 0.0, -0.0, -0.0]->[1.0, 1.0, 1.0, 1.0] (hold 200):
+   load             d   24.4547 ( 224.02 sig) delay    0 settle  > 200 k_lin  0.0503 k_log  0.0503 overshoot  1.82 
+   frequency        d    0.2558 (  14.62 sig) delay    0 settle  > 200 k_lin   0.043 k_log   0.043 overshoot 2.056 
+   renewable_share  d   -0.3397 (-1016.34 sig) delay    0 settle  120.0 k_lin   0.034 k_log  0.0367 overshoot 0.023 
+switch @360 u [1.0, 1.0, 1.0, 1.0]->[-0.0, 0.0, -0.0, -0.0] (hold 30):
+   load             d  -57.7767 (-529.28 sig) delay    0 settle   > 30 k_lin  0.2625 k_log  0.2427 overshoot 0.081 
+   frequency        d    0.7143 (  40.82 sig) delay    3 settle   > 30 k_lin  0.3324 k_log  0.3324 overshoot 0.182 
+   renewable_share  d    0.3746 ( 1120.7 sig) delay    0 settle   > 30 k_lin    None k_log    None overshoot 0.041 
+switch @390 u [-0.0, 0.0, -0.0, -0.0]->[0.85, 0.85, 0.85, 0.85] (hold 80):
+   load             d   51.5881 ( 472.59 sig) delay    0 settle   > 80 k_lin  0.0314 k_log   0.034 overshoot  0.82 
+   frequency        d   -0.2502 (  -14.3 sig) delay    1 settle   > 80 k_lin  0.0268 k_log  0.0268 overshoot 5.068 
+   renewable_share  d   -0.3602 (-1077.75 sig) delay    0 settle   > 80 k_lin  0.0248 k_log  0.0248 overshoot 0.016 
+switch @470 u [0.85, 0.85, 0.85, 0.85]->[-0.0, 0.0, -0.0, -0.0] (hold 40):
+   load             d  -43.0694 (-394.55 sig) delay    0 settle   > 40 k_lin  0.3324 k_log  0.3073 overshoot 0.431 
+   frequency        d    0.0625 (   3.57 sig) delay    0 settle   > 40 k_lin  0.1638 k_log  0.1638 overshoot 5.075 
+   renewable_share  d    0.3693 (1104.96 sig) delay    0 settle   > 40 k_lin    None k_log    None overshoot 0.014 
+on/off @160/360: load k_on/k_off lin 0.192 log 0.207 return -305.25 sig; frequency k_on/k_off lin 0.129 log 0.129 return 55.44 sig; renewable_share k_on/k_off lin None log None return 104.42 sig
+on/off @390/470: load k_on/k_off lin 0.094 log 0.111 return 94.67 sig; frequency k_on/k_off lin 0.164 log 0.164 return -13.98 sig; renewable_share k_on/k_off lin None log None return 25.43 sig
+top correlations: load.level->renewable_share.level -0.826@0; renewable_share.level->load.level -0.826@0; load.diff->renewable_share.diff -0.782@0; renewable_share.diff->load.diff -0.782@0; load.diff->frequency.diff -0.745@5; frequency.diff->load.diff -0.745@-5
+top memory regressions: load rise/fall -> frequency gain 0.6349 a=0.02; renewable_share rise/fall -> frequency gain 0.2499 a=0.05; frequency rise/fall -> load gain 0.1378 a=0.02; renewable_share rise/fall -> load gain 0.0396 a=0.05
+
+saved fits/power_grid/round2/R4_battery.json

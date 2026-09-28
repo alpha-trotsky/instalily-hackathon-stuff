@@ -1,0 +1,7 @@
+  restart 0: cost 10812.7 nfev 19 (10s)
+v1r A cost 10812.7 restarts [10812.7] 10s
+  R1 [0.372, 0.702, 0.465] mean 0.513  (train)
+  R2 [0.317, 0.543, 0.613] mean 0.491  (train)
+  R3 [0.572, 0.446, 0.963] mean 0.660  (train)
+  R4 [0.201, 0.628, 0.169] mean 0.333  (HELD-OUT)
+  R5 [0.236, 0.734, 0.149] mean 0.373  (HELD-OUT)

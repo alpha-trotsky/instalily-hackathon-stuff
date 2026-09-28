@@ -1,0 +1,39 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 13.983787298202515,
+ "ranges": {
+  "prey_north": [
+   0.0,
+   10030.27749974948
+  ],
+  "predator_north": [
+   0.0,
+   750.0
+  ],
+  "prey_south": [
+   0.0,
+   8340.548400943175
+  ],
+  "predator_south": [
+   0.0,
+   750.0
+  ]
+ },
+ "min_seen": {
+  "prey_north": 7.66772079305467,
+  "predator_north": 1.4669877606942427,
+  "prey_south": 7.50386219610096,
+  "predator_south": 1.4669877606942427
+ },
+ "max_seen": {
+  "prey_north": 167.94132745825777,
+  "predator_north": 15.134681932089228,
+  "prey_south": 162.80481388709984,
+  "predator_south": 15.127839264443516
+ },
+ "worst_alternation": 0.4017857142857143,
+ "failures": [],
+ "n_failures": 0,
+ "pass": true
+}

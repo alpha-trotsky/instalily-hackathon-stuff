@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start reservoir RS1 -> R4 (450 steps)
+reservoir: spending 450 steps, 1000 remaining before this run
+Saved 450 observations to data/reservoir/R4.json (run length 450); 550 steps remain
+2026-09-28T14:45:10Z done reservoir RS1
+2026-09-28T14:45:10Z start reservoir RS2 -> R5 (450 steps)
+reservoir: spending 450 steps, 550 remaining before this run
+Saved 450 observations to data/reservoir/R5.json (run length 450); 100 steps remain
+2026-09-28T14:45:58Z done reservoir RS2
+{"system_id": "reservoir", "remaining": 100.0, "simulator_steps_remaining": 100}

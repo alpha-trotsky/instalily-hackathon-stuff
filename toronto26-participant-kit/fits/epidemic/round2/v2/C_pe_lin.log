@@ -1,0 +1,4 @@
+model greybox/epidemic_model_v2.py modules ['m1', 'm2'] episodes 5 units ['linear', 'linear'] sigma [8.41, 4.31]
+  restart 0: cost 1081.8 nfev 100 (347s)
+cost 1081.8 (347s) | train score 0.6972 (persistence 0.1860)
+saved fits/epidemic/round2/v2/C_pe_lin.json

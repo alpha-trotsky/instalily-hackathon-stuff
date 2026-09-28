@@ -15,6 +15,7 @@ params.json fields read by predict.py: system, model_file, observables, bounds, 
 params. clamp: model CLAMP if defined, else [0 (or min - range if data go negative), 10 x max observed];
 override with --clamp obs=lo:hi.
 """
+import os
 import argparse
 import importlib.util
 import json
@@ -29,7 +30,7 @@ from greybox.common import core, gates
 
 CREDENTIALS = core.KIT.parent / 'app-141-1d2abb-credentials.json'
 TEMPLATE = Path(__file__).with_name('predict_template.py')
-PROTECTED_SYSTEMS = {'market'}
+PROTECTED_SYSTEMS = set() if os.environ.get('ALLOW_MARKET_PACKAGE') == '1' else {'market'}  # round 2: user approved market work
 
 
 def _secrets():

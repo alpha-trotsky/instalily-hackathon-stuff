@@ -1,0 +1,66 @@
+[
+ {
+  "steps": 80,
+  "action": {
+   "corridor_access": 0.85,
+   "habitat_protection": 0.235,
+   "hunting_quota": 5.95
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 90,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "corridor_access": 1.0,
+   "habitat_protection": 0.1,
+   "hunting_quota": 7.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "corridor_access": 0.7,
+   "habitat_protection": 0.37,
+   "hunting_quota": 4.9
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 120,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ }
+]

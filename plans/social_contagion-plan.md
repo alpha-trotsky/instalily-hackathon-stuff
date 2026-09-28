@@ -545,3 +545,81 @@ warm-started, 1 restart, block 50, skip 20):
   3. **M1 against M3 is only moderately resolved.** m23 truth is misclassified 2/5 times. The fitted M1
      (departure-driven, fast) was not directly probed. If the public score is weak, the fallback candidate is
      m23_all (8,723), which has near-identical long-run levels.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | SC1 (fresh reset) | `data/social_contagion/R4.json` | 560 | 440 |
+| 2026-09-28 14:44–14:55 UTC | SC2 (fresh reset) | `data/social_contagion/R5.json` | 320 | 120 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/social_contagion_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. No steps spent (120 reserve untouched). Scripts and fits: `toronto26-participant-kit/fits/social_contagion/round2/v2/` (`job.sh` fit runner, `ev.py` scorer with the `heldout.py` σ = 0.1 × std after tick 20 of R1–R5 = 5.58 / 2.93, `steady.py` long-run levels). Candidate module: `greybox/social_contagion_model_v2.py` (not shipped).
+
+### Diagnosis items addressed and structural changes tried
+
+| Variant | Structure | Diagnosis items |
+|---|---|---|
+| v1 | shipped m12 (R1–R3 fit) | — |
+| v1r | v1 structure (M1 + M2 linear-gap), refit | item 5 (refit), H1 pin via data |
+| **v1m2 (chosen)** | v1 module with **M1 switched off** (g1 = 0), M2 linear-gap, refit | item 4 (drop M1, B18), items 2/5 via R4/R5 in the fit |
+| v2a | new module: M2 as a **promise ratchet** (cut below promise P moves min(g2 (P − ui), 1) of non-core members to an at-risk stock that leaves at a fixed rate kz; P follows rises at a2), no M1 | items 1, 2, 4 (B24, B25, H2 fixed-rate exit, B21 floor depends on promise) |
+| v2b | v2a + bridge cost `us (1 − b)^mb` | item 3a (B35) |
+| v2c | v2b + incentive × seeding conversion `sig sl (1 + gis ui)` | item 1 steady incentive effect (B24) |
+
+### Held-out scores (per observable A / B; run mean in brackets)
+
+| Test | v1 | v1r (v1 structure refit) | **v1m2 (chosen)** | v2c (ratchet + bc + is) |
+|---|---|---|---|---|
+| (A) fit R1–R3, score R4 | .367/.355 | = v1 | .525/.387 | .526/.422 (v2a .555/.390) |
+| (A) fit R1–R3, score R5 | .196/.210 | = v1 | .275/.312 | .337/.296 (v2a .323/.297) |
+| **(A) mean** | **0.282** | 0.282 | **0.375** | 0.395 (v2a 0.391) |
+| (B) fit R1–R3+R5, score R4 | .367/.355 | .491/.399 | .496/.401 | .287/.341 |
+| (B) fit R1–R3+R4, score R5 | .196/.210 | .358/.409 | .408/.398 | .280/.286 |
+| **(B) mean** | **0.282** | 0.414 | **0.426** | 0.299 |
+| (C) all data, cost | — | 28,322 | 28,614 | 28,375 (v2a 30,050; v2b 31,064) |
+| (C) in-sample run means R1/R2/R3/R4/R5 | .660/.591/.799/.361/.203 | .626/.606/.833/.544/.535 | .637/.601/.811/.537/.537 | .658/.693/.831/.583/.473 |
+
+### Decision
+
+**Ship v1m2 (v1 module, M2 only, refit on R1–R5; `fits/social_contagion/round2/v2/final.json` = `v1m2_C.json`).** It beats v1 on (A) (+0.09) and (B) (+0.14), and beats the v1-structure refit on both (A +0.09, B +0.01), so dropping M1 earns its keep, as the diagnosis predicted (item 4). Old-data in-sample mean is 0.683 against 0.683 for v1 (R1 −0.02, R2 +0.01, R3 +0.01), no drop. The promise-ratchet v2 transfers slightly better under (A) (0.395) but **fails (B) (0.299)**: with R4 or R5 in the fit, the optimizer either slows the promise (a2 → 0.008, g2 pinned at 2, so the 2 → 1 cut does nothing: 190–194 vs 143) or, with a fast promise, over-depletes the pool so the pulse after a 20-tick gap is far too low (P3 134–145 vs 162). The bc and is terms added ≤ 0.004 on (A) and did not raise the incentive plateau (gis 0.34, mb 1.3), so they did not pay for themselves. Mechanism: one module (M2); M3 and M1 not modeled (pairs-only rule respected; no all-three model).
+
+### Gates
+
+- Stability: **pass** (200 schedules, 8 × 40,000 steps, 0 failures, range 21–222 / 13–138, worst alternation 0.022). `fits/social_contagion/round2/v2/stability_final.json`.
+- Contract: **pass** from the extracted ZIP (40 × 4,000 steps in 2.1 s, all malformed cases ok, credential scan clean).
+- Package: `toronto26-participant-kit/models/social_contagion/` and `toronto26-participant-kit/submission-social_contagion-v2.zip` (5.6 KB), `source_fit` = `fits/social_contagion/round2/v2/final.json`. Not uploaded.
+
+### Design choices and their predictions (from a 45 / 35 reset reading, 4,000-tick holds)
+
+| Hold | tick 300 | tick 4,000 | data |
+|---|---|---|---|
+| recovery | 91 / 77 | **95 / 80** (min 61 / 50 after the reset dip) | asymptote ≈ 93 / 77 (H1): A +2%, B +4% |
+| u.7 (6.3 / 1.4 / 0.42) | 196 / 125 | 196 / 125 | 164 / 101 (B not settled) — **still +32 / +24 (5.7σ / 8σ)** |
+| u1 (9 / 2 / 0.6) | 202 / 132 | 202 / 132 | 199 / 131 |
+| seeding 4.5 + incentive 2 | 201 / 117 | 201 / 117 | 257 / 146 — **still −56 / −29** |
+| seeding 4.5 | 192 / 110 | 192 / 110 | 196 / 98 at tick 80, rising |
+
+Long-run behaviour: every hold settles monotonically within ~300 ticks and stays flat to 4,000 (and to 40,000 in the stability gate); no oscillation, no drift. Crash floor after the u.7 pulse 65 / 49 (data 65 / 52), partial cut 2 → 1 gives 139 / 77 (data 143 / 75), R5 recovery 101 / 67 (data 99 / 68).
+
+### Open issues
+
+1. **The level map is saturated near 200 / 130 in every structure tried** (v1, v1r, v1m2, v2a–c): u.7, u.85, u1 and seeding 4.5 + incentive 2 all land at 193–202 in A. Data span 164 (u.7) to 257 (s4.5 + i2). This is the largest remaining loss (R4 0–99, R5 80–139, B19/B20/B24). Fixing it needs a larger A pool with the pulse level limited by something else (bridge cost to A or order of incentive vs recruitment, B35), which the current data cannot separate.
+2. The promise-ratchet form reproduces H2 (magnitude linear, rate fixed) in the old-data fit, but not jointly with the gap-20 pulse (P3); the at-risk exits should probably not all enter the slow-reconsider pool D. Not pursued further (failed B).
+3. Fits stall: `least_squares` often stops after 30–40 evaluations (C fits from different inits land on the same cost), so better optima may exist; a Powell pass was not tried for time.
+4. B's pulse level is still +7σ at u.7, and B's recovery tail is 80 against ≈ 77.
+
+### Reserve-step recommendation (120 steps; unchanged from the diagnosis §6)
+
+Spend all 120 on **RC1** (fresh reset; two `run_schedule.py` calls, the second with `--continue`, `--confirm 60` each):
+
+| Ticks | Steps | seeding | incentive | bridge_outreach |
+|---|---:|---:|---:|---:|
+| 0–59 | 60 | 6.3 | 0 | 0.42 |
+| 60–119 | 60 | 6.3 | 1.4 | 0.42 |
+
+It decides open issue 1: A at ticks 50–59 of ≈ 150–165 means the bridge costs A far more than its effort share (adopt the bridge-cost structure, with a larger pool); ≈ 190–210 means the bridge is cheap and the low u.7 plateau is an order effect (incentive given with or before recruitment is weak). Segment 2's end against R4's 164 / 101 then says whether incentive *after* recruitment adds the R5-sized +60 (an order effect to model) or is additive and history-free. Either answer fixes the saturated level map, which is the biggest remaining score loss.

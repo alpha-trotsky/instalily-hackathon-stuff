@@ -1,0 +1,4 @@
+model fits/epidemic/round2/epi_varB.py modules ['m3'] episodes 5 units ['log', 'log'] sigma [0.01, 0.01]
+  restart 0: cost 109714.7 nfev 6 (2s)
+cost 109714.7 (2s) | train score 0.4502 (persistence 0.1860)
+saved fits/epidemic/round2/fit_varB_base.json

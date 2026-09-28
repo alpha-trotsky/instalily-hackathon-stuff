@@ -1,0 +1,6 @@
+A_pe: start cost 10956.8 free 32
+  pass 0 x_scale=1.0: cost 9248.0 nfev 150 (702s)
+  pass 0 x_scale=jac: cost 9248.0 nfev 18 (713s)
+  pass 1 x_scale=1.0: cost 9244.2 nfev 150 (1396s)
+  pass 1 x_scale=jac: cost 9244.2 nfev 23 (1432s)
+saved A_pe cost 9244.2

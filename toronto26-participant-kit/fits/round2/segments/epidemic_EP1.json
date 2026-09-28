@@ -1,0 +1,42 @@
+[
+ {
+  "steps": 40,
+  "action": {
+   "mask_mandate": 0.85,
+   "school_closure": 0.85,
+   "vaccination_rate": 0.00255
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "mask_mandate": 0.85,
+   "school_closure": 0.85,
+   "vaccination_rate": 0.00255
+  }
+ },
+ {
+  "steps": 150,
+  "action": {
+   "mask_mandate": 0.85,
+   "school_closure": 0.85,
+   "vaccination_rate": 0.00255
+  }
+ },
+ {
+  "steps": 40,
+  "action": {
+   "mask_mandate": 0.0,
+   "school_closure": 0.0,
+   "vaccination_rate": 0.0
+  }
+ },
+ {
+  "steps": 110,
+  "action": {
+   "mask_mandate": 0.0,
+   "school_closure": 0.0,
+   "vaccination_rate": 0.0
+  }
+ }
+]

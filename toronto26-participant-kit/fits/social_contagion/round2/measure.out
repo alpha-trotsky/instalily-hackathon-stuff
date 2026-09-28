@@ -1,0 +1,90 @@
+H1 asymptote fit R4 250-399 (A,B):
+  obs0 250-400: asym 92.6  k 0.0091  (tau 110)  last10 89.0 slope_last50 +0.040/tick
+  obs0 150-400: asym 94.9  k 0.0073  (tau 138)  last10 89.0 slope_last50 +0.040/tick
+  obs0 200-400: asym 92.4  k 0.0093  (tau 108)  last10 89.0 slope_last50 +0.040/tick
+  v1 last10 at 390-399: 83.2; v1 long-run 96.5/83.7
+  obs1 250-400: asym 76.9  k 0.0054  (tau 184)  last10 73.2 slope_last50 +0.022/tick
+  obs1 150-400: asym 72.9  k 0.0157  (tau 64)  last10 73.2 slope_last50 +0.022/tick
+  obs1 200-400: asym 75.1  k 0.0080  (tau 126)  last10 73.2 slope_last50 +0.022/tick
+  v1 last10 at 390-399: 79.1; v1 long-run 96.5/83.7
+H3 gains (R4): P2 400-459 after gap 300, P3 480-539 after gap 20
+  obs0: start 89.1 / 92.4; end 183.0 / 162.3; gain 93.8 / 69.9; ratio 0.745; end-level ratio 0.887
+     +10: P2 +14.9  P3 +6.1
+     +20: P2 +55.5  P3 +33.0
+     +30: P2 +80.5  P3 +53.2
+     +40: P2 +89.6  P3 +65.8
+  v1 gain ratio 0.887
+  obs1: start 73.3 / 59.4; end 117.4 / 104.7; gain 44.1 / 45.2; ratio 1.026; end-level ratio 0.892
+     +10: P2 +5.2  P3 +9.6
+     +20: P2 +19.3  P3 +25.0
+     +30: P2 +29.5  P3 +35.4
+     +40: P2 +37.1  P3 +42.3
+  v1 gain ratio 1.556
+H2 (R5):
+  obs0: inc2 257.0 inc1 143.3 inc0 last10 119.3 min 103.8@214; drop ratio vs floor(43/31) 0.53; vs own inc0 min 0.74; vs inc0 last10 0.83
+  obs1: inc2 146.0 inc1 75.0 inc0 last10 56.9 min 50.1@214; drop ratio vs floor(43/31) 0.62; vs own inc0 min 0.74; vs inc0 last10 0.80
+H4 level map on the ray (last10): u.7 R4 0-99, u.85 R4 400-459, u1 R2 205-254, recovery tail R4 390-399
+  obs0: L0 89.0 L.7 164.1 L.85 183.0 L1 199.2; frac(.7) 0.68 frac(.85) 0.85; v1 frac(.7) 0.93
+  obs1: L0 73.2 L.7 100.9 L.85 117.4 L1 131.4; frac(.7) 0.48 frac(.85) 0.76; v1 frac(.7) 0.81
+reset troughs / ratio:
+  R1: init [61.5 38.6] trough [46.3 29.1] at [17 16] ratio [0.754 0.753]; v1 trough [48.  29.1]
+  R2: init [48.6 37.8] trough [37.4 28.3] at [15 16] ratio [0.77  0.748]; v1 trough [38.7 28.5]
+  R3: init [42.8 52.6] trough [33.5 37.9] at [13 20] ratio [0.783 0.722]; v1 trough [34.4 38.3]
+  R4: init [39.6 30.2] trough [34.6 25.9] at [5 6] ratio [0.873 0.857]; v1 trough [38.  26.6]
+  R5: init [46.  51.7] trough [40.  42.6] at [5 9] ratio [0.868 0.823]; v1 trough [43.3 41. ]
+onset delays (first tick > start+3 sd):
+  R4 t0: A 8 B 12
+  R4 t100: A 0 B 0
+  R4 t400: A 5 B 6
+  R4 t460: A 0 B 0
+  R4 t480: A 8 B 4
+  R4 t540: A 0 B 0
+  R5 t0: A 9 B 20
+  R5 t80: A 2 B 3
+  R5 t140: A 0 B 0
+  R5 t190: A 1 B 1
+  R5 t240: A 25 B None
+first-order rate of fall after switch-offs (log units, fit exp to first 25 ticks after 2-tick dead time):
+  R4 t100 obs0: from 160.1 to asym 55.1, k 0.062, min 66.4@139
+  R4 t100 obs1: from 99.2 to asym 47.0, k 0.096, min 49.8@129
+  R4 t460 obs0: from 176.5 to asym 48.5, k 0.064, min 87.1@479
+  R4 t460 obs1: from 114.4 to asym 33.4, k 0.069, min 56.8@479
+  R4 t540 obs0: from 158.4 to asym 43.0, k 0.065, min 77.3@559
+  R4 t540 obs1: from 101.9 to asym 30.2, k 0.073, min 49.2@559
+  R5 t140 obs0: from 249.1 to asym 135.9, k 0.088, min 141.7@178
+  R5 t140 obs1: from 143.1 to asym 70.1, k 0.080, min 74.8@176
+  R5 t190 obs0: from 143.1 to asym 41.9, k 0.030, min 110.4@204
+  R5 t190 obs1: from 74.2 to asym 10.8, k 0.028, min 54.3@204
+  R2 t255 obs0: from 186.2 to asym 39.0, k 0.088, min 44.3@294
+  R2 t255 obs1: from 122.5 to asym 30.1, k 0.115, min 32.8@287
+  R1 t355 obs0: from 124.4 to asym 43.2, k 0.091, min 45.4@393
+  R1 t355 obs1: from 101.5 to asym 28.5, k 0.098, min 30.7@394
+rise rate k after switch-ons:
+  R4 t0 obs0: asym 165.4 k 0.056 (tau 18), max slope 5.63/tick at +14
+  R4 t0 obs1: asym 117.7 k 0.020 (tau 49), max slope 1.88/tick at +17
+  R4 t400 obs0: asym 188.5 k 0.069 (tau 14), max slope 4.86/tick at +12
+  R4 t400 obs1: asym 129.5 k 0.033 (tau 31), max slope 1.66/tick at +19
+  R4 t480 obs0: asym 176.2 k 0.041 (tau 24), max slope 3.24/tick at +19
+  R4 t480 obs1: asym 111.6 k 0.042 (tau 24), max slope 1.88/tick at +12
+  R5 t0 obs0: asym 219.0 k 0.032 (tau 31), max slope 4.87/tick at +18
+  R5 t0 obs1: asym 147.7 k 0.012 (tau 83), max slope 1.62/tick at +24
+  R5 t80 obs0: asym 261.0 k 0.064 (tau 16), max slope 2.99/tick at +15
+  R5 t80 obs1: asym 154.6 k 0.038 (tau 26), max slope 2.19/tick at +18
+noise: MAD of 2nd diff /0.6745/sqrt6 relative to level
+  R4: rel noise [0.0025 0.0026]
+  R5: rel noise [0.0025 0.0026]
+a/b ratio:
+   R4 ['99:1.61', '149:1.20', '249:1.15', '399:1.22', '459:1.53', '479:1.53', '539:1.55', '559:1.57']
+   R5 ['79:1.98', '139:1.75', '189:1.91', '239:2.09', '319:1.45']
+R5 incentive-0 undershoot/rebound and post-seeding bump:
+   A 190..320 every 10: [143.1 117.4 105.1 105.8 114.4 126.1 133.9 128.1 118.2 111.3 106.2 103.
+ 100. ]
+   B [74.2 58.7 50.8 50.7 54.6 60.3 65.4 66.4 65.9 65.9 66.1 66.7 67.6]
+   v1 A [109.   88.1  76.1  73.4  78.9  89.4  96.4  93.6  88.7  84.8  82.3  80.8
+  80. ]
+R4 recovery every 25: [[160.1, 99.2], [77.4, 50.7], [64.5, 54.3], [66.7, 61.0], [71.7, 65.1], [76.1, 67.1], [79.5, 68.8], [81.8, 70.1], [84.3, 70.7], [86.0, 71.4], [87.2, 71.7], [88.5, 72.6]]
+v1 R4 every 25: [[181.3, 116.2], [71.2, 48.0], [52.6, 39.1], [52.1, 42.7], [54.9, 47.7], [58.5, 53.0], [62.5, 58.4], [66.7, 63.6], [70.8, 68.2], [74.6, 72.2], [78.0, 75.3], [81.1, 77.7]]
+R4 0-100 every 10 [[38.5, 29.6], [46.0, 27.8], [93.9, 42.7], [128.3, 57.1], [144.6, 68.5], [153.4, 77.7], [157.8, 85.3], [160.5, 90.8], [162.7, 96.4], [164.0, 99.5]]
+v1 [[38.9, 29.5], [45.2, 27.4], [66.0, 33.9], [96.4, 45.7], [127.2, 61.3], [152.0, 78.1], [169.3, 93.7], [180.4, 106.2], [186.9, 114.9], [190.5, 120.3]]
+R5 0-140 every 10 [[44.5, 50.5], [47.3, 42.9], [89.1, 51.3], [127.4, 63.2], [154.9, 73.4], [172.5, 82.2], [184.3, 89.4], [193.3, 95.6], [198.3, 100.0], [212.1, 109.0], [233.8, 123.3], [248.1, 133.4], [254.7, 140.5], [258.0, 144.8]]
+v1 [[45.2, 50.6], [48.8, 41.0], [69.1, 44.7], [100.2, 53.2], [131.8, 63.9], [156.3, 74.4], [172.4, 83.3], [182.0, 90.4], [187.2, 95.8], [190.4, 100.6], [192.4, 104.5], [193.3, 107.2], [193.6, 109.0], [193.6, 110.1]]

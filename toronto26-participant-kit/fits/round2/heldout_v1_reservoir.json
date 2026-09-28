@@ -1,0 +1,41 @@
+{
+ "system": "reservoir",
+ "model": "models/reservoir",
+ "observables": [
+  "level",
+  "inflow",
+  "outflow",
+  "quality"
+ ],
+ "runs": {
+  "R4": {
+   "model": [
+    0.87,
+    0.698,
+    0.878,
+    0.142
+   ],
+   "persistence": [
+    0.168,
+    0.107,
+    0.075,
+    0.01
+   ]
+  },
+  "R5": {
+   "model": [
+    0.812,
+    0.757,
+    0.851,
+    0.19
+   ],
+   "persistence": [
+    0.167,
+    0.163,
+    0.115,
+    0.007
+   ]
+  }
+ },
+ "mean_model": 0.6498
+}

@@ -1,0 +1,36 @@
+sigma [ 3.141 11.056  0.425]
+== R3
+  0- 50 electives 5            data [  6.46 142.62  13.21] | final_m12 (v1) [ 18.81 304.86   5.9 ] ([  3.9  14.7 -17.2]s) | v5_base [ 16.94 276.74   9.11] ([ 3.3 12.1 -9.6]s)
+      slope last 20 (per tick): [ 0.215  2.43  -0.1  ]  mean over seg: [  4.17 112.28  14.04]
+ 50-100 electives 10           data [ 32.86 271.55   9.53] | final_m12 (v1) [ 31.95 309.43   5.12] ([ -0.3   3.4 -10.4]s) | v5_base [ 32.87 292.44   8.83] ([ 0.   1.9 -1.7]s)
+      slope last 20 (per tick): [ 0.307  0.873 -0.003]  mean over seg: [ 23.43 247.72  10.17]
+100-150 staffing 15 + el 10    data [ 50.3  317.     7.14] | final_m12 (v1) [ 44.1  311.     3.82] ([-2.  -0.5 -7.8]s) | v5_base [ 49.07 300.8    6.55] ([-0.4 -1.5 -1.4]s)
+      slope last 20 (per tick): [0.213 0.003 0.016]  mean over seg: [ 44.94 306.17   7.05]
+150-200 staffing 15 alone      data [ 50.93 313.26   7.61] | final_m12 (v1) [ 35.95 288.57   6.31] ([-4.8 -2.2 -3.1]s) | v5_base [ 44.82 290.     6.84] ([-1.9 -2.1 -1.8]s)
+      slope last 20 (per tick): [-0.116 -0.117  0.005]  mean over seg: [ 52.01 315.61   7.49]
+200-250 recovery               data [ 33.2  213.23  11.35] | final_m12 (v1) [ 17.65 197.19  10.24] ([-5.  -1.5 -2.6]s) | v5_base [ 25.8  220.75  10.07] ([-2.4  0.7 -3. ]s)
+      slope last 20 (per tick): [-0.384 -2.065  0.028]  mean over seg: [ 40.96 256.72  10.79]
+== R4
+  0- 90 joint .7               data [ 68.25 322.22   4.65] | final_m12 (v1) [ 52.92 310.03   2.57] ([-4.9 -1.1 -4.9]s) | v5_base [ 46.07 299.26   6.9 ] ([-7.1 -2.1  5.3]s)
+      slope last 20 (per tick): [ 0.264 -0.018 -0.008]  mean over seg: [ 44.73 302.66   5.12]
+ 90-140 recovery 50            data [ 41.55 256.98  11.18] | final_m12 (v1) [ 32.05 259.47   8.44] ([-3.   0.2 -6.4]s) | v5_base [ 31.65 243.71   9.7 ] ([-3.2 -1.2 -3.5]s)
+      slope last 20 (per tick): [-0.589 -2.402  0.059]  mean over seg: [ 54.53 293.55   9.25]
+140-200 joint 1                data [101.29 326.65   2.11] | final_m12 (v1) [110.87 312.38   1.02] ([ 3.  -1.3 -2.5]s) | v5_base [ 93.78 299.85   3.25] ([-2.4 -2.4  2.7]s)
+      slope last 20 (per tick): [ 0.652 -0.029  0.01 ]  mean over seg: [ 79.71 321.98   2.24]
+200-275 recovery +75           data [ 33.11 215.14  12.09] | final_m12 (v1) [ 28.23 223.84   9.47] ([-1.6  0.8 -6.2]s) | v5_base [ 27.79 209.53  10.23] ([-1.7 -0.5 -4.4]s)
+      slope last 20 (per tick): [-0.428 -2.325  0.088]  mean over seg: [ 57.03 278.2    9.66]
+275-350 recovery +150          data [163.16 106.42  12.57] | final_m12 (v1) [  5.07 108.36  13.21] ([-50.3   0.2   1.5]s) | v5_base [ 8.63 94.78 12.42] ([-49.2  -1.1  -0.4]s)
+      slope last 20 (per tick): [ 1.242 -1.176  0.07 ]  mean over seg: [ 84.46 142.32  11.83]
+
+H1 R3 electives-5 phases: 3-30 mean [  3.39 102.13  15.88] 30-50 [  5.51 130.47  13.67]
+H2 queue slope 150-200 -0.104 disch 7.49
+H3 exp fit from +0: asymptote -602.8, q0 345.5, tau 471.1
+H3 exp fit from +50: asymptote 53.6, q0 494.4, tau 67.8
+H3 exp fit from +100: asymptote 98.9, q0 2585.2, tau 26.4
+H3 final_m12 (v1) model exp fit: asymptote -3649599.0, tau 2327166.3; model queue at 349 100.4
+H3 v5_base model exp fit: asymptote -8435306.8, tau 5769355.4; model queue at 349 86.9
+R4 queue slope 200-250: -1.124 disch mean 8.763 wait mean 67.37
+R4 queue slope 250-305: -2.049 disch mean 11.515 wait mean 30.25
+R4 queue slope 310-340: -0.464 disch mean 11.61 wait mean 124.84
+R4 queue slope 340-350: -1.479 disch mean 12.569 wait mean 163.16
+R3 queue slope 200-250 -2.219

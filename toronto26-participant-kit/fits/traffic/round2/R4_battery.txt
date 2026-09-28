@@ -1,0 +1,29 @@
+
+=== run 0: 400 ticks, controls ['signal_timing', 'lane_closure', 'toll', 'ramp_metering', 'freight_priority', 'clearance_effort']
+noise sigma: flow_a 5.512 (rel 42.52%, constant), flow_b 8.692 (rel 79.48%, proportional), speed_a 0.1075 (rel 0.53%, partial), speed_b 0.1761 (rel 0.98%, constant)
+reset transient: flow_a 37.2887->15.2688 settle 10.0, flow_b 32.5658->12.7164 settle 0.0, speed_a 32.3788->12.5743 settle > 150, speed_b 32.7844->15.8294 settle 54.0
+switch @150 u [0.7, 0.7, 0.7, 0.7, 0.7, 0.7]->[-0.0, 0.0, -0.0, 0.0, 0.0, -0.0] (hold 50):
+   flow_a           d  -15.2685 (  -2.77 sig) delay None settle   25.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   flow_b           d  -12.7151 (  -1.46 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   speed_a          d   36.2396 ( 337.18 sig) delay    0 settle   > 50 k_lin    None k_log  0.0096 overshoot 0.005 
+   speed_b          d   32.7494 ( 185.95 sig) delay    3 settle   > 50 k_lin    None k_log  0.0056 overshoot 0.007 
+switch @200 u [-0.0, 0.0, -0.0, 0.0, 0.0, -0.0]->[1.0, 1.0, 1.0, 1.0, 1.0, 1.0] (hold 80):
+   flow_a           d    7.9825 (   1.45 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   flow_b           d   12.9401 (   1.49 sig) delay None settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   speed_a          d  -40.8401 (-379.98 sig) delay    1 settle   > 80 k_lin  0.0807 k_log  0.0367 overshoot 0.014 
+   speed_b          d  -32.9411 (-187.04 sig) delay    0 settle   51.0 k_lin  0.1514 k_log  0.1105 overshoot 0.015 
+switch @280 u [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]->[-0.0, 0.0, -0.0, 0.0, 0.0, -0.0] (hold 30):
+   flow_a           d   11.4706 (   2.08 sig) delay   27 settle    4.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma), transient excursion
+   flow_b           d  -12.1092 (  -1.39 sig) delay None settle   19.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   speed_a          d    9.0972 (  84.64 sig) delay    1 settle   > 30 k_lin    None k_log    None overshoot 0.192 
+   speed_b          d   19.1921 ( 108.97 sig) delay    2 settle   > 30 k_lin    None k_log    None overshoot 0.334 
+switch @310 u [-0.0, 0.0, -0.0, 0.0, 0.0, -0.0]->[0.85, 0.85, 0.85, 0.85, 0.85, 0.85] (hold 90):
+   flow_a           d   -8.6882 (  -1.58 sig) delay    3 settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   flow_b           d   13.4019 (   1.54 sig) delay   31 settle    0.0 k_lin    None k_log    None overshoot  None none (|delta| < 3 sigma)
+   speed_a          d   -9.5781 ( -89.12 sig) delay    1 settle   > 90 k_lin  0.0196 k_log  0.0089 overshoot 0.047 
+   speed_b          d  -28.9412 (-164.33 sig) delay    0 settle   47.0 k_lin  0.1196 k_log  0.0873 overshoot 0.012 
+on/off @200/280: flow_a k_on/k_off lin None log None return 3.53 sig; flow_b k_on/k_off lin None log None return 0.1 sig; speed_a k_on/k_off lin None log None return -301.81 sig; speed_b k_on/k_off lin None log None return -78.07 sig
+top correlations: speed_a.level->speed_b.level 0.852@-3; speed_b.level->speed_a.level 0.852@3; speed_a.diff->speed_b.diff 0.766@-3; speed_b.diff->speed_a.diff 0.766@3; speed_a.fall->speed_b.diff -0.675@-2; speed_a.rise->speed_b.level 0.666@15
+top memory regressions: speed_a rise/fall -> flow_a gain 0.3155 a=0.02; speed_a rise/fall -> speed_b gain 0.2433 a=0.02; speed_b rise/fall -> flow_a gain 0.2406 a=0.02; flow_a rise/fall -> speed_b gain 0.1524 a=0.02
+
+saved fits/traffic/round2/R4_battery.json

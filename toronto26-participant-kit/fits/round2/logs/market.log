@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start market MK1 -> B (600 steps)
+market: spending 600 steps, 1400 remaining before this run
+Saved 600 observations to data/market/B.json (run length 600); 800 steps remain
+2026-09-28T14:45:28Z done market MK1
+2026-09-28T14:45:28Z start market MK2 -> C (600 steps)
+market: spending 600 steps, 800 remaining before this run
+Saved 600 observations to data/market/C.json (run length 600); 200 steps remain
+2026-09-28T14:46:25Z done market MK2
+{"system_id": "market", "remaining": 200.0, "simulator_steps_remaining": 200}

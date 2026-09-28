@@ -589,3 +589,94 @@ contract).
 2. Release burst to ≈ 50 (G4) and idle-pause restart / effort-0 supplier refill (G7) not captured.
 3. Mechanism pair unresolved: no module reproduces B15 or B4; a threshold heat state (G8) and a withdrawal-rate
    commitment (G9) are the next candidates.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | SU1 (fresh reset) | `data/supply_chain/R4.json` | 400 | 300 |
+| 2026-09-28 14:44–14:55 UTC | SU2 (fresh reset) | `data/supply_chain/R5.json` | 200 | 100 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/supply_chain_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. No steps spent (reserve 100 untouched). Module `toronto26-participant-kit/greybox/supply_chain_model_v2.py`;
+fits, scripts and logs in `toronto26-participant-kit/fits/supply_chain/round2/v2/` (`run.py` fitter/protocol, `pipeline.sh`
+staged fit, `table.py`, `longrun.py`, `segtab.py`, `plot.py`, `retail_explore.py`). Final params `v2/final_v2.json` (= `v2c_C.json`).
+
+**Diagnosis items addressed and structural changes** (every other v1 part unchanged; no mechanism modules, as v1):
+
+| Item | Change |
+|---|---|
+| §5.1 / B18, B19, B20 service structure | `mu0·(r/1.5)^ar·(1+wm(1−m))·…` replaced by `mu = smin(kr·r·(1 + kp·lift), U)` (soft-min, width 1). `U = U0·(1+wm(1−m))·mix·rush·idle` — maintenance acts on U only. `lift` = mean of the clipped pulse-side u of rush, mix and effort (source of the joint-pulse +10% unidentified, so the risk is spread over the three). Fit (C): kr·(1−φ) = 49.5·r (data 49.2), kp = 0.083. |
+| B21 supply-limited phase | fast path capacity `c1·e^ce` — **did not earn its keep** (ce fits to 0 in every fold); harmless, left at 0. |
+| §5.2 / B25 retail | sales = min(R+ship, D0 + kR·R + g·E + dz·z), E an asymmetric bounded EMA of shipments (aup/adn ∈ [0.005, 1]). Fit: g 0.23, aup 0.07, adn ≈ 1. On observed shipments the best law found still only reaches 0.45–0.52 on R4/R5 (`retail_explore.py`); the retail law remains structurally wrong. |
+| rush (not in diagnosis; found here) | rush factor `1 + wl·((1−ll)/0.8)^nl`, wl ∈ [−1, 0], lag al ≥ 0.1, nl ∈ [1, 8]. R1 (l 0.2 alone) gives −35%; R4 u.7 (l 0.44) shows ~no penalty, hence the power. **With v1's bounds (wl ∈ [−1, 1], al ≥ 0.02) the all-data fit pinned al at 0.02 and used rush as a slow clock for the R1 burst: rush alone → 48 shipments, supplier 0, retail 1,739 at 4,000 ticks.** That variant (`v2_*`) was rejected; the bounded one is `v2c_*`. |
+| §5.3 supplier (make-to-order, 27-tick path), §5.4 release burst (`wid`) | **Not done** (time; see open issues). `wid` still fits to 0. |
+
+**Fitting.** `greybox.common.fit`'s least_squares stopped after 6–19 evaluations (finite-difference step too small for the
+min/clip structure). `run.py` uses `diff_step = 1e-3`, 2 restarts, and a **staged** fit: s1 flow + supplier params with retail
+weight 0; s2 retail params only, flow frozen. A joint s3 pass (all params, 12 min) lowered cost but made held-out worse
+(A 0.512 vs 0.547), so it is not used. Residual σ = score σ (1.12 / 12.1 / 34.7).
+
+**Held-out scores** (σ = 0.1 × std after tick 20 of R1–R5, as `fits/round2/heldout.py`; per observable shipments / supplier / retail; mean):
+
+| Variant | (A) fit R1–R3 → R4+R5 | (B) → R4 (fit R1–3+R5) | (B) → R5 (fit R1–3+R4) | (C) all data, R1–R5 in-sample | Old runs in-sample (fit A / fit C) |
+|---|---|---|---|---|---|
+| v1 shipped (= v1 fit on old) | 0.218 / 0.681 / 0.159 = **0.353** | — | — | — | 0.420 / 0.564 / 0.680 = 0.555 |
+| v1 structure refit (`v1r_ls_*`) | = v1 (0.353) | 0.250 / 0.624 / 0.160 = 0.345 | 0.345 / 0.733 / 0.222 = 0.433 | 0.431 | — / 0.409 |
+| v2 unbounded rush (`v2_*`, rejected) | 0.571 / 0.694 / 0.376 = 0.547 | 0.418 / 0.637 / 0.294 = 0.450 | 0.605 / 0.780 / 0.443 = 0.609 | 0.583 | 0.523 / 0.578 |
+| **v2 (`v2c_*`, shipped)** | 0.562 / 0.706 / 0.372 = **0.547** | 0.255 / 0.623 / 0.159 = **0.346** | 0.619 / 0.781 / 0.418 = **0.606** | 0.503 / 0.647 / 0.603 = **0.584** | 0.545 / 0.588 |
+
+Final (C) per run: R1 0.509, R2 0.504, R3 0.751, R4 0.528, R5 0.629 (confirmed with `heldout.py` on the packaged folder).
+
+**Decision: ship v2 (`v2c`).** It beats v1 on (A) by +0.19 and on the R5 fold by +0.17, and ties v1 on the R4 fold. The R4 fold
+failure is understood: without R4 the rush power `nl` has only one data point (l 0.2) and fits to 1 (linear), so the u.7 hold
+(rush 0.44) is predicted 20% too low. The unbounded variant scores better there only because its rush term sat at a bound — not
+evidence. Old-data in-sample: 0.545 (fit A) vs 0.555 for v1 (−0.010, within the 0.03 rule); 0.588 with the final fit.
+The v1-structure refit does not help (0.431 on all data, worse than v1 on old runs), so the gains are structural.
+
+**Gates.** Stability (`v2/stab_gate.json`, 200 schedules + 8 × 40,000 steps): no range failures (max shipments 44.6,
+supplier 361.8, retail 1,514); 50 sawtooth flags, all shipments, all relative-amplitude artefacts at near-zero levels (the
+64 extreme corners held 400 ticks give an absolute alternation ≤ 0.064, 0.06σ) — the same false positive accepted for v1
+(61 flags). Contract: pass (40 × 4,000 steps in 8.7 s, all malformed cases ok). Package: pass (roots, credential scan clean,
+contract from the extracted copy). ZIP `toronto26-participant-kit/submission-supply_chain-v2.zip` (6.5 kB);
+`models/supply_chain/` now holds v2.
+
+**Design choices and their predictions** (from reset, initial 25/100/100, `v2/longrun.py`; shipments / supplier / retail; all
+settled by t ≈ 1,000 and unchanged to t = 4,000):
+
+| Hold | t = 200 | t = 4,000 |
+|---|---|---|
+| recovery | 0 / 361.8 / 0 | 0 / 361.8 / 0 |
+| joint u = 0.7 | 34.4 / 327 / 841 | 34.4 / 327 / 929 (data at t 150: 36.6 / 331 / 722, still rising) |
+| joint u = 0.85 | 27.7 / 334 / 484 | 27.7 / 334 / 536 |
+| joint u = 1 | 18.8 / 343 / 13 | 18.8 / 343 / 18 |
+| orders 80 only (u 0.7 or 1) | 32.1 / 330 / 719 | 32.1 / 330 / 795 |
+| orders + rush u 1 | 25.5 / 336 / 369 | 25.5 / 336 / 410 |
+| orders + mix u 1 | 28.8 / 333 / 545 | 28.8 / 333 / 603 |
+| orders + receiving u 1 | 17.3 / 345 / 0 | 17.3 / 345 / 0 |
+| orders + maintenance u 1 | 40.4 / 321 / 1,144 | 40.4 / 321 / 1,275 |
+
+Long-run behaviour: every state is a fixed point by t ≈ 1,000 (retail linear with kR = 0.013, τ ≈ 75 ticks); no drift, no clocks.
+Retail goes to ~0 whenever shipments ≤ ~19 (D0 + g·E ≥ ship) — an untested prediction for the 4,000-tick joint-u1 holds.
+
+**Open issues** (largest first):
+1. Retail law: 0.37–0.60 even with the right shipments; never-settling retail (B26) and the long-run level at every hold are
+   extrapolations. A two-class retail stock (diagnosis §5.2b) is the next thing to try.
+2. D level (orders only) 32.1 vs 34.8 (−2.4σ): the fit compromises between maintenance 0 short-term (43.8) and long-term (37.3)
+   with one `wm`. A heat state on U (M2, threshold) would free U0; not tried.
+3. Rush dose-response rests on one composite point (`nl` 6.6); B4 fold shows it is not identified without R4. Rush transient
+   (26 → 50 burst → 22.5, R1 410–469) not modeled.
+4. Supplier make-to-order plateau at cap − q and 27-tick supply step (B21–B23), release bursts (B24): not captured.
+5. Joint-pulse receiving lift source unidentified (spread over rush/mix/effort).
+
+**Reserve recommendation (100 steps, not spent).** Issue 3 costs more than the lift question: single-rush pulses at 70–100%
+(l 0.44–0.2) are held for thousands of ticks at r 1.5, where the model predicts −2% (l 0.44) and a linear rush predicts −20%
+(≈ 6σ). The diagnosis's R6 runs at r 0.5 (receiving-limited), where rush on U is invisible, so it cannot decide this.
+**R6' (fresh reset, `--confirm 100`):** ticks 0–34 orders 80, lead 1.0, mix 0.5, effort 1.0, receiving 1.5, maintenance 1.0
+(reset transient replicate, reaches U by t ≈ 33); ticks 35–99 the same with **lead_time_buy 0.44** (65 ticks; R1 needed ~35
+to settle). Decision: settled shipments ≥ 33 → threshold rush confirmed, keep `nl`; ≈ 26–29 → rush roughly linear, refit `nl`
+with it (and R1 alone gives the level at 0.2). Second choice if rush is deprioritised: the diagnosis's R6 (lift attribution).

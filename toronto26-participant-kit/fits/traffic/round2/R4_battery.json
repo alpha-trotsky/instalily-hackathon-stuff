@@ -1,0 +1,2072 @@
+{
+ "data": "data/traffic/R4.json",
+ "system": "traffic",
+ "recovery": {
+  "clearance_effort": 1.0,
+  "freight_priority": 0.5,
+  "lane_closure": 0.0,
+  "ramp_metering": 0.0,
+  "signal_timing": 0.5,
+  "toll": 5.0
+ },
+ "pulse": {
+  "clearance_effort": 0.0,
+  "freight_priority": 1.0,
+  "lane_closure": 0.65,
+  "ramp_metering": 1.0,
+  "signal_timing": 0.15,
+  "toll": 0.0
+ },
+ "runs": [
+  {
+   "run": 0,
+   "ticks": 400,
+   "controls": [
+    "signal_timing",
+    "lane_closure",
+    "toll",
+    "ramp_metering",
+    "freight_priority",
+    "clearance_effort"
+   ],
+   "observables": [
+    "flow_a",
+    "flow_b",
+    "speed_a",
+    "speed_b"
+   ],
+   "schedule_calls": [
+    {
+     "start_tick": 0,
+     "started_at": "2026-09-28T14:44:14"
+    }
+   ],
+   "noise": {
+    "flow_a": {
+     "sigma": 5.511749891394103,
+     "per_hold": [
+      [
+       15.0939,
+       0.456
+      ],
+      [
+       9.1918,
+       0.1624
+      ],
+      [
+       6.8598,
+       5.5117
+      ],
+      [
+       18.619,
+       7.9161
+      ],
+      [
+       9.831,
+       7.3362
+      ]
+     ],
+     "loglog_slope": 0.1353548569926475,
+     "scales_with_level": "constant",
+     "sigma_rel": 0.4251604809343702
+    },
+    "flow_b": {
+     "sigma": 8.692418623315112,
+     "per_hold": [
+      [
+       11.7528,
+       5.9963
+      ],
+      [
+       6.1902,
+       2.1758
+      ],
+      [
+       10.6272,
+       17.9669
+      ],
+      [
+       11.2123,
+       9.525
+      ],
+      [
+       10.9368,
+       8.6924
+      ]
+     ],
+     "loglog_slope": 2.314700110784051,
+     "scales_with_level": "proportional",
+     "sigma_rel": 0.7947842755646068
+    },
+    "speed_a": {
+     "sigma": 0.10747867675599988,
+     "per_hold": [
+      [
+       19.6591,
+       0.0479
+      ],
+      [
+       32.4958,
+       0.1716
+      ],
+      [
+       13.141,
+       0.1075
+      ],
+      [
+       11.5846,
+       0.0548
+      ],
+      [
+       14.6172,
+       0.1679
+      ]
+     ],
+     "loglog_slope": 0.557193449203121,
+     "scales_with_level": "partial",
+     "sigma_rel": 0.005281997532081784
+    },
+    "speed_b": {
+     "sigma": 0.1761213471651608,
+     "per_hold": [
+      [
+       18.6434,
+       0.1007
+      ],
+      [
+       33.3881,
+       0.1476
+      ],
+      [
+       17.9056,
+       0.1761
+      ],
+      [
+       24.6736,
+       0.2576
+      ],
+      [
+       17.7329,
+       0.249
+      ]
+     ],
+     "loglog_slope": -0.040857645895712946,
+     "scales_with_level": "constant",
+     "sigma_rel": 0.00983611269257813
+    }
+   },
+   "reset_transient": {
+    "flow_a": {
+     "initial": 37.2887,
+     "first_obs": 0.0,
+     "jump_first3": -37.2887,
+     "end_level": 15.2688,
+     "total_change": -22.0199,
+     "change_sigma": -4.0,
+     "settling_time": 10.0,
+     "t90": 0,
+     "monotone": false
+    },
+    "flow_b": {
+     "initial": 32.5658,
+     "first_obs": 0.000432,
+     "jump_first3": -32.5651,
+     "end_level": 12.7164,
+     "total_change": -19.8494,
+     "change_sigma": -2.3,
+     "settling_time": 0.0,
+     "t90": 0,
+     "monotone": false
+    },
+    "speed_a": {
+     "initial": 32.3788,
+     "first_obs": 36.3402,
+     "jump_first3": 6.7033,
+     "end_level": 12.5743,
+     "total_change": -19.8045,
+     "change_sigma": -184.3,
+     "settling_time": "> 150",
+     "t90": 96,
+     "monotone": false
+    },
+    "speed_b": {
+     "initial": 32.7844,
+     "first_obs": 36.6389,
+     "jump_first3": 6.1947,
+     "end_level": 15.8294,
+     "total_change": -16.955,
+     "change_sigma": -96.3,
+     "settling_time": 54.0,
+     "t90": 44,
+     "monotone": false
+    }
+   },
+   "segments": [
+    {
+     "start": 0,
+     "end": 150,
+     "kind": "hold",
+     "u": [
+      0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7
+     ],
+     "level": {
+      "flow_a": 15.2688,
+      "flow_b": 12.7164,
+      "speed_a": 12.5743,
+      "speed_b": 15.8294
+     },
+     "settled": {
+      "flow_a": true,
+      "flow_b": true,
+      "speed_a": false,
+      "speed_b": true
+     },
+     "settling_time": {
+      "flow_a": "10",
+      "flow_b": "0",
+      "speed_a": "> 150",
+      "speed_b": "54"
+     },
+     "drift_sigma": {
+      "flow_a": 0.05,
+      "flow_b": 0.06,
+      "speed_a": 2.95,
+      "speed_b": 0.61
+     }
+    },
+    {
+     "start": 150,
+     "end": 200,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "flow_a": 0.000344,
+      "flow_b": 0.0012,
+      "speed_a": 48.3689,
+      "speed_b": 48.5788
+     },
+     "settled": {
+      "flow_a": true,
+      "flow_b": true,
+      "speed_a": true,
+      "speed_b": false
+     },
+     "settling_time": {
+      "flow_a": "25",
+      "flow_b": "0",
+      "speed_a": "> 50",
+      "speed_b": "> 50"
+     },
+     "drift_sigma": {
+      "flow_a": 1.0,
+      "flow_b": 0.13,
+      "speed_a": 0.97,
+      "speed_b": 2.68
+     }
+    },
+    {
+     "start": 200,
+     "end": 280,
+     "kind": "hold",
+     "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "level": {
+      "flow_a": 7.9829,
+      "flow_b": 12.9413,
+      "speed_a": 7.5289,
+      "speed_b": 16.0535
+     },
+     "settled": {
+      "flow_a": true,
+      "flow_b": true,
+      "speed_a": false,
+      "speed_b": true
+     },
+     "settling_time": {
+      "flow_a": "0",
+      "flow_b": "0",
+      "speed_a": "> 80",
+      "speed_b": "52"
+     },
+     "drift_sigma": {
+      "flow_a": 0.15,
+      "flow_b": 0.15,
+      "speed_a": 18.13,
+      "speed_b": 0.11
+     }
+    },
+    {
+     "start": 280,
+     "end": 310,
+     "kind": "hold",
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "level": {
+      "flow_a": 19.4535,
+      "flow_b": 0.8322,
+      "speed_a": 15.9311,
+      "speed_b": 35.2456
+     },
+     "settled": {
+      "flow_a": true,
+      "flow_b": false,
+      "speed_a": false,
+      "speed_b": false
+     },
+     "settling_time": {
+      "flow_a": "4",
+      "flow_b": "19",
+      "speed_a": "> 30",
+      "speed_b": "> 30"
+     },
+     "drift_sigma": {
+      "flow_a": 1.3,
+      "flow_b": 2.43,
+      "speed_a": 90.24,
+      "speed_b": 146.53
+     }
+    },
+    {
+     "start": 310,
+     "end": 400,
+     "kind": "hold",
+     "u": [
+      0.85,
+      0.85,
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "level": {
+      "flow_a": 10.7653,
+      "flow_b": 12.6732,
+      "speed_a": 8.9736,
+      "speed_b": 15.8593
+     },
+     "settled": {
+      "flow_a": true,
+      "flow_b": true,
+      "speed_a": false,
+      "speed_b": true
+     },
+     "settling_time": {
+      "flow_a": "0",
+      "flow_b": "0",
+      "speed_a": "> 90",
+      "speed_b": "51"
+     },
+     "drift_sigma": {
+      "flow_a": 0.15,
+      "flow_b": 0.13,
+      "speed_a": 12.99,
+      "speed_b": 0.0
+     }
+    }
+   ],
+   "levels": [
+    {
+     "u": [
+      0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7
+     ],
+     "holds": [
+      {
+       "start": 0,
+       "end": 150,
+       "flow_a": 15.2688,
+       "flow_b": 12.7164,
+       "speed_a": 12.5743,
+       "speed_b": 15.8294
+      }
+     ]
+    },
+    {
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "holds": [
+      {
+       "start": 150,
+       "end": 200,
+       "flow_a": 0.000344,
+       "flow_b": 0.0012,
+       "speed_a": 48.3689,
+       "speed_b": 48.5788
+      },
+      {
+       "start": 280,
+       "end": 310,
+       "flow_a": 19.4535,
+       "flow_b": 0.8322,
+       "speed_a": 15.9311,
+       "speed_b": 35.2456
+      }
+     ]
+    },
+    {
+     "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "holds": [
+      {
+       "start": 200,
+       "end": 280,
+       "flow_a": 7.9829,
+       "flow_b": 12.9413,
+       "speed_a": 7.5289,
+       "speed_b": 16.0535
+      }
+     ]
+    },
+    {
+     "u": [
+      0.85,
+      0.85,
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "holds": [
+      {
+       "start": 310,
+       "end": 400,
+       "flow_a": 10.7653,
+       "flow_b": 12.6732,
+       "speed_a": 8.9736,
+       "speed_b": 15.8593
+      }
+     ]
+    }
+   ],
+   "switches": [
+    {
+     "tick": 150,
+     "from_u": [
+      0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 50,
+     "pre_unsettled": [
+      "speed_a"
+     ],
+     "obs": {
+      "flow_a": {
+       "pre": 15.2688,
+       "post": 0.000344,
+       "delta": -15.2685,
+       "delta_sigma": -2.77,
+       "peak_excursion": -15.2688,
+       "peak_tick": 43,
+       "delay": null,
+       "settling_time": 25.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "flow_b": {
+       "pre": 12.7164,
+       "post": 0.0012,
+       "delta": -12.7151,
+       "delta_sigma": -1.46,
+       "peak_excursion": -12.7159,
+       "peak_tick": 44,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "speed_a": {
+       "pre": 12.1293,
+       "post": 48.3689,
+       "delta": 36.2396,
+       "delta_sigma": 337.18,
+       "peak_excursion": 36.4066,
+       "peak_tick": 49,
+       "delay": 0,
+       "settling_time": "> 50",
+       "t90": 32,
+       "overshoot": 0.005,
+       "overshoot_sigma": 1.55,
+       "k_lin": null,
+       "k_log": 0.0096,
+       "ringing_crossings": 0
+      },
+      "speed_b": {
+       "pre": 15.8294,
+       "post": 48.5788,
+       "delta": 32.7494,
+       "delta_sigma": 185.95,
+       "peak_excursion": 32.9632,
+       "peak_tick": 47,
+       "delay": 3,
+       "settling_time": "> 50",
+       "t90": 34,
+       "overshoot": 0.007,
+       "overshoot_sigma": 1.21,
+       "k_lin": null,
+       "k_log": 0.0056,
+       "ringing_crossings": 0
+      }
+     }
+    },
+    {
+     "tick": 200,
+     "from_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "hold": 80,
+     "pre_unsettled": [
+      "speed_b"
+     ],
+     "obs": {
+      "flow_a": {
+       "pre": 0.000344,
+       "post": 7.9829,
+       "delta": 7.9825,
+       "delta_sigma": 1.45,
+       "peak_excursion": 12.0798,
+       "peak_tick": 33,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "flow_b": {
+       "pre": 0.0012,
+       "post": 12.9413,
+       "delta": 12.9401,
+       "delta_sigma": 1.49,
+       "peak_excursion": 21.4733,
+       "peak_tick": 26,
+       "delay": null,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "speed_a": {
+       "pre": 48.3689,
+       "post": 7.5289,
+       "delta": -40.8401,
+       "delta_sigma": -379.98,
+       "peak_excursion": -41.4248,
+       "peak_tick": 79,
+       "delay": 1,
+       "settling_time": "> 80",
+       "t90": 37,
+       "overshoot": 0.014,
+       "overshoot_sigma": 5.44,
+       "k_lin": 0.0807,
+       "k_log": 0.0367,
+       "ringing_crossings": 1
+      },
+      "speed_b": {
+       "pre": 48.9946,
+       "post": 16.0535,
+       "delta": -32.9411,
+       "delta_sigma": -187.04,
+       "peak_excursion": -33.4219,
+       "peak_tick": 61,
+       "delay": 0,
+       "settling_time": 51.0,
+       "t90": 20,
+       "overshoot": 0.015,
+       "overshoot_sigma": 2.73,
+       "k_lin": 0.1514,
+       "k_log": 0.1105,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 280,
+     "from_u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "to_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "hold": 30,
+     "pre_unsettled": [
+      "speed_a"
+     ],
+     "obs": {
+      "flow_a": {
+       "pre": 7.9829,
+       "post": 19.4535,
+       "delta": 11.4706,
+       "delta_sigma": 2.08,
+       "peak_excursion": 22.9517,
+       "peak_tick": 29,
+       "delay": 27,
+       "settling_time": 4.0,
+       "response": "none (|delta| < 3 sigma), transient excursion"
+      },
+      "flow_b": {
+       "pre": 12.9413,
+       "post": 0.8322,
+       "delta": -12.1092,
+       "delta_sigma": -1.39,
+       "peak_excursion": -12.9413,
+       "peak_tick": 27,
+       "delay": null,
+       "settling_time": 19.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "speed_a": {
+       "pre": 6.8338,
+       "post": 15.9311,
+       "delta": 9.0972,
+       "delta_sigma": 84.64,
+       "peak_excursion": 10.8436,
+       "peak_tick": 29,
+       "delay": 1,
+       "settling_time": "> 30",
+       "t90": 25,
+       "overshoot": 0.192,
+       "overshoot_sigma": 16.25,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      },
+      "speed_b": {
+       "pre": 16.0535,
+       "post": 35.2456,
+       "delta": 19.1921,
+       "delta_sigma": 108.97,
+       "peak_excursion": 25.601,
+       "peak_tick": 29,
+       "delay": 2,
+       "settling_time": "> 30",
+       "t90": 26,
+       "overshoot": 0.334,
+       "overshoot_sigma": 36.39,
+       "k_lin": null,
+       "k_log": null,
+       "ringing_crossings": 1
+      }
+     }
+    },
+    {
+     "tick": 310,
+     "from_u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "to_u": [
+      0.85,
+      0.85,
+      0.85,
+      0.85,
+      0.85,
+      0.85
+     ],
+     "hold": 90,
+     "pre_unsettled": [
+      "flow_b",
+      "speed_a",
+      "speed_b"
+     ],
+     "obs": {
+      "flow_a": {
+       "pre": 19.4535,
+       "post": 10.7653,
+       "delta": -8.6882,
+       "delta_sigma": -1.58,
+       "peak_excursion": -19.4528,
+       "peak_tick": 5,
+       "delay": 3,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "flow_b": {
+       "pre": -0.7287,
+       "post": 12.6732,
+       "delta": 13.4019,
+       "delta_sigma": 1.54,
+       "peak_excursion": 22.3463,
+       "peak_tick": 30,
+       "delay": 31,
+       "settling_time": 0.0,
+       "response": "none (|delta| < 3 sigma)"
+      },
+      "speed_a": {
+       "pre": 18.5518,
+       "post": 8.9736,
+       "delta": -9.5781,
+       "delta_sigma": -89.12,
+       "peak_excursion": 10.6861,
+       "peak_tick": 6,
+       "delay": 1,
+       "settling_time": "> 90",
+       "t90": 66,
+       "overshoot": 0.047,
+       "overshoot_sigma": 4.21,
+       "k_lin": 0.0196,
+       "k_log": 0.0089,
+       "ringing_crossings": 1
+      },
+      "speed_b": {
+       "pre": 44.8006,
+       "post": 15.8593,
+       "delta": -28.9412,
+       "delta_sigma": -164.33,
+       "peak_excursion": -29.2907,
+       "peak_tick": 64,
+       "delay": 0,
+       "settling_time": 47.0,
+       "t90": 25,
+       "overshoot": 0.012,
+       "overshoot_sigma": 1.98,
+       "k_lin": 0.1196,
+       "k_log": 0.0873,
+       "ringing_crossings": 0
+      }
+     }
+    }
+   ],
+   "onoff_pairs": [
+    {
+     "on_tick": 200,
+     "off_tick": 280,
+     "obs": {
+      "flow_a": {
+       "delta_on": 7.9825,
+       "delta_off": 11.4706,
+       "delay_on": null,
+       "delay_off": 27,
+       "settle_on": 0.0,
+       "settle_off": 4.0,
+       "return_to_baseline_sigma": 3.53
+      },
+      "flow_b": {
+       "delta_on": 12.9401,
+       "delta_off": -12.1092,
+       "delay_on": null,
+       "delay_off": null,
+       "settle_on": 0.0,
+       "settle_off": 19.0,
+       "return_to_baseline_sigma": 0.1
+      },
+      "speed_a": {
+       "delta_on": -40.8401,
+       "delta_off": 9.0972,
+       "delay_on": 1,
+       "delay_off": 1,
+       "settle_on": "> 80",
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -301.81
+      },
+      "speed_b": {
+       "delta_on": -32.9411,
+       "delta_off": 19.1921,
+       "delay_on": 0,
+       "delay_off": 2,
+       "settle_on": 51.0,
+       "settle_off": "> 30",
+       "return_to_baseline_sigma": -78.07
+      }
+     }
+    }
+   ],
+   "returns": [
+    {
+     "u": [
+      -0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "tick": 280,
+     "vs_tick": 150,
+     "diff_sigma": {
+      "flow_a": 3.53,
+      "flow_b": 0.1,
+      "speed_a": -301.81,
+      "speed_b": -75.7
+     }
+    }
+   ],
+   "correlations": [
+    {
+     "source": "speed_a",
+     "feature": "level",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": 0.852,
+     "corr_lag0": 0.824
+    },
+    {
+     "source": "speed_b",
+     "feature": "level",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": 0.852,
+     "corr_lag0": 0.824
+    },
+    {
+     "source": "speed_a",
+     "feature": "diff",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -3,
+     "best_corr": 0.766,
+     "corr_lag0": 0.646
+    },
+    {
+     "source": "speed_b",
+     "feature": "diff",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": 0.766,
+     "corr_lag0": 0.646
+    },
+    {
+     "source": "speed_a",
+     "feature": "fall",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.675,
+     "corr_lag0": -0.592
+    },
+    {
+     "source": "speed_a",
+     "feature": "rise",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.666,
+     "corr_lag0": 0.464
+    },
+    {
+     "source": "speed_b",
+     "feature": "rise",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": 0.583,
+     "corr_lag0": 0.578
+    },
+    {
+     "source": "speed_b",
+     "feature": "fall",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": -0.582,
+     "corr_lag0": -0.401
+    },
+    {
+     "source": "speed_a",
+     "feature": "fall",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.577,
+     "corr_lag0": 0.09
+    },
+    {
+     "source": "speed_b",
+     "feature": "rise",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.572,
+     "corr_lag0": 0.2
+    },
+    {
+     "source": "speed_a",
+     "feature": "diff",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.554,
+     "corr_lag0": 0.255
+    },
+    {
+     "source": "speed_a",
+     "feature": "rise",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": 0.533,
+     "corr_lag0": 0.397
+    },
+    {
+     "source": "speed_b",
+     "feature": "level",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.523,
+     "corr_lag0": 0.255
+    },
+    {
+     "source": "speed_a",
+     "feature": "absdiff",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -6,
+     "best_corr": 0.503,
+     "corr_lag0": 0.435
+    },
+    {
+     "source": "speed_b",
+     "feature": "absdiff",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 10,
+     "best_corr": 0.483,
+     "corr_lag0": 0.461
+    },
+    {
+     "source": "flow_b",
+     "feature": "level",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -6,
+     "best_corr": -0.48,
+     "corr_lag0": -0.45
+    },
+    {
+     "source": "speed_b",
+     "feature": "level",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": -0.48,
+     "corr_lag0": -0.45
+    },
+    {
+     "source": "speed_b",
+     "feature": "fall",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -5,
+     "best_corr": 0.466,
+     "corr_lag0": 0.401
+    },
+    {
+     "source": "flow_a",
+     "feature": "level",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": -0.426,
+     "corr_lag0": -0.284
+    },
+    {
+     "source": "speed_b",
+     "feature": "level",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 8,
+     "best_corr": -0.426,
+     "corr_lag0": -0.284
+    },
+    {
+     "source": "flow_b",
+     "feature": "level",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": -0.416,
+     "corr_lag0": -0.413
+    },
+    {
+     "source": "speed_a",
+     "feature": "level",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.416,
+     "corr_lag0": -0.413
+    },
+    {
+     "source": "flow_a",
+     "feature": "fall",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": 0.403,
+     "corr_lag0": 0.403
+    },
+    {
+     "source": "speed_b",
+     "feature": "absdiff",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": -0.403,
+     "corr_lag0": -0.37
+    },
+    {
+     "source": "speed_a",
+     "feature": "level",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 15,
+     "best_corr": -0.401,
+     "corr_lag0": -0.153
+    },
+    {
+     "source": "flow_a",
+     "feature": "level",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 14,
+     "best_corr": 0.379,
+     "corr_lag0": 0.165
+    },
+    {
+     "source": "speed_b",
+     "feature": "diff",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.379,
+     "corr_lag0": -0.153
+    },
+    {
+     "source": "speed_b",
+     "feature": "absdiff",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": 0.363,
+     "corr_lag0": 0.098
+    },
+    {
+     "source": "speed_b",
+     "feature": "rise",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 12,
+     "best_corr": -0.358,
+     "corr_lag0": -0.198
+    },
+    {
+     "source": "speed_a",
+     "feature": "absdiff",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": -0.348,
+     "corr_lag0": -0.339
+    },
+    {
+     "source": "speed_a",
+     "feature": "diff",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": -4,
+     "best_corr": 0.341,
+     "corr_lag0": 0.165
+    },
+    {
+     "source": "speed_a",
+     "feature": "rise",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 14,
+     "best_corr": -0.335,
+     "corr_lag0": -0.213
+    },
+    {
+     "source": "flow_a",
+     "feature": "absdiff",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 2,
+     "best_corr": 0.333,
+     "corr_lag0": 0.329
+    },
+    {
+     "source": "speed_a",
+     "feature": "absdiff",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 13,
+     "best_corr": -0.329,
+     "corr_lag0": -0.223
+    },
+    {
+     "source": "flow_b",
+     "feature": "absdiff",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.327,
+     "corr_lag0": -0.327
+    },
+    {
+     "source": "flow_a",
+     "feature": "level",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -7,
+     "best_corr": -0.324,
+     "corr_lag0": -0.292
+    },
+    {
+     "source": "speed_a",
+     "feature": "level",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 7,
+     "best_corr": -0.324,
+     "corr_lag0": -0.292
+    },
+    {
+     "source": "speed_a",
+     "feature": "rise",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 13,
+     "best_corr": -0.323,
+     "corr_lag0": -0.019
+    },
+    {
+     "source": "speed_b",
+     "feature": "fall",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": -0.321,
+     "corr_lag0": -0.287
+    },
+    {
+     "source": "flow_a",
+     "feature": "level",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -6,
+     "best_corr": 0.314,
+     "corr_lag0": 0.24
+    },
+    {
+     "source": "flow_b",
+     "feature": "level",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": 0.314,
+     "corr_lag0": 0.24
+    },
+    {
+     "source": "speed_a",
+     "feature": "rise",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.306,
+     "corr_lag0": -0.306
+    },
+    {
+     "source": "flow_a",
+     "feature": "fall",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": 0.303,
+     "corr_lag0": 0.042
+    },
+    {
+     "source": "flow_b",
+     "feature": "level",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 14,
+     "best_corr": 0.298,
+     "corr_lag0": 0.000831
+    },
+    {
+     "source": "flow_b",
+     "feature": "level",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 8,
+     "best_corr": 0.296,
+     "corr_lag0": 0.074
+    },
+    {
+     "source": "flow_b",
+     "feature": "absdiff",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -5,
+     "best_corr": -0.296,
+     "corr_lag0": -0.272
+    },
+    {
+     "source": "speed_a",
+     "feature": "fall",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": -3,
+     "best_corr": -0.296,
+     "corr_lag0": -0.278
+    },
+    {
+     "source": "speed_b",
+     "feature": "diff",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": 0.296,
+     "corr_lag0": 0.074
+    },
+    {
+     "source": "speed_b",
+     "feature": "fall",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 0,
+     "best_corr": -0.293,
+     "corr_lag0": -0.293
+    },
+    {
+     "source": "speed_a",
+     "feature": "fall",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.292,
+     "corr_lag0": -0.227
+    },
+    {
+     "source": "speed_b",
+     "feature": "absdiff",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 11,
+     "best_corr": -0.289,
+     "corr_lag0": -0.214
+    },
+    {
+     "source": "speed_b",
+     "feature": "rise",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.288,
+     "corr_lag0": 0.025
+    },
+    {
+     "source": "flow_a",
+     "feature": "level",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 14,
+     "best_corr": 0.255,
+     "corr_lag0": 0.22
+    },
+    {
+     "source": "flow_a",
+     "feature": "diff",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.247,
+     "corr_lag0": -0.247
+    },
+    {
+     "source": "speed_a",
+     "feature": "diff",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.247,
+     "corr_lag0": -0.247
+    },
+    {
+     "source": "speed_a",
+     "feature": "diff",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": 0.247,
+     "corr_lag0": 0.000831
+    },
+    {
+     "source": "flow_b",
+     "feature": "absdiff",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 4,
+     "best_corr": 0.245,
+     "corr_lag0": 0.134
+    },
+    {
+     "source": "flow_a",
+     "feature": "absdiff",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.244,
+     "corr_lag0": -0.171
+    },
+    {
+     "source": "speed_b",
+     "feature": "rise",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": -0.243,
+     "corr_lag0": 0.01
+    },
+    {
+     "source": "flow_b",
+     "feature": "absdiff",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.24,
+     "corr_lag0": -0.000206
+    },
+    {
+     "source": "speed_b",
+     "feature": "diff",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": 0.239,
+     "corr_lag0": 0.22
+    },
+    {
+     "source": "flow_b",
+     "feature": "fall",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 2,
+     "best_corr": 0.234,
+     "corr_lag0": 0.154
+    },
+    {
+     "source": "flow_b",
+     "feature": "fall",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": -0.23,
+     "corr_lag0": -0.099
+    },
+    {
+     "source": "flow_a",
+     "feature": "diff",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.229,
+     "corr_lag0": 0.069
+    },
+    {
+     "source": "speed_b",
+     "feature": "diff",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": -0.229,
+     "corr_lag0": 0.069
+    },
+    {
+     "source": "flow_a",
+     "feature": "diff",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": 0.228,
+     "corr_lag0": 0.117
+    },
+    {
+     "source": "flow_b",
+     "feature": "diff",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 10,
+     "best_corr": 0.228,
+     "corr_lag0": 0.117
+    },
+    {
+     "source": "flow_a",
+     "feature": "absdiff",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.224,
+     "corr_lag0": 0.046
+    },
+    {
+     "source": "flow_a",
+     "feature": "fall",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.223,
+     "corr_lag0": -0.111
+    },
+    {
+     "source": "flow_a",
+     "feature": "fall",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": 0.22,
+     "corr_lag0": 0.099
+    },
+    {
+     "source": "flow_a",
+     "feature": "absdiff",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 13,
+     "best_corr": 0.214,
+     "corr_lag0": 0.155
+    },
+    {
+     "source": "speed_b",
+     "feature": "absdiff",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": -4,
+     "best_corr": -0.211,
+     "corr_lag0": -0.064
+    },
+    {
+     "source": "flow_b",
+     "feature": "rise",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 3,
+     "best_corr": -0.21,
+     "corr_lag0": -0.193
+    },
+    {
+     "source": "flow_b",
+     "feature": "fall",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -6,
+     "best_corr": -0.202,
+     "corr_lag0": -0.188
+    },
+    {
+     "source": "speed_b",
+     "feature": "rise",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.199,
+     "corr_lag0": -0.143
+    },
+    {
+     "source": "speed_a",
+     "feature": "absdiff",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 0,
+     "best_corr": -0.195,
+     "corr_lag0": -0.195
+    },
+    {
+     "source": "flow_a",
+     "feature": "rise",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 5,
+     "best_corr": 0.19,
+     "corr_lag0": 0.01
+    },
+    {
+     "source": "flow_b",
+     "feature": "rise",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.19,
+     "corr_lag0": 0.006
+    },
+    {
+     "source": "flow_b",
+     "feature": "rise",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 1,
+     "best_corr": -0.189,
+     "corr_lag0": -0.188
+    },
+    {
+     "source": "flow_b",
+     "feature": "fall",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -9,
+     "best_corr": -0.187,
+     "corr_lag0": -0.128
+    },
+    {
+     "source": "flow_b",
+     "feature": "rise",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.179,
+     "corr_lag0": -0.077
+    },
+    {
+     "source": "speed_b",
+     "feature": "fall",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": -3,
+     "best_corr": -0.178,
+     "corr_lag0": -0.09
+    },
+    {
+     "source": "flow_a",
+     "feature": "fall",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.174,
+     "corr_lag0": -0.053
+    },
+    {
+     "source": "flow_a",
+     "feature": "diff",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": 0.165,
+     "corr_lag0": 0.025
+    },
+    {
+     "source": "flow_a",
+     "feature": "rise",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -5,
+     "best_corr": -0.165,
+     "corr_lag0": 0.072
+    },
+    {
+     "source": "flow_b",
+     "feature": "level",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 8,
+     "best_corr": 0.165,
+     "corr_lag0": 0.025
+    },
+    {
+     "source": "flow_b",
+     "feature": "fall",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 9,
+     "best_corr": 0.16,
+     "corr_lag0": 0.08
+    },
+    {
+     "source": "flow_b",
+     "feature": "fall",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 7,
+     "best_corr": 0.159,
+     "corr_lag0": 0.021
+    },
+    {
+     "source": "flow_a",
+     "feature": "rise",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": -1,
+     "best_corr": -0.158,
+     "corr_lag0": -0.157
+    },
+    {
+     "source": "flow_a",
+     "feature": "rise",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": -8,
+     "best_corr": 0.153,
+     "corr_lag0": 0.01
+    },
+    {
+     "source": "speed_a",
+     "feature": "absdiff",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": -9,
+     "best_corr": 0.152,
+     "corr_lag0": -0.128
+    },
+    {
+     "source": "flow_b",
+     "feature": "rise",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 6,
+     "best_corr": 0.151,
+     "corr_lag0": 0.091
+    },
+    {
+     "source": "flow_a",
+     "feature": "rise",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": 0.149,
+     "corr_lag0": 0.149
+    },
+    {
+     "source": "flow_a",
+     "feature": "fall",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": -0.148,
+     "corr_lag0": -0.029
+    },
+    {
+     "source": "flow_b",
+     "feature": "diff",
+     "target": "speed_b",
+     "target_feature": "diff",
+     "best_lag": 2,
+     "best_corr": -0.14,
+     "corr_lag0": -0.089
+    },
+    {
+     "source": "speed_b",
+     "feature": "diff",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.14,
+     "corr_lag0": -0.089
+    },
+    {
+     "source": "flow_a",
+     "feature": "level",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -7,
+     "best_corr": -0.135,
+     "corr_lag0": -0.01
+    },
+    {
+     "source": "flow_b",
+     "feature": "diff",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": 7,
+     "best_corr": -0.135,
+     "corr_lag0": -0.01
+    },
+    {
+     "source": "flow_b",
+     "feature": "absdiff",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 11,
+     "best_corr": -0.129,
+     "corr_lag0": -0.004
+    },
+    {
+     "source": "speed_b",
+     "feature": "absdiff",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.127,
+     "corr_lag0": -0.104
+    },
+    {
+     "source": "speed_a",
+     "feature": "rise",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.125,
+     "corr_lag0": -0.109
+    },
+    {
+     "source": "flow_a",
+     "feature": "absdiff",
+     "target": "flow_b",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": -0.124,
+     "corr_lag0": -0.015
+    },
+    {
+     "source": "flow_a",
+     "feature": "diff",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 13,
+     "best_corr": -0.12,
+     "corr_lag0": -0.068
+    },
+    {
+     "source": "flow_b",
+     "feature": "diff",
+     "target": "speed_a",
+     "target_feature": "diff",
+     "best_lag": 1,
+     "best_corr": -0.118,
+     "corr_lag0": -0.097
+    },
+    {
+     "source": "speed_a",
+     "feature": "diff",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.118,
+     "corr_lag0": -0.097
+    },
+    {
+     "source": "flow_b",
+     "feature": "rise",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": -7,
+     "best_corr": -0.113,
+     "corr_lag0": 0.005
+    },
+    {
+     "source": "speed_a",
+     "feature": "level",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": -3,
+     "best_corr": -0.109,
+     "corr_lag0": -0.068
+    },
+    {
+     "source": "speed_b",
+     "feature": "fall",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": 9,
+     "best_corr": 0.103,
+     "corr_lag0": -0.002
+    },
+    {
+     "source": "flow_b",
+     "feature": "absdiff",
+     "target": "flow_a",
+     "target_feature": "level",
+     "best_lag": -10,
+     "best_corr": -0.102,
+     "corr_lag0": 0.022
+    },
+    {
+     "source": "flow_a",
+     "feature": "diff",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 15,
+     "best_corr": -0.1,
+     "corr_lag0": -0.088
+    },
+    {
+     "source": "speed_b",
+     "feature": "level",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.099,
+     "corr_lag0": -0.088
+    },
+    {
+     "source": "flow_b",
+     "feature": "diff",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": 6,
+     "best_corr": -0.095,
+     "corr_lag0": -0.041
+    },
+    {
+     "source": "speed_b",
+     "feature": "level",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -6,
+     "best_corr": -0.095,
+     "corr_lag0": -0.041
+    },
+    {
+     "source": "speed_a",
+     "feature": "absdiff",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -2,
+     "best_corr": -0.093,
+     "corr_lag0": -0.059
+    },
+    {
+     "source": "speed_a",
+     "feature": "fall",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": 0.091,
+     "corr_lag0": 0.037
+    },
+    {
+     "source": "speed_a",
+     "feature": "fall",
+     "target": "flow_a",
+     "target_feature": "diff",
+     "best_lag": 3,
+     "best_corr": 0.089,
+     "corr_lag0": 0.064
+    },
+    {
+     "source": "flow_a",
+     "feature": "absdiff",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -1,
+     "best_corr": -0.086,
+     "corr_lag0": -0.03
+    },
+    {
+     "source": "flow_a",
+     "feature": "rise",
+     "target": "speed_b",
+     "target_feature": "level",
+     "best_lag": -5,
+     "best_corr": -0.082,
+     "corr_lag0": -0.04
+    },
+    {
+     "source": "flow_b",
+     "feature": "diff",
+     "target": "speed_a",
+     "target_feature": "level",
+     "best_lag": 13,
+     "best_corr": -0.074,
+     "corr_lag0": -0.008
+    },
+    {
+     "source": "speed_a",
+     "feature": "level",
+     "target": "flow_b",
+     "target_feature": "diff",
+     "best_lag": -10,
+     "best_corr": -0.064,
+     "corr_lag0": -0.008
+    }
+   ],
+   "memory_regressions": [
+    {
+     "source": "speed_a",
+     "target": "flow_a",
+     "r2_controls_only": 0.0633,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.3788,
+     "r2_gain": 0.3155,
+     "coef_rise_sigma": -0.767,
+     "coef_fall_sigma": 0.247
+    },
+    {
+     "source": "speed_a",
+     "target": "speed_b",
+     "r2_controls_only": 0.6278,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.8711,
+     "r2_gain": 0.2433,
+     "coef_rise_sigma": 22.355,
+     "coef_fall_sigma": -8.871
+    },
+    {
+     "source": "speed_b",
+     "target": "flow_a",
+     "r2_controls_only": 0.0633,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.3039,
+     "r2_gain": 0.2406,
+     "coef_rise_sigma": -1.225,
+     "coef_fall_sigma": 0.633
+    },
+    {
+     "source": "flow_a",
+     "target": "speed_b",
+     "r2_controls_only": 0.6278,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.7802,
+     "r2_gain": 0.1524,
+     "coef_rise_sigma": -706.904,
+     "coef_fall_sigma": 958.894
+    },
+    {
+     "source": "flow_b",
+     "target": "speed_b",
+     "r2_controls_only": 0.6278,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.777,
+     "r2_gain": 0.1492,
+     "coef_rise_sigma": -1413.57,
+     "coef_fall_sigma": 1766.88
+    },
+    {
+     "source": "flow_a",
+     "target": "speed_a",
+     "r2_controls_only": 0.7849,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.9062,
+     "r2_gain": 0.1212,
+     "coef_rise_sigma": -2056.968,
+     "coef_fall_sigma": 2106.535
+    },
+    {
+     "source": "speed_b",
+     "target": "flow_b",
+     "r2_controls_only": 0.1396,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.2455,
+     "r2_gain": 0.1058,
+     "coef_rise_sigma": -0.56,
+     "coef_fall_sigma": 0.36
+    },
+    {
+     "source": "flow_b",
+     "target": "flow_a",
+     "r2_controls_only": 0.0633,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.158,
+     "r2_gain": 0.0947,
+     "coef_rise_sigma": 28.486,
+     "coef_fall_sigma": -38.498
+    },
+    {
+     "source": "speed_a",
+     "target": "flow_b",
+     "r2_controls_only": 0.1396,
+     "best_rate": 0.05,
+     "r2_with_memories": 0.2294,
+     "r2_gain": 0.0898,
+     "coef_rise_sigma": -0.169,
+     "coef_fall_sigma": 0.001
+    },
+    {
+     "source": "speed_b",
+     "target": "speed_a",
+     "r2_controls_only": 0.7849,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.8722,
+     "r2_gain": 0.0873,
+     "coef_rise_sigma": 51.739,
+     "coef_fall_sigma": -56.012
+    },
+    {
+     "source": "flow_a",
+     "target": "flow_b",
+     "r2_controls_only": 0.1396,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.196,
+     "r2_gain": 0.0564,
+     "coef_rise_sigma": 7.354,
+     "coef_fall_sigma": -10.782
+    },
+    {
+     "source": "flow_b",
+     "target": "speed_a",
+     "r2_controls_only": 0.7849,
+     "best_rate": 0.02,
+     "r2_with_memories": 0.8106,
+     "r2_gain": 0.0257,
+     "coef_rise_sigma": -1900.902,
+     "coef_fall_sigma": 1886.395
+    }
+   ],
+   "plot": "fits/traffic/round2/R4_r0_battery.png"
+  }
+ ]
+}

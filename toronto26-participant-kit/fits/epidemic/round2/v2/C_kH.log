@@ -1,0 +1,6 @@
+C_kH: start cost 30462.7 free 33
+  pass 0 x_scale=1.0: cost 20945.1 nfev 40 (69s)
+  pass 0 x_scale=jac: cost 20945.1 nfev 22 (82s)
+  pass 1 x_scale=1.0: cost 20945.1 nfev 16 (89s)
+  pass 1 x_scale=jac: cost 20945.1 nfev 18 (94s)
+saved C_kH cost 20945.1

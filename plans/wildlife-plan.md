@@ -512,3 +512,110 @@ nursery} is the active pair. Every fit leaves settlement competition unused.
      (rms 0.16 in log units). The regrowth bump under hunting is under-fitted.
   3. The pair choice is "unresolved": the real margin is half the bootstrap margins, and every fit is a warm chain
      with a single restart. More restarts could change the costs.
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | WL1 (fresh reset) | `data/wildlife/R3.json` | 500 | 500 |
+| 2026-09-28 14:44–14:55 UTC | WL2 (fresh reset) | `data/wildlife/R4.json` | 350 | 150 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/wildlife_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler, 2026-09-28. No steps spent (budget 150 left, untouched). Input: `plans/wildlife-round2-diagnosis.md`.
+Module `toronto26-participant-kit/greybox/wildlife_model_v2.py` (copy of v1 plus the changes below; every change has
+an off value). Fits, logs and scripts in `toronto26-participant-kit/fits/wildlife/round2/v2/`: `fitv2.py` (fit +
+held-out scorer, σ = 0.1 × std after tick 20 of all wildlife data, identical to `fits/round2/heldout.py`;
+residuals log / 0.01 / soft_l1 as v1), `history_gate.py` (new B31 gate), `segs.py` (per-segment table).
+Mechanism pair unchanged: mA + mB (diagnosis §2; mA+mC refuted on gap memory).
+
+### Diagnosis items addressed and structural changes
+
+| Item | Change in v2 | Earned its place? |
+|---|---|---|
+| B17, B25 predator reset tail too slow under control, recovery level low | P2: reserve rate `kZ_eff = kZ (1 + kZp·dep)`; faster when the target is depressed (numerical response, still linear in Z so review R2's affine transient holds). Refit on new data moves yb/Yref (recovery 2.36). | Yes: predator held-out scores +0.10 to +0.17 (below). `kZp` pinned at its cap (20, then 100) with kZ → 0.0007: the rate wants to be ∝ depression. |
+| B22, B23, B30 corridor depression transient; N ≠ S under hunting | P1: target `Y* = yb (1 − dep)(1 + eHY s(uh))` on the SHARED prey signal (mean prey of both regions, Hill `n = 1 + nP`, half-sat. Xp, max prey depression dP), plus a persistent corridor depression `cY·uc`, composed as a q-norm. | Yes (jointly with P2). Fitted q → 1 (additive composition, qC = 0), not max-type; cY small (0.09) because transit drain + additive prey term carry the corridor drop. |
+| B21 habitat map weak / concave | P3: every habitat use sees `s(uh) = uh (1 + ch)/(uh + ch)`. | **No**: ch stays at its cap (≈ linear) in every fit. Inert; left in the file at its off value. |
+| B21 habitat level (hab .1 long run 93 vs 67.5) | P5 (variant v2b): habitat raises adult prey mortality `mX (1 + hM s(uh))` (module `hmort`). | **No**: in-sample +0.03 but held-out −0.036 (A) and −0.009 (B, R3 fold). Not shipped. |
+| B16 J0 pinned at cap 30 | P4: cap raised to 60. | Neutral: refits put J0 at 20–46; final 28.4. The spurious hunt-from-reset spike is smaller (R4 0–79 prey S +3.1σ vs +4.2σ). |
+| B31 history-dependent hunting-7 level | Added gate `history_gate.py` (3 prefixes × 3,800 ticks of the same action, 0.5σ). Tried a harvest half-saturation floor Xh = 6 (variant v2h). | **Gate still fails** for v1, v2, v2b, v2h at hunt 7 only (N 47 vs 11.6). v2h held-out equal to v2 (0.472), so not adopted. See open issues. |
+
+### Held-out scores (mean over ticks; per observable prey N / pred N / prey S / pred S)
+
+| Test | v1 (shipped) | v1 structure refit | v2 (shipped) | v2b (+hM) |
+|---|---|---|---|---|
+| (A) fit R1+R2c → R3+R4 | **0.419** (.470/.320/.567/.321) | = v1 (v1 was fit on exactly R1+R2c) | **0.475** (.449/.493/.516/.444); rerun with kZp cap 100: 0.464 | 0.439 |
+| (A) per run | R3 0.467, R4 0.372 | | R3 0.523, R4 0.427 | R3 0.450, R4 0.429 |
+| (B) leave R4 out → R4 | 0.372 | 0.391 (.457/.391/.427/.290) | **0.434** (.419/.496/.400/.421) | — |
+| (B) leave R3 out → R3 | 0.467 | 0.477 (.572/.399/.566/.370) | **0.504** (.584/.435/.540/.457) | 0.495 |
+| (B) mean | 0.419 | 0.434 | **0.469** | |
+| (C) all data, in-sample (R1/R2c/R3/R4) | 0.464 (.481/.537/.467/.372) | 0.496 | **0.596** (.571/.629/.630/.555) | 0.602 |
+| Old data only, in-sample | 0.509 | | 0.600 | |
+
+v2h (Xh fixed at 6): (A) 0.472, (C) 0.593. The (B) v2 folds used the kZp cap of 20; (C) used cap 100 (A with cap 100: 0.464,
+i.e. within restart noise of 0.475).
+
+### Decision
+
+Ship **v2 = `fits/wildlife/round2/v2/C_v2.json`** (mA+mB, P1+P2+P4; P3 inert, P5 off). It beats v1 on the same held-out
+runs under both (A) (+0.056) and (B) (+0.050 vs v1, +0.035 vs the v1 refit). Old-data in-sample rises (0.509 → 0.600),
+so there is no in-sample drop to investigate. The gain is all predators (A: pred N +0.17, pred S +0.12). **Prey S is
+worse held-out** (A .567 → .516, B .567 → .470), mostly R4 hunt-5-from-reset and habitat .37 segments.
+
+### Gates
+
+- Stability (`greybox.common.gates stability`, 200 schedules, 8 × 40,000 ticks): **pass**, 0 failures, worst alternation 0.40 (`stability_C_v2.json`).
+- Contract (`gates contract models/wildlife`): **pass**, 40 × 4,000 steps in 3.2 s, all malformed cases ok.
+- Package: `python3 -m greybox.common.package --system wildlife --model greybox/wildlife_model_v2.py --params fits/wildlife/round2/v2/C_v2.json --version v2` → `toronto26-participant-kit/models/wildlife/` and `toronto26-participant-kit/submission-wildlife-v2.zip` (7.2 kB), re-verified from the extracted copy: **pass**. `fits/round2/heldout.py wildlife` on the package: R3+R4 0.5925, R1+R2c 0.600. Not uploaded.
+- History gate (new, B31): **fail at hunting 7 only** (as v1). Every other constant action reaches the same level after all three prefixes.
+
+### Design choices and their predictions (v2, long run = ticks 3,800–4,000, from reset or after a 200-tick prefix)
+
+| Setting | prey N | pred N | prey S | pred S | Data (last seen) |
+|---|---:|---:|---:|---:|---|
+| Recovery | 121.3 | 2.36 | 96.2 | 2.36 | 121.3 / 2.33 / 96.8 / 2.33 |
+| Joint u = 0.7 (hunt 4.9, hab .37, corr .7) | 38.7 | 1.75 | 31.9 | 1.75 | 28.4 / 1.94 / 24.7 / 1.83 at 60 ticks, still falling (asymptote ≈ 22) |
+| Joint u = 0.85 | 10.6 | 1.68 | 10.4 | 1.68 | 10.8 / 2.03 / 11.1 / 2.06 at 80 ticks, pred still falling |
+| Joint u = 1 | 9.3 | 1.64 | 9.05 | 1.64 | 7.6 / 1.78 / 8.1 / 1.73 at 60 ticks, still falling |
+| Hunt 5 | 75.4 | 2.02 | 52.6 | 2.02 | 68.7 / 2.55 / 36.9 / 2.34 at 80 ticks (from reset, falling) |
+| Hunt 7 | **47.3 or 11.6** (history) | 1.92 | 11.6 | 1.92 | 25.5 / 1.90 / 11.4 / 1.86 (200 ticks) |
+| Habitat .37 (u .7) | 102 | 2.34 | 84 | 2.34 | 89.7 / 2.30 / 81.1 at 60 ticks, falling; ≈ 79 / 77 inferred |
+| Habitat .1 | 93 | 2.33 | 79 | 2.33 | 67.5 / 2.34 / 64.7 / 2.33 |
+| Corridor .7 / 1 | 120 / 120 | 2.11 / 2.00 | 100 / 101 | 2.11 / 2.00 | .7: 117.7 / 1.95 / 88.8 / 1.92 |
+
+Long-run behaviour over 4,000 ticks: every constant action settles by ≈ 500 ticks with no oscillation (tail range 0σ);
+predators are equal in both regions by construction (shared target). Hunting 7 sits near the data (≈ 28) for ≈ 300 ticks
+and then leaves an unstable balance point, to 47 (from recovery) or 11.6 (after a joint-1 prefix).
+
+### Open issues
+
+1. **Habitat level map (B21) not fixed**: hab .1 long run 93 vs 67.5, hab .37 102 vs ≈ 79–90. Neither the concave map (P3) nor
+   habitat mortality (P5) improved held-out. The habitat effect probably needs a structure that also changes the boom/renewal
+   dynamics consistently; the R4 hab .37 hold never settled, so the target itself is uncertain.
+2. **Hunting 7 bistability (B31)**: constant-quota harvest in the non-food-limited regime has an unstable balance near 28; a
+   harvest half-saturation floor (Xh = 6) does not remove it. A starvation / smooth-intake food term (diagnosis §5.3) is the
+   next thing to try; kF is still pinned at 0 (intake = F/(F + 0.05)).
+3. **Joint u = 0.7 long-run level**: v2 settles at 38.7/31.9, above the data at 60 ticks (28.4/24.7, still falling). This is
+   the most-held pulse-box setting in recovery-spacing episodes.
+4. Prey S held-out is worse than v1 (hunt 5 from reset: S +3.1σ; the reset boom under hunting, B16).
+5. Pinned parameters still standing in for structure: kZp at cap (rate ∝ depression), a_m2 = 1, kF = 0, g1 = 0; composition
+   fitted additive (q = 1), contrary to the diagnosis' max-type reading of B23 (joint holds were unsettled).
+6. Release-boom history (B19) and one-tick onset momentum (B27) untouched.
+
+### Reserve-step recommendation (150; not spent)
+
+Run the diagnosis §6 schedule unchanged: continue R3 on a copy with joint .7 for 120 ticks, `settle`, then release 30.
+
+```sh
+cp data/wildlife/R3.json data/wildlife/R3c.json
+python run_schedule.py --continue data/wildlife/R3c.json --confirm 120 --segments '[{"steps": 120, "action": {"hunting_quota": 4.9, "habitat_protection": 0.37, "corridor_access": 0.7}}]'
+python run_schedule.py --continue data/wildlife/R3c.json --confirm 30 --segments '[{"steps": 30, "action": {"hunting_quota": 0.0, "habitat_protection": 1.0, "corridor_access": 0.0}}]'
+```
+
+What it decides against v2's stated predictions: (a) prey at t 610–619: v2 says ≈ 38/32; data ≈ 22/23 means the joint-box
+level is wrong by ≥ 3σ and must be refitted with R3c in (C) (open issue 3); (b) predators at t 610–619: v2 says 1.75 (additive);
+≈ 1.93 means max-type composition (set q large); (c) release peak at t 620–649 vs 133/110 after the 60-tick pulse: larger means
+food rebuilds during long pulses. Fallback if R3 has expired: the diagnosis' fresh-reset alternative (recovery 60 → joint .7 90).

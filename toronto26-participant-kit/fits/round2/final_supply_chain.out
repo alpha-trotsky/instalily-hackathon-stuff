@@ -1,0 +1,14 @@
+== supply_chain  obs=['shipments', 'inventory_supplier', 'inventory_retail']  sigma(0.1std)= [1.2176, 10.7266, 37.9197]
+-- SU1 (400 steps)
+  [   0-  49] u.7 t0-49                      dis= 0.23s | base_all2:24.1,0,3.33 | phi_all:24.7,0,2.05 | base_all:24,0,3.22
+  [  50- 149] u.7 t50-149                    dis= 0.28s | base_all2:24.1,338,257 | phi_all:24.7,337,237 | base_all:24.4,337,268
+  [ 150- 209] rec 60                         dis= 0.76s | base_all2:2.73,362,160 | phi_all:1.07,362,96.4 | base_all:2.7,362,152
+  [ 210- 269] u1                             dis= 0.37s | base_all2:17.6,344,8.37 | phi_all:18.1,344,0 | base_all:17.8,344,6.76
+  [ 270- 299] rec 30                         dis= 0.42s | base_all2:31.8,362,223 | phi_all:33.9,362,236 | base_all:32.8,362,245
+  [ 300- 399] u.85                           dis= 0.47s | base_all2:21.3,341,204 | phi_all:21.8,340,185 | base_all:21.6,340,220
+-- SU2 (200 steps)
+  [   0-  49] ord80 recv 1.0                 dis= 0.25s | base_all2:25.9,0,14.5 | phi_all:26.8,0,15.1 | base_all:26,0,16.7
+  [  50-  99] recv .7                        dis= 0.28s | base_all2:21.5,340,77.1 | phi_all:22.5,339,74.4 | base_all:21.8,340,88.8
+  [ 100- 149] recv .5                        dis= 0.30s | base_all2:18.1,344,31.6 | phi_all:19,343,24.3 | base_all:18.5,343,49.5
+  [ 150- 199] +maint .3                      dis= 0.35s | base_all2:21.4,340,113 | phi_all:22.2,340,101 | base_all:21.9,340,138
+   supply_chain total steps: 600

@@ -1,0 +1,2 @@
+fits/reservoir/round2/v2/q_all.json cost 990.8 nfev 44 R1:0.256 R2:0.304 R3:0.190 R4:0.266 R5:0.281 | new-q 0.274 old-q 0.25
+{'cq': np.float64(0.94725), 'kq': 0.20175, 'wqd': np.float64(-0.00321), 'wqr': np.float64(-0.00382), 'wqi': np.float64(-0.00147), 'a_z': 0.01296, 'lam_q': np.float64(0.0045), 'lz': np.float64(4.86249), 'gam': 4.99976, 'a3': 0.01606, 'a3d': 0.12945, 'g3': 0.02764, 'h3': np.float64(-0.42634), 'ap': 0.00325, 'dC': 0.002, 'gC': 0.04232, 'kfl': 1.14763}

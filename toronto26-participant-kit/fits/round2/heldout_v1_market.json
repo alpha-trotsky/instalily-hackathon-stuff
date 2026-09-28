@@ -1,0 +1,36 @@
+{
+ "system": "market",
+ "model": "models/market",
+ "observables": [
+  "price",
+  "volume",
+  "depth"
+ ],
+ "runs": {
+  "B": {
+   "model": [
+    0.232,
+    0.202,
+    0.337
+   ],
+   "persistence": [
+    0.091,
+    0.0,
+    0.041
+   ]
+  },
+  "C": {
+   "model": [
+    0.362,
+    0.246,
+    0.577
+   ],
+   "persistence": [
+    0.058,
+    0.0,
+    0.094
+   ]
+  }
+ },
+ "mean_model": 0.326
+}

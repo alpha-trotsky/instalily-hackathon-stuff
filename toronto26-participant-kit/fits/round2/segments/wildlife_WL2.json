@@ -1,0 +1,50 @@
+[
+ {
+  "steps": 80,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 5.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 0.37,
+   "hunting_quota": 5.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 0.37,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "corridor_access": 0.7,
+   "habitat_protection": 0.37,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "corridor_access": 0.7,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "corridor_access": 0.0,
+   "habitat_protection": 1.0,
+   "hunting_quota": 0.0
+  }
+ }
+]

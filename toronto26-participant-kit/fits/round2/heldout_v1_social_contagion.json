@@ -1,0 +1,31 @@
+{
+ "system": "social_contagion",
+ "model": "models/social_contagion",
+ "observables": [
+  "adopters_a",
+  "adopters_b"
+ ],
+ "runs": {
+  "R4": {
+   "model": [
+    0.367,
+    0.355
+   ],
+   "persistence": [
+    0.108,
+    0.084
+   ]
+  },
+  "R5": {
+   "model": [
+    0.196,
+    0.21
+   ],
+   "persistence": [
+    0.082,
+    0.197
+   ]
+  }
+ },
+ "mean_model": 0.282
+}

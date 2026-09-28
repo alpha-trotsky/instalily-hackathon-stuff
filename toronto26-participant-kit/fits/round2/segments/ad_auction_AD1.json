@@ -1,0 +1,50 @@
+[
+ {
+  "steps": 50,
+  "action": {
+   "bid": 3.95,
+   "budget_cap": 76.0,
+   "targeting_breadth": 0.7075
+  }
+ },
+ {
+  "steps": 200,
+  "action": {
+   "bid": 3.95,
+   "budget_cap": 76.0,
+   "targeting_breadth": 0.7075
+  }
+ },
+ {
+  "steps": 100,
+  "action": {
+   "bid": 1.5,
+   "budget_cap": 20.0,
+   "targeting_breadth": 0.55
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "bid": 5.0,
+   "budget_cap": 100.0,
+   "targeting_breadth": 0.775
+  }
+ },
+ {
+  "steps": 25,
+  "action": {
+   "bid": 1.5,
+   "budget_cap": 20.0,
+   "targeting_breadth": 0.55
+  }
+ },
+ {
+  "steps": 75,
+  "action": {
+   "bid": 4.475,
+   "budget_cap": 88.0,
+   "targeting_breadth": 0.74125
+  }
+ }
+]

@@ -1,0 +1,57 @@
+[
+ {
+  "steps": 90,
+  "action": {
+   "diagnostic_allocation": 0.645,
+   "elective_scheduling": 14.0,
+   "followup_capacity": 0.3,
+   "overtime": 0.7,
+   "staffing": 9.5,
+   "urgent_priority": 0.88
+  }
+ },
+ {
+  "steps": 50,
+  "action": {
+   "diagnostic_allocation": 0.4,
+   "elective_scheduling": 0.0,
+   "followup_capacity": 1.0,
+   "overtime": 0.0,
+   "staffing": 20.0,
+   "urgent_priority": 0.6
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "diagnostic_allocation": 0.75,
+   "elective_scheduling": 20.0,
+   "followup_capacity": 0.0,
+   "overtime": 1.0,
+   "staffing": 5.0,
+   "urgent_priority": 1.0
+  }
+ },
+ {
+  "steps": 75,
+  "action": {
+   "diagnostic_allocation": 0.4,
+   "elective_scheduling": 0.0,
+   "followup_capacity": 1.0,
+   "overtime": 0.0,
+   "staffing": 20.0,
+   "urgent_priority": 0.6
+  }
+ },
+ {
+  "steps": 75,
+  "action": {
+   "diagnostic_allocation": 0.4,
+   "elective_scheduling": 0.0,
+   "followup_capacity": 1.0,
+   "overtime": 0.0,
+   "staffing": 20.0,
+   "urgent_priority": 0.6
+  }
+ }
+]

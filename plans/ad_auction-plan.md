@@ -491,3 +491,70 @@ not as the thesis' positive priming.
      455 ticks; sustained-scoring episodes rest on it.
   3. Reset win transient (0.05 vs 0.147) and untested control ranges (bid in (0, 1.5), cap < 20 or 20–100 at high
      bid).
+
+
+## Round 2 spend log (approved by the user 2026-09-28; schedules in `plans/round2-experiments.md`)
+
+| Date | Run | File | Steps | Remaining after |
+|---|---|---|---:|---:|
+| 2026-09-28 14:44–14:55 UTC | AD1 (fresh reset) | `data/ad_auction/R3.json` | 500 | 500 |
+| 2026-09-28 14:44–14:55 UTC | AD2 (fresh reset) | `data/ad_auction/R4.json` | 300 | 200 |
+
+Segment files: `toronto26-participant-kit/fits/round2/segments/ad_auction_*.json`. Server budget confirmed after the runs.
+
+## Round 2 model (v2)
+
+Modeler pass, 2026-09-28. No steps spent. Module `greybox/ad_auction_model_v2.py` (v1 copy with switchable additions; with qx = 4 and the new modules off it reproduces v1 exactly). Fits, driver and scripts: `toronto26-participant-kit/fits/ad_auction/round2/v2/` (`fitdrv2.py` = v1 driver with residuals in heldout σ 0.0152 / 1.38 / 0.121; `sc.py` scorer; `longrun2.py`; `plot2.py`; `qz2_all.png` = v2 vs v1-refit on all four runs).
+
+**Diagnosis items addressed and structural changes**
+
+| Change | Diagnosis item | Kept? | Evidence |
+|---|---|---|---|
+| Module `fz`: purchase-side exposure fatigue Z_r += e_z·I_r/size_r·(1−Z_r) − a_z·Z_r, J_r ×= (1−Z_r); a_z bounded to [0.01, 0.1] | B25/B26/B35 (change 1) | **yes** | fitted a_z = 0.0225 (τ ≈ 44, interior, not pinned), e_z = 0.083. Improves held-out R4 conversions in every comparison (bid 5 / cap 30 settles 4.06 vs v1 4.42, data 3.79) |
+| Sharper fulfilment capacity: smooth-min exponent qx 4 → 20 (held), prepare stage kept | B22/B23/B38 (change 2) | yes (in the final fit) | all-data cost 5,905 (om 9.1 basin, capacity not binding) → **5,719** when started in the capacity-binding basin (om 2.4, capf 3.56 instead of v1's extreme om 8.1). R3 plateau/drop at t ≈ 60 now reproduced (level 6.2 vs data 5.8); R3 u1 plateau 5.37 still missed |
+| Module `cm`: committed purchases unavailable (a_r −= kc·C_r/size_r) | B24 (change 3) | **no** | all-data cost 5,767 vs 5,719 without it; scan gain ≤ 0.01 at kc 0.1, harmful above 0.3. Dropped |
+| Module `pm`: win-probability ceiling | B29 (change 5) | not tried (time) | win loss is mostly noise (B36) |
+| M3 | — | kept (a_m3 held 0.005 as v1) | g3 relaxes to −0.63 (weak) once fz exists; fz absorbs most of M3's role as a high-bid purchase penalty |
+
+Mechanism pair unchanged: M2 (+ its purchase-side role fz) + M3. No all-three model.
+
+**Held-out scores** (heldout σ, per observable win / spend / conv = mean). "v1 refit" = v1 structure refitted with the same driver; for (A) v1 refit is v1 itself (v1 was fitted on old data).
+
+| Test | Run scored | v1 | v1 refit | v2 |
+|---|---|---|---|---|
+| (A) fit R1+R2c | R3 | .724/.498/.460 = **0.560** | = v1 | .727/.499/.490 = **0.572** |
+| (A) fit R1+R2c | R4 | .597/.528/.336 = **0.487** | = v1 | .593/.524/.384 = **0.501** |
+| (A) mean | | 0.524 | 0.524 | **0.537** |
+| (B) fit old+R4 | R3 | 0.560 | .718/.578/.458 = 0.585 | .715/.545/.521 = **0.594** |
+| (B) fit old+R3 | R4 | 0.487 | .592/.586/.362 = 0.513 | .613/.582/.381 = **0.525** (capacity-binding basin start: .593/.582/.371 = 0.515) |
+| (B) mean | | 0.524 | 0.549 | **0.559** |
+| (C) all data, in-sample R1 / R2c / R3 / R4 | | .619/.543/.560/.487 = 0.552 | .602/.568/.602/.558 = 0.583 (cost 6,048) | .596/.577/.631/.546 = **0.588** (cost 5,719) |
+
+Note on basins: fits on old data alone (A, and the (B) folds started from the (A) fit) return to v1's extreme-om basin where the capacity never binds; the held-out v2 gain there comes from fz alone. The shipped (C) fit sits in the capacity-binding basin (lower all-data cost by 186). Its one honest fold test (R4 out) scores 0.515, between v1 refit (0.513) and the om-9 fold (0.525). So the hard-capacity part is a tie on held-out data; it is kept for its lower all-data cost and because B38's reproducible plateau supports it.
+
+**Decision: ship v2** (`fits/ad_auction/round2/v2/final_v2.json` = `qz2_all.json`, modules m2, m3, fz; qx = 20, a_m3 = 0.005 held). It beats v1 and v1 refit under (A) and both (B) folds. In-sample on old data: R1 0.596 (v1 0.619, −0.023), R2c 0.577 (v1 0.543); mean up, and no drop > 0.03.
+
+**Gates:** stability pass (200 schedules + 8 × 40,000, 0 failures, max conversions 7.36, worst alternation 0.11; `fits/ad_auction/round2/v2/stab_v2.json`). Contract pass (40 × 4,000, 4.3 s wall, malformed inputs ok, deterministic). Package check pass (re-verified from the extracted ZIP, credential scan clean). `heldout.py` on the packaged folder reproduces the fit's scores (mean over R1/R2c/R3/R4 0.587). ZIP: `toronto26-participant-kit/submission-ad_auction-v2.zip`; folder `toronto26-participant-kit/models/ad_auction/` now holds v2 (v1 kept in `fits/round2/v1_models/ad_auction` and `submission-ad_auction-v1.zip`). Not uploaded.
+
+**Design choices and their predictions** (from reset, last-10 means; `longrun2.py`):
+
+| Hold | t = 100 | t = 250 | t = 1,000 | t = 4,000 | Data |
+|---|---|---|---|---|---|
+| recovery (1.5 / 20 / .55) | .260 / 13.2 / 3.14 | .261 / 12.6 / 3.00 | .261 / 12.6 / 3.00 | same | .262–.265 / 12.6–12.8 / 3.00–3.25 |
+| u.7 (3.95 / 76 / .7075) | .498 / 29.9 / 4.36 | .499 / 29.4 / 4.34 | .499 / 29.4 / 4.34 | same | .499 / 28.3 / 4.25 at t 250 (v1 30.2 / 4.37) |
+| u1 (5 / 100 / .775) | .561 / 35.4 / 4.62 | .561 / 35.1 / 4.61 | .561 / 35.1 / 4.60 | same | R2c P7 .559 / 34.4 / 4.48 |
+| bid 5 / cap 30 / .55 | .581 / 25.6 / 4.24 | .584 / 24.8 / 4.07 | .584 / 24.8 / 4.06 | same | .590 / 24.0 / 3.79 (v1 25.8 / 4.42) |
+| bid 5 / cap 100 / 1.0 | .542 / 45.4 / 5.22 | .543 / 44.7 / 5.26 | .543 / 44.7 / 4.86 | same | not held that long |
+| bid .75 / cap 100 | .136 / 8.1 / 2.39 | .136 / 7.6 / 2.27 | same | same | .128 / 6.6 / 1.76 |
+
+Long run: every state is bounded and settles by t ≈ 1,000 (a_z τ ≈ 44, M2 τ ≈ 175, M3 τ = 200); no drift after that. At breadth ≥ 0.9 and bid 5 the capacity binds for about 300–700 ticks while the backlog persists, then conversions settle; after 3,000 ticks at breadth 1.0 then recovery, conversions return to 3.00 with no residual backlog (checked).
+
+**Open issues**
+
+1. High-bid spend is still ~0.8σ too high at u.7 (29.4 vs 28.3) and bid 5 (24.8 vs 24.0); B25 is only partly fixed.
+2. Conversions at bid 5 / breadth .55 still +2σ (4.06 vs 3.79); bid 0.75 conversions +4σ (2.27 vs 1.76). The purchase-yield map vs bid is still too flat.
+3. Capacity basin is not identified by held-out data: old-data fits prefer v1's extreme om (non-binding capacity); the R3 u1 plateau (5.37 at .775) is still missed and the u.7 plateau is too high (6.2 vs 5.8).
+4. Rest-restart conversions overshoot (B33, R1 435–545) and reset transients (B20/B21) unchanged.
+5. `pm` (win ceiling, B29) and dropping M3 entirely (g3 ≈ −0.6) were not tested for lack of time.
+
+**Reserve recommendation (200 steps).** Adopt the diagnosis's R5 (fresh reset, 170 steps + ≤ 30 settle extension): 0–49 bid 1.5 / cap 100 / breadth .775; 50–84 recovery; 85–134 bid 5 / cap 20 / breadth .775; 135–169 recovery. For v2 it decides (i) the capacity basin: a rested broad start with cap 100 builds a backlog, so a plateau near 5.4 at breadth .775 confirms v2's binding capacity (om ≈ 2.4), while none supports the om ≈ 9 basin; v2 predicts spend > 20 for all 50 ticks (34.0 at t 10–19, 21.1 at 40–49; v1 32.3 / 20.1) and conversions 5.84 at t 10–19; (ii) whether fz's per-member impression driver gives the right purchase cut under throttle at broad breadth: v2 predicts 0.19 / 20.0 / 3.06 at the end of the bid 5 / cap 20 / .775 segment (v1 2.89, a 1.4σ difference in conversions; R1's breadth-alone value was 3.5). Then refit (C) on all five runs with this driver and rerun (B).

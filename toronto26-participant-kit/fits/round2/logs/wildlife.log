@@ -1,0 +1,9 @@
+2026-09-28T14:44:12Z start wildlife WL1 -> R3 (500 steps)
+wildlife: spending 500 steps, 1000 remaining before this run
+Saved 500 observations to data/wildlife/R3.json (run length 500); 500 steps remain
+2026-09-28T14:45:15Z done wildlife WL1
+2026-09-28T14:45:15Z start wildlife WL2 -> R4 (350 steps)
+wildlife: spending 350 steps, 500 remaining before this run
+Saved 350 observations to data/wildlife/R4.json (run length 350); 150 steps remain
+2026-09-28T14:45:54Z done wildlife WL2
+{"system_id": "wildlife", "remaining": 150.0, "simulator_steps_remaining": 150}

@@ -1,0 +1,26 @@
+[
+ {
+  "steps": 40,
+  "action": {
+   "mask_mandate": 0.0,
+   "school_closure": 1.0,
+   "vaccination_rate": 0.0
+  }
+ },
+ {
+  "steps": 80,
+  "action": {
+   "mask_mandate": 0.0,
+   "school_closure": 1.0,
+   "vaccination_rate": 0.0
+  }
+ },
+ {
+  "steps": 80,
+  "action": {
+   "mask_mandate": 0.7,
+   "school_closure": 1.0,
+   "vaccination_rate": 0.0
+  }
+ }
+]

@@ -1,0 +1,4 @@
+model greybox/reservoir_model_v2.py modules ['conv', 'lz', 'm1', 'm3', 'reset'] episodes 5 units ['linear', 'linear', 'linear', 'linear'] sigma [4.4, 0.075, 0.05, 0.0055]
+  restart 0: cost 5240.1 nfev 42 (83s)
+cost 5240.1 (83s) | train score 0.6899 (persistence 0.0975)
+saved fits/reservoir/round2/v2/C_v2.json

@@ -1,0 +1,36 @@
+{
+ "system": "ad_auction",
+ "model": "models/ad_auction",
+ "observables": [
+  "win_rate",
+  "spend",
+  "conversions"
+ ],
+ "runs": {
+  "R3": {
+   "model": [
+    0.724,
+    0.498,
+    0.46
+   ],
+   "persistence": [
+    0.113,
+    0.13,
+    0.037
+   ]
+  },
+  "R4": {
+   "model": [
+    0.597,
+    0.528,
+    0.336
+   ],
+   "persistence": [
+    0.209,
+    0.171,
+    0.079
+   ]
+  }
+ },
+ "mean_model": 0.5238
+}

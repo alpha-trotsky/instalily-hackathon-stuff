@@ -1,0 +1,56 @@
+[
+ {
+  "steps": 100,
+  "action": {
+   "charging_allowance": 0.3,
+   "interconnector": 0.44,
+   "price_signal": 0.45,
+   "reserve_dispatch": 105.0
+  }
+ },
+ {
+  "steps": 60,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 0.0
+  }
+ },
+ {
+  "steps": 200,
+  "action": {
+   "charging_allowance": 0.0,
+   "interconnector": 0.2,
+   "price_signal": 0.0,
+   "reserve_dispatch": 150.0
+  }
+ },
+ {
+  "steps": 30,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 0.0
+  }
+ },
+ {
+  "steps": 80,
+  "action": {
+   "charging_allowance": 0.15,
+   "interconnector": 0.32,
+   "price_signal": 0.225,
+   "reserve_dispatch": 127.5
+  }
+ },
+ {
+  "steps": 40,
+  "action": {
+   "charging_allowance": 1.0,
+   "interconnector": 1.0,
+   "price_signal": 1.5,
+   "reserve_dispatch": 0.0
+  }
+ }
+]

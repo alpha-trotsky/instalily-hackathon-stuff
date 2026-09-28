@@ -1,0 +1,77 @@
+sigma {'wait_time': np.float64(3.141), 'queue': np.float64(11.056), 'discharges': np.float64(0.425)}
+
+== R1 init {'wait_time': 3.92, 'queue': 39.22, 'discharges': 13.42} score [0.551, 0.673, 0.286]
+     0-  60 recovery                                                     obs [0.01, 22.99, 11.51] pred [0.62, 23.05, 11.5] err [0.19, 0.01, -0.03] |e| [0.39, 0.45, 3.43] loss [16.2, 11.0, 22.4]
+    60- 175 staff=5                                                      obs [97.01, 277.42, 2.67] pred [94.87, 284.07, 2.07] err [-0.68, 0.6, -1.4] |e| [0.57, 1.34, 3.49] loss [36.1, 51.3, 80.4]
+   175- 240 recovery                                                     obs [27.92, 185.12, 11.36] pred [22.78, 182.78, 10.5] err [-1.64, -0.21, -2.04] |e| [0.71, 0.39, 3.87] loss [23.8, 16.3, 41.7]
+   240- 280 overt=1                                                      obs [0.76, 22.99, 11.52] pred [6.1, 23.02, 11.5] err [1.7, 0.0, -0.04] |e| [1.58, 0.22, 3.26] loss [23.6, 4.3, 12.9]
+   280- 310 recovery                                                     obs [0.02, 22.99, 11.48] pred [2.12, 28.38, 12.11] err [0.67, 0.49, 1.47] |e| [0.96, 0.52, 1.21] loss [14.4, 9.8, 14.5]
+   310- 350 elect=20                                                     obs [29.23, 273.56, 9.59] pred [24.66, 276.12, 4.56] err [-1.45, 0.23, -11.83] |e| [0.81, 0.53, 13.22] loss [15.8, 11.9, 35.5]
+   350- 380 elect=20 diagn=0.75                                          obs [50.8, 321.95, 4.34] pred [64.91, 309.57, 1.88] err [4.49, -1.12, -5.8] |e| [3.05, 1.03, 9.28] loss [20.8, 14.7, 24.1]
+   380- 410 elect=20                                                     obs [49.87, 314.22, 8.87] pred [50.58, 310.84, 4.51] err [0.23, -0.31, -10.24] |e| [1.25, 0.43, 9.11] loss [13.3, 8.3, 26.2]
+   410- 440 elect=20 overt=1                                             obs [32.61, 303.6, 13.82] pred [30.26, 312.09, 9.76] err [-0.75, 0.77, -9.57] |e| [0.37, 0.77, 9.97] loss [7.1, 12.8, 26.3]
+   440- 470 elect=20                                                     obs [41.17, 313.7, 8.57] pred [37.79, 313.34, 4.08] err [-1.08, -0.03, -10.57] |e| [0.87, 0.19, 12.08] loss [13.8, 4.4, 25.8]
+   470- 500 elect=20 urgen=1                                             obs [44.58, 313.39, 8.86] pred [33.67, 314.55, 4.37] err [-3.48, 0.11, -10.56] |e| [2.72, 0.14, 10.73] loss [21.6, 3.5, 27.1]
+   500- 530 elect=20 follo=0                                             obs [44.87, 313.21, 8.89] pred [36.25, 315.75, 4.47] err [-2.74, 0.23, -10.39] |e| [3.09, 0.19, 10.12] loss [22.6, 4.4, 27.2]
+   530- 580 staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0          obs [107.28, 327.04, 1.88] pred [110.0, 317.71, 1.02] err [0.87, -0.84, -2.04] |e| [1.82, 0.9, 3.58] loss [27.0, 23.2, 36.1]
+   580- 750 recovery                                                     obs [5.53, 98.64, 11.08] pred [2.52, 75.66, 13.44] err [-0.96, -2.08, 5.56] |e| [1.13, 0.97, 5.5] loss [80.6, 69.1, 135.2]
+
+== R2c init {'wait_time': 2.61, 'queue': 36.57, 'discharges': 12.21} score [0.63, 0.727, 0.471]
+     0-  30 recovery                                                     obs [0.15, 22.97, 11.5] pred [1.21, 23.15, 11.55] err [0.34, 0.02, 0.1] |e| [0.33, 0.8, 6.51] loss [7.4, 9.9, 18.7]
+    30- 110 follo=0                                                      obs [0.0, 23.02, 11.49] pred [0.07, 23.05, 11.5] err [0.02, 0.0, 0.03] |e| [0.1, 0.01, 0.11] loss [7.2, 0.8, 7.3]
+   110- 140 staff=12.5 elect=20                                          obs [27.72, 268.55, 7.19] pred [28.55, 251.47, 3.03] err [0.26, -1.54, -9.78] |e| [0.53, 1.12, 8.89] loss [8.8, 13.7, 25.4]
+   140- 150 staff=12.5 elect=20 overt=1                                  obs [33.75, 276.2, 10.34] pred [32.11, 265.27, 6.3] err [-0.52, -0.99, -9.51] |e| [0.52, 0.99, 9.57] loss [3.2, 4.4, 8.3]
+   150- 160 staff=12.5 elect=20                                          obs [38.76, 283.07, 6.08] pred [39.09, 271.74, 2.29] err [0.11, -1.02, -8.92] |e| [0.42, 1.02, 8.98] loss [2.8, 5.0, 8.3]
+   160- 170 staff=12.5 elect=20 overt=1                                  obs [41.06, 284.86, 9.82] pred [41.52, 285.11, 6.14] err [0.15, 0.02, -8.66] |e| [0.3, 0.24, 8.75] loss [2.1, 1.8, 8.2]
+   170- 180 staff=12.5 elect=20                                          obs [44.18, 295.15, 6.2] pred [45.84, 291.51, 2.27] err [0.53, -0.33, -9.25] |e| [0.56, 0.42, 12.47] loss [3.3, 2.8, 8.4]
+   180- 190 staff=12.5 elect=20 overt=1                                  obs [44.94, 299.11, 9.63] pred [46.33, 304.68, 6.11] err [0.44, 0.5, -8.29] |e| [0.44, 0.52, 8.29] loss [2.7, 3.0, 8.7]
+   190- 200 staff=12.5 elect=20                                          obs [47.5, 305.58, 5.62] pred [49.24, 309.81, 2.26] err [0.56, 0.38, -7.9] |e| [0.56, 0.39, 9.89] loss [3.4, 2.5, 8.2]
+   200- 210 staff=12.5 elect=20 overt=1                                  obs [47.85, 301.69, 9.61] pred [48.73, 311.21, 6.1] err [0.28, 0.86, -8.26] |e| [0.38, 0.86, 10.02] loss [2.5, 4.4, 8.3]
+   210- 220 staff=12.5 elect=20                                          obs [49.5, 307.98, 5.11] pred [50.94, 310.88, 2.26] err [0.46, 0.26, -6.71] |e| [0.48, 0.27, 8.07] loss [3.0, 1.8, 7.1]
+   220- 260 staff=12.5 elect=20 overt=1                                  obs [42.84, 309.43, 9.66] pred [35.63, 312.92, 6.1] err [-2.3, 0.32, -8.37] |e| [1.24, 0.29, 8.13] loss [19.5, 8.3, 35.1]
+   260- 290 staff=12.5 elect=20                                          obs [57.71, 312.24, 5.77] pred [56.03, 314.15, 2.55] err [-0.53, 0.17, -7.57] |e| [1.08, 0.27, 8.15] loss [14.6, 5.9, 25.1]
+   290- 320 staff=12.5 elect=20 diagn=0.1                                obs [62.95, 205.25, 9.07] pred [48.76, 253.94, 3.92] err [-4.52, 4.4, -12.1] |e| [4.75, 2.63, 8.43] loss [23.7, 19.3, 25.9]
+   320- 350 staff=12.5 elect=20                                          obs [45.14, 275.66, 5.57] pred [56.36, 253.37, 2.79] err [3.57, -2.02, -6.53] |e| [3.91, 3.03, 5.43] loss [22.3, 20.2, 22.6]
+   350- 380 overt=1                                                      obs [19.88, 110.64, 22.34] pred [27.34, 108.18, 22.32] err [2.38, -0.22, -0.04] |e| [1.82, 0.79, 5.27] loss [18.7, 12.0, 22.6]
+   380- 455 follo=0                                                      obs [0.0, 36.12, 11.84] pred [1.95, 32.85, 11.5] err [0.62, -0.3, -0.79] |e| [2.12, 0.45, 1.97] loss [47.0, 21.4, 34.4]
+   455- 550 recovery                                                     obs [0.0, 34.56, 11.51] pred [0.07, 32.84, 11.5] err [0.02, -0.15, -0.03] |e| [0.15, 0.15, 0.11] loss [11.3, 12.4, 8.7]
+
+== R3 init {'wait_time': 2.23, 'queue': 50.79, 'discharges': 9.13} score [0.362, 0.362, 0.156]
+     0-  50 elect=5                                                      obs [6.46, 142.62, 13.21] pred [18.81, 304.86, 5.9] err [3.93, 14.67, -17.19] |e| [1.79, 9.06, 20.14] loss [25.0, 39.9, 46.0]
+    50- 100 elect=10                                                     obs [32.86, 271.55, 9.53] pred [31.95, 309.43, 5.12] err [-0.29, 3.43, -10.37] |e| [1.6, 5.52, 11.51] loss [24.4, 41.5, 45.6]
+   100- 150 staff=15 elect=10                                            obs [50.3, 317.0, 7.14] pred [44.1, 311.0, 3.82] err [-1.98, -0.54, -7.82] |e| [1.48, 0.88, 7.72] loss [29.4, 20.2, 43.3]
+   150- 200 staff=15                                                     obs [50.93, 313.26, 7.61] pred [35.95, 288.57, 6.31] err [-4.77, -2.23, -3.06] |e| [3.63, 1.2, 4.83] loss [38.8, 25.1, 40.9]
+   200- 250 recovery                                                     obs [33.2, 213.23, 11.35] pred [17.65, 197.19, 10.24] err [-4.95, -1.45, -2.62] |e| [5.15, 1.95, 4.07] loss [41.9, 32.7, 35.2]
+
+== R4 init {'wait_time': 3.59, 'queue': 56.77, 'discharges': 11.81} score [0.315, 0.573, 0.215]
+     0-  90 staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0. obs [68.25, 322.22, 4.65] pred [52.92, 310.03, 2.57] err [-4.88, -1.1, -4.9] |e| [2.75, 1.09, 7.51] loss [59.0, 45.2, 72.7]
+    90- 140 recovery                                                     obs [41.55, 256.98, 11.18] pred [32.05, 259.47, 8.44] err [-3.03, 0.22, -6.44] |e| [3.87, 0.38, 6.33] loss [39.5, 12.6, 39.1]
+   140- 200 staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0          obs [101.29, 326.65, 2.11] pred [110.87, 312.38, 1.02] err [3.05, -1.29, -2.55] |e| [2.21, 1.24, 5.0] loss [38.2, 32.2, 45.2]
+   200- 350 recovery                                                     obs [163.16, 106.42, 12.57] pred [5.07, 108.36, 13.21] err [-50.34, 0.18, 1.5] |e| [12.11, 0.91, 5.61] loss [102.9, 59.3, 117.8]
+
+Top losses
+{'loss': 135.2, 'run': 'R1', 'ticks': [580, 750], 'obs': 'discharges', 'action': 'recovery', 'signed_sigma': -2.22, 'abs_sigma': 5.5}
+{'loss': 117.8, 'run': 'R4', 'ticks': [200, 350], 'obs': 'discharges', 'action': 'recovery', 'signed_sigma': -3.42, 'abs_sigma': 5.61}
+{'loss': 102.9, 'run': 'R4', 'ticks': [200, 350], 'obs': 'wait_time', 'action': 'recovery', 'signed_sigma': -11.04, 'abs_sigma': 12.11}
+{'loss': 80.6, 'run': 'R1', 'ticks': [580, 750], 'obs': 'wait_time', 'action': 'recovery', 'signed_sigma': -0.76, 'abs_sigma': 1.13}
+{'loss': 80.4, 'run': 'R1', 'ticks': [60, 175], 'obs': 'discharges', 'action': 'staff=5', 'signed_sigma': -0.89, 'abs_sigma': 3.49}
+{'loss': 72.7, 'run': 'R4', 'ticks': [0, 90], 'obs': 'discharges', 'action': 'staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3', 'signed_sigma': -5.35, 'abs_sigma': 7.51}
+{'loss': 69.1, 'run': 'R1', 'ticks': [580, 750], 'obs': 'queue', 'action': 'recovery', 'signed_sigma': 0.54, 'abs_sigma': 0.97}
+{'loss': 59.3, 'run': 'R4', 'ticks': [200, 350], 'obs': 'queue', 'action': 'recovery', 'signed_sigma': 0.66, 'abs_sigma': 0.91}
+{'loss': 59.0, 'run': 'R4', 'ticks': [0, 90], 'obs': 'wait_time', 'action': 'staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3', 'signed_sigma': -2.74, 'abs_sigma': 2.75}
+{'loss': 51.3, 'run': 'R1', 'ticks': [60, 175], 'obs': 'queue', 'action': 'staff=5', 'signed_sigma': -0.85, 'abs_sigma': 1.34}
+{'loss': 47.0, 'run': 'R2c', 'ticks': [380, 455], 'obs': 'wait_time', 'action': 'follo=0', 'signed_sigma': 2.12, 'abs_sigma': 2.12}
+{'loss': 46.0, 'run': 'R3', 'ticks': [0, 50], 'obs': 'discharges', 'action': 'elect=5', 'signed_sigma': -16.23, 'abs_sigma': 20.14}
+{'loss': 45.6, 'run': 'R3', 'ticks': [50, 100], 'obs': 'discharges', 'action': 'elect=10', 'signed_sigma': -11.51, 'abs_sigma': 11.51}
+{'loss': 45.2, 'run': 'R4', 'ticks': [140, 200], 'obs': 'discharges', 'action': 'staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0', 'signed_sigma': -2.59, 'abs_sigma': 5.0}
+{'loss': 45.2, 'run': 'R4', 'ticks': [0, 90], 'obs': 'queue', 'action': 'staff=9.5 elect=14 diagn=0.645 urgen=0.88 overt=0.7 follo=0.3', 'signed_sigma': -0.8, 'abs_sigma': 1.09}
+{'loss': 43.3, 'run': 'R3', 'ticks': [100, 150], 'obs': 'discharges', 'action': 'staff=15 elect=10', 'signed_sigma': -7.59, 'abs_sigma': 7.72}
+{'loss': 41.9, 'run': 'R3', 'ticks': [200, 250], 'obs': 'wait_time', 'action': 'recovery', 'signed_sigma': -5.15, 'abs_sigma': 5.15}
+{'loss': 41.7, 'run': 'R1', 'ticks': [175, 240], 'obs': 'discharges', 'action': 'recovery', 'signed_sigma': -3.26, 'abs_sigma': 3.87}
+{'loss': 41.5, 'run': 'R3', 'ticks': [50, 100], 'obs': 'queue', 'action': 'elect=10', 'signed_sigma': 5.52, 'abs_sigma': 5.52}
+{'loss': 40.9, 'run': 'R3', 'ticks': [150, 200], 'obs': 'discharges', 'action': 'staff=15', 'signed_sigma': -4.58, 'abs_sigma': 4.83}
+{'loss': 39.9, 'run': 'R3', 'ticks': [0, 50], 'obs': 'queue', 'action': 'elect=5', 'signed_sigma': 8.98, 'abs_sigma': 9.06}
+{'loss': 39.5, 'run': 'R4', 'ticks': [90, 140], 'obs': 'wait_time', 'action': 'recovery', 'signed_sigma': -3.87, 'abs_sigma': 3.87}
+{'loss': 39.1, 'run': 'R4', 'ticks': [90, 140], 'obs': 'discharges', 'action': 'recovery', 'signed_sigma': -6.16, 'abs_sigma': 6.33}
+{'loss': 38.8, 'run': 'R3', 'ticks': [150, 200], 'obs': 'wait_time', 'action': 'staff=15', 'signed_sigma': -3.63, 'abs_sigma': 3.63}
+{'loss': 38.2, 'run': 'R4', 'ticks': [140, 200], 'obs': 'wait_time', 'action': 'staff=5 elect=20 diagn=0.75 urgen=1 overt=1 follo=0', 'signed_sigma': 0.7, 'abs_sigma': 2.21}
