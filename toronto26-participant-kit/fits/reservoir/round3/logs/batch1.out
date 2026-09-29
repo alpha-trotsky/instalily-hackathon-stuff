@@ -1,0 +1,15 @@
+cost 5501.6 (2s) | train score 0.6901 (persistence 0.1033)
+saved fits\reservoir\round3\v2r_C.json
+cost 5501.6 (1s) | train score 0.6901 (persistence 0.1033)
+saved fits\reservoir\round3\q_v2_s1.json
+cost 5474.0 (14s) | train score 0.6900 (persistence 0.1033)
+saved fits\reservoir\round3\q_lag_s1.json
+cost 5468.3 (18s) | train score 0.6899 (persistence 0.1033)
+saved fits\reservoir\round3\q_lagdep_s1.json
+cost 5425.6 (51s) | train score 0.6918 (persistence 0.1033)
+saved fits\reservoir\round3\q_laglay_s1.json
+cost 5460.4 (30s) | train score 0.6902 (persistence 0.1033)
+saved fits\reservoir\round3\q_lagseq_s1.json
+cost 5398.5 (232s) | train score 0.6920 (persistence 0.1033)
+saved fits\reservoir\round3\q_full_s1.json
+BATCH1 DONE

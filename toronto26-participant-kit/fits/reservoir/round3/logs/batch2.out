@@ -1,0 +1,9 @@
+H_S1
+start cost 5284.1 -> 5244.3  nfev 32 njev 17 status 3 `xtol` termination condition is satisfied. (80s)
+H_S2
+start cost 5270.7 -> 5201.4  nfev 38 njev 28 status 3 `xtol` termination condition is satisfied. (117s)
+C_S1
+start cost 5468.3 -> 5468.3  nfev 18 njev 2 status 2 `ftol` termination condition is satisfied. (14s)
+C_S2
+start cost 5425.6 -> 5419.5  nfev 34 njev 24 status 3 `xtol` termination condition is satisfied. (149s)
+BATCH2 DONE

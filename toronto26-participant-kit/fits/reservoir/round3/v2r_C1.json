@@ -1,60 +1,5 @@
 {
- "system": "reservoir",
- "model_file": "reservoir_model_v2.py",
- "observables": [
-  "level",
-  "inflow",
-  "outflow",
-  "quality"
- ],
- "bounds": {
-  "release_rate": [
-   0.0,
-   12.0
-  ],
-  "irrigation_allocation": [
-   0.0,
-   8.0
-  ],
-  "withdrawal_depth": [
-   0.0,
-   1.0
-  ],
-  "aeration": [
-   0.0,
-   1.0
-  ]
- },
- "recovery": {
-  "aeration": 1.0,
-  "irrigation_allocation": 0.0,
-  "release_rate": 2.0,
-  "withdrawal_depth": 0.0
- },
- "clamp": {
-  "level": [
-   0.0,
-   1200.0
-  ],
-  "inflow": [
-   0.0,
-   40.0
-  ],
-  "outflow": [
-   0.0,
-   60.0
-  ],
-  "quality": [
-   0.0,
-   1.0
-  ]
- },
- "fallback": {
-  "level": 746.061546094182,
-  "inflow": 11.552149592890594,
-  "outflow": 10.994724226696263,
-  "quality": 0.9443955376910591
- },
+ "model": "greybox/reservoir_model_v2.py",
  "modules": [
   "conv",
   "lz",
@@ -62,8 +7,51 @@
   "m3",
   "reset"
  ],
- "source_fit": "fits/reservoir/round3/v2r_C1.json",
- "built_at": "2026-09-29T16:27:04",
+ "cost": 5481.852625788311,
+ "free": [
+  "Vs",
+  "e0",
+  "e1",
+  "qmax",
+  "beta",
+  "cq",
+  "kq",
+  "wqd",
+  "wqr",
+  "wqi",
+  "a_z",
+  "lam_q",
+  "a1",
+  "g1",
+  "th1",
+  "g1s",
+  "af1",
+  "gf1",
+  "H0",
+  "b1",
+  "a3",
+  "a3d",
+  "g3",
+  "h3",
+  "dC",
+  "gC",
+  "ap",
+  "gam",
+  "lz",
+  "kfl",
+  "gr",
+  "Hr",
+  "rho"
+ ],
+ "data": [
+  "R1",
+  "R2",
+  "R3",
+  "R4",
+  "R5",
+  "R6XD",
+  "R7XS"
+ ],
  "params": {
   "c_in": 11.2801,
   "A_s": 2.2527,

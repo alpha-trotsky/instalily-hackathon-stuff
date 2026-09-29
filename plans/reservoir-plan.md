@@ -584,3 +584,75 @@ little Cm in the final fit. So the runs mainly test whether a short anoxic pulse
 (R2's 30-tick pulse left −8σ; v2 predicts ≈ −3σ), and the depth contrast is a bonus. If XD ≈ XS ≈ 0.950 → replace depth-gated
 removal with removal ∝ D/V at any depth; if both ≈ 0.940 → removal by refill turnover; XD < XS → flip the depth sign.
 Side readings: two more reset-excess points (Hr, gr, ρ) and the overshoot under shallow vs deep pulses (lz).
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29 (resumed after a rate-limit stop). No steps spent. Module `greybox/reservoir_model_v3.py`
+(copy of v2; every new term is off by default and then reproduces v2 exactly, checked to 1e-16). Fits, logs and scripts are in
+`toronto26-participant-kit/fits/reservoir/round3/`:
+- `fitx.py`: the same Problem, residuals and soft-L1 cost as `greybox.common.fit`, with `diff_step 1e-6` and tighter tolerances. The generic fitter stopped at the v2 warm start without moving (cost 5501.6 unchanged).
+- `score3.py`: heldout3 σ (level 24.4, inflow 0.156, outflow 0.415, quality 0.001), plus a 21-tick noise-reduced quality score (qNR).
+- `diag.py`: quality-target components.
+
+### Changes tried (v3 modules)
+
+| Module | Term | Fitted (C) |
+|---|---|---|
+| lag | overshoot driver is a fading memory of delivered outflow, F += aF(D/12 − F), with lam_q·z·(1 + lz·F) (R7XS: quality stays at 0.955 after release drops) | aF 0.08, lz 8.4 |
+| lay | stored-layer memory of deep withdrawal L += aL(ud − L), visible only when drawing shallow: Tq −= gL·L·(1 − ud) (R6XD at t30 and R1 at 450: deep → shallow lowers later surface quality) | aL 0.049, gL 0.0126 |
+| dep | deep withdrawal adds pool material: Cm build × max(1 + hp·ud, 0) | hp 7.4 on all data, **0.03 without R6/R7** (not identified by old data) |
+| seq | pool fed through Dm (short pulses build less) | degenerate (ap → 1e-4, gC → 2) |
+
+Why v2 misses the round-3 plateau (R7XS ticks 40–49): cq 0.948 + overshoot 0.004 − Cm 0.0043 − Dm 0.0008 = 0.947, against 0.955 in the data. v2's instantaneous lz term also drops quality by 0.01 when the release falls, and XS shows no such drop.
+
+### Scores (mean of 4 observables; quality and qNR in brackets)
+
+| Test | Run | shipped v2 | v2r (v2 structure) | v3 = lag+lay | lag+dep | lay only |
+|---|---|---|---|---|---|---|
+| (H) fit R1–R5 → R6XD+R7XS | mean | **0.6887** [q 0.280, qNR 0.37] | = shipped v2 | **0.6957** [q 0.308, qNR 0.54] | 0.6913 [0.291, 0.55] | 0.6857 [0.268, 0.38] |
+| | R7XS plateau err | −8.5σ | −8.5σ | −2.8σ | −5.6σ | — |
+| (B) leave R4 out | R4 | 0.6612 [q 0.239] (round-2 B4_2) | **0.6647** [0.261, qNR 0.30] | 0.6515 [0.206, 0.18] | 0.6481 | 0.6642 [0.257, 0.35] |
+| (B) leave R5 out | R5 | 0.6731 [q 0.225] (B5_2) | 0.6782 [0.254, qNR 0.29] | **0.6793** [0.258, 0.31] | 0.6679 | — |
+| | B mean | 0.6672 | **0.6715** | 0.6654 | 0.6580 | — |
+| (C) all R1–R7 in-sample | all 7 | 0.6870 | 0.6886 (per obs 0.894/0.700/0.892/0.269) | **0.6921** (0.894/0.700/0.892/0.283) | 0.6895 | — |
+| | R1–R3 (old) | 0.683 | 0.684 | 0.685 | 0.684 | — |
+
+The water side is unchanged across candidates on (B), within ±0.003. v2r improves round-3 inflow in-sample from 0.651 to 0.675 through the reset-store refit.
+Fit files: v2r = `v2r_C1.json`, B4_S0/B5_S0; v3 = `C_S2b.json` (C_S2 with v2r's water parameters), H_S2, B4_S2, B5_S2; lag+dep = S1; lay only = S3.
+
+### Decision
+
+**Primary: v2r** (v2 structure refit on R1–R7), in `models/reservoir/` (`--version v3`, `submission-reservoir-v3.zip`).
+- It beats shipped v2 on (B) by +0.004 (both folds).
+- By construction it equals shipped v2 on (H).
+
+**Alternative: v3 lag+lay**, in `ab/round3/alt/reservoir/` (`submission-reservoir-v3alt.zip`).
+- It wins (H) by +0.007: held out, it fixes the XS plateau from −8.5σ to −2.8σ and reproduces XD < XS (gL is identified from R1–R5 alone).
+- It **loses (B) R4 by 0.013**. Without R4, aF falls to 0.008 and lam_q·lz grows, so the persistent overshoot is too high during R4's u = 0.7 hold.
+- By the rule, v3 must win (B), so it is the A/B alternative only.
+- lay alone ties v2r on B4 but loses (H), and lag+dep loses both folds.
+
+### Gates
+
+- Stability: pass for v2r and v3, 0 failures (`fits/reservoir/round3/stability_v2r.log`, `stability_v3.log`).
+- Contract: pass for both folders.
+- Package checks: pass for both.
+- heldout3 on the packaged folders (in-sample for R6/R7): v2r 0.6931, v3alt 0.7026.
+
+### Steady states (from level 515, quality 0.85; `fits/reservoir/round2/v2/steady.py`)
+
+| Hold (4,000 ticks) | level | quality t50 / t300 / t4000 (v2r) | quality (v3alt) |
+|---|---|---|---|
+| recovery | 940 (spill) | 0.952 / 0.948 / 0.948 | 0.952 / 0.948 / 0.948 |
+| u = 0.7 | 308 at t300 → 249 | 0.955 / 0.942 / 0.942 | 0.956 / 0.941 / 0.941 |
+| u = 1 | 308 → 249 | 0.946 / 0.924 / 0.924 | 0.948 / 0.924 / 0.924 |
+| u = 1 for 200 → recovery | 278 → 940 | 0.926 at t200, 0.944 at t260, 0.948 at t4000 | 0.925 / 0.945 / 0.948 |
+
+Both are flat after about t = 300, with no drift and no oscillation. The water side is the same as v2 (long-run pulse level 249).
+
+### Open issues
+
+1. The recovery baseline is still 0.948, against a measured 0.950–0.955 (R4 recovery, R6/R7), and cq is still pulled down by R1's late dips. v2r keeps XS at −8.5σ.
+2. The overshoot dynamics are not identified. The lag memory helps round 3 but overfits without R4, so it needs a bounded aF (for example ≥ 0.05) or a lz/lam_q cap before it can ship.
+3. a_z sits at its lower bound of 0.02 in every fit, and gam at 5: pinned parameters, which point to missing structure.
+4. The fits are shallow: the optimizer ends on xtol at 40–100 evaluations, with 1 restart and no multi-restart check.
