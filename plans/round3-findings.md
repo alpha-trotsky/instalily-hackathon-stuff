@@ -143,3 +143,33 @@ Cells are last-10-tick means (data vs v2). err is (v2 − data)/σ.
 - The best-per-system mean is about 0.7917, against 0.7887 for all-v2.
 - (B) won for power_grid and wildlife v3, but both lost publicly, so (B) is not infallible.
 - `submission-final-interim.zip` holds the best-per-system models so far, for the Final tab.
+
+## Public result of `submission-round3-alt.zip`, and the final pick
+
+| System | alt model | alt score | best so far | best source |
+|---|---|---:|---:|---|
+| hospital_queue | v3 (residual floor) | **0.7396** | 0.7396 | v3 (`ab/round3/alt/`) |
+| market | v3alt | 0.7171 | 0.7283 | v3 (`models/`) |
+| power_grid | v2r | 0.7980 | 0.7985 | shipped v2 |
+| reservoir | v3 | 0.8574 | 0.8587 | v2r (`models/`) |
+| supply_chain | v3 | 0.8563 | 0.8570 | v2r (`models/`) |
+| traffic | v3 | 0.8415 | 0.8442 | shipped v2 |
+| wildlife | v2r | 0.7399 | 0.7535 | shipped v2 |
+
+**Best of all public versions:** `submission-final-best.zip`.
+
+| System | Model | Public |
+|---|---|---:|
+| ad_auction | v2 | 0.8912 |
+| epidemic | v3a | 0.7678 |
+| hospital_queue | v3 | 0.7396 |
+| market | v3 | 0.7283 |
+| power_grid | v2 | 0.7985 |
+| reservoir | v2r | 0.8587 |
+| social_contagion | v3 | 0.6918 |
+| supply_chain | v2r | 0.8570 |
+| traffic | v2 | 0.8442 |
+| wildlife | v2 | 0.7535 |
+| **Mean** | | **0.7931** |
+
+For comparison, all-v2 scored 0.7887 and v1 scored 0.7465.
