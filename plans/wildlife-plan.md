@@ -619,3 +619,71 @@ What it decides against v2's stated predictions: (a) prey at t 610–619: v2 say
 level is wrong by ≥ 3σ and must be refitted with R3c in (C) (open issue 3); (b) predators at t 610–619: v2 says 1.75 (additive);
 ≈ 1.93 means max-type composition (set q large); (c) release peak at t 620–649 vs 133/110 after the 60-tick pulse: larger means
 food rebuilds during long pulses. Fallback if R3 has expired: the diagnosis' fresh-reset alternative (recovery 60 → joint .7 90).
+
+## Round 3 model (v3)
+
+Modeler, 2026-09-29. No steps spent. Input: `plans/round3-findings.md` (wildlife R4c = R4 + joint 0.7 for ticks 350–469 + recovery 470–499).
+Module `toronto26-participant-kit/greybox/wildlife_model_v3.py` (copy of v2 + Q1). Fits, logs and scripts in
+`toronto26-participant-kit/fits/wildlife/round3/`: `fit3.py` (fitv2.py + R4c, heldout3 σ, R4c test scored on ticks 350+),
+`segs3.py` (per-segment table), `chain.sh`, `logs/`. All fits: mA+mB, warm starts, 1 restart (B3 v3 repeated from a
+second start: identical cost 46300.6).
+
+### Changes
+
+- **v2r:** v2 structure refit on R1 + R2c + R3 + R4c (`C_v2r.json`). With R4c the raw q-norm frees itself (qC 0 → 3.2,
+  cY 0.09 → 0.37, kZp 100 → 3, yb 4.06 → 2.68, Xp 170 → 92).
+- **v3 (Q1):** the predator depressions compose as a q-norm of their **excess over the recovery baseline**:
+  `d_ref = dpp(Xd = 108)`, `e = dpp − d_ref`, `dep = d_ref + min(e, 0) + qnorm(max(e, 0), cY·uc)`. v2's q-norm acted on
+  the full prey depression (≈ 0.42 already at recovery prey), so q > 1 erased the corridor effect and the fit pinned q = 1.
+  Off value qC = 0 reproduces v2 exactly (checked). C fit: qC 1.98 (q ≈ 3), cY 0.18, kZp still 100 (pinned).
+
+### Scores (heldout3 σ; per observable prey N / pred N / prey S / pred S)
+
+| Test | shipped v2 | v2r | v3 |
+|---|---|---|---|
+| (H) fit without R4c → R4c 350+ | 0.424 (.493/.252/.585/.369) | = shipped v2 | **0.507** (.515/.348/.618/.544) |
+| (B) leave R3 out → R3 | **0.502** (.586/.429/.541/.453) (no R4c) | 0.475 (.567/.415/.507/.414) | 0.462 (.569/.401/.505/.374) |
+| (B) leave R4 out → R4 | 0.432 (.421/.490/.401/.417) | = v2 (R4c contains R4) | **0.496** (.406/.689/.402/.487) |
+| (B) mean | 0.467 | 0.454 | **0.479** |
+| (C) all data in-sample, mean over R1/R2c/R3/R4c | 0.585 (.588/.569/.597/.586) | 0.585 (.594/.564/.606/.576) | **0.596** (.594/.579/.606/.604) |
+
+The R3 fold loss of v2r and v3 against v2 is the predator recovery level (2.42–2.43 vs 2.36 data, +4.5σ over 80–200) and
+the joint .85-from-reset predator transient (pred S +4.4 to +4.9σ); R4c's still-rising recovery tail pulls that level up.
+Old-run in-sample for v3 vs shipped v2: R1 0.569 → 0.564, R2c 0.627 → 0.621, R3 0.628 → 0.617 (all < 0.03).
+
+### Decision
+
+**Primary v3** (`models/wildlife/`, `fits/wildlife/round3/C_v3.json`): beats v2r on (B) mean (+0.025; +0.064 on the R4
+fold, −0.013 on R3) and on (H) (+0.083 over the v2 structure). It also beats shipped v2 on (B) mean (+0.012) and (H).
+**Alternative v2r** (`ab/round3/alt/wildlife/`, `C_v2r.json`). v2r loses (B) to shipped v2 by 0.013 on the mean
+(−0.027 on R3), but both new fits fix the largest long-hold error that (B) cannot see: shipped v2's joint-0.7 long-run prey
+is 38.7 / 31.9 against R4c's 21.6 / 19.7 after 120 ticks (still falling), and v2r / v3 settle at 17.1 / 16.9.
+
+### Gates
+
+- Stability: v3 **pass** (0 failures, worst alternation 0.24, `stability_C_v3.json`); v2r pass (0.20).
+- History gate: **fail at hunting 7 only** for v3 and v2r (spread 7.9σ on prey N: 47.7 vs 11.6), the same as shipped v2 and v1.
+  Not a regression; every other constant action passes.
+- Contract: both packages **pass** (40 × 4,000 steps in 10.5 s / 9.1 s). Package checks pass (`submission-wildlife-v3.zip`,
+  `submission-wildlife-v3alt.zip`). Not uploaded.
+
+### Steady states (v3; ticks 3,800–4,000; prey N / pred N / prey S / pred S)
+
+| Setting | v3 | v2r | shipped v2 | Data |
+|---|---|---|---|---|
+| Recovery | 121.4 / 2.38 / 96.3 / 2.38 | 121.4 / 2.38 / 96.3 / 2.38 | 121.3 / 2.36 / 96.2 / 2.36 | 121.3 / 2.34 / 96.8 / 2.33 |
+| Joint u = 0.7 | 17.1 / 1.84 / 16.9 / 1.84 | 17.2 / 1.86 / 17.0 / 1.86 | 38.7 / 1.75 / 31.9 / 1.75 | 21.6 / 1.86 / 19.7 / 1.83 (120 ticks, prey N still falling) |
+| Joint u = 1 | 9.4 / 1.72 / 9.3 / 1.72 | 9.5 / 1.68 / 9.3 / 1.68 | 9.3 / 1.64 / 9.05 / 1.64 | 7.6 / 1.78 / 8.1 / 1.73 (60 ticks, falling) |
+| Corridor 0.7 / 1 | pred 1.96 / 1.77 | 1.99 / 1.69 | 2.11 / 2.00 | 1.95 / 1.92 at 0.7; 1.69 / 1.64 at 1 (40 ticks) |
+
+Long run over 4,000 ticks: every constant action settles by ≈ 500 ticks with no oscillation (tail range 0σ), except the
+hunting-7 history dependence above.
+
+### Open issues
+
+1. Hunting-7 bistability (history gate) unchanged.
+2. Habitat level map still too high (hab .1 long run 96 / 81 vs 67.5 / 64.7; hab .37 104 / 85).
+3. Predator recovery level 2.38 vs 2.33–2.34 (the R3-fold loss); kZp still pinned at 100.
+4. R4c joint-hold predator transient: pred N stays ≈ 2.15 for 60 ticks after a corridor-closing overshoot (−3.5σ mean);
+   predators N > S under joint pulses (1.94 / 1.83 in R3), which the shared target cannot produce.
+5. Joint 0.7 prey slightly low in the long run (17 vs ≥ 20 observed at 120 ticks).

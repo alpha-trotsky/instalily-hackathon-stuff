@@ -587,3 +587,56 @@ Run the diagnosis' **R6** unchanged. It now targets open issue 2, the one unknow
   - Jump ≤ +0.25 and a level of about 48: masks fatigue themselves. Keep mix free.
   - It also gives the first mask-alone first wave from reset (all fits say about 270 @ 22). A miss of more than 2σ there would point at the mask transmission gain wm.
 - After the run, refit `final_v2` on R1–R6 with `fit2.py`, re-score (B) with R6 as an extra fold, and repackage as v3.
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29. **0 steps spent.** Module `greybox/epidemic_model_v3.py` (copy of v2; v2 untouched). Fits, logs and
+scripts in `toronto26-participant-kit/fits/epidemic/round3/` (`fit3.py` = round-2 `fit2.py` with the output dir changed,
+`ev3.py` scorer with the heldout3 σ 8.33 / 4.33 — checked identical to `heldout3.py`, `diag3.py`, `steady3.py`,
+`queue.sh`, `results.txt`). Every (H)/(B) fit starts from a fit that never saw the held-out run (B_pe_Rk / H_v3a).
+
+### Changes
+
+| Change | Outcome |
+|---|---|
+| **Fatigue driven by closure only** (mix_m1 fixed at 1; the R6 verdict: a 120-tick mask hold keeps its full effect) | **Adopted (v3a).** Freeing the mask share of fatigue again (fmask free, `C_v3d`/`B5_v3d`) returns fmask to 0.97–1.00 with the same cost, so masks stay scaled by the closure-driven fatigue. |
+| dsh may exceed 1 (`pos`, cap 5) for closure-raised beds (`C_v3b`) | dsh → 1.66 but closure-bed windows move ≤ 0.2σ and R6 drops 0.83 → 0.81. Dropped (module keeps it; v3a fixes dsh = 1). |
+| Closure slows discharges `dis/(1 + kd·cl)` (`C_v3c`, kd 0.06) | Closure beds improve (R1 225–315 −2.1 → −1.5σ, R2 300–350 −1.7 → −1.0σ), (H) 0.707 > 0.670, but it **loses the decisive R5 fold** (0.565 vs 0.569; R5 beds .560 vs .654). Not shipped (module keeps kd; v3a sets kd = 0). |
+
+H/case ratio under masks (question from the verdict): ticks 110–119 data 40.6/43.2 = 0.94, v2 0.96, v3a 0.95. The ratio was
+right; v2's excess beds under masks came from its excess cases (mask-driven fatigue), which v3a removes.
+
+### Scores (cases / beds; σ fixed from R1–R6)
+
+| | (H) fit R1–R5 → R6 | (B) R3 out | (B) R4 out | (B) R5 out | (B) mean | (C) in-sample old R1–R2 / R3–R5 / R6 |
+|---|---|---|---|---|---|---|
+| shipped v2 | .501/.477 → **0.489** | .636/.533 | .706/.659 | .466/.626 | .603/.606 → **0.604** | .701 / .755 / (.489 held out) |
+| v2r (v2 refit on R1–R6, mix → 0.77) | = shipped v2 → 0.489 | .644/.542 | .720/.641 | .484/.648 | .616/.610 → **0.613** | .715 / .740 / .814 → mean .744 |
+| **v3a** (mix = 1) | .686/.655 → **0.670** | .645/.554 | .744/.654 | .483/.654 | .624/.621 → **0.622** | .726 / .719 / .830 → mean .740 |
+| v3c (v3a + kd) | .717/.698 → 0.707 | — | — | .569/.560 | (R5 only 0.565) | .740 / .713 / .863 |
+
+Fits: (H) `H_v3a`, `H_v3c`; (B) `B{3,4,5}_v2r`, `B{3,4,5}_v3a`, `B5_v3c`, `B5_v3d`; (C) `C_v2r`, `C_v3a` (= `final_v3a.json` with kd 0 for the v3 module).
+R6 key windows for v3a (C): first peak 264 @ 26 (data 264 @ 25); ticks 110–119 43.8/41.8 (data 43.2/40.6); 6-tick release jump +0.265 (data +0.282); ticks 145–154 140/61 (data 133/60).
+
+### Decision
+
+**Primary: v3a** (`models/epidemic/`, `submission-epidemic-v3.zip`): beats v2r on every (B) fold (+0.007/+0.018/+0.003, mean +0.009) and on (H) (0.670 vs 0.489).
+**Alternative: v2r** (`ab/round3/alt/epidemic/`, `submission-epidemic-v3alt.zip`): does not lose to shipped v2 on (B) (0.613 vs 0.604, every fold ≥).
+In-sample drop > 0.03 on R5 (v2 0.783 → v3a 0.682, v2r 0.741) looked into: R5 190–200 (closure + mask .7 after a 120-tick closure) is +1.3/+1.2σ, because closure-driven fatigue now weakens the added masks. Fitting R6 costs this in both refits; the R5 fold still ties/wins held out, so accepted. R4 in-sample −0.02.
+
+### Gates
+
+- Stability (200 schedules + 8 × 40,000 steps, R1–R6 ranges): v3a **pass** (0 failures, cases 17–627, beds 14–155.2, worst alternation 0.03; `stability_v3a.txt`); v2r **pass** (`stability_v2r.txt`).
+- Contract: `models/epidemic` **pass**; `ab/round3/alt/epidemic` **pass**. Package checks passed for both. heldout3 on the packaged primary reproduces the (C) row (0.7398).
+
+### Steady states (v3a, mean t3000–3999 from reset 150/45; cases / beds)
+
+recovery 104.5 / 78.7; mask .7 79.5 / 58.9; closure .7 101.1 / 78.2; vaccination .7 88.0 / 57.4; all .7 64.6 / 42.8;
+mask 1 65.8 / 48.2; closure 1 100.2 / 78.0; vaccination 1 83.8 / 52.2; all 1 54.6 / 34.7. Every setting settles to a
+fixed point by tick 2,000 (range width 0), finite. v2r is within 1.2 of these everywhere (mask 1 66.8 / 49.2).
+
+### Open issues
+
+1. **Closure raises beds** is still −1.5 to −2σ (R1 225–315, R2 300–350). Closure-slowed discharge (kd) fixes half of it but loses the R5 fold; retry with kd acting on beds only after R5's mask composition is right.
+2. **R5 closure → closure + mask**: masks added after a long closure are too weak (+1.3σ), i.e. closure fatigue should not fully scale masks, yet fmask stays at 1 in every fit (R2 240 still needs it). A per-control fatigue memory is the next candidate.
+3. R4 first wave under vaccination −3.2σ (unchanged); R6 release wave a little high at 145–154 (+0.6σ cases).

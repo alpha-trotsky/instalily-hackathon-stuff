@@ -1,0 +1,14 @@
+  restart 0: cost 57286.0 nfev 13 (9s)
+cost 57286.0 restarts [57286.0]
+  train R1: load 0.457 f 0.422 share 0.652  mean 0.5106
+  train R2c: load 0.481 f 0.455 share 0.762  mean 0.5661
+  train R3: load 0.464 f 0.396 share 0.604  mean 0.4880
+  train R4: load 0.473 f 0.431 share 0.750  mean 0.5516
+  train R5: load 0.442 f 0.453 share 0.544  mean 0.4798
+  train mean over runs: 0.5192
+  TEST R1: load 0.457 f 0.422 share 0.652  mean 0.5106
+  TEST R2c: load 0.481 f 0.455 share 0.762  mean 0.5661
+  TEST R3: load 0.464 f 0.396 share 0.604  mean 0.4880
+  TEST R4: load 0.473 f 0.431 share 0.750  mean 0.5516
+  TEST R5: load 0.442 f 0.453 share 0.544  mean 0.4798
+  TEST mean over runs: 0.5192

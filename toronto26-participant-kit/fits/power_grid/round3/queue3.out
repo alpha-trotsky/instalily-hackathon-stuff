@@ -1,0 +1,18 @@
+v2r C done:   TEST R1: load 0.463 f 0.433 share 0.652  mean 0.5159   TEST R2c: load 0.478 f 0.392 share 0.764  mean 0.5444   TEST R3: load 0.460 f 0.369 share 0.603  mean 0.4775   TEST R4: load 0.478 f 0.361 share 0.750  mean 0.5297   TEST R5: load 0.443 f 0.187 share 0.552  mean 0.3937   TEST mean over runs: 0.4922 
+v2r B3 done:   TEST R3: load 0.439 f 0.253 share 0.562  mean 0.4177   TEST mean over runs: 0.4177 
+v2r B4 done:   TEST R4: load 0.460 f 0.282 share 0.711  mean 0.4845   TEST mean over runs: 0.4845 
+xlc ['R1', 'R2c', 'R3', 'R4', 'R5'] {'f0': 50.0263, 'bL': 0.0281, 'br': 0.0169, 'ax1': -0.2167, 'ax2': 0.993, 'kLR': 0.7292, 'kx': -0.8479, 'bc': 0.5978, 'kxL': 1.6552}
+xlc C done:   TEST R1: load 0.459 f 0.393 share 0.651  mean 0.5013   TEST R2c: load 0.483 f 0.446 share 0.763  mean 0.5641   TEST R3: load 0.462 f 0.369 share 0.606  mean 0.4791   TEST R4: load 0.475 f 0.436 share 0.750  mean 0.5536   TEST R5: load 0.443 f 0.454 share 0.544  mean 0.4804   TEST mean over runs: 0.5157 
+xlc ['R1', 'R2c', 'R4', 'R5'] {'f0': 50.025, 'bL': 0.0267, 'br': 0.0546, 'ax1': -0.1957, 'ax2': 0.9574, 'kLR': 1.5, 'kx': -2.0, 'bc': 1.9314, 'kxL': 1.8957}
+xlc B3 done:   TEST R3: load 0.438 f 0.261 share 0.571  mean 0.4231   TEST mean over runs: 0.4231 
+xlc ['R1', 'R2c', 'R3', 'R5'] {'f0': 50.055, 'bL': 0.0297, 'br': 0.0178, 'ax1': 2.2296, 'ax2': -1.4888, 'kLR': 0.8183, 'kx': 0.6544, 'bc': 0.6214, 'kxL': 1.6959}
+xlc B4 done:   TEST R4: load 0.465 f 0.280 share 0.714  mean 0.4863   TEST mean over runs: 0.4863 
+xlc ['R1', 'R2c', 'R3', 'R4'] {'f0': 50.0346, 'bL': 0.0286, 'br': 0.017, 'ax1': 1.6782, 'ax2': -0.9442, 'kLR': 0.9073, 'kx': -0.0403, 'bc': -2.0, 'kxL': 0.9059}
+xlc H done:   TEST R5: load 0.442 f 0.135 share 0.543  mean 0.3734   TEST mean over runs: 0.3734 
+xl ['R1', 'R2c', 'R3', 'R4', 'R5'] {'f0': 50.0271, 'bL': 0.0281, 'br': 0.0169, 'ax1': 0.0411, 'ax2': 0.7427, 'kLR': 0.7383, 'kx': -0.6509, 'bc': 0.0, 'kxL': 1.484}
+xl C done:   TEST R1: load 0.460 f 0.398 share 0.655  mean 0.5044   TEST R2c: load 0.483 f 0.436 share 0.765  mean 0.5614   TEST R3: load 0.462 f 0.361 share 0.609  mean 0.4776   TEST R4: load 0.475 f 0.426 share 0.752  mean 0.5510   TEST R5: load 0.443 f 0.350 share 0.547  mean 0.4467   TEST mean over runs: 0.5082 
+xl ['R1', 'R2c', 'R4', 'R5'] {'f0': 50.0256, 'bL': 0.0267, 'br': 0.0545, 'ax1': 0.0051, 'ax2': 0.7558, 'kLR': 1.5, 'kx': -2.0, 'bc': 0.0, 'kxL': 1.7798}
+Terminated                 python $D/r3_fit.py --model $M --train $TR --test $TE --init $D/${V}_${TAG}_s1.json ${FIX2:+--fix $FIX2} --restarts 1 --workers 1 --max-nfev 300 --out $D/${V}_${TAG}.json > $D/${V}_${TAG}.log 2>&1
+xl B3 done: 
+xl ['R1', 'R2c', 'R3', 'R5'] {'f0': 50.055, 'bL': 0.0297, 'br': 0.0177, 'ax1': 2.2043, 'ax2': -1.4859, 'kLR': 0.82, 'kx': 0.4007, 'bc': 0.0, 'kxL': 1.2336}
+xl B4 done:   TEST R4: load 0.458 f 0.349 share 0.725  mean 0.5106   TEST mean over runs: 0.5106 

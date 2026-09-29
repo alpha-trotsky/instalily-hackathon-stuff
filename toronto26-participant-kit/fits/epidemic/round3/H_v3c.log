@@ -1,0 +1,6 @@
+H_v3c: start cost 25808.6 free 31
+  pass 0 x_scale=1.0: cost 21073.7 nfev 26 (32s)
+  pass 0 x_scale=jac: cost 21073.7 nfev 29 (52s)
+  pass 1 x_scale=1.0: cost 21073.7 nfev 12 (61s)
+  pass 1 x_scale=jac: cost 21073.7 nfev 29 (69s)
+saved H_v3c cost 21073.7

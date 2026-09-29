@@ -1,0 +1,17 @@
+action             long-run N/yN/S/yS (recovery prefix)     max spread (sigma)
+recovery           [121.42, 2.38, 96.29, 2.38]                0.00 ok  tail range 0.00sigma
+hunt 3.5           [88.85, 2.18, 64.88, 2.18]                 0.00 ok  tail range 0.00sigma
+hunt 5             [74.06, 2.08, 51.09, 2.08]                 0.00 ok  tail range 0.00sigma
+hunt 7             [47.86, 1.92, 11.51, 1.92]                 7.90 FAIL  tail range 0.00sigma
+hunt 8             [9.82, 1.89, 9.74, 1.89]                   0.00 ok  tail range 0.00sigma
+hab .37 (u.7)      [103.65, 2.37, 85.14, 2.37]                0.00 ok  tail range 0.00sigma
+hab .1             [95.86, 2.36, 80.54, 2.36]                 0.00 ok  tail range 0.00sigma
+hab 0              [92.94, 2.35, 78.86, 2.35]                 0.00 ok  tail range 0.00sigma
+corr .7            [120.71, 1.99, 101.09, 1.99]               0.00 ok  tail range 0.00sigma
+corr 1             [121.71, 1.69, 103.16, 1.69]               0.00 ok  tail range 0.00sigma
+joint .7           [17.15, 1.86, 16.97, 1.86]                 0.00 ok  tail range 0.00sigma
+joint .85          [10.54, 1.78, 10.42, 1.78]                 0.00 ok  tail range 0.00sigma
+joint 1            [9.46, 1.68, 9.3, 1.68]                    0.00 ok  tail range 0.00sigma
+hunt7+hab.1        [9.31, 1.97, 9.4, 1.97]                    0.00 ok  tail range 0.00sigma
+hunt8+hab0+corr1   [8.9, 1.69, 8.74, 1.69]                    0.00 ok  tail range 0.00sigma
+HISTORY GATE FAIL [('hunt 7', [7.9, 0.5, 0.01, 0.54])]

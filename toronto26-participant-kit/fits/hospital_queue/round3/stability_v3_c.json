@@ -1,0 +1,58 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 58.22506928443909,
+ "ranges": {
+  "wait_time": [
+   0.0,
+   12585.556128312488
+  ],
+  "queue": [
+   0.0,
+   16674.08780307449
+  ],
+  "discharges": [
+   0.0,
+   1582.455134027292
+  ]
+ },
+ "min_seen": {
+  "wait_time": 0.0,
+  "queue": 12.321739637921754,
+  "discharges": 0.0
+ },
+ "max_seen": {
+  "wait_time": 1000.0,
+  "queue": 354.5301673158126,
+  "discharges": 32.97955185356045
+ },
+ "worst_alternation": 0.7857142857142857,
+ "failures": [
+  {
+   "schedule": 4,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "wait_time sawtooth alternation 0.53 amp 0.0058"
+   ]
+  },
+  {
+   "schedule": 6,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "wait_time sawtooth alternation 0.79 amp 0.014"
+   ]
+  },
+  {
+   "schedule": 7,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "wait_time sawtooth alternation 0.52 amp 0.0083"
+   ]
+  }
+ ],
+ "n_failures": 3,
+ "pass": false
+}

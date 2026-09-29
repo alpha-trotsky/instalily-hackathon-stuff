@@ -1,0 +1,194 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 122.58333086967468,
+ "ranges": {
+  "shipments": [
+   0.0,
+   1750.0
+  ],
+  "inventory_supplier": [
+   0.0,
+   6000.0
+  ],
+  "inventory_retail": [
+   0.0,
+   6000.0
+  ]
+ },
+ "min_seen": {
+  "shipments": 0.0,
+  "inventory_supplier": 0.0,
+  "inventory_retail": 0.0
+ },
+ "max_seen": {
+  "shipments": 44.58140856882787,
+  "inventory_supplier": 361.8,
+  "inventory_retail": 1521.4670123236126
+ },
+ "worst_alternation": 1.0,
+ "failures": [
+  {
+   "schedule": 0,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 23"
+   ]
+  },
+  {
+   "schedule": 1,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 2.9"
+   ]
+  },
+  {
+   "schedule": 2,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 8.4"
+   ]
+  },
+  {
+   "schedule": 3,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 0.00032"
+   ]
+  },
+  {
+   "schedule": 4,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 0.013"
+   ]
+  },
+  {
+   "schedule": 5,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 1"
+   ]
+  },
+  {
+   "schedule": 6,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 6.9"
+   ]
+  },
+  {
+   "schedule": 7,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "shipments sawtooth alternation 0.81 amp 1.1"
+   ]
+  },
+  {
+   "schedule": 9,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.60 amp 0.48"
+   ]
+  },
+  {
+   "schedule": 12,
+   "kind": "extremes",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.65 amp 0.68"
+   ]
+  },
+  {
+   "schedule": 14,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.79 amp 3.4"
+   ]
+  },
+  {
+   "schedule": 27,
+   "kind": "extremes",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 13"
+   ]
+  },
+  {
+   "schedule": 39,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.98 amp 1.7"
+   ]
+  },
+  {
+   "schedule": 44,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 1.7e-05"
+   ]
+  },
+  {
+   "schedule": 49,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.67 amp 1.7"
+   ]
+  },
+  {
+   "schedule": 59,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.80 amp 1.7"
+   ]
+  },
+  {
+   "schedule": 62,
+   "kind": "extremes",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 1.00 amp 6.3"
+   ]
+  },
+  {
+   "schedule": 64,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.80 amp 0.25"
+   ]
+  },
+  {
+   "schedule": 65,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.61 amp 0.92"
+   ]
+  },
+  {
+   "schedule": 80,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "shipments sawtooth alternation 0.65 amp 1.7"
+   ]
+  }
+ ],
+ "n_failures": 45,
+ "pass": false
+}

@@ -1,0 +1,6 @@
+C_v3b: start cost 23696.5 free 31
+  pass 0 x_scale=1.0: cost 22628.4 nfev 22 (19s)
+  pass 0 x_scale=jac: cost 22628.4 nfev 29 (26s)
+  pass 1 x_scale=1.0: cost 22628.4 nfev 12 (31s)
+  pass 1 x_scale=jac: cost 22628.4 nfev 29 (40s)
+saved C_v3b cost 22628.4

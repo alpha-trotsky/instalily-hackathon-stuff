@@ -1,0 +1,33 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 41.938782930374146,
+ "ranges": {
+  "load": [
+   0.0,
+   8569.819284728588
+  ],
+  "frequency": [
+   0.0,
+   2602.7963344972923
+  ],
+  "renewable_share": [
+   0.0,
+   25.242065053626572
+  ]
+ },
+ "min_seen": {
+  "load": 65.75835069980837,
+  "frequency": 47.97,
+  "renewable_share": 0.030300798654686163
+ },
+ "max_seen": {
+  "load": 192.59990011772067,
+  "frequency": 52.03,
+  "renewable_share": 0.5063905931247633
+ },
+ "worst_alternation": 0.0625,
+ "failures": [],
+ "n_failures": 0,
+ "pass": true
+}

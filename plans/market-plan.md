@@ -440,3 +440,44 @@ Everything settles; no drift after ~600 ticks except joint 1 from reset, where t
 4. No ablations; vjx/vfl/jx each rest on one or two segments.
 
 **Reserve recommendation (200 steps, not spent):** run the diagnosis §6 Run D, one fresh reset: ticks 0–99 (rate 0, tax 0.05), then `--continue` ticks 100–199 (rate 0.1, tax 0.05). Against v2: v2 predicts tax-only from reset gives depth ≈ 43 with no drain (the drain needs r·I) and normal price drift; adding the rate at tick 100 predicts only a small drain because I has unwound only while τ<1 — under tax 1 v2 keeps I = 1, so v2 predicts the full drain (depth to ~17) and a blocked price fall starting at tick 100. If the data drain at 0–99 without rate, the drain is tax × reset state (drop r from the drain); if depth keeps falling below 16 after tick 150 of rate+tax, lower the K floor (raise a_K/b_K). Either outcome refits only the `inv` module (5 params) on A+B+C+D.
+
+## Round 3 model (v3) (2026-09-29)
+
+Modeler pass per `plans/agent-prompts/round3-modeler.md`. No steps, uploads or commits. Run D (`data/market/D.json`, fresh reset, initial price 95.1): tax 1 alone for 80 ticks, then rate 1 + tax 1 for 120. Module `toronto26-participant-kit/greybox/market_model_v3.py` (v2 copy; with the new modules off it reproduces v2 exactly). Scripts, fits, logs: `toronto26-participant-kit/fits/market/round3/` (`run.py MODEL VARIANT FOLD`, σ = heldout3 σ 0.8376 / 0.0376 / 2.4185; `quick.py`; `probe_v3c.txt`; `stability_v3*.json`).
+
+**Reading of D.** (1) D's reset price starts at 95, near the tax-1 level (94.1), so "tax blocks the reset price relaxation" is not testable from D: the data are just flat, and v2's dip to 90 is its additive reset shift lam_p·z. (2) Tax from reset gives no withdraw price hump (A 325 and C 125 did). (3) The capital drain is roughly *linear* in K: B and D both lose ~0.005 of K per tick (K = depth / tax-level depth) down to K ≈ 0.3, with a 10–20 tick onset after the rate in D. v2's multiplicative drain with an ungated refill drained D too fast and floored too high/too early.
+
+**Changes (all bounded):**
+
+| Module | Change | Fit (final) |
+|---|---|---|
+| rz | reset price shift lam_p·z scaled by (ln P0 − c_p)/0.15 (no dip when the reset starts near equilibrium) | lam_p −0.32 |
+| zdm | reset depth bump multiplicative: level·K·(1 + lam_d·z) | lam_d 0.28, a_z 0.055 |
+| klin | drain a_K·r_L·I·K/(K+K_h) with lagged rate r_L (a_L); refill b_K·(1−τ)·(1−K) (settlement needs trading; exponent fixed at 1) | a_K 0.0079, a_L 0.22, K_h 0.013, b_K 0.059 |
+| wx | withdraw push × (1 − I): no hump while reset inventory is locked | flag |
+| tz | k_p/(1 + b_z·τ·z): tax during the reset transient slows price discovery (B 0–60) | b_z 22.4 |
+| kfl | price block k_p·(φ + (1−φ)·K_eff^n_K) so B/D keep falling slowly at low K | φ 0.018, n_K 8.0 (pinned) |
+| kmin | K_eff = K_min + (1−K_min)·K for depth and the block: fitted floor | K_min 0.29 |
+
+**Scores** (heldout3 σ; mean of price / volume / depth; fold fits warm-started from the round-2 ABC fit or the v3 ABCD fit, one restart; "v2-noD" = v2 structure refit without D on the same fold, the like-for-like stand-in for shipped v2):
+
+| Test | shipped v2 / v2-noD | v2r (v2 refit incl. D) | v3 (primary, v3c) | v3alt (v3b, exp gate) |
+|---|---|---|---|---|
+| (H) fit ABC → D | .282/.192/.219 = **0.231** | = shipped v2 | .482/.175/.632 = **0.430** | .488/.188/.655 = 0.444 |
+| (B) fit A(B)D → C | AB→C .253/.218/.708 = 0.393 | .249/.210/.661 = 0.373 | .192/.248/.702 = 0.381 | .196/.252/.714 = 0.387 |
+| (B) fit A(C)D → B | AC→B .167/.166/.596 = 0.310 | .172/.218/.438 = 0.276 | .367/.249/.570 = **0.395** | .315/.204/.617 = 0.379 |
+| (B) mean | 0.351 | 0.324 | **0.388** | 0.383 |
+| (C) in-sample A / B / C / D | .611 / .460 / .604 / .231 (shipped) | .612 / .427 / .592 / .414 | .616 / .488 / .601 / .494 = **0.550** | .616 / .488 / .603 / .494 |
+
+**Decision:** ship v3 (v3c, `fits/market/round3/v3_v3_ABCDc.json`) as primary in `models/market/` (`submission-market-v3.zip`). It beats v2r on (B) by +0.064 and shipped-v2 structure by +0.037, and (H) 0.43 vs 0.23. No old run drops in-sample (A +0.005, B +0.028, C −0.003 vs shipped v2). v2r loses to the v2-noD refit on both (B) folds (−0.02, −0.03), so plain refitting with D does not help the v2 structure. Alternative in `ab/round3/alt/market/` (`submission-market-v3alt.zip`): v3b, same structure but refill gate exp(−g_K·τ), g_K pinned at 12 (bound); slightly better (H), slightly worse (B), and a different long-run claim (below), so its public A/B is informative. Shipped v2 stays in `ab/models_v2_snapshot/market/`.
+
+**Gates:** stability pass for both (200 × 4,000 + 8 × 40,000, 0 failures; price 64.6–113, volume 1.65–74 reset burst, depth 12.1–121). Contract pass on `models/market` and `ab/round3/alt/market`. Package checks passed (`--version v3`, `--version v3alt`). heldout3 on the packaged primary: A .616, B .488, C .601, D .494; D segments: tax-only 94.3/1.76/41.9 vs data 94.7/1.82/41.9; joint 83.0/2.68/17.6 vs 82.9/2.37/22.5.
+
+**Steady states (v3 primary, initial 100/100/100; price/volume/depth at t = 600 → 4,000):** recovery 93.0/1.76/90.5; rate 0.7 79.5/1.76/90.5; tax 0.7 94.1/1.76/49.7; rate 1 72.7/1.76/90.5; tax 1 94.6/1.76/41.7; joint 0.7 from reset 78.7/1.71/49.7; joint 0.85 from reset 72.7/1.70/43.7 → 45.4; joint 0.5 84.3/1.73/57.1; joint 1 after recovery 64.6/1.65/41.7; **joint 1 from reset 83.5/2.63/12.2 → 65.7/2.58/12.2** (depth at the K_min floor from ~t 150, price creeps down through φ over ~2,000 ticks). Everything else settles by ~600–2,000 ticks. v3alt differs only for partial joint from reset: capital never refills under tax ≥ 0.7, so joint 0.7 → 35 depth and joint 0.85 → 13.5 at 4,000 ticks (v3: 49.7 / 45.4).
+
+**Open issues**
+1. The joint-1-from-reset floor (K_min 0.29, depth 12.2) sits at B's last observed value, which was still falling; the long-run price there (65.7) is extrapolated through φ.
+2. n_K pinned at 8 (upper bound) and b_z = 22 large: the price block (B's blocked fall, D's partial fall) still wants structure the K-power form lacks.
+3. Capital refill under partial tax (0 < τ < 1) is unobserved; v3 assumes (1 − τ), v3alt assumes almost none. The public A/B decides.
+4. D joint volume still +8σ (2.68 vs 2.37 late); C's held-out price got worse in the ABD→C fold (0.19 vs 0.25).
+5. Fold fits were warm-started from all-data fits (same leak for every candidate) with one restart.

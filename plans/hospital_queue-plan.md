@@ -690,3 +690,81 @@ python3 run_schedule.py --continue data/hospital_queue/R3c.json --confirm 50 --s
 ```
 
 v2's predictions to test: **R4c at +50: queue 23, wait 0, discharges 11.5** (data at tick 349: 101 / 169 / 11.1). **R3c at +50: queue 131, wait 14, discharges 11.4** (data at 249: 204 / 32 / 11.1). If R4c holds ~100 with wait still high, the plateau is persistent: add a stranded long-stay state (filled by the backlog left at release, drained only by spare capacity) and refit; that decides open issue 1. If R3c shows the same stall around queue ≈ 150–100, the plateau is generic after any flood and is the top modelling priority; if R3c drains through, the plateau is pulse-specific (electives 20 / urgent 1 / overtime history). If a continuation is refused, do not spend.
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29 (interrupted by a rate limit, resumed 16:10). No steps spent (budget 0). Files in
+`KIT/fits/hospital_queue/round3/`: `ev3.py` (module + fit scorer, σ of `fits/round3/heldout3.py`, R4c scored on
+ticks 350+), `refit3.py` (= `refit2.py` + wait mask), `q3.sh`, `batch1–3.sh`, `probe.py`, fits and logs.
+New module `KIT/greybox/hospital_queue_model_v3.py`; the rejected pool variant is archived as
+`fits/hospital_queue/round3/hospital_queue_model_v3pool.py`.
+
+### Changes
+
+1. **Fit weights (v2r and v3):** R4/R4c `wait_time` from tick 300 gets zero weight. The stranded-cohort wait blow-up
+   (B31, R4c 170 → 250 → collapse) is not modelled by any candidate, and unmasked it was 58k of the 86k soft-l1 cost and
+   distorted the base (unmasked v2r_c pinned a2 = 1, g2 → 0).
+2. **v3 = v2 + residual queue floor.** Data: after overloads *with electives* the queue drains at the v2 rate (~2/tick)
+   and then stops at a plateau (R4c ~100 → 91.5, R1 ~99, R2c 34.5 after an overtime release). R1's staffing-5 pulse
+   without electives drains to 23. A stock R fills while electives arrive into a nearly full line,
+   `R += fr·e·(W/Wmax)²·(Rmax − R)`, and drains by `(the + ko·ot·(s/20)²)·R` (overtime at high staffing clears it).
+   It acts as a floor on the waiting line in the queue output only: `queue = W + softplus(R − W) + service + nsv·D`.
+   Wait and discharges are v2's. Fit (v3_c): Rmax 68.3, fr 1 (bound), the 0 (bound, so the plateau is permanent
+   without overtime), ko 0.056.
+3. **Tried and rejected:** an elective pool that takes part in the drain (the round-2 v2pool idea, both ungated and
+   gated by W/Wmax, with a spare-capacity margin). Every fit switched it off (fr → 0 or Pmax → 0). The data drain the
+   *total* queue at the v2 rate, so a pool inside the line slows the drain. Two waiting classes for the wait blow-up
+   were not attempted: R1's tail after the same P1 pulse shows no blow-up, and the trigger is unknown.
+
+### Scores (σ = heldout3: wait 4.80, queue 11.09, discharges 0.418; per observable wait / queue / discharges)
+
+| Test | shipped v2 | v2r (v2 structure, masked, + R4c) | v3 (floor) |
+|---|---|---|---|
+| (H) fit R1 R2c R3 R4 → R4c 350+ | 0.023 / 0.233 / 0.376 = **0.211** | = shipped v2 | 0.023 / 0.643 / 0.381 = **0.349** (leaky) |
+| (B) leave R3 out | 0.572 / 0.485 / 0.351 = 0.469 | 0.572 / 0.485 / 0.351 = **0.469** | 0.568 / 0.485 / 0.352 = 0.468 |
+| (B) leave R4 out (same data for v2 and v2r) | 0.346 / 0.525 / 0.287 = 0.386 | 0.386 | 0.345 / 0.525 / 0.286 = 0.385 (floor fitted off: fr 0) |
+| (B) leave R1 out (extra) | – | 0.575 / 0.545 / 0.358 = 0.493 | 0.570 / 0.580 / 0.358 = **0.503** |
+| (B) leave R2c out (extra) | – | 0.735 / 0.567 / 0.494 = **0.599** | 0.737 / 0.448 / 0.494 = 0.560 (ko not identified without R2c: floor 68 stays in R2c's tail, data 34.5) |
+| (B) mean of 4 folds | – | **0.487** | 0.479 |
+| (C) in-sample R1 / R2c / R3 / R4 / R4c | 0.507 / 0.598 / 0.546 / 0.497 / 0.211 | 0.505 / 0.598 / 0.550 / 0.492 / 0.216 | 0.508 / 0.630 / 0.545 / 0.492 / 0.408 |
+
+The extra R1/R2c folds start from v2rm_c, which saw every run, so both candidates are equally leaky there.
+
+### Decision
+
+**Primary: v2r** (`models/hospital_queue/`, v2 module, `fits/hospital_queue/round3/v2rm_c.json`). v3 wins (H) by
++0.14 and the R1 fold by +0.010, but it does not beat v2r on (B): it ties on R3/R4 and loses 0.039 on R2c, so the
+4-fold mean is −0.008. The R2c fold is the risk case: a wrong permanent floor of about 68 costs more than the plateau
+gains. The brief's rule (v3 must beat v2r on (B)) therefore ships v2r. v2r does not lose to shipped v2 on (B): R3
+fold 0.469 = 0.469, and the R4 fold is identical. No old run drops by more than 0.03 in-sample.
+**Alternative for public A/B: v3** (`ab/round3/alt/hospital_queue/`, fit `v3_c.json`). It is the better bet if public
+recovery scenarios follow elective overloads without an overtime release.
+
+### Gates
+
+- Stability (`stability_v2rm_c.json`, `stability_v3_c.json`, 200 schedules + 8 × 40,000): 3 flagged failures each.
+  All three are wait_time "sawtooth alternation" of 0.51–0.79 with **amplitude 0.006–0.014 ticks (≤ 0.003σ)**:
+  numerical chatter from the FIFO cohort + EMA (kw 0.86 vs v2_c's 0.70). Benign, and it applies to both candidates.
+  Max queue 354, discharges 33, wait at the 1,000 clamp only at extreme low capacity, as in v2.
+- Contract: **pass** for both folders (8.9 s / 9.4 s wall for 40 × 4,000). Both package checks passed:
+  `submission-hospital_queue-v3.zip` (primary = v2r) and `submission-hospital_queue-v3alt.zip` (v3).
+
+### Steady states (from reset, 4,000-tick holds; wait / queue / discharges)
+
+| Hold | v2r | v3 |
+|---|---|---|
+| recovery | 0 / 23.0 / 11.5, flat | 0 / 23.7 / 11.5 (+0.7 softplus offset), flat |
+| u = 0.7 | 89.0 / 323 / 4.9, flat from tick ~100 | 90.8 / 324 / 4.9 |
+| u = 1 | 243 / 323 / 2.0 (reached by tick ~400) | 243 / 324 / 2.0 |
+| u = 1 for 200 ticks, then recovery | 0 / 23.1 / 11.5 by tick 400 | 0 / **91.1** / 11.5 from tick ~400 to 4,000 (permanent floor) |
+
+All outputs are finite and flat to 4,000 ticks. No drift.
+
+### Open issues
+
+1. **Wait blow-up (B31)** after R4's pulse: −45σ on R4c and unmodelled. Its trigger against R1 is still unknown.
+2. **Lifetime of the plateau:** v3 keeps it forever (`the` fit to 0). The data show only 100–250 ticks (R4c −0.085/tick,
+   R2c flat). The overtime clearing (ko) is identified only by R2c.
+3. v3's floor adds a constant 0.7 at an empty line (softplus). This is cosmetic but could be removed with
+   `softplus(R − W) − softplus(−W)`.
+4. Discharges are still the weakest observable (0.29–0.49).

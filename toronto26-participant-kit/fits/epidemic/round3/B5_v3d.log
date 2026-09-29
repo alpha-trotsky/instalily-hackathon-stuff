@@ -1,0 +1,6 @@
+B5_v3d: start cost 42026.9 free 32
+  pass 0 x_scale=1.0: cost 17826.8 nfev 150 (261s)
+  pass 0 x_scale=jac: cost 17826.8 nfev 29 (267s)
+  pass 1 x_scale=1.0: cost 17826.4 nfev 150 (542s)
+  pass 1 x_scale=jac: cost 17826.3 nfev 12 (551s)
+saved B5_v3d cost 17826.3
