@@ -642,3 +642,75 @@ full A queue) it predicts a much lower A capacity than H1. **flow_a ≥ 13 in S2
 is too strong away from the ray): refit with sp_A constrained by the new points, or make the penalty act only near a full buffer.
 **flow_a ≈ 10–11** → v2's capacity map holds and R5's high A flows come from the freight/lane segments. **flow_b outside
 11.5–13.5** → B is not invariant and Cmax_B needs a green term. The S1 replicate vs R5 ticks 0–29 also tests burst determinism.
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29 (resumed after an API stop). No simulator steps. Module `greybox/traffic_model_v3.py`; fits, scripts and
+logs in `toronto26-participant-kit/fits/traffic/round3/` (`trfit.py` = round-2 driver with R6 in the score set; `segs.py`,
+`probe.py`, `longrun.py`, `factors.py` static capacity factors, `ts.py` block means, `queue_B.sh` the (B) folds).
+σ = `heldout3.py` σ (0.1 × std after tick 20 of R1–R6): 0.939, 0.711, 1.276, 1.012.
+
+### Changes (v3 = v2 +)
+
+1. **Green knee moved off A (R6 verdict H2).** Per-route green slopes: `kg` (A) fixed at 200 PCU per unit green (A's green limit
+   no longer binds above green ≈ 0.15), `kg_B` free (fitted 68, so B's limit does not bind either).
+2. **Lane closure narrows the exit section:** exit capacity × max(1 − wle_r·lane, 0.02) (fitted wle_A 0.23, wle_B 0). With wc_A
+   refitted to −0.13 (crew at the junction lowers A's junction capacity; v2 +0.27) and kf −0.09 (v2 −0.98), this is where the
+   ray reduction went.
+3. Staged fit: kg fixed, 21 capacity/mix/speed parameters free (`--only`), the rest held at the v2 fit (Powell 2 × 1,000 + lsq).
+   A free-kg refit (v2 structure, or v3 with kg free) never leaves kg ≈ 75: the v2 basin is sharp (`C_v2r`, `H_v3`: R6 0.430–0.442).
+
+### Held-out scores (fa, fb, sa, sb → mean)
+
+| Test | shipped v2 | v2r (v2 structure + R6) | v3 |
+|---|---|---|---|
+| (H) fit R1–R5, score R6 | .279 .274 .484 .690 → **0.432** | = shipped v2 | .276 .272 .592 .693 → **0.458** (`H_v3s1`) |
+| (B) R4 out | .347 .311 .471 .541 → **0.418** (`B4_v2_ld3`, no R6) | .357 .311 .401 .546 → 0.404 | .309 .307 .336 .520 → **0.368** |
+| (B) R5 out | .231 .261 .637 .696 → **0.456** (`B5_v2_ld3`, no R6) | .231 .261 .607 .675 → 0.443 | .216 .262 .604 .692 → 0.444 |
+| (B) mean | **0.437** | 0.424 | 0.406 |
+| (C) all data, in-sample R1–R6 | .564 .490 .582 .440 .469 .432 → 0.496 | .565 .492 .577 .441 .461 .442 → 0.496 (`C_v2r`) | .590 .469 .580 .452 .463 .472 → **0.504** (`C_v3s1`) |
+
+Old-run in-sample drop, v3 vs v2: R2 −0.021 (within 0.03); R1 +0.026.
+
+R6 segments, v3 (H): flow_a −4.4σ / −4.9σ (v2 −9 / −11), speed_a −1.1 / −0.5σ (v2 −2.2 / −1.0), flow_b unchanged (−1.5 / −3σ).
+
+### Decision
+
+**Keep shipped v2** (primary, `models/traffic/`, restored from `ab/models_v2_snapshot/traffic/`, identical by diff).
+- v3 wins (H) (+0.026) and (C), but **loses (B) by 0.031** (R4 fold −0.050). Without R4, nothing else pins the ray: v3 puts u.7
+  flow_a at 11.7 (data 15.3), builds too large an A queue (speed_a −3σ, drain −4σ), and its u1 flow_a is +2–3σ too high.
+  Removing the green knee leaves the ray reduction to lane/crew/freight, which only R4 (and R2's joint pulse) constrain, and
+  they do not transfer. By the round-1/2 lesson, (B) decides.
+- v2r loses (B) on both folds (−0.014, −0.013) against the same structure fitted without R6: adding R6 to the v2 structure
+  pulls it away from the ray without fixing R6 (C: R6 0.442). Rule 2 → keep shipped v2.
+- **Alternative for public A/B: v3** (`ab/round3/alt/traffic/`, `submission-traffic-v3alt.zip`). It is the only candidate that
+  changes the signal-alone forecasts, so the public result tells whether the scored family contains signal-only holds.
+
+### Gates
+
+- v3 stability (`fits/traffic/round3/stab_C_v3s1.json`, 200 schedules incl. 8 × 40,000): bounded and finite, flows 0–23.5,
+  speeds 7.1–49.5; the gate's pass flag is false only for 39 "sawtooth" flags (the exit-occupancy period-2 bursts accepted
+  for v1/v2; v2 had 24 flags, amp up to 2.8; v3 max amp 0.37).
+- Contract: v3alt package check pass (malformed inputs ok); `gates contract models/traffic` (restored v2) pass;
+  `heldout3.py traffic` reproduces 0.4317 (v2) and 0.4723 (v3alt folder, in-sample).
+
+### Steady states (4,000-tick holds from reset, all controls at u; fa, fb, sa, sb)
+
+| Setting | v3 t = 150 | v3 t = 1,000 = 4,000 | v2 t = 4,000 |
+|---|---|---|---|
+| recovery | 0, 0, 49.5, 48.8 | same | same |
+| u = 0.7 | 15.2, 12.6, 13.0, 16.6 | 13.0, 12.6, 8.7, 16.6 | 12.4, 12.4, 8.6, 16.4 |
+| u = 0.85 | 12.2, 12.5, 8.3, 16.0 | same | 10.0, 12.4, 8.1, 15.9 |
+| u = 1 | 10.7, 12.3, 7.9, 15.5 | same | 7.4, 12.3, 7.4, 15.3 |
+| u1 200 → recovery | +50: 0, 0, 45.8, 48.0; t 4,000: 49.5, 48.6 | | |
+
+All holds flat after ~1,000 ticks; nothing drifts or oscillates.
+
+### Open issues
+
+1. **The ray's A reduction is not explained by any single control.** R6 rules out green (down to 0.20), R1 single-control holds
+   give lane +27 %, crew 0 −31 %, freight 1 −11 %, yet the ray (u1) needs −61 %. An interaction (lane × crew at the exits, or
+   occupancy coupling) is missing; v3's exit-lane term captures only part of it.
+2. B's flow rises with green_B (10.7 → 11.7 → 12.7 at 0.5 → 0.745 → 0.8 in R6) — neither v2 nor v3 has it (−1.5 / −3σ).
+3. The staged v3 fit held 19 parameters at v2 values; a full refit with the knee fixed was not run (time).
+4. Earlier issues stand: A capacity with a full queue (R5), drain after u1, burst floor on flows.
