@@ -124,3 +124,22 @@ Cells are last-10-tick means (data vs v2). err is (v2 − data)/σ.
   - A rested broad start converts more than v2 allows. The capacity plateau from rest is higher, or the fatigue is too strong early on.
 - **Segment 3 (throttled):** conversions 3.03 vs 3.06 ✓. Win **0.165** vs 0.191 (+1.7σ). The throttle cuts purchases proportionally, as v2 has it.
 - **Segment 4 (recovery):** fine (≤ 1.1σ). There is no win undershoot below 0.25.
+
+## Public result of `submission-round3-primary.zip` (2026-09-29 evening)
+
+| System | v2 public | primary | Δ | keep |
+|---|---:|---:|---:|---|
+| social_contagion (v3) | 0.6780 | 0.6918 | +0.014 | v3 |
+| epidemic (v3a) | 0.7604 | 0.7678 | +0.007 | v3a |
+| market (v3) | 0.7225 | 0.7283 | +0.006 | v3 |
+| hospital_queue (v2r) | 0.7241 | 0.7258 | +0.002 | v2r |
+| supply_chain (v2r) | 0.8560 | 0.8570 | +0.001 | v2r |
+| reservoir (v2r) | 0.8584 | 0.8587 | +0.000 | v2r |
+| ad_auction (v2r) | 0.8912 | 0.8879 | −0.003 | v2 |
+| wildlife (v3) | 0.7535 | 0.7476 | −0.006 | v2 (alt ZIP tests v2r) |
+| power_grid (v3) | 0.7985 | 0.7899 | −0.009 | v2 (alt ZIP tests v2r) |
+| traffic | 0.8442 | not uploaded | – | v2 (alt ZIP tests v3) |
+
+- The best-per-system mean is about 0.7917, against 0.7887 for all-v2.
+- (B) won for power_grid and wildlife v3, but both lost publicly, so (B) is not infallible.
+- `submission-final-interim.zip` holds the best-per-system models so far, for the Final tab.
