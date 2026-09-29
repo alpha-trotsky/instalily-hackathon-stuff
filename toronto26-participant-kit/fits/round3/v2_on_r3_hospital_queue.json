@@ -1,0 +1,1 @@
+{"system": "hospital_queue", "model": "models/hospital_queue", "observables": ["wait_time", "queue", "discharges"], "sigma": [4.802, 11.0877, 0.4182], "runs": {"R4c": {"model": [0.023, 0.233, 0.376], "segs": [{"t": [350, 450], "data": [216.994, 91.909, 11.069], "model": [0.0, 23.042, 11.5], "err_sigma": [-45.2, -6.2, 1.0], "score": [0.023, 0.233, 0.376]}]}}, "mean_model": 0.2107}
