@@ -1,0 +1,11 @@
+{
+ "system": "market",
+ "weights": {
+  "v3": 0.5,
+  "v2": 0.5
+ },
+ "sources": {
+  "v3": "models/market",
+  "v2": "ab/models_v2_snapshot/market"
+ }
+}

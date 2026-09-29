@@ -1,0 +1,11 @@
+{
+ "system": "hospital_queue",
+ "weights": {
+  "v3": 0.5,
+  "v2r": 0.5
+ },
+ "sources": {
+  "v3": "ab/round3/alt/hospital_queue",
+  "v2r": "models/hospital_queue"
+ }
+}

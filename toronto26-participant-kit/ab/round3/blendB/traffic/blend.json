@@ -1,0 +1,11 @@
+{
+ "system": "traffic",
+ "weights": {
+  "v2": 0.6666666666666666,
+  "v3": 0.3333333333333333
+ },
+ "sources": {
+  "v2": "models/traffic",
+  "v3": "ab/round3/alt/traffic"
+ }
+}

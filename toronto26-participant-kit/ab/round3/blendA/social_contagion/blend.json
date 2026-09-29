@@ -1,0 +1,11 @@
+{
+ "system": "social_contagion",
+ "weights": {
+  "v3": 0.5,
+  "v2": 0.5
+ },
+ "sources": {
+  "v3": "models/social_contagion",
+  "v2": "ab/models_v2_snapshot/social_contagion"
+ }
+}
