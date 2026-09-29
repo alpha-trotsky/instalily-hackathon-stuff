@@ -1,0 +1,1 @@
+[{"steps": 60, "action": {"price_signal": 0.0, "reserve_dispatch": 150.0, "charging_allowance": 1.0, "interconnector": 1.0}}, {"steps": 30, "action": {"price_signal": 0.0, "reserve_dispatch": 150.0, "charging_allowance": 1.0, "interconnector": 0.2}}, {"steps": 20, "action": {"price_signal": 1.5, "reserve_dispatch": 0.0, "charging_allowance": 1.0, "interconnector": 1.0}}]
