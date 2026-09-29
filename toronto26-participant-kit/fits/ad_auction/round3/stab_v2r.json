@@ -1,0 +1,33 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 93.51020336151123,
+ "ranges": {
+  "win_rate": [
+   0.0,
+   25.0
+  ],
+  "spend": [
+   0.0,
+   1500.0
+  ],
+  "conversions": [
+   0.0,
+   75.0
+  ]
+ },
+ "min_seen": {
+  "win_rate": 0.0,
+  "spend": 0.0,
+  "conversions": 0.0
+ },
+ "max_seen": {
+  "win_rate": 0.6854300177999758,
+  "spend": 99.99923220932226,
+  "conversions": 7.175237178083199
+ },
+ "worst_alternation": 0.024096385542168676,
+ "failures": [],
+ "n_failures": 0,
+ "pass": true
+}
