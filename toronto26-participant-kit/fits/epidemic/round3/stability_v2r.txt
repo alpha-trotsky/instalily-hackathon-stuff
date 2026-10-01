@@ -1,0 +1,27 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 54.456456661224365,
+ "ranges": {
+  "daily_cases": [
+   0.0,
+   25103.576523956013
+  ],
+  "hospital_load": [
+   0.0,
+   7812.151887988786
+  ]
+ },
+ "min_seen": {
+  "daily_cases": 17.027521653955166,
+  "hospital_load": 14.022664007481698
+ },
+ "max_seen": {
+  "daily_cases": 622.8230874803462,
+  "hospital_load": 155.2
+ },
+ "worst_alternation": 0.029850746268656716,
+ "failures": [],
+ "n_failures": 0,
+ "pass": true
+}

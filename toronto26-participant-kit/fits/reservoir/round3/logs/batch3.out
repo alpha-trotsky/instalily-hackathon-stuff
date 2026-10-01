@@ -1,0 +1,13 @@
+B4_S0
+start cost 4143.2 -> 4122.1  nfev 41 njev 27 status 3 `xtol` termination condition is satisfied. (98s)
+B4_S2
+start cost 4125.1 -> 4032.9  nfev 100 njev 94 status 0 The maximum number of function evaluations is exceeded. (142s)
+B5_S0
+start cost 4040.4 -> 4006.2  nfev 100 njev 85 status 0 The maximum number of function evaluations is exceeded. (77s)
+B5_S2
+start cost 4041.4 -> 3953.2  nfev 100 njev 91 status 0 The maximum number of function evaluations is exceeded. (168s)
+B4_S1
+start cost 4136.9 -> 4053.5  nfev 100 njev 92 status 0 The maximum number of function evaluations is exceeded. (86s)
+B5_S1
+start cost 4040.2 -> 3971.1  nfev 100 njev 86 status 0 The maximum number of function evaluations is exceeded. (54s)
+BATCH3 DONE

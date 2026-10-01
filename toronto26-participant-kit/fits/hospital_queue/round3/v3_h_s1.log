@@ -1,0 +1,2 @@
+start 0: cost 30964.9 (6s)
+saved fits/hospital_queue/round3/v3_h_s1.json 30964.9 {'Rmax': 108.048, 'fr': 1.0, 'the': 0.0029, 'ko': 0.0579}

@@ -1,0 +1,11 @@
+{
+ "system": "wildlife",
+ "weights": {
+  "v2": 0.5,
+  "v3": 0.5
+ },
+ "sources": {
+  "v2": "ab/models_v2_snapshot/wildlife",
+  "v3": "models/wildlife"
+ }
+}

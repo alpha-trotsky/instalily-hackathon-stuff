@@ -1,0 +1,9 @@
+thr ['R1', 'R2c', 'R3', 'R4', 'R5'] {'f0': 50.034, 'bL': 0.0283, 'br': 0.0168, 'ax1': 2.1143, 'ax2': -1.4411, 'kLR': 0.7174, 'kx': 0.0, 'bc': 0.6389, 'kxL': 0.9617, 'axr': 2.1421, 'cth': 0.4593, 'xb': 1.0}
+thr C done:   TEST R1: load 0.457 f 0.422 share 0.652  mean 0.5106   TEST R2c: load 0.481 f 0.455 share 0.762  mean 0.5661   TEST R3: load 0.464 f 0.396 share 0.604  mean 0.4880   TEST R4: load 0.473 f 0.431 share 0.750  mean 0.5516   TEST R5: load 0.442 f 0.453 share 0.544  mean 0.4798   TEST mean over runs: 0.5192 
+thr ['R1', 'R2c', 'R3', 'R5'] {'f0': 50.0549, 'bL': 0.0297, 'br': 0.0177, 'ax1': 2.1741, 'ax2': -1.4834, 'kLR': 0.8215, 'kx': 0.0, 'bc': 0.7449, 'kxL': 0.6685, 'axr': 1.6839, 'cth': 0.3679, 'xb': 1.0}
+thr B4 done:   TEST R4: load 0.459 f 0.357 share 0.717  mean 0.5110   TEST mean over runs: 0.5110 
+thr ['R1', 'R2c', 'R4', 'R5'] {'f0': 50.0295, 'bL': 0.0268, 'br': 0.0542, 'ax1': 2.0783, 'ax2': -1.4114, 'kLR': 1.5, 'kx': 0.0, 'bc': 2.0, 'kxL': 1.1135, 'axr': 1.9755, 'cth': 0.4242, 'xb': 1.0}
+thr B3 done:   TEST R3: load 0.438 f 0.282 share 0.571  mean 0.4305   TEST mean over runs: 0.4305 
+thr ['R1', 'R2c', 'R3', 'R4'] {'f0': 50.0352, 'bL': 0.0285, 'br': 0.0168, 'ax1': 2.1269, 'ax2': -1.4517, 'kLR': 0.7579, 'kx': 0.0, 'bc': 0.5851, 'kxL': 0.9624, 'axr': 2.0958, 'cth': 0.4502, 'xb': 1.0}
+thr H done:   TEST R5: load 0.442 f 0.237 share 0.528  mean 0.4022   TEST mean over runs: 0.4022 
+QUEUE4 DONE

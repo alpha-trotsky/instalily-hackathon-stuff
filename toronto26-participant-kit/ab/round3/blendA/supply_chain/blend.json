@@ -1,0 +1,11 @@
+{
+ "system": "supply_chain",
+ "weights": {
+  "v2r": 0.5,
+  "v3": 0.5
+ },
+ "sources": {
+  "v2r": "models/supply_chain",
+  "v3": "ab/round3/alt/supply_chain"
+ }
+}

@@ -1,0 +1,8 @@
+C_v2r: start cost 25601.4 free 32
+  pass 0 x_scale=1.0: cost 22909.2 nfev 26 (34s)
+  pass 0 x_scale=jac: cost 22909.2 nfev 29 (44s)
+  pass 1 x_scale=1.0: cost 22909.2 nfev 11 (50s)
+  pass 1 x_scale=jac: cost 22212.7 nfev 44 (118s)
+  pass 2 x_scale=1.0: cost 22212.7 nfev 11 (131s)
+  pass 2 x_scale=jac: cost 22212.7 nfev 27 (138s)
+saved C_v2r cost 22212.7

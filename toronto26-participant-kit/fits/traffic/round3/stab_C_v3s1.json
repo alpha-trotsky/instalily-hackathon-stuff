@@ -1,0 +1,207 @@
+{
+ "schedules": 200,
+ "long": 8,
+ "time_s": 137.52902793884277,
+ "ranges": {
+  "flow_a": [
+   0.0,
+   2250.0
+  ],
+  "flow_b": [
+   0.0,
+   2250.0
+  ],
+  "speed_a": [
+   0.0,
+   2250.0
+  ],
+  "speed_b": [
+   0.0,
+   2250.0
+  ]
+ },
+ "min_seen": {
+  "flow_a": 0.0,
+  "flow_b": 0.0,
+  "speed_a": 7.1332135384838695,
+  "speed_b": 10.6886965898014
+ },
+ "max_seen": {
+  "flow_a": 23.490877056048834,
+  "flow_b": 17.2416809596704,
+  "speed_a": 49.52002451703715,
+  "speed_b": 48.770808718326904
+ },
+ "worst_alternation": 1.0,
+ "failures": [
+  {
+   "schedule": 0,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_b sawtooth alternation 1.00 amp 0.094"
+   ]
+  },
+  {
+   "schedule": 1,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_a sawtooth alternation 0.64 amp 0.055",
+    "flow_b sawtooth alternation 1.00 amp 0.063"
+   ]
+  },
+  {
+   "schedule": 2,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_a sawtooth alternation 0.64 amp 0.056"
+   ]
+  },
+  {
+   "schedule": 3,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_a sawtooth alternation 0.71 amp 0.09",
+    "flow_b sawtooth alternation 0.70 amp 0.075"
+   ]
+  },
+  {
+   "schedule": 4,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.058",
+    "flow_b sawtooth alternation 1.00 amp 0.044"
+   ]
+  },
+  {
+   "schedule": 5,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.057"
+   ]
+  },
+  {
+   "schedule": 6,
+   "kind": "mixed",
+   "steps": 40000,
+   "problems": [
+    "flow_b sawtooth alternation 0.64 amp 0.043"
+   ]
+  },
+  {
+   "schedule": 12,
+   "kind": "extremes",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.059"
+   ]
+  },
+  {
+   "schedule": 15,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.076",
+    "flow_b sawtooth alternation 0.90 amp 0.22"
+   ]
+  },
+  {
+   "schedule": 20,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_b sawtooth alternation 0.66 amp 0.081"
+   ]
+  },
+  {
+   "schedule": 24,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "flow_b sawtooth alternation 1.00 amp 0.09"
+   ]
+  },
+  {
+   "schedule": 29,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "flow_b sawtooth alternation 0.64 amp 0.053"
+   ]
+  },
+  {
+   "schedule": 30,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_b sawtooth alternation 0.64 amp 0.046"
+   ]
+  },
+  {
+   "schedule": 39,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.057"
+   ]
+  },
+  {
+   "schedule": 40,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_b sawtooth alternation 0.66 amp 0.081"
+   ]
+  },
+  {
+   "schedule": 44,
+   "kind": "mixed",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.058"
+   ]
+  },
+  {
+   "schedule": 45,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 1.00 amp 0.13"
+   ]
+  },
+  {
+   "schedule": 55,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.99 amp 0.21",
+    "flow_b sawtooth alternation 0.85 amp 0.37",
+    "speed_b sawtooth alternation 0.57 amp 0.016"
+   ]
+  },
+  {
+   "schedule": 57,
+   "kind": "extremes",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.67 amp 0.059"
+   ]
+  },
+  {
+   "schedule": 70,
+   "kind": "holds",
+   "steps": 4000,
+   "problems": [
+    "flow_a sawtooth alternation 0.69 amp 0.087",
+    "flow_b sawtooth alternation 0.64 amp 0.08"
+   ]
+  }
+ ],
+ "n_failures": 39,
+ "pass": false
+}

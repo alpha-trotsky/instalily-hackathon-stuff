@@ -1,0 +1,11 @@
+{
+ "system": "ad_auction",
+ "weights": {
+  "v2": 0.5,
+  "v2r": 0.5
+ },
+ "sources": {
+  "v2": "ab/models_v2_snapshot/ad_auction",
+  "v2r": "models/ad_auction"
+ }
+}

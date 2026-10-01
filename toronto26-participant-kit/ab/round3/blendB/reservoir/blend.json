@@ -1,0 +1,13 @@
+{
+ "system": "reservoir",
+ "weights": {
+  "v2r": 0.3333333333333333,
+  "v3": 0.3333333333333333,
+  "v2": 0.3333333333333333
+ },
+ "sources": {
+  "v2r": "models/reservoir",
+  "v3": "ab/round3/alt/reservoir",
+  "v2": "ab/models_v2_snapshot/reservoir"
+ }
+}

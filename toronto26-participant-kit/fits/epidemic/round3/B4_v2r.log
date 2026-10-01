@@ -1,0 +1,6 @@
+B4_v2r: start cost 21360.5 free 32
+  pass 0 x_scale=1.0: cost 19365.5 nfev 22 (20s)
+  pass 0 x_scale=jac: cost 19365.5 nfev 20 (40s)
+  pass 1 x_scale=1.0: cost 19365.5 nfev 11 (42s)
+  pass 1 x_scale=jac: cost 19365.5 nfev 29 (50s)
+saved B4_v2r cost 19365.5

@@ -1,0 +1,160 @@
+{
+ "zip": "submission-round3-blendA.zip",
+ "size_bytes": 146564,
+ "expanded_bytes": 347982,
+ "roots_ok": true,
+ "credential_scan": "clean",
+ "contract": {
+  "ad_auction": {
+   "pass": true,
+   "wall_s": 10.999307632446289,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "epidemic": {
+   "pass": true,
+   "wall_s": 5.909509658813477,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "hospital_queue": {
+   "pass": true,
+   "wall_s": 6.15493631362915,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "market": {
+   "pass": true,
+   "wall_s": 3.825343608856201,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "power_grid": {
+   "pass": true,
+   "wall_s": 5.3897130489349365,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "reservoir": {
+   "pass": true,
+   "wall_s": 6.10516881942749,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "social_contagion": {
+   "pass": true,
+   "wall_s": 5.94546365737915,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "supply_chain": {
+   "pass": true,
+   "wall_s": 11.751724243164062,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "traffic": {
+   "pass": true,
+   "wall_s": 10.973347425460815,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  },
+  "wildlife": {
+   "pass": true,
+   "wall_s": 7.4989237785339355,
+   "n_errors": 0,
+   "malformed": {
+    "nan_initial": "ok",
+    "missing_control": "ok",
+    "string_value": "ok",
+    "out_of_bounds": "ok",
+    "none_context": "ok",
+    "empty_schedule": "ok"
+   },
+   "bad_imports": [],
+   "child_error": null
+  }
+ },
+ "pass": true
+}

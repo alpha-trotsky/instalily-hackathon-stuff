@@ -624,3 +624,57 @@ v1: A 120.0 / 50.66 / 0.077; B 128.8 / 50.25 / 0.045; C trough 61.7. Decision: i
 additive reserve + load map holds and the joint deficit is an interconnector effect (keep kx = 0, fit ax on A − B). If it
 is 50.2–50.5, frequency saturates at high load (governor/output limit): add a load-dependent droop limit. A vs v1 is
 ≈ 5σ apart either way. B vs R4 joint 1 (identical but charging) closes or reopens M2. C re-tests the 64–66 floor.
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29. No simulator steps spent. Paths under `toronto26-participant-kit/`. Module
+`greybox/power_grid_model_v3.py` (copy of v2; only the frequency static map changes). Fits, logs and scripts are in
+`fits/power_grid/round3/`: `r3_fit.py` (the round-2 driver with the heldout3 σ), `mkinit3.py` (static-map start values
+fitted on the training runs only), `pipeline.sh` (stage 1 frequency params only with 2 restarts, then stage 2 all params),
+`queue3.sh`/`queue4.sh`, `segs3.py`, `levels3.py` and `fstatic3.py`. σ = heldout3 (load 2.198, f 0.075, share 0.0153).
+
+### Changes (R5 verdict: frequency map)
+f* = f0 − bL (L−100)(1 − kLR·(Rs/150)·x) − bD (L−Lf) + br·Rs − X·clip(1 + kxL (L−100)/100, 0, 4) − bc·ch·(Rs/150)·cx, where
+X = (ax1 cx + ax2 cx²)(1 − w) + w·axr·softplus₀.₀₅(cx − cth) and w = Rs/Rsat.
+1. **Thresholded interconnector effect under reserve** (axr 2.49, cth 0.48). With reserve on, closing the interconnector costs almost nothing until
+   cx ≈ 0.48, then about 2.5 Hz per unit cx. This single form fits R3 r80 x .5 (small), R4 joint .7/.85/1 and R5 B together. Without reserve, the concave v2
+   quadratic stays (x .5, .2 and 0 all cost ≈ 0.7 Hz). This is the change that generalizes: a static regression with R4 held out
+   predicts joint .7/.85 at −1.8σ/+0.1σ, against −6.1σ/−2.4σ for the multiplicative-kx form.
+2. **kLR 0.67**: reserve at an open interconnector flattens the load droop. In R5 A the slope is −0.013 Hz/unit, against −0.03 at x .2.
+3. **kxL 0.77**: the interconnector effect grows with load.
+4. **bc 0.67**: charging draw under reserve with a closed interconnector, i.e. R5 B (ch 1) is 0.34 Hz below R4/R2c joint 1 (ch 0).
+   The inactive M2 is not reopened. This is a static charging-power term. It is zero at x = 1, which fits the R2c ch null. With R5 held out, the static fit on R1–R4
+   finds bc 0.59, so the pulse-ray charging levels in R4 support it independently.
+Tried and dropped: kx multiplicative with a free sign (`xlc`/`xl`/`nob`: in-sample 0.508–0.516, (B) 0.455, **(H) 0.373 < shipped**), and an x-step
+overshoot state hx/kxf (hx < 0, no gain; fixed at 0). No mechanism changes (m1 + m3).
+
+### Scores (load / f / share, mean)
+| Test | shipped v2 | v2r (v2 structure + R5) | **v3** (`thr`) |
+|---|---|---|---|
+| (H) fit R1–R4 → R5 | .439/.159/.535 (**.378**) | = shipped v2 | .442/.237/.528 (**.402**) |
+| (B) R3 out | .439/.259/.563 (.420) | .439/.253/.562 (.418) | .438/.282/.571 (**.431**) |
+| (B) R4 out | .463/.278/.705 (.482) | .460/.282/.711 (.485) | .459/.357/.717 (**.511**) |
+| (B) mean | .451 | .451 | **.471** |
+| (C) R1 / R2c / R3 / R4 / R5 | .523/.551/.486/.526/.378 | .516/.544/.478/.530/.394 (.492) | .511/.566/.488/.552/.480 (**.519**) |
+(B) shipped v2 = round-2 `v2_B_noR*` rescored with the round-3 σ. In the R3 fold, reserve saturation is poorly identified without the reserve ladder:
+v3 pins kLR 1.5, bc 2 and br 0.05, and v2r pins Rsat 32. The largest in-sample drop on an old run is R1, v3 vs v2r −0.005. R1 f .422 vs .433 comes from the r0 x .2 cell. That is under the 0.03 threshold.
+
+### Decision
+**Primary v3** (`fits/power_grid/round3/thr_C.json`, `models/power_grid/`). It beats v2r on (B) by +0.020, with a gain in both folds, all of it in frequency, and it wins (H) by +0.024.
+**Alternative v2r** (`v2r_C.json`, `ab/round3/alt/power_grid/`). It ties shipped v2 on (B) (0.4511 vs 0.4510), so it doesn't lose clearly.
+
+### Gates
+Stability (200 × 4,000 + 8 × 40,000) passes for both, with 0 failures and worst alternation 0.08 / 0.06 (`thr_C_stability.json`, `v2r_C_stability.json`).
+Package plus contract pass for both (`submission-power_grid-v3.zip`, `-v3alt.zip`). heldout3 run on the packaged folders reproduces (C) (0.5191 / 0.4923).
+
+### Steady states, 4,000 ticks from reset (v3, `levels3.py`; load / f / share, settled by t400, constant to t3990)
+recovery 94.8 / 50.22 / 0.367 · joint u .7 116.3 / **50.97** / 0.057 (data 50.83) · joint u 1 125.5 / 50.16 / 0.050 (data 50.11) ·
+R5 A cell 125.5 / 51.36 / 0.059 (data 51.37) · R5 B cell 125.5 / 49.78 / 0.050 (data 49.77) · price 0 alone 125.5 / 49.41 · reserve 150 alone
+94.8 / 51.79 · x .2 alone 94.8 / 49.48 · price 2 85.5 / 50.46. Unobserved extrapolations: p0 + x .2 without reserve gives 48.49 (kxL), and r150 + x .2 at p 1.5 gives 50.70.
+All finite, with no drift or limit cycle.
+
+### Open issues
+1. Frequency is still the weakest channel held out (.28–.36). The thresholded x-shape rests on 4 reserve cells, and cth/axr move between folds (0.37–0.48 / 1.7–2.5).
+2. The charging term bc is identified only by R5 B (30 ticks, possibly unsettled: f rises +0.4 over the hold) and by the R4 pulse ray. A composition with ch 1 + reserve + low x is extrapolated.
+3. The x-step overshoot and partial restoration (+0.25–0.4 Hz over 10–30 ticks after every close) are not modelled, and neither is load ringing shape (B21). Price 2 is 85.5 vs ≈ 90.
+4. The optimizer still stops early (nfev 10–30). Static-regression starts (`mkinit3.py`) were needed to reach the good basin.

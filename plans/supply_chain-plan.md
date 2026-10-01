@@ -680,3 +680,52 @@ Retail goes to ~0 whenever shipments ≤ ~19 (D0 + g·E ≥ ship) — an unteste
 (reset transient replicate, reaches U by t ≈ 33); ticks 35–99 the same with **lead_time_buy 0.44** (65 ticks; R1 needed ~35
 to settle). Decision: settled shipments ≥ 33 → threshold rush confirmed, keep `nl`; ≈ 26–29 → rush roughly linear, refit `nl`
 with it (and R1 alone gives the level at 0.2). Second choice if rush is deprioritised: the diagnosis's R6 (lift attribution).
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29 (no steps; interrupted ~14 h by an API rate limit, resumed in the evening). Scripts, fits and logs in
+`toronto26-participant-kit/fits/supply_chain/round3/` (`run.py` = round-2 fitter with R6 and heldout3 σ, modes H / C / Bk;
+`pipeline.sh` staged fit s1 flow+supplier, s2 retail; `batch2.log`; `score.py`; `quick.py`; `probe.py`; `retail_explore3.py`).
+
+**Candidates.**
+- **v2r**: v2 structure (`greybox/supply_chain_model_v2.py`) refit on R1–R6, warm start from `final_v2`. Fit `v2r_C.json`.
+- **v3** (`greybox/supply_chain_model_v3.py`): v2 + (K1) rush knee: U factor `1 + wl·s(x)`, `s` a logistic knee at `xk`
+  (width `sk`) normalised to s(0) = 0, s(1) = 1, replacing `x^nl`; lag al ≥ 0.1, wl ∈ [−1, 0] kept. (K2) rush speeds
+  production `×(1 + wlp·x)` and (K3) initial retail demand state `E0` are in the module but **fixed at 0** (K2 filled the
+  supplier early and cost R4/R6 in a hand test; K3 did not help the retail law on observed shipments). Fit `v3_C.json`.
+
+**Scores** (heldout3 σ 1.098 / 12.47 / 34.95; shipments / supplier / retail = mean):
+
+| | shipped v2 | v2r | v3 |
+|---|---|---|---|
+| (H) R6, fit R1–R5 | 0.376 / 0.580 / 0.398 = **0.451** | = shipped v2 | 0.339 / 0.563 / 0.379 = **0.427** |
+| (B) R4, fit all − R4 | 0.252 / 0.626 / 0.160 = **0.346** (v2c_B4, no R6) | 0.255 / 0.627 / 0.154 = **0.345** (0.348 from final_v2 init) | 0.243 / 0.624 / 0.141 = **0.336** |
+| (B) R5, fit all − R5 | 0.617 / 0.784 / 0.419 = **0.607** (v2c_B5, no R6) | 0.596 / 0.782 / 0.488 = **0.622** | 0.587 / 0.783 / 0.488 = **0.619** |
+| (C) in-sample R1/R2/R3/R4/R5/R6 | 0.510 / 0.505 / 0.752 / 0.529 / 0.630 / 0.451 | 0.505 / 0.499 / 0.774 / 0.522 / 0.646 / **0.520** | 0.502 / 0.499 / 0.781 / 0.524 / 0.649 / 0.504 |
+
+(B) folds warm-start from the round-2 fold fit (`v2c_B4/B5`) as the lowest-cost of two inits: the first v2r B5 fit from
+`final_v2` stalled (cost 17,528 vs 17,489, R5 0.524) — an optimiser failure, not structure (`v2rw_*`).
+
+**Decision: primary v2r** (`models/supply_chain/`, `--version v3`, params from `v2r_C.json`). v3 loses (H) (0.427 vs 0.451)
+and the R4 fold (0.336 vs 0.345), and does not even beat v2r in-sample on R6: the knee pins `sk` at its bound 0.02 (a hard
+step at l ≈ 0.4), i.e. the dose-response is not the missing piece the staged fit can use. v2r ties shipped v2 on R4 and
+beats it on R5 (+0.015) and in-sample R6 (+0.07); no old run drops more than 0.006. **Alternative: v3** (`ab/round3/alt/supply_chain/`).
+
+**Gates.** Stability (`stab_v2r.json`, `stab_v3.json`, 200 schedules + 8 × 40,000): no range failures (v2r max shipments
+41.7, supplier 361.8, retail 1,358); 40 / 45 sawtooth flags, all shipments, relative-amplitude artefacts as in v1/v2 (all 64
+extreme corners held 400 ticks: absolute alternation 0). Contract: pass (both folders). Package: pass (both).
+
+**Steady states v2r** (reset 25/100/100; shipments / supplier / retail; all fixed points by t ≈ 1,000, unchanged to 4,000):
+recovery 0 / 361.8 / 0; joint u 0.7 33.9 / 327.9 / 898; u 0.85 27.8 / 334 / 533; u 1 18.9 / 342.9 / 1.9; orders only
+32.5 / 329.3 / 814; orders + rush u1 22.9 / 338.9 / 240 (data R1 22.5); orders + maintenance u1 40.3 / 321.5 / 1,275.
+No drift or clocks over 4,000 ticks. (v3: u 0.7 34.6 / 327 / 939, u1 18.9 / 343 / 15, orders + rush 25.4 / 336 / 397.)
+
+**Open issues.**
+1. R6 lead 0.32 is still missed in-sample (v2r 27.2 vs 23.9 shipments; retail 338 vs 103): shipments fall in two steps
+   (−3 after 4 ticks, −2.5 after ~30 ticks), i.e. through the fast/slow dispatch paths, not a lag on U. Needs rush acting on
+   dispatch/path split, not a U knee.
+2. Retail sales are a slow symmetric follower of shipments (sales ≈ 28 for 100 ticks in R6 while shipments fall 35 → 24.5;
+   R5 settles at sales 23.8 at shipments 24.6). No tested law (v2, tanh, E0, symmetric) beats 0.34 on R6 even with observed
+   shipments; equilibria R_eq(ship) are fine (390 @ 24.6, 975 @ 34.7, 1,180 @ 37.2).
+3. Rush speeds early supply (R6/R4 reach ~35 within 7 ticks at l 0.44; l 1 runs stay at ~26 for 20 ticks) — K2 form wrong.
+4. v2 open issues 2–5 unchanged.

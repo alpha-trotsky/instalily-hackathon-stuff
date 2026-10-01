@@ -1,0 +1,1 @@
+[{"steps": 50, "action": {"order_quantity": 80.0, "lead_time_buy": 0.44, "product_mix": 0.5, "production_effort": 1.0, "receiving_effort": 1.5, "maintenance": 1.0}}, {"steps": 50, "action": {"order_quantity": 80.0, "lead_time_buy": 0.32, "product_mix": 0.5, "production_effort": 1.0, "receiving_effort": 1.5, "maintenance": 1.0}}]

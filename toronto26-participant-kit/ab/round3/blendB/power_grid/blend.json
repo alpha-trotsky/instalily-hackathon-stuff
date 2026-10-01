@@ -1,0 +1,13 @@
+{
+ "system": "power_grid",
+ "weights": {
+  "v2": 0.3333333333333333,
+  "v3": 0.3333333333333333,
+  "v2r": 0.3333333333333333
+ },
+ "sources": {
+  "v2": "ab/models_v2_snapshot/power_grid",
+  "v3": "models/power_grid",
+  "v2r": "ab/round3/alt/power_grid"
+ }
+}

@@ -1,0 +1,1 @@
+[{"steps": 40, "action": {"mask_mandate": 0.85, "school_closure": 0.0, "vaccination_rate": 0.0}}, {"steps": 80, "action": {"mask_mandate": 0.85, "school_closure": 0.0, "vaccination_rate": 0.0}}, {"steps": 35, "action": {"mask_mandate": 0.0, "school_closure": 0.0, "vaccination_rate": 0.0}}]

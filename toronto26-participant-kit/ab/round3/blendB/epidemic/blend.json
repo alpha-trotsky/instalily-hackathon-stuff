@@ -1,0 +1,13 @@
+{
+ "system": "epidemic",
+ "weights": {
+  "v3": 0.3333333333333333,
+  "v2": 0.3333333333333333,
+  "v2r": 0.3333333333333333
+ },
+ "sources": {
+  "v3": "models/epidemic",
+  "v2": "ab/models_v2_snapshot/epidemic",
+  "v2r": "ab/round3/alt/epidemic"
+ }
+}

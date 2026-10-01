@@ -1,0 +1,123 @@
+{
+ "model": "greybox/social_contagion_model_v3.py",
+ "modules": [
+  "m2"
+ ],
+ "cost": 22846.082489031243,
+ "restart_costs": [
+  22846.082489031243,
+  26620.394307870956
+ ],
+ "train_end": 560,
+ "units": {
+  "adopters_a": "log",
+  "adopters_b": "log"
+ },
+ "noise": {
+  "adopters_a": 0.01,
+  "adopters_b": 0.01
+ },
+ "names": [
+  "adopters_a",
+  "adopters_b"
+ ],
+ "free": [
+  "NA",
+  "NB",
+  "betaA",
+  "betaB",
+  "sigA",
+  "sigB",
+  "tauA",
+  "tauB",
+  "iotaA",
+  "iotaB",
+  "eps",
+  "a_d",
+  "a_b",
+  "kon",
+  "dr",
+  "gret",
+  "rho",
+  "psiA",
+  "psiB",
+  "kr",
+  "ar",
+  "a2",
+  "g2",
+  "KA",
+  "KB",
+  "gs",
+  "gw",
+  "gp"
+ ],
+ "n_residuals": 4000,
+ "horizons": [],
+ "skip": 0,
+ "perturb": 0.1,
+ "max_nfev": 400,
+ "data": [
+  "data/social_contagion/R1.json:0",
+  "data/social_contagion/R2.json:0",
+  "data/social_contagion/R3.json:0",
+  "data/social_contagion/R4.json:0",
+  "data/social_contagion/R5.json:0",
+  "data/social_contagion/R6.json:0"
+ ],
+ "time_s": 410.4259707927704,
+ "params": {
+  "NA": 396.67166694951806,
+  "NB": 234.34229302352657,
+  "betaA": 0.009062283243135237,
+  "betaB": 0.016678102527235044,
+  "sigA": 0.03154354312199111,
+  "sigB": 0.017907398924010897,
+  "tauA": 0.020085711916735267,
+  "tauB": 0.09278432743829233,
+  "iotaA": 0.006,
+  "iotaB": 0.006,
+  "eps": 0.002291063595336639,
+  "a_d": 0.32951975055665184,
+  "a_b": 0.03692438692448981,
+  "kon": 0.14312670226788252,
+  "dr": 0.012251648792300871,
+  "gret": 0.1,
+  "rho": 0.027742432198643606,
+  "psiA": 0.6782378137547256,
+  "psiB": 0.7347729551447504,
+  "kr": 0.04747304030718323,
+  "ar": 1.0,
+  "a1": 0.13435881852747295,
+  "g1": 0.0,
+  "a2": 0.051932251687440534,
+  "g2": 0.07668493970717823,
+  "KA": 3.186819038239883,
+  "KB": 5.0,
+  "gs": 1.0,
+  "gw": 0.1,
+  "gp": 1.8,
+  "a3u": 0.01,
+  "a3d": 0.005,
+  "g3": 0.0
+ },
+ "eval": {
+  "sigma_score": [
+   5.573747616933587,
+   2.9864179249303042
+  ],
+  "train": {
+   "score": [
+    0.6406974940072335,
+    0.5927040097862061
+   ],
+   "persistence": [
+    0.16109234353880444,
+    0.15818943367234412
+   ],
+   "rmse": [
+    7.37048108933989,
+    4.584047524090118
+   ]
+  }
+ }
+}

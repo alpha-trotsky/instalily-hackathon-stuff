@@ -558,3 +558,48 @@ Long run: every state is bounded and settles by t ≈ 1,000 (a_z τ ≈ 44, M2 �
 5. `pm` (win ceiling, B29) and dropping M3 entirely (g3 ≈ −0.6) were not tested for lack of time.
 
 **Reserve recommendation (200 steps).** Adopt the diagnosis's R5 (fresh reset, 170 steps + ≤ 30 settle extension): 0–49 bid 1.5 / cap 100 / breadth .775; 50–84 recovery; 85–134 bid 5 / cap 20 / breadth .775; 135–169 recovery. For v2 it decides (i) the capacity basin: a rested broad start with cap 100 builds a backlog, so a plateau near 5.4 at breadth .775 confirms v2's binding capacity (om ≈ 2.4), while none supports the om ≈ 9 basin; v2 predicts spend > 20 for all 50 ticks (34.0 at t 10–19, 21.1 at 40–49; v1 32.3 / 20.1) and conversions 5.84 at t 10–19; (ii) whether fz's per-member impression driver gives the right purchase cut under throttle at broad breadth: v2 predicts 0.19 / 20.0 / 3.06 at the end of the bid 5 / cap 20 / .775 segment (v1 2.89, a 1.4σ difference in conversions; R1's breadth-alone value was 3.5). Then refit (C) on all five runs with this driver and rerun (B).
+
+## Round 3 model (v3)
+
+Modeler pass, 2026-09-29. No steps spent. Input: R5 (`data/ad_auction/R5.json`, fresh reset: 1.5/100/.775 for 50, recovery 35, 5/20/.775 for 50, recovery 65) and `plans/round3-findings.md`. Scripts and fits in `toronto26-participant-kit/fits/ad_auction/round3/`: `fitdrv3.py` (round-2 driver, σ = heldout3 σ incl. R5: 0.0151 / 1.333 / 0.119), `sc3.py` (per-run scorer), `trace.py`, `longrun3.py`, stability outputs `stab_v2r.json`, `stab_v3_all.json`. Every fit started from the shipped `final_v2.json` (qx = 20, a_m3 = 0.005 held, modules fz, m2, m3); folds are start solves (0 hops) from that same init, so all candidates share the same small leak.
+
+**Candidates and changes**
+
+- **v2r**: the shipped v2 structure refit on R1+R2c+R3+R4+R5 (`v2r_all.json`, cost 7,315.2). No structural change.
+- **v3** (`greybox/ad_auction_model_v3.py`, v2 copy + module `zs`): the purchase-fatigue driver becomes ring-dependent, Z_r += e_z·exp(dz·m_r)·I_r/size_r·(1 − Z_r) − a_z·Z_r (dz = 0 reproduces v2 exactly, checked). This targets the R5 verdict "fatigue bites too early at broad breadth". Fitted dz = −1.21 (broad rings fatigue less, as the verdict says; interior, not pinned), cost 7,308.3 (−7 for one parameter).
+- Also screened (all data, in-sample only): **v2 + m1** rival capital (`v3m1_all.json`): a_m1 = 0.46, g1 = −0.15 (weak), cost 7,309.7, R5 0.535, R4 in-sample −0.004 against v2r. Not pursued.
+
+**Scores** (heldout3 σ; win / spend / conv = mean). (H) = fit without R5, score R5. (B) = fit on everything incl. R5 except one round-2 run. For shipped v2 the (B) rows are the round-2 fold fits (without R5): `v2_noR3.json`, `v2_noR4.json` (capacity-basin start `v2p_noR4.json`: 0.512).
+
+| Test | Run scored | shipped v2 | v2r | v3 (zs) |
+|---|---|---|---|---|
+| (H) | R5 | .572/.651/.366 = **0.530** | = shipped v2 | .572/.651/.363 = 0.529 |
+| (B) | R3 | .714/.538/.517 = 0.590 | .725/.556/.471 = 0.584 | .724/.557/.465 = 0.582 |
+| (B) | R4 | .613/.575/.378 = 0.522 | .621/.594/.378 = **0.531** | .616/.592/.378 = 0.529 |
+| (B) mean | | 0.556 (0.551 with the capacity-basin R4 fold) | **0.557** | 0.555 |
+| (C) in-sample R1 / R2c / R3 / R4 / R5 | | .593/.573/.628/.543/.530 = 0.573 | .589/.570/.621/.554/.535 = **0.574** | .590/.568/.621/.553/.534 = 0.573 |
+
+**Decision: primary = v2r** (`models/ad_auction/`, `submission-ad_auction-v3.zip`, model file `ad_auction_model_v2.py`, source fit `fits/ad_auction/round3/v2r_all.json`). v3 loses to v2r on (H) (−0.001) and on both (B) folds (−0.002 each), so under the rule v3 is not shipped as primary. v2r does not lose clearly to shipped v2 on (B) (+0.009 on R4, −0.006 on R3; mean +0.001, +0.006 against the capacity-basin fold), and it adds the new scored-regime data. In-sample on old runs it drops at most 0.006 (R3 0.628 → 0.621, R1 0.593 → 0.589). **Alternative = v3** (`ab/round3/alt/ad_auction/`, `submission-ad_auction-v3alt.zip`, fit `v3_all.json`). All differences are ≤ 0.01, i.e. mechanism-level; neither candidate fixes the R5 dynamics.
+
+**Gates**: stability pass for both (v2r: 0 failures, max conversions 7.18, worst alternation 0.024; v3: 0 failures, worst alternation 0.028). Contract pass (primary: 40 × 4,000 in 9.5 s wall; malformed inputs ok). Package check pass for both. heldout3 on the packaged folders reproduces the fits (primary R5 0.535, alt 0.534).
+
+**Steady states and long run** (v2r, from reset, last-10 means win / spend / conv; `longrun3.py`):
+
+| Hold | t = 100 | t = 1,000 | t = 4,000 |
+|---|---|---|---|
+| recovery (1.5 / 20 / .55) | .259 / 13.1 / 3.16 | .260 / 12.4 / 3.00 | .260 / 12.4 / 3.00 |
+| u.7 (3.95 / 76 / .7075) | .497 / 29.9 / 4.38 | .498 / 29.3 / 4.33 | same |
+| u1 (5 / 100 / .775) | .561 / 35.5 / 4.65 | .561 / 35.1 / 4.59 | same |
+| bid 5 / cap 20 / .775 (R5 seg 3) | .158 / 20.0 / 3.31 | .212 / 20.0 / 3.24 | same |
+| bid 1.5 / cap 100 / .775 (R5 seg 1) | .239 / 17.5 / 3.48 | .241 / 16.8 / 3.37 | same |
+| bid 5 / cap 100 / 1.0 | .541 / 45.7 / 5.26 | .542 / 44.9 / 4.88 | same |
+
+Every state is bounded and settled by t ≈ 1,000 (the breadth-1.0 backlog clears in ~300–700 ticks); no drift afterwards. v3's levels are within 0.01 of v2r everywhere.
+
+**What R5 shows that neither candidate captures** (trace: `python fits/ad_auction/round3/trace.py fits/ad_auction/round3/v2r_all.json R5`):
+
+1. Rested broad start at bid 1.5 / cap 100: data spend starts at 39.6 (v2r 52.7) and conversions ramp slowly to a smooth 5.54 peak at t ≈ 30–35. v2r overshoots early (6.0 at t 20) and then undershoots (4.6 against 5.2 at t 40). The rested pool at bid 1.5 / broad breadth is too large in the model (B20 again), and that front-loads fatigue. dz helps only marginally.
+2. The throttled win at bid 5 / cap 20 is too high and rises, while the data fall (R5 0.183 → 0.163 against 0.17 → 0.19; R1 80–145 0.33 against 0.374). This is a level error in the throttled regime.
+3. **Replicated post-throttle dip** (R1 145–185 and R5 135–175): after bid 5 / cap 20, recovery conversions drop to 2.3 (model 3.2), spend to 10.5 and win to 0.236, then recover over τ ≈ 20–30. All three fall together, which reads like rival capital moving in (M1's signature: win drifts down during the pressure hold and undershoots after it). The v2 m1 form (per-ring win-share driver) fitted only weakly (g1 = −0.15); a shared-pool M1 with a spend-pressure driver is the untested next candidate.
+4. Seg-2 win overshoot after the uncapped broad hold (0.293 against 0.26) and the slow conversion drain in seg 2 (4.7 → 3.15 over 35 ticks) are missed.
+5. Carried over from v2: high-bid spend +0.8σ, conversions at bid 0.75 too high, the capacity basin is not identified by held-out data (the fold fits push g3 to −4.8 / −6.4, so M3's role is unstable).
